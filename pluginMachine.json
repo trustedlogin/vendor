@@ -1,0 +1,11 @@
+{
+    "pluginId": 58,
+    "buildId": 64,
+    "entryPoints": {
+        "adminPages": [
+            "trusted-login-settings",
+            "trusted-login-access"
+        ],
+        "blocks": []
+    }
+}
