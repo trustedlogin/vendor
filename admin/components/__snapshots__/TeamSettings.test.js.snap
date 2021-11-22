@@ -1,0 +1,599 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TeamSettings renders 1`] = `
+<div>
+  <h2
+    class="title"
+  >
+    Team
+  </h2>
+  <table
+    class="form-table"
+    role="presentation"
+  >
+    <tbody>
+      <tr>
+        <th
+          scope="row"
+        >
+          <label
+            for="team-0[account_id]"
+          >
+            TrustedLogin Account ID
+          </label>
+        </th>
+        <td>
+          <input
+            class="regular-text ltr"
+            id="team-0[account_id]"
+            name="team-0[account_id]"
+            type="text"
+            value="7"
+          />
+        </td>
+      </tr>
+      <tr>
+        <th
+          scope="row"
+        >
+          <label
+            for="team-0[api_key]"
+          >
+            TrustedLogin API Key
+          </label>
+        </th>
+        <td>
+          <input
+            class="regular-text ltr"
+            id="team-0[api_key]"
+            name="team-0[api_key]"
+            type="text"
+            value="ak_1"
+          />
+        </td>
+      </tr>
+      <tr>
+        <th
+          scope="row"
+        >
+          <label
+            for="team-0[private_key]"
+          >
+            TrustedLogin Private Key
+          </label>
+        </th>
+        <td>
+          <input
+            class="regular-text ltr"
+            id="team-0[private_key]"
+            name="team-0[private_key]"
+            type="text"
+            value="pk_1"
+          />
+        </td>
+      </tr>
+      <tr>
+        <th
+          scope="row"
+        >
+          <label
+            for="approvedRoles"
+          >
+            What user roles provide support?
+          </label>
+          <span
+            class="description"
+            id="approvedRoles-description"
+          >
+            Which users should be able to log into customers’ sites if they have an Access Key?
+          </span>
+        </th>
+        <td>
+          <div
+            class="multiselect-container multiSelectContainer "
+            id="multiselectContainerReact"
+          >
+            <div
+              class="search-wrapper searchWrapper "
+            >
+              <span
+                class="chip  false false"
+              >
+                Editor
+                <img
+                  class="icon_cancel closeIcon"
+                  src="data:image/svg+xml,%3Csvg%20viewBox%3D%220%200%2096%2096%22%20%20%20%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%20%20%20%20%3Cstyle%20type%3D%22text%2Fcss%22%3E%20%20%20%20%20%20%20%20.st0%7B%20%20%20%20%20%20%20%20%20%20%20%20fill%3A%23fff%3B%20%20%20%20%20%20%20%20%7D%20%3C%2Fstyle%3E%20%20%20%20%3Cg%3E%20%20%20%20%20%20%20%20%3Cpath%20class%3D%22st0%22%20d%3D%22M48%2C0A48%2C48%2C0%2C1%2C0%2C96%2C48%2C48.0512%2C48.0512%2C0%2C0%2C0%2C48%2C0Zm0%2C84A36%2C36%2C0%2C1%2C1%2C84%2C48%2C36.0393%2C36.0393%2C0%2C0%2C1%2C48%2C84Z%22%2F%3E%20%20%20%20%20%20%20%20%3Cpath%20class%3D%22st0%22%20d%3D%22M64.2422%2C31.7578a5.9979%2C5.9979%2C0%2C0%2C0-8.4844%2C0L48%2C39.5156l-7.7578-7.7578a5.9994%2C5.9994%2C0%2C0%2C0-8.4844%2C8.4844L39.5156%2C48l-7.7578%2C7.7578a5.9994%2C5.9994%2C0%2C1%2C0%2C8.4844%2C8.4844L48%2C56.4844l7.7578%2C7.7578a5.9994%2C5.9994%2C0%2C0%2C0%2C8.4844-8.4844L56.4844%2C48l7.7578-7.7578A5.9979%2C5.9979%2C0%2C0%2C0%2C64.2422%2C31.7578Z%22%2F%3E%20%20%20%20%3C%2Fg%3E%3C%2Fsvg%3E"
+                />
+              </span>
+              <input
+                autocomplete="off"
+                class="searchBox"
+                id="search_input"
+                placeholder="Select"
+                type="text"
+                value=""
+              />
+            </div>
+            <div
+              class="optionListContainer displayNone"
+            >
+              <ul
+                class="optionContainer"
+              >
+                <li
+                  class="
+              highlightOption highlight 
+              false 
+              false option
+            "
+                >
+                  Administrator
+                </li>
+              </ul>
+            </div>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <th
+          scope="row"
+        >
+          <label
+            for="team-0[helpdesk]"
+          >
+            Which helpdesk software are you using?
+          </label>
+        </th>
+        <td>
+          <select>
+            <option
+              class="level-0"
+              value="helpscout"
+            >
+              Helpscout
+            </option>
+          </select>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+`;
+
+exports[`TrustedLoginSettings renders with save disabled 1`] = `
+<div>
+  <form>
+    <h2
+      class="title"
+    >
+      Team
+    </h2>
+    <table
+      class="form-table"
+      role="presentation"
+    >
+      <tbody>
+        <tr>
+          <th
+            scope="row"
+          >
+            <label
+              for="team-0[account_id]"
+            >
+              TrustedLogin Account ID
+            </label>
+          </th>
+          <td>
+            <input
+              class="regular-text ltr"
+              id="team-0[account_id]"
+              name="team-0[account_id]"
+              type="text"
+              value="7"
+            />
+          </td>
+        </tr>
+        <tr>
+          <th
+            scope="row"
+          >
+            <label
+              for="team-0[api_key]"
+            >
+              TrustedLogin API Key
+            </label>
+          </th>
+          <td>
+            <input
+              class="regular-text ltr"
+              id="team-0[api_key]"
+              name="team-0[api_key]"
+              type="text"
+              value="ak_1"
+            />
+          </td>
+        </tr>
+        <tr>
+          <th
+            scope="row"
+          >
+            <label
+              for="team-0[private_key]"
+            >
+              TrustedLogin Private Key
+            </label>
+          </th>
+          <td>
+            <input
+              class="regular-text ltr"
+              id="team-0[private_key]"
+              name="team-0[private_key]"
+              type="text"
+              value="pk_1"
+            />
+          </td>
+        </tr>
+        <tr>
+          <th
+            scope="row"
+          >
+            <label
+              for="approvedRoles"
+            >
+              What user roles provide support?
+            </label>
+            <span
+              class="description"
+              id="approvedRoles-description"
+            >
+              Which users should be able to log into customers’ sites if they have an Access Key?
+            </span>
+          </th>
+          <td>
+            <div
+              class="multiselect-container multiSelectContainer "
+              id="multiselectContainerReact"
+            >
+              <div
+                class="search-wrapper searchWrapper "
+              >
+                <span
+                  class="chip  false false"
+                >
+                  Editor
+                  <img
+                    class="icon_cancel closeIcon"
+                    src="data:image/svg+xml,%3Csvg%20viewBox%3D%220%200%2096%2096%22%20%20%20%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%20%20%20%20%3Cstyle%20type%3D%22text%2Fcss%22%3E%20%20%20%20%20%20%20%20.st0%7B%20%20%20%20%20%20%20%20%20%20%20%20fill%3A%23fff%3B%20%20%20%20%20%20%20%20%7D%20%3C%2Fstyle%3E%20%20%20%20%3Cg%3E%20%20%20%20%20%20%20%20%3Cpath%20class%3D%22st0%22%20d%3D%22M48%2C0A48%2C48%2C0%2C1%2C0%2C96%2C48%2C48.0512%2C48.0512%2C0%2C0%2C0%2C48%2C0Zm0%2C84A36%2C36%2C0%2C1%2C1%2C84%2C48%2C36.0393%2C36.0393%2C0%2C0%2C1%2C48%2C84Z%22%2F%3E%20%20%20%20%20%20%20%20%3Cpath%20class%3D%22st0%22%20d%3D%22M64.2422%2C31.7578a5.9979%2C5.9979%2C0%2C0%2C0-8.4844%2C0L48%2C39.5156l-7.7578-7.7578a5.9994%2C5.9994%2C0%2C0%2C0-8.4844%2C8.4844L39.5156%2C48l-7.7578%2C7.7578a5.9994%2C5.9994%2C0%2C1%2C0%2C8.4844%2C8.4844L48%2C56.4844l7.7578%2C7.7578a5.9994%2C5.9994%2C0%2C0%2C0%2C8.4844-8.4844L56.4844%2C48l7.7578-7.7578A5.9979%2C5.9979%2C0%2C0%2C0%2C64.2422%2C31.7578Z%22%2F%3E%20%20%20%20%3C%2Fg%3E%3C%2Fsvg%3E"
+                  />
+                </span>
+                <input
+                  autocomplete="off"
+                  class="searchBox"
+                  id="search_input"
+                  placeholder="Select"
+                  type="text"
+                  value=""
+                />
+              </div>
+              <div
+                class="optionListContainer displayNone"
+              >
+                <ul
+                  class="optionContainer"
+                >
+                  <li
+                    class="
+              highlightOption highlight 
+              false 
+              false option
+            "
+                  >
+                    Administrator
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <th
+            scope="row"
+          >
+            <label
+              for="team-0[helpdesk]"
+            >
+              Which helpdesk software are you using?
+            </label>
+          </th>
+          <td>
+            <select>
+              <option
+                class="level-0"
+                value="helpscout"
+              >
+                Helpscout
+              </option>
+            </select>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <table
+      class="form-table"
+      role="presentation"
+    >
+      <tbody>
+        <tr>
+          <th
+            scope="row"
+          >
+            <label
+              for="helpscout[secret]"
+            >
+              Help Scout Secret Key
+            </label>
+          </th>
+          <td>
+            <input
+              class="regular-text ltr"
+              id="helpscout[secret]"
+              name="helpscout[secret]"
+              type="text"
+              value=""
+            />
+          </td>
+        </tr>
+        <tr>
+          <th
+            scope="row"
+          >
+            <label
+              for="helpscout[callback]"
+            >
+              Help Scout Callback URL	
+            </label>
+          </th>
+          <td>
+            <input
+              class="regular-text ltr"
+              id="helpscout[callback]"
+              name="helpscout[callback]"
+              type="url"
+              value=""
+            />
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <p
+      class="submit"
+    >
+      <input
+        class="button button-secondary button-hero"
+        disabled=""
+        type="submit"
+        value="Save"
+      />
+    </p>
+  </form>
+</div>
+`;
+
+exports[`TrustedLoginSettings renders with save enabled 1`] = `
+<div>
+  <form>
+    <h2
+      class="title"
+    >
+      Team
+    </h2>
+    <table
+      class="form-table"
+      role="presentation"
+    >
+      <tbody>
+        <tr>
+          <th
+            scope="row"
+          >
+            <label
+              for="team-0[account_id]"
+            >
+              TrustedLogin Account ID
+            </label>
+          </th>
+          <td>
+            <input
+              class="regular-text ltr"
+              id="team-0[account_id]"
+              name="team-0[account_id]"
+              type="text"
+              value="7"
+            />
+          </td>
+        </tr>
+        <tr>
+          <th
+            scope="row"
+          >
+            <label
+              for="team-0[api_key]"
+            >
+              TrustedLogin API Key
+            </label>
+          </th>
+          <td>
+            <input
+              class="regular-text ltr"
+              id="team-0[api_key]"
+              name="team-0[api_key]"
+              type="text"
+              value="ak_1"
+            />
+          </td>
+        </tr>
+        <tr>
+          <th
+            scope="row"
+          >
+            <label
+              for="team-0[private_key]"
+            >
+              TrustedLogin Private Key
+            </label>
+          </th>
+          <td>
+            <input
+              class="regular-text ltr"
+              id="team-0[private_key]"
+              name="team-0[private_key]"
+              type="text"
+              value="pk_1"
+            />
+          </td>
+        </tr>
+        <tr>
+          <th
+            scope="row"
+          >
+            <label
+              for="approvedRoles"
+            >
+              What user roles provide support?
+            </label>
+            <span
+              class="description"
+              id="approvedRoles-description"
+            >
+              Which users should be able to log into customers’ sites if they have an Access Key?
+            </span>
+          </th>
+          <td>
+            <div
+              class="multiselect-container multiSelectContainer "
+              id="multiselectContainerReact"
+            >
+              <div
+                class="search-wrapper searchWrapper "
+              >
+                <span
+                  class="chip  false false"
+                >
+                  Editor
+                  <img
+                    class="icon_cancel closeIcon"
+                    src="data:image/svg+xml,%3Csvg%20viewBox%3D%220%200%2096%2096%22%20%20%20%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%20%20%20%20%3Cstyle%20type%3D%22text%2Fcss%22%3E%20%20%20%20%20%20%20%20.st0%7B%20%20%20%20%20%20%20%20%20%20%20%20fill%3A%23fff%3B%20%20%20%20%20%20%20%20%7D%20%3C%2Fstyle%3E%20%20%20%20%3Cg%3E%20%20%20%20%20%20%20%20%3Cpath%20class%3D%22st0%22%20d%3D%22M48%2C0A48%2C48%2C0%2C1%2C0%2C96%2C48%2C48.0512%2C48.0512%2C0%2C0%2C0%2C48%2C0Zm0%2C84A36%2C36%2C0%2C1%2C1%2C84%2C48%2C36.0393%2C36.0393%2C0%2C0%2C1%2C48%2C84Z%22%2F%3E%20%20%20%20%20%20%20%20%3Cpath%20class%3D%22st0%22%20d%3D%22M64.2422%2C31.7578a5.9979%2C5.9979%2C0%2C0%2C0-8.4844%2C0L48%2C39.5156l-7.7578-7.7578a5.9994%2C5.9994%2C0%2C0%2C0-8.4844%2C8.4844L39.5156%2C48l-7.7578%2C7.7578a5.9994%2C5.9994%2C0%2C1%2C0%2C8.4844%2C8.4844L48%2C56.4844l7.7578%2C7.7578a5.9994%2C5.9994%2C0%2C0%2C0%2C8.4844-8.4844L56.4844%2C48l7.7578-7.7578A5.9979%2C5.9979%2C0%2C0%2C0%2C64.2422%2C31.7578Z%22%2F%3E%20%20%20%20%3C%2Fg%3E%3C%2Fsvg%3E"
+                  />
+                </span>
+                <input
+                  autocomplete="off"
+                  class="searchBox"
+                  id="search_input"
+                  placeholder="Select"
+                  type="text"
+                  value=""
+                />
+              </div>
+              <div
+                class="optionListContainer displayNone"
+              >
+                <ul
+                  class="optionContainer"
+                >
+                  <li
+                    class="
+              highlightOption highlight 
+              false 
+              false option
+            "
+                  >
+                    Administrator
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <th
+            scope="row"
+          >
+            <label
+              for="team-0[helpdesk]"
+            >
+              Which helpdesk software are you using?
+            </label>
+          </th>
+          <td>
+            <select>
+              <option
+                class="level-0"
+                value="helpscout"
+              >
+                Helpscout
+              </option>
+            </select>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <table
+      class="form-table"
+      role="presentation"
+    >
+      <tbody>
+        <tr>
+          <th
+            scope="row"
+          >
+            <label
+              for="helpscout[secret]"
+            >
+              Help Scout Secret Key
+            </label>
+          </th>
+          <td>
+            <input
+              class="regular-text ltr"
+              id="helpscout[secret]"
+              name="helpscout[secret]"
+              type="text"
+              value=""
+            />
+          </td>
+        </tr>
+        <tr>
+          <th
+            scope="row"
+          >
+            <label
+              for="helpscout[callback]"
+            >
+              Help Scout Callback URL	
+            </label>
+          </th>
+          <td>
+            <input
+              class="regular-text ltr"
+              id="helpscout[callback]"
+              name="helpscout[callback]"
+              type="url"
+              value=""
+            />
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <p
+      class="submit"
+    >
+      <input
+        class="button button-secondary button-hero"
+        disabled=""
+        type="submit"
+        value="Save"
+      />
+    </p>
+  </form>
+</div>
+`;

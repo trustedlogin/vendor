@@ -1,23 +1,21 @@
 import { render, fireEvent, cleanup, act } from "@testing-library/react";
-import { FormTable } from "./components";
+import { FormTable } from "./index";
 import RoleMultiSelect from "./RoleMultiSelect";
 
-
-describe('RoleMultiSelect', () => {
+describe("RoleMultiSelect", () => {
 	afterEach(cleanup);
-	it( 'Renders', () => {
+	it("Renders", () => {
 		const onChange = () => {};
-		const {container} = render(
-			<FormTable title={'Testing'}>
+		const { container } = render(
+			<FormTable title={"Testing"}>
 				<RoleMultiSelect
-					approvedRoles={['admistrator']}
-					help={'help'}
-					label={'label'}
+					approvedRoles={["admistrator"]}
+					help={"help"}
+					label={"label"}
 					onChange={onChange}
 				/>
 			</FormTable>
 		);
 		expect(container).toMatchSnapshot();
-	} );
-
+	});
 });
