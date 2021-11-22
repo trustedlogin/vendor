@@ -30,6 +30,9 @@ class PluginRestApiTest extends TestCase {
 	 */
     public function testRestApiInit(){
 
+		$namespacedRoute = function($route){
+			return sprintf( '/%s/%s', Endpoint::NAMESPACE,$route);
+		};
 		$routes = $this->server->get_routes();
 		foreach ([
 			'settings',
@@ -37,10 +40,42 @@ class PluginRestApiTest extends TestCase {
 			'signature_key'
 		] as $route ) {
 			$this->assertArrayHasKey(
-				sprintf( '/%s/%s', Endpoint::NAMESPACE,$route),
-			$routes );
+				$namespacedRoute($route),
+				$routes
+			);
+			$routeConfig = $routes[$namespacedRoute($route)];
+			if( 'settings' === $route){
+				$this->assertCount(2, $routeConfig);
+				foreach ([
+					"POST",
+					"PUT",
+					"PATCH"
+				] as $method) {
+					$this->assertTrue(
+						in_array($method,$routeConfig[0]['methods'])
+					);
+				}
+				$this->assertCount(3, $routeConfig[0]['methods']);
+
+				$this->assertTrue(
+					in_array('GET',$routeConfig[1]['methods'])
+				);
+				$this->assertCount(1, $routeConfig[1]['methods']);
+
+			}else{
+				$this->assertCount(1, $routeConfig);
+				$this->assertTrue(
+					in_array('GET',$routeConfig[0]['methods'])
+				);
+				$this->assertCount(1, $routeConfig[0]['methods']);
+
+			}
 		}
+
+
     }
+
+
 
 	/**
 	 * @covers \TrustedLogin\Vendor\Endpoints\PublicKey::get()

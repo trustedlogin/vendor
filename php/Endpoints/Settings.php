@@ -2,7 +2,7 @@
 namespace TrustedLogin\Vendor\Endpoints;
 
 use TrustedLogin\Vendor\SettingsApi;
-
+use TrustedLogin\Vendor\TeamSettings;
 class Settings extends Endpoint {
 
 
@@ -41,12 +41,14 @@ class Settings extends Endpoint {
 					);
 					$settings_api->add_setting($setting);
 				} catch (\Throwable $th) {
-					//throw $th;
+                    var_dump($th);exit;
+					throw $th;
 				}
 
 			}
 
 		}
+
 		$settings_api->set_helpscout_data($request->get_param( 'helpscout', []));
 
 		$settings_api->save();

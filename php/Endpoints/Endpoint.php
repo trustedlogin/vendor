@@ -7,26 +7,35 @@ abstract class Endpoint {
 	const PUBLIC_KEY_ERROR_STATUS = 501;
 
     const NAMESPACE =  'trustedlogin/v1';
-    public function register($readOnly = false) {
+    public function register($editable = true) {
         $args = [
             'methods'             => \WP_REST_Server::READABLE,
             'callback'            => [ $this, 'get' ],
             'permission_callback' => [$this, 'authorize'],
             'args' => $this->getArgs(),
         ];
-        if( false != $readOnly ){
-            $args[] = [
-                'methods'             => \WP_REST_Server::EDITABLE,
-                'callback'            => [ $this, 'update' ],
-                'permission_callback' => [$this, 'authorize'],
-                'args' 				  => $this->updateArgs(),
-            ];
+        if( $editable ){
+            register_rest_route(
+                self::NAMESPACE,
+                $this->route(),
+                [
+                    'methods'             => \WP_REST_Server::EDITABLE,
+                    'callback'            => [ $this, 'update' ],
+                    'permission_callback' => [$this, 'authorize'],
+                    'args' 				  => $this->updateArgs(),
+                ]
+            );
         }
 
         register_rest_route(
             self::NAMESPACE,
             $this->route(),
-            $args
+            [
+                'methods'             => \WP_REST_Server::READABLE,
+                'callback'            => [ $this, 'get' ],
+                'permission_callback' => [$this, 'authorize'],
+                'args' => $this->getArgs(),
+            ]
         );
     }
 

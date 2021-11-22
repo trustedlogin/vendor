@@ -1,17 +1,15 @@
 import React from "react";
 import { render } from "@wordpress/element";
-import App from './App';
+import App from "./App";
+import { getSettings, updateSettings } from "../api";
 window.addEventListener("load", function () {
-    const data = {
-        message: 'Hi Roy'
-
-    };
-
-    const saveData = ({data}) => {
-
-    };
-    render(
-        <App data={data} saveData={saveData} />,
-        document.getElementById("trusted-login-settings")
-    );
+	render(
+		<App
+			{...{
+				getSettings,
+				updateSettings,
+			}}
+		/>,
+		document.getElementById("trusted-login-settings")
+	);
 });

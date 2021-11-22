@@ -27,11 +27,11 @@ class Plugin
      */
     public function restApiInit(){
         (new \TrustedLogin\Vendor\Endpoints\Settings())
-            ->register();
+            ->register(true);
         (new \TrustedLogin\Vendor\Endpoints\PublicKey())
-            ->register();
+            ->register(false);
         (new \TrustedLogin\Vendor\Endpoints\SignatureKey())
-            ->register();
+            ->register(false);
     }
 
     /**
