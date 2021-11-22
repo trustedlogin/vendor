@@ -1,6 +1,7 @@
 <?php
 namespace TrustedLogin\Vendor;
 
+use TrustedLogin\Vendor\Traits\Logger;
 use \WP_Error;
 use \Exception;
 
@@ -9,7 +10,9 @@ use \Exception;
  *
  * @version 0.1.0
  */
-class APIHandler {
+class ApiHandler {
+
+    use Logger;
 
 	/**
 	 * @var string Current API version.
@@ -51,7 +54,6 @@ class APIHandler {
      */
     private $debug_mode = false;
 
-    use Debug_Logging;
 
     public function __construct( $data ) {
 

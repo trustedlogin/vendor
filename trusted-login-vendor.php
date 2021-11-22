@@ -69,6 +69,7 @@ function trustedlogin_vendor(){
 	if( ! $trustedlogin_vendor ){
 		$trustedlogin_vendor = new \TrustedLogin\Vendor\Plugin(
 			new \TrustedLogin\Vendor\Encryption()
+
 		);
 	}
 	return $trustedlogin_vendor;
