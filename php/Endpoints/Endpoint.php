@@ -3,25 +3,30 @@
 namespace TrustedLogin\Vendor\Endpoints;
 
 abstract class Endpoint {
+    const PUBLIC_KEY_SUCCESS_STATUS = 200;
+	const PUBLIC_KEY_ERROR_STATUS = 501;
 
-    protected $namespace = 'trustedlogin/v1';
-    public function register() {
+    const NAMESPACE =  'trustedlogin/v1';
+    public function register($readOnly = false) {
+        $args = [
+            'methods'             => \WP_REST_Server::READABLE,
+            'callback'            => [ $this, 'get' ],
+            'permission_callback' => [$this, 'authorize'],
+            'args' => $this->getArgs(),
+        ];
+        if( false != $readOnly ){
+            $args[] = [
+                'methods'             => \WP_REST_Server::EDITABLE,
+                'callback'            => [ $this, 'update' ],
+                'permission_callback' => [$this, 'authorize'],
+                'args' 				  => $this->updateArgs(),
+            ];
+        }
+
         register_rest_route(
-            $this->namespace,
+            self::NAMESPACE,
             $this->route(),
-            [
-				'methods'             => \WP_REST_Server::READABLE,
-				'callback'            => [ $this, 'get' ],
-				'permission_callback' => [$this, 'authorize'],
-                'args' => $this->getArgs(),
-			],
-			[
-				'methods'             => \WP_REST_Server::EDITABLE,
-				'callback'            => [ $this, 'update' ],
-				'permission_callback' => [$this, 'authorize'],
-				'args' 				  => $this->updateArgs(),
-            ]
-
+            $args
         );
     }
 
@@ -40,7 +45,12 @@ abstract class Endpoint {
      * @param \WP_REST_Request $request
      * @return \WP_REST_Response
      */
-    abstract public function update(\WP_REST_Request $request);
+    public function update(\WP_REST_Request $request){
+        return new \WP_REST_Response(
+            [],
+            501
+        );
+    }
 
     /**
      *

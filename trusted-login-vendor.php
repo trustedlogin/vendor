@@ -12,9 +12,7 @@
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
  * Copyright: © 2020 Katz Web Services, Inc.
  */
-namespace TrustedLogin\Vendor;
 
-use Exception;
 
 if (!defined('ABSPATH')) {
     exit;
@@ -42,16 +40,24 @@ function trustedlogin_vendor_deactivate() {
 function trustedlogin_vendor_init($path){
 	if( file_exists( $path . 'vendor/autoload.php' ) ){
 		include_once $path . 'vendor/autoload.php';
-        include_once dirname( __FILE__ ). '/inc/functions.php';
-        include_once dirname( __FILE__ ). '/inc/hooks.php';
         include_once dirname( __FILE__ ) . '/admin/trusted-login-settings/init.php';
         include_once dirname( __FILE__ ) . '/admin/trusted-login-access/init.php';
 		do_action( 'trustedlogin_vendor' );
 	}else{
-		throw new Exception('1');
+		throw new \Exception('1');
 	}
 
 }
 
+function trustedlogin_vendor(){
+	static $trustedlogin_vendor;
+	if( ! $trustedlogin_vendor ){
+		$trustedlogin_vendor = new \TrustedLogin\Vendor\Plugin(
+			new \TrustedLogin\Vendor\Encryption()
+		);
+	}
+	return $trustedlogin_vendor;
+}
 
+add_action( 'trustedlogin_vendor', 'trustedlogin_vendor_init',2 );
 trustedlogin_vendor_init($path);

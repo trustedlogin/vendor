@@ -1,0 +1,37 @@
+<?php
+namespace TrustedLogin\Vendor\Endpoints;
+
+use TrustedLogin\Vendor\SettingsApi;
+
+class SignatureKey extends Endpoint {
+
+
+
+
+
+    protected function route(){
+        return 'signature_key';
+    }
+
+
+
+    public function get(\WP_REST_Request $request){
+        $trustedlogin_encryption = new Encryption();
+		$sign_public_key         = $trustedlogin_encryption->get_public_key( 'sign_public_key' );
+
+		$response = new \WP_REST_Response();
+
+		if ( ! is_wp_error( $sign_public_key ) ) {
+			$data = array( 'signatureKey' => $sign_public_key );
+			$response->set_data( $data );
+			$response->set_status( self::PUBLIC_KEY_SUCCESS_STATUS );
+		} else {
+			$response->set_status( self::PUBLIC_KEY_ERROR_STATUS );
+		}
+
+		return $response;
+    }
+
+
+
+}
