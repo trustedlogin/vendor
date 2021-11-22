@@ -5,7 +5,13 @@ use TrustedLogin\Vendor\Traits\Logger;
 use TrustedLogin\Vendor\AuditLog;
 use TrustedLogin\Vendor\Plugin;
 
-class TrustedLogin {
+/**
+ * High-level API for SaaS interactions
+ *
+ * Methods include validation, logging and API calls
+ *
+ */
+class TrustedLoginService {
 
 	use Logger;
 	/**
@@ -16,10 +22,10 @@ class TrustedLogin {
 		$this->plugin = $plugin;
 	}
 
-
 	/**
 	 * Helper: Handles the case where a single accessKey returns more than 1 secretId.
 	 *
+	 * @param string $account_id
 	 * @param array $secret_ids [
 	 *   @type string $siteurl The url of the site the secretId is for.
 	 *   @type string $loginurl The vendor-side redirect link to login via secretId.
@@ -27,7 +33,7 @@ class TrustedLogin {
 	 *
 	 * @return void.
 	 */
-	public function handle_multiple_secret_ids( $secret_ids = array() ) {
+	public function handle_multiple_secret_ids( $account_id,$secret_ids = array() ) {
 
 		if ( ! is_array( $secret_ids ) || empty( $secret_ids ) ) {
 			return;
@@ -103,11 +109,12 @@ class TrustedLogin {
 	 * @see endpoint_maybe_redirect()
 	 *
 	 * @param string $secret_id collected via endpoint
+	 * @param string $account_id collected via endpoint
 	 * @param array|WP_Error Envelope, if already fetched. Optional.
 	 *
 	 * @return null
 	 */
-	public function maybe_redirect_support( $secret_id, $envelope = null ) {
+	public function maybe_redirect_support( $secret_id,$account_id, $envelope = null ) {
 
 		$this->log( "Got to maybe_redirect_support. ID: $secret_id", __METHOD__, 'debug' );
 
@@ -130,13 +137,13 @@ class TrustedLogin {
 		}
 
 		if ( empty( $envelope ) ) {
-			$this->audit_log->insert( $secret_id, 'failed', esc_html__( 'Empty envelope.', 'trustedlogin-vendor' ) );
+			$this->plgin->getAuditLog()->insert( $secret_id, 'failed', esc_html__( 'Empty envelope.', 'trustedlogin-vendor' ) );
 			wp_safe_redirect( $redirect_url, self::REDIRECT_ERROR_STATUS, 'TrustedLogin' );
 		}
 
 		if ( is_wp_error( $envelope ) ) {
 			$this->log( 'Error: ' . $envelope->get_error_message(), __METHOD__, 'error' );
-			$this->audit_log->insert( $secret_id, 'failed', $envelope->get_error_message() );
+			$this->getAuditLog()->insert( $secret_id, 'failed', $envelope->get_error_message() );
 			wp_safe_redirect( add_query_arg( array( 'tl-error' => self::REDIRECT_ERROR_STATUS ), $redirect_url ), self::REDIRECT_ERROR_STATUS, 'TrustedLogin' );
 			exit;
 		}
@@ -144,18 +151,18 @@ class TrustedLogin {
 		$envelope_parts = ( $envelope ) ? $this->envelope_to_url( $envelope, true ) : false;
 
 		if ( is_wp_error( $envelope_parts ) ) {
-			$this->audit_log->insert( $secret_id, 'failed', $envelope_parts->get_error_message() );
+			$this->getAuditLog()->insert( $secret_id, 'failed', $envelope_parts->get_error_message() );
 			wp_safe_redirect( add_query_arg( array( 'tl-error' => self::REDIRECT_ERROR_STATUS ), $redirect_url ), self::REDIRECT_ERROR_STATUS, 'TrustedLogin' );
 			exit;
 		}
 
 		if( ! isset( $envelope_parts['siteurl'], $envelope_parts['endpoint'], $envelope_parts['identifier'] ) ) {
-			$this->audit_log->insert( $secret_id, 'failed', esc_html__( 'Malformed envelope.', 'trustedlogin-vendor' ) );
+			$this->getAuditLog()->insert( $secret_id, 'failed', esc_html__( 'Malformed envelope.', 'trustedlogin-vendor' ) );
 		}
 
 		$output = $this->get_redirect_form_html( $envelope_parts );
 
-		$this->audit_log->insert( $secret_id, 'redirected', esc_html__( 'Successful decryption of the envelope. Presenting the redirect form.', 'trustedlogin-vendor' ) );
+		$this->getAuditLog()->insert( $secret_id, 'redirected', esc_html__( 'Successful decryption of the envelope. Presenting the redirect form.', 'trustedlogin-vendor' ) );
 
 		// Use wp_die() to get a nice free template
 		wp_die( $output, esc_html__( 'TrustedLogin redirect&hellip;', 'trustedlogin-vendor' ), 302 );
@@ -199,10 +206,10 @@ class TrustedLogin {
 
 		// 204 response: no sites found.
 		if ( true === $response ) {
-			return array();
+			return [];
 		}
 
-		$access_keys = array();
+		$access_keys = [];
 
 		if ( ! empty( $response ) ) {
 			foreach ( $response as $key => $secrets ) {

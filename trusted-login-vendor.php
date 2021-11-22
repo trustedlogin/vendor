@@ -46,6 +46,7 @@ if( file_exists( $path . 'vendor/autoload.php' ) ){
 	 */
 	do_action( 'trustedlogin_vendor', $plugin );
 	add_action( 'rest_api_init', [$plugin, 'restApiInit']);
+	add_action( 'template_redirect',[new \TrustedLogin\Vendor\MaybeRedirect, 'handle']);
 }else{
 	throw new \Exception('Autoloader not found.');
 }

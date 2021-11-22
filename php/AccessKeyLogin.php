@@ -2,7 +2,9 @@
 namespace \TrustedLogin\Vendor;
 
 use TrustedLogin\Vendor\Traits\Logger;
-
+/**
+ * Handler for access key login
+ */
 class AccessKeyLogin {
 
     use Logger;
@@ -26,9 +28,8 @@ class AccessKeyLogin {
 
 	const ACCESS_KEY_INPUT_NAME = 'ak';
 
-
 	const ACCOUNT_ID_INPUT_NAME = 'ak_account_id';
-
+	const REDIRECT_ENDPOINT = 'trustedlogin';
 
 	/**
 	 * Processes the request.
@@ -53,7 +54,7 @@ class AccessKeyLogin {
 			return;
 		}
 
-		$tl = new TrustedLogin();
+		$tl = new TrustedLoginService();
 
 		$site_ids = $tl->api_get_secret_ids( $access_key,$account_id );
 
