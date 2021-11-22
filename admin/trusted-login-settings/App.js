@@ -30,6 +30,14 @@ export default function App({ getSettings, updateSettings }) {
 		return defaultSettings;
 	});
 
+	const [notice, setNotice] = useState(() => {
+		return {
+			text: "",
+			type: "",
+			visible: false,
+		};
+	});
+
 	/**
 	 * Add a team to settings
 	 */
@@ -63,7 +71,17 @@ export default function App({ getSettings, updateSettings }) {
 	///Handles save
 	const onSave = (e) => {
 		e.preventDefault();
-		updateSettings({ teams: settings.teams, helpscout: settings.helpscout });
+		updateSettings({ teams: settings.teams, helpscout: settings.helpscout })
+			.then(() => {
+				setNotice({
+					text: "Settings Saved",
+					type: "sucess",
+					visible: true,
+				});
+			})
+			.catch((err) => {
+				console.log(r);
+			});
 	};
 
 	//Get the saved settings
@@ -84,6 +102,7 @@ export default function App({ getSettings, updateSettings }) {
 					heading={__("Connect your site to the TrustedLogin service.")}
 					description={__("Sign up at TrustedLogin.com")}
 					link="https://trustedlogin.com"
+					type="warning"
 				/>
 			) : null}
 
@@ -102,6 +121,9 @@ export default function App({ getSettings, updateSettings }) {
 						canSave={canSave}
 						onSave={onSave}
 					/>
+					{notice.visible ? (
+						<Notice heading={notice.text} type={notice.type} />
+					) : null}
 				</>
 			</div>
 		</div>
