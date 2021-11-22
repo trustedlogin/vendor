@@ -78,4 +78,5 @@ class PluginTest extends TestCase {
 			trustedlogin_vendor()->getEncryption()->get_public_key(),
 		);
 	}
+
 }

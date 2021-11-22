@@ -34,9 +34,15 @@ class Plugin
             ->register();
     }
 
+    /**
+     * Get the encryption API
+     *
+     * @return Encryption
+     */
     public function getEncryption(){
         return $this->encryption;
     }
+
 
     /**
      * Get the encyption public key
