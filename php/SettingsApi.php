@@ -117,7 +117,7 @@ class SettingsApi {
 				return $this;
 			}
 		}
-		throw new \Exception( 'Not found' );
+		throw new \Exception( 'Canot save, Account not found' );
 
 	}
 

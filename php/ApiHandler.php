@@ -115,6 +115,15 @@ class ApiHandler {
 	}
 
 	/**
+	 * Get public key
+	 *
+	 * @return string
+	 */
+	public function get_api_key(){
+		return $this->api_key;
+	}
+
+	/**
 	 * @return array
 	 */
 	public function get_additional_headers() {

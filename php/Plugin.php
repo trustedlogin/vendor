@@ -54,7 +54,7 @@ class Plugin
 
     public function getApiHandler($account,$apiUrl = 'https://app.trustedlogin.com/api/v1/'){
         $settings = \TrustedLogin\Vendor\SettingsApi::from_saved()->get_by_account_id($account);
-        return new APIHandler([
+        return new ApiHandler([
             'private_key' => $settings->get( 'private_key'),
 		    'api_key'  => $settings->get( 'api_key'),
 		    'debug_mode'  => $settings->get( 'debug_enabled'),

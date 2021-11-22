@@ -33,6 +33,10 @@ class PluginTest extends TestCase {
 
 	}
 
+	/**
+	 * @covers TrustedLogin\Vendor\Plugin::getApiHandler()
+	 * @covers TrustedLogin\Vendor\ApiHandler::get_api_key()
+	 */
 	public function testGetApiHandler(){
 		//Add a team
 		$setting = new TeamSettings(
@@ -42,8 +46,8 @@ class PluginTest extends TestCase {
 				'api_key'       	=> '8',
 			]
 		);
-		$setting = \TrustedLogin\Vendor\SettingsApi::from_saved()
-			->update_by_account_id(
+		\TrustedLogin\Vendor\SettingsApi::from_saved()
+			->add_setting(
 				$setting
 			)
 			->save();
@@ -57,5 +61,6 @@ class PluginTest extends TestCase {
 			$handler->get_api_url()
 		);
 		$this->assertNotEmpty($handler->get_x_tl_token());
+		$this->assertSame($setting->get( 'api_key' ), $handler->get_api_key());
 	}
 }
