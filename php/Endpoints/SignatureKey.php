@@ -6,18 +6,12 @@ use TrustedLogin\Vendor\SettingsApi;
 class SignatureKey extends Endpoint {
 
 
-
-
-
     protected function route(){
         return 'signature_key';
     }
 
-
-
     public function get(\WP_REST_Request $request){
-        $trustedlogin_encryption = new Encryption();
-		$sign_public_key         = $trustedlogin_encryption->get_public_key( 'sign_public_key' );
+		$sign_public_key         = \trustedlogin_vendor()->getSignatureKey();
 
 		$response = new \WP_REST_Response();
 

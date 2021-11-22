@@ -14,8 +14,7 @@ class PublicKey extends Endpoint {
 
 
     public function get(\WP_REST_Request $request){
-        $trustedlogin_encryption = new Encryption();
-		$public_key              = $trustedlogin_encryption->get_public_key();
+		$public_key = \trustedlogin_vendor()->getPublicKey();
 
 		$response = new \WP_REST_Response();
 
