@@ -29,8 +29,6 @@ class PluginRestApiTest extends TestCase {
 	 * @covers \TrustedLogin\Vendor\Endpoints\Signature::register()
 	 */
     public function testRestApiInit(){
-        $plugin = new Plugin();
-        $plugin->restApiInit();
 
 		$routes = $this->server->get_routes();
 		foreach ([

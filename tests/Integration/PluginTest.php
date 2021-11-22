@@ -4,7 +4,7 @@ namespace TrusteLoginVendor\Tests\Integration;
 use PHPUnit\Framework\TestCase;
 use TrustedLogin\Vendor\Plugin;
 use TrustedLogin\Vendor\Endpoints\Endpoint;
-class PluginRestApiTest extends TestCase {
+class PluginTest extends TestCase {
 
 
 	/**
