@@ -63,4 +63,19 @@ class PluginTest extends TestCase {
 		$this->assertNotEmpty($handler->get_x_tl_token());
 		$this->assertSame($setting->get( 'api_key' ), $handler->get_api_key());
 	}
+
+	/**
+	 * @covers TrustedLogin\Vendor\Plugin::getEncryption()
+	 */
+	public function testGetEncryption(){
+		$this->assertSame(
+			trustedlogin_vendor()->getEncryption(),
+			trustedlogin_vendor()->getEncryption(),
+		);
+
+		$this->assertSame(
+			trustedlogin_vendor()->getEncryption()->get_public_key(),
+			trustedlogin_vendor()->getEncryption()->get_public_key(),
+		);
+	}
 }

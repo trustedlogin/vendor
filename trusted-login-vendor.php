@@ -44,7 +44,7 @@ if( file_exists( $path . 'vendor/autoload.php' ) ){
 	/**
 	 * Runs when plugin is ready.
 	 */
-	do_action( 'trustedlogin_vendor',$plugin );
+	do_action( 'trustedlogin_vendor', $plugin );
 	add_action( 'rest_api_init', [$plugin, 'restApiInit']);
 }else{
 	throw new \Exception('Autoloader not found.');
@@ -69,7 +69,6 @@ function trustedlogin_vendor(){
 	if( ! $trustedlogin_vendor ){
 		$trustedlogin_vendor = new \TrustedLogin\Vendor\Plugin(
 			new \TrustedLogin\Vendor\Encryption()
-
 		);
 	}
 	return $trustedlogin_vendor;

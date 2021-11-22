@@ -1,20 +1,23 @@
 <?php
 
 namespace TrustedLogin\Vendor;
-
 class Plugin
 {
     /**
-     * @var Encryption $encryption
+     * @var Encryption
      */
-    protected Encryption $encryption;
+    protected $encryption;
 
-
+    /**
+     * @var AuditLog
+     */
+    protected $auditLog;
     /**
      * @param Encryption $encryption
      */
     public function __construct(Encryption $encryption){
         $this->encryption = $encryption;
+        $this->auditLog = new AuditLog();
     }
 
     /**
@@ -29,6 +32,10 @@ class Plugin
             ->register();
         (new \TrustedLogin\Vendor\Endpoints\SignatureKey())
             ->register();
+    }
+
+    public function getEncryption(){
+        return $this->encryption;
     }
 
     /**
@@ -52,8 +59,17 @@ class Plugin
     }
 
 
-    public function getApiHandler($account,$apiUrl = 'https://app.trustedlogin.com/api/v1/'){
-        $settings = \TrustedLogin\Vendor\SettingsApi::from_saved()->get_by_account_id($account);
+    /**
+     * Get API Handler by account id
+     *
+     * @param string $accountId Account ID, which must be saved in settings, to get handler for.
+     * @param string $apiUrl Optional. Url for Trusted Login API.
+     */
+    public function getApiHandler($accountId,$apiUrl = ''){
+        $settings = \TrustedLogin\Vendor\SettingsApi::from_saved()->get_by_account_id($accountId);
+        if( empty($apiUrl) ){
+            $apiUrl = TRUSTEDLOGIN_API_URL;
+        }
         return new ApiHandler([
             'private_key' => $settings->get( 'private_key'),
 		    'api_key'  => $settings->get( 'api_key'),
@@ -61,6 +77,13 @@ class Plugin
 		    'type'        => 'saas',
             'api_url' => $apiUrl
         ]);
+    }
+
+    /**
+     * @return \TrustedLogin\Vendor\AuditLog
+     */
+    public function getAuditLog(){
+        return $this->auditLog;
     }
 
 
