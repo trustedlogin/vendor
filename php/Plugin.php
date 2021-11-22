@@ -9,4 +9,9 @@ class Plugin
     {
         return  'Hi Roy';
     }
+
+    public function restApiInit(){
+        (new \TrustedLogin\Vendor\Endpoints\Settings())
+            ->register();
+    }
 }

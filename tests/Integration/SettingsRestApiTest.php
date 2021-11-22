@@ -1,7 +1,7 @@
 <?php
 namespace TrustedLogin\Vendor\Tests;
 
-use TrustedLogin\Vendor\Endpoint;
+use TrustedLogin\Vendor\Endpoints\Settings;
 use TrustedLogin\Vendor\SettingsApi;
 
 /**
@@ -18,7 +18,6 @@ class SettingsRestApiTest extends \WP_UnitTestCase {
 	 * @covers Endpoint::
 	 */
 	public function test_get_settings_via_rest_api(){
-		$this->markTestIncomplete('REST API does not exist yet');
 		$data = [
 			[
 				'account_id'       => '12216',
@@ -31,11 +30,13 @@ class SettingsRestApiTest extends \WP_UnitTestCase {
 				'api_key'       	=> 'b228',
 			]
 		];
-		$api = new \stdClass();
+
 		$settings = new SettingsApi($data);
 		$settings->save();
+		$settings->save();
 
-		$r = $api->get_settings();
+		$endpoint = new Settings();
+		$r = $endpoint->get(new \WP_REST_Request());
 		$this->assertSame(
 			'12216',
 			$r->get_data()['teams'][0]['account_id']
