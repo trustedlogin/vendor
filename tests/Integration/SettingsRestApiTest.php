@@ -33,7 +33,6 @@ class SettingsRestApiTest extends \WP_UnitTestCase {
 
 		$settings = new SettingsApi($data);
 		$settings->save();
-		$settings->save();
 
 		$endpoint = new Settings();
 		$r = $endpoint->get(new \WP_REST_Request());
