@@ -29,26 +29,41 @@ if( ! defined( 'TRUSTEDLOGIN_API_URL')){
 /** @define "$path" "./" */
 $path = plugin_dir_path(__FILE__);
 
-register_deactivation_hook( __FILE__, 'trustedlogin_vendor_deactivate' );
 
+/**
+ * Initialization plugin
+ */
+//Set register deactivation hook
+register_deactivation_hook( __FILE__, 'trustedlogin_vendor_deactivate' );
+//Include files and call trustedlogin_vendor
+if( file_exists( $path . 'vendor/autoload.php' ) ){
+	include_once $path . 'vendor/autoload.php';
+	include_once dirname( __FILE__ ) . '/admin/trusted-login-settings/init.php';
+	include_once dirname( __FILE__ ) . '/admin/trusted-login-access/init.php';
+	$plugin = trustedlogin_vendor();
+	/**
+	 * Runs when plugin is ready.
+	 */
+	do_action( 'trustedlogin_vendor',$plugin );
+	add_action( 'rest_api_init', [$plugin, 'restApiInit']);
+}else{
+	throw new \Exception('Autoloader not found.');
+}
+
+/**
+ * Deactivation function
+ */
 function trustedlogin_vendor_deactivate() {
 	delete_option( 'tl_permalinks_flushed' );
 	delete_option( 'trustedlogin_vendor_config' );
 }
 
 
-function trustedlogin_vendor_init($path){
-	if( file_exists( $path . 'vendor/autoload.php' ) ){
-		include_once $path . 'vendor/autoload.php';
-        include_once dirname( __FILE__ ) . '/admin/trusted-login-settings/init.php';
-        include_once dirname( __FILE__ ) . '/admin/trusted-login-access/init.php';
-		do_action( 'trustedlogin_vendor' );
-	}else{
-		throw new \Exception('1');
-	}
-
-}
-
+/**
+ * Accesor for main plugin container
+ *
+ * @return \TrustedLogin\Vendor\Plugin;
+ */
 function trustedlogin_vendor(){
 	static $trustedlogin_vendor;
 	if( ! $trustedlogin_vendor ){
@@ -58,6 +73,3 @@ function trustedlogin_vendor(){
 	}
 	return $trustedlogin_vendor;
 }
-
-add_action( 'trustedlogin_vendor', 'trustedlogin_vendor_init',2 );
-trustedlogin_vendor_init($path);
