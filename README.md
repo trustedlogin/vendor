@@ -1,4 +1,4 @@
-# Trusted Login Vendor
+# TrustedLogin Vendor
 
 [![Built With Plugin Machine](https://img.shields.io/badge/Built%20With-Plugin%20Machine-lightgrey)](https://pluginmachine.com)
 
