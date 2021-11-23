@@ -1,0 +1,14 @@
+
+{
+    "accessKey1": [
+        "secretId1"
+    ],
+    "accessKey2": [
+        "secretId2",
+        "secretId3"
+    ],
+    "accessKey3": [
+        "secretId2",
+        "secretId3"
+    ]
+}

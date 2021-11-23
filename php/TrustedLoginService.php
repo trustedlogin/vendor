@@ -1,5 +1,5 @@
 <?php
-namespace \TrustedLogin\Vendor;
+namespace TrustedLogin\Vendor;
 
 use TrustedLogin\Vendor\Traits\Logger;
 use TrustedLogin\Vendor\AuditLog;
@@ -110,7 +110,7 @@ class TrustedLoginService {
 	 *
 	 * @param string $secret_id collected via endpoint
 	 * @param string $account_id collected via endpoint
-	 * @param array|WP_Error Envelope, if already fetched. Optional.
+	 * @param array|\WP_Error Envelope, if already fetched. Optional.
 	 *
 	 * @return null
 	 */
@@ -175,18 +175,18 @@ class TrustedLoginService {
 	 *
 	 * @param string $access_key The key we're checking for connected sites
 	 * @param string $account_id The account ID for access key.
-	 * @return array|WP_Error Array of siteIds or WP_Error on issue.
+	 * @return array|\WP_Error  Array of siteIds or \WP_Error  on issue.
 	 */
 	public function api_get_secret_ids( $access_key,$account_id ) {
 
 		if ( empty( $access_key ) ) {
 			$this->log( 'Error: access_key cannot be empty.', __METHOD__, 'error' );
 
-			return new WP_Error( 'data-error', esc_html__( 'Access Key cannot be empty', 'trustedlogin-vendor' ) );
+			return new \WP_Error ( 'data-error', esc_html__( 'Access Key cannot be empty', 'trustedlogin-vendor' ) );
 		}
 
 		if ( ! is_user_logged_in() ) {
-			return new WP_Error( 'auth-error', esc_html__( 'User not logged in.', 'trustedlogin-vendor' ) );
+			return new \WP_Error ( 'auth-error', esc_html__( 'User not logged in.', 'trustedlogin-vendor' ) );
 		}
 
 		$saas_api = $this->plugin->getApiHandler($account_id);
@@ -229,18 +229,18 @@ class TrustedLoginService {
 	 *
 	 * @param string $site_id - unique secret_id of a site
 	 *
-	 * @return array|false|WP_Error
+	 * @return array|false|\WP_Error
 	 */
 	public function api_get_envelope( $secret_id,$account_id ) {
 
 		if ( empty( $secret_id ) ) {
 			$this->log( 'Error: secret_id cannot be empty.', __METHOD__, 'error' );
 
-			return new WP_Error( 'data-error', esc_html__( 'Site ID cannot be empty', 'trustedlogin-vendor' ) );
+			return new \WP_Error ( 'data-error', esc_html__( 'Site ID cannot be empty', 'trustedlogin-vendor' ) );
 		}
 
 		if ( ! is_user_logged_in() ) {
-			return new WP_Error( 'auth-error', esc_html__( 'User not logged in.', 'trustedlogin-vendor' ) );
+			return new \WP_Error ( 'auth-error', esc_html__( 'User not logged in.', 'trustedlogin-vendor' ) );
 		}
 
 		// The data array that will be sent to TrustedLogin to request a site's envelope
@@ -272,7 +272,7 @@ class TrustedLoginService {
 		if ( is_wp_error( $x_tl_token ) ) {
 			$error = esc_html__( 'Error getting X-TL-TOKEN header', 'trustedlogin-vendor' );
 			$this->log( $error, __METHOD__, 'error' );
-			return new WP_Error( 'x-tl-token-error', $error );
+			return new \WP_Error ( 'x-tl-token-error', $error );
 		}
 
 		$token_added = $saas_api->set_additional_header( 'X-TL-TOKEN', $x_tl_token );
@@ -280,7 +280,7 @@ class TrustedLoginService {
 		if ( ! $token_added ) {
 			$error = esc_html__( 'Error setting X-TL-TOKEN header', 'trustedlogin-vendor' );
 			$this->log( $error, __METHOD__, 'error' );
-			return new WP_Error( 'x-tl-token-error', $error );
+			return new \WP_Error ( 'x-tl-token-error', $error );
 		}
 
 		$envelope = $saas_api->call( $endpoint, $data, 'POST' );
@@ -313,7 +313,7 @@ class TrustedLoginService {
 	 *
 	 * @param bool $return_parts Optional. Whether to return an array of parts. Default: false.
 	 *
-	 * @return string|array|WP_Error If $return_parts is false, returns login URL. If true, returns array with login parts. If error, returns WP_Error.
+	 * @return string|array|\WP_Error  If $return_parts is false, returns login URL. If true, returns array with login parts. If error, returns \WP_Error .
 	 */
 	public function envelope_to_url( $envelope, $return_parts = false ) {
 
@@ -333,7 +333,7 @@ class TrustedLoginService {
 			if ( ! array_key_exists( $required_key, $envelope ) ) {
 				$this->log( 'Error: malformed envelope.', __METHOD__, 'error', $envelope );
 
-				return new WP_Error( 'malformed_envelope', 'The data received is not formatted correctly or there was a server error.' );
+				return new \WP_Error ( 'malformed_envelope', 'The data received is not formatted correctly or there was a server error.' );
 			}
 		}
 
@@ -361,7 +361,7 @@ class TrustedLoginService {
 			];
 
 		} catch ( \Exception $e ) {
-			return new WP_Error( $e->getCode(), $e->getMessage() );
+			return new \WP_Error ( $e->getCode(), $e->getMessage() );
 		}
 
 		$endpoint = $trustedlogin_encryption::hash( $parts['siteurl'] . $parts['identifier'] );

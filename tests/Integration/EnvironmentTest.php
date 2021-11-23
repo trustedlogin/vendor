@@ -8,7 +8,7 @@ use PHPUnit\Framework\TestCase;
  *
  * They are useful for debugging, you may choose to delete
  */
-class EnvironmentTest extends TestCase {
+class EnvironmentTest extends \WP_UnitTestCase  {
 
 
     /**
@@ -28,4 +28,9 @@ class EnvironmentTest extends TestCase {
         ]);
         $this->assertTrue(is_numeric($id));
     }
+
+    public function test_creates_a_valid_post() {
+		$post_id = self::factory()->post->create();
+		$this->assertInstanceOf( \WP_Post::class, get_post( $post_id ));
+	}
 }

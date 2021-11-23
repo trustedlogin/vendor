@@ -100,7 +100,8 @@ class SettingsApi {
 				return $setting;
 			}
 		}
-		throw new \Exception( 'Not found' );
+
+		throw new \Exception( $account_id. ' Not found' );
 	}
 
 	/*

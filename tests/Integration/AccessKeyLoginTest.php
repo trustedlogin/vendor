@@ -7,6 +7,9 @@ use TrustedLogin\Vendor\Encryption;
 use TrustedLogin\Vendor\AccessKeyLogin;
 class AccesKeyLoginTest extends \WP_UnitTestCase {
 
+    /**
+     * @covers TrustedLogin\Vendor\AccesKeyLoging::verify_grant_access_request()
+     */
     public  function testVerifyRequest(){
         $ak = new AccessKeyLogin();
         //Check for no_access_key error
@@ -80,6 +83,7 @@ class AccesKeyLoginTest extends \WP_UnitTestCase {
                 return true;
             }
         };
+        $this->markTestIncomplete('');
 
     }
 
