@@ -30,7 +30,7 @@
 
 PHP classes should be located in the "php" directory and follow the [PSR-4 standard](https://www.php-fig.org/psr/psr-4/).
 
-The root namespace is TrusteLoginVendor.
+The root namespace is TrustedLoginVendor.
 
 
 
