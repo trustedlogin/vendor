@@ -1,6 +1,6 @@
 <?php
 namespace TrustedLogin\Vendor;
-
+use TrustedLogin\Vendor\Contracts\SendsApiRequests as ApiSender;
 use TrustedLogin\Vendor\Traits\Logger;
 use \WP_Error;
 use \Exception;
@@ -54,9 +54,14 @@ class ApiHandler {
      */
     private $debug_mode = false;
 
+	/**
+	 * @var ApiSender
+	 */
+	private  $apiSender;
 
-    public function __construct( $data ) {
 
+    public function __construct( $data, ApiSender $apiSender ) {
+		$this->apiSender = $apiSender;
 	    $defaults = [
 		    'private_key' => null,
 		    'api_key'  => null,
@@ -376,47 +381,6 @@ class ApiHandler {
 	 */
 	public function api_send( $url, $data, $method, $additional_headers ) {
 
-		if ( ! in_array( $method, array( 'POST', 'PUT', 'GET', 'PUSH', 'DELETE' ) ) ) {
-			$this->log( "Error: Method not in allowed array list ($method)", __METHOD__, 'error' );
-
-			return false;
-		}
-
-		$headers = array(
-			'Accept'       => 'application/json',
-			'Content-Type' => 'application/json',
-		);
-
-		if ( ! empty( $additional_headers ) ) {
-			$headers = array_merge( $headers, $additional_headers );
-		}
-
-		$request_atts = array(
-			'method'      => $method,
-			'timeout'     => 45,
-			'redirection' => 5,
-			'httpversion' => '1.0',
-			'blocking'    => true,
-			'headers'     => $headers,
-			'cookies'     => array(),
-		);
-
-		if ( $data ) {
-			$request_atts['body'] = json_encode( $data );
-		}
-
-		$response = wp_remote_request( $url, $request_atts );
-
-		if ( is_wp_error( $response ) ) {
-
-			$this->log( sprintf( "%s - Something went wrong (%s): %s", __METHOD__, $response->get_error_code(), $response->get_error_message() ), __METHOD__, 'error' );
-
-			return $response;
-		}
-
-		$this->log( __METHOD__ . " - result " . print_r( $response['response'], true ) );
-
-		return $response;
-
+		return $this->apiSender->send($url, $data,$method, $additional_headers);
 	}
 }

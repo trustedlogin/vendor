@@ -1,6 +1,8 @@
 <?php
 
 namespace TrustedLogin\Vendor;
+use TrustedLogin\Vendor\Contracts\SendsApiRequests as ApiSend;
+
 class Plugin
 {
     /**
@@ -12,13 +14,22 @@ class Plugin
      * @var AuditLog
      */
     protected $auditLog;
+
+    /**
+     * @var ApiSend
+     */
+    protected $apiSender;
+
     /**
      * @param Encryption $encryption
      */
     public function __construct(Encryption $encryption){
         $this->encryption = $encryption;
         $this->auditLog = new AuditLog();
+        $this->apiSender = new \TrustedLogin\Vendor\ApiSend();
     }
+
+
 
     /**
      * Add REST API endpoints
@@ -82,7 +93,7 @@ class Plugin
 		    'debug_mode'  => $settings->get( 'debug_enabled'),
 		    'type'        => 'saas',
             'api_url' => $apiUrl
-        ]);
+        ],$this->apiSender);
     }
 
     /**
@@ -91,6 +102,19 @@ class Plugin
     public function getAuditLog(){
         return $this->auditLog;
     }
+
+    /**
+     * Set the apiSender instance
+     *
+     * @param ApiSend $apiSender
+     * @return $this
+     */
+    public function setApiSender(ApiSend $apiSender ) {
+        $this->apiSender = $apiSender;
+        return $this;
+    }
+
+
 
 
 }

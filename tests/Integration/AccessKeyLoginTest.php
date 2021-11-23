@@ -5,7 +5,6 @@ namespace TrustedLogin\Vendor\Tests;
 
 use TrustedLogin\Vendor\Encryption;
 use TrustedLogin\Vendor\AccessKeyLogin;
-
 class AccesKeyLoginTest extends \WP_UnitTestCase {
 
     public  function testVerifyRequest(){
@@ -73,4 +72,16 @@ class AccesKeyLoginTest extends \WP_UnitTestCase {
             $ak->verify_grant_access_request()
         );
     }
+
+    public function testHandler(){
+        //Always return true on verification.
+        $handler = new class extends AccessKeyLogin {
+            public function verify_grant_access_request(){
+                return true;
+            }
+        };
+
+    }
+
+
 }
