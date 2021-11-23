@@ -1,5 +1,5 @@
 <?php
-namespace \TrustedLogin\Vendor;
+namespace TrustedLogin\Vendor;
 
 use TrustedLogin\Vendor\Traits\Logger;
 /**
@@ -91,27 +91,27 @@ class AccessKeyLogin {
 	 *
 	 * @return bool|WP_Error
 	 */
-	private function verify_grant_access_request() {
+	public function verify_grant_access_request() {
 
 		if ( empty( $_REQUEST[ self::ACCESS_KEY_INPUT_NAME ] ) ) {
 			$this->log( 'No access key sent.',__METHOD__, 'error' );
-			return new WP_Error('no_access_key', esc_html__( 'No access key was sent with the request.', 'trustedlogin-vendor' ) );
+			return new \WP_Error('no_access_key', esc_html__( 'No access key was sent with the request.', 'trustedlogin-vendor' ) );
 		}
 
 		if( empty( $_REQUEST[self::ACCOUNT_ID_INPUT_NAME ])){
 			$this->log( 'No account id  sent.',__METHOD__, 'error' );
-			return new WP_Error('no_account_id', esc_html__( 'No account id was sent with the request.', 'trustedlogin-vendor' ) );
+			return new \WP_Error('no_account_id', esc_html__( 'No account id was sent with the request.', 'trustedlogin-vendor' ) );
 
 		}
 
 		if ( empty( $_REQUEST[ self::NONCE_NAME ] ) ){
 			$this->log( 'No nonce set. Insecure request.',__METHOD__, 'error' );
-			return new WP_Error('no_nonce', esc_html__( 'No nonce was sent with the request.', 'trustedlogin-vendor' ) );
+			return new \WP_Error('no_nonce', esc_html__( 'No nonce was sent with the request.', 'trustedlogin-vendor' ) );
 		}
 
 		if ( empty( $_REQUEST['_wp_http_referer'] ) ) {
 			$this->log( 'No referrer set; could be insecure request.',__METHOD__, 'error' );
-			return new WP_Error('no_referrer', esc_html__( 'The referrer was not set for the request.', 'trustedlogin-vendor' ) );
+			return new \WP_Error('no_referrer', esc_html__( 'The referrer was not set for the request.', 'trustedlogin-vendor' ) );
 		}
 
 		// Referred from same screen?
