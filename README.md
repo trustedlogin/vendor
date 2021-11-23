@@ -5,7 +5,7 @@
 ## Installation
 
 - Git clone:
-    - `git clone git@github.com:trustedlogin/trusted-login-vendor.git`
+    - `git clone git@github.com:trustedlogin/vendor.git`
 - Install javascript dependencies
     - `yarn`
 - Install php dependencies
