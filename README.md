@@ -1,4 +1,4 @@
-# Trusted Login Vendor
+# TrustedLogin Vendor
 
 [![Built With Plugin Machine](https://img.shields.io/badge/Built%20With-Plugin%20Machine-lightgrey)](https://pluginmachine.com)
 
@@ -30,7 +30,7 @@
 
 PHP classes should be located in the "php" directory and follow the [PSR-4 standard](https://www.php-fig.org/psr/psr-4/).
 
-The root namespace is TrusteLoginVendor.
+The root namespace is TrustedLoginVendor.
 
 
 
