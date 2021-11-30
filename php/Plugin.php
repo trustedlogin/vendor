@@ -96,6 +96,10 @@ class Plugin
         ],$this->apiSender);
     }
 
+    public function getApiUrl(){
+        return apply_filters( 'trustedlogin/api-url/saas', TRUSTEDLOGIN_API_URL );
+    }
+
     /**
      * @return \TrustedLogin\Vendor\AuditLog
      */

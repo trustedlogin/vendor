@@ -63,9 +63,10 @@ function trustedlogin_vendor_deactivate() {
 /**
  * Accesor for main plugin container
  *
- * @return \TrustedLogin\Vendor\Plugin;
+ * @returns \TrustedLogin\Vendor\Plugin;
  */
 function trustedlogin_vendor(){
+	/** @var \TrustedLogin\Vendor\Plugin */
 	static $trustedlogin_vendor;
 	if( ! $trustedlogin_vendor ){
 		$trustedlogin_vendor = new \TrustedLogin\Vendor\Plugin(

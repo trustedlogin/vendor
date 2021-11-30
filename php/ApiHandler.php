@@ -82,7 +82,7 @@ class ApiHandler {
 	 * @return string Full versioned API url, with trailing slash.
 	 */
 	public function get_api_url() {
-		return apply_filters( 'trustedlogin/api-url/saas', $this->api_url );
+		return $this->api_url;
 	}
 
 	/**

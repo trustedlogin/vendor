@@ -2,10 +2,51 @@
 
 namespace TrustedLogin\Vendor\Tests;
 
+use TrustedLogin\Vendor\SettingsApi;
 
 use TrustedLogin\Vendor\Encryption;
 use TrustedLogin\Vendor\AccessKeyLogin;
 class AccesKeyLoginTest extends \WP_UnitTestCase {
+    use MocksTLApi;
+
+    const ACCOUNT_ID = 'test-tl-service';
+    const ACCESS_KEY = 'a218';
+    public function setUp() {
+        $this->setTlApiMock();
+        SettingsApi::from_saved()->reset()->save();
+        $settings = new SettingsApi([
+			[
+				'account_id'       => self::ACCOUNT_ID,
+				'private_key'      => 'a217',
+				'api_key'       	=> self::ACCESS_KEY,
+			],
+			[
+				'account_id'       => '1226',
+				'private_key'      => 'b227',
+				'api_key'       	=> 'b228',
+			]
+		]);
+
+		$settings->save();
+        parent::setUp();
+    }
+
+
+    public function tearDown() {
+        foreach ([
+            AccessKeyLogin::ACCESS_KEY_INPUT_NAME,
+            AccessKeyLogin::ACCOUNT_ID_INPUT_NAME,
+            AccessKeyLogin::NONCE_NAME,
+            '_wp_http_referer'
+
+        ] as $key ) {
+            unset($_REQUEST[ $key]);
+        }
+        SettingsApi::from_saved()->reset()->save();
+        //Always reset API sender
+        $this->resetTlApiMock();
+        parent::tearDown();
+    }
 
     /**
      * @covers TrustedLogin\Vendor\AccesKeyLoging::verify_grant_access_request()
@@ -77,12 +118,19 @@ class AccesKeyLoginTest extends \WP_UnitTestCase {
     }
 
     public function testHandler(){
-        //Always return true on verification.
+        //Set mock API for TrustedLogin eCommerce
+        $this->setTlApiMock();
+        //Handler that will lways return true on verification.
         $handler = new class extends AccessKeyLogin {
             public function verify_grant_access_request(){
                 return true;
             }
         };
+        //Set up REQUEST var
+        $access_key = self::ACCESS_KEY;
+        $_REQUEST[ AccessKeyLogin::ACCESS_KEY_INPUT_NAME ]= $access_key;
+		$account_id = self::ACCOUNT_ID;
+        $_REQUEST[ AccessKeyLogin::ACCOUNT_ID_INPUT_NAME] = $account_id;
         $this->markTestIncomplete('');
 
     }
