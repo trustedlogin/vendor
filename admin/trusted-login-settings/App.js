@@ -2,6 +2,8 @@ import { __ } from "@wordpress/i18n";
 import { useMemo, useState, useEffect } from "react";
 import { Notice, BigButton } from "../components";
 import TrustedLoginSettings from "../components/TrustedLoginSettings";
+import HelpDeskSettings from "../components/HelpDeskSettings";
+
 import { Tabs } from "@imaginary-machines/wp-admin-components";
 
 const defaultSettings = {
@@ -139,9 +141,16 @@ export default function App({ getSettings, updateSettings }) {
 							},
 							{
 								id: "helpdesks",
-								children: <div>Help desks</div>,
+								children: (
+									<HelpDeskSettings
+										settings={settings}
+										setSettings={setSettings}
+										canSave={canSave}
+										onSave={onSave}
+									/>
+								),
+								label: "help",
 								label: "Help Desks",
-								label: "Help ",
 							},
 							{
 								id: "access",

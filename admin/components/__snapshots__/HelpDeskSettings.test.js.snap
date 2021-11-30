@@ -1,0 +1,65 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`HelpDeskSettings renders with save enabled 1`] = `
+<div>
+  <form>
+    <table
+      class="form-table"
+      role="presentation"
+    >
+      <tbody>
+        <tr>
+          <th
+            scope="row"
+          >
+            <label
+              for="helpscout[secret]"
+            >
+              Help Scout Secret Key
+            </label>
+          </th>
+          <td>
+            <input
+              class="regular-text ltr"
+              id="helpscout[secret]"
+              name="helpscout[secret]"
+              type="text"
+              value=""
+            />
+          </td>
+        </tr>
+        <tr>
+          <th
+            scope="row"
+          >
+            <label
+              for="helpscout[callback]"
+            >
+              Help Scout Callback URL	
+            </label>
+          </th>
+          <td>
+            <input
+              class="regular-text ltr"
+              id="helpscout[callback]"
+              name="helpscout[callback]"
+              type="url"
+              value=""
+            />
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <p
+      class="submit"
+    >
+      <input
+        class="button button-secondary button-hero"
+        disabled=""
+        type="submit"
+        value="Save"
+      />
+    </p>
+  </form>
+</div>
+`;
