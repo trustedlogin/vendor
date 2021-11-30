@@ -1,6 +1,5 @@
 import { Form, Submit, Input, FormTable } from "./index";
 import { __ } from "@wordpress/i18n";
-import TeamSettings from "./TeamSettings";
 import { useMemo } from "react";
 
 /**
