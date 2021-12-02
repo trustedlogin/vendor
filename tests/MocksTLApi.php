@@ -33,6 +33,17 @@ trait MocksTLApi {
                     }
                     return (substr($string, -$len) === $search);
                 };
+                //Mock get envelope
+                if( $strEndsWith (
+                    $url,
+                    '/get-envelope',
+                )){
+                    $json = file_get_contents(__DIR__ . '/data/get-envelope.json');
+                    return [
+                        'body' => $json
+                    ];
+                }
+                //Mock
                 if( $strEndsWith(
                     str_replace(\trustedlogin_vendor()->getApiUrl(),'', $url),
                     '/sites/'

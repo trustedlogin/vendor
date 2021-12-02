@@ -71,8 +71,7 @@ class TrustedLoginServiceTests extends \WP_UnitTestCase {
      /**
      * @covers TrustedLoginService::api_get_envelope()
      */
-    public function testApiGetEnvelop(){
-        $this->markTestIncomplete('Need mock data');
+    public function testApiGetEnvelope(){
         $service = new TrustedLoginService(
             trustedlogin_vendor()
         );
@@ -88,27 +87,9 @@ class TrustedLoginServiceTests extends \WP_UnitTestCase {
     }
 
     /**
-     * @covers TrustedLoginService::api_get_envelope()
-     */
-    public function testApiGetEnvelop(){
-        $this->markTestIncomplete('Need mock data');
-        $service = new TrustedLoginService(
-            trustedlogin_vendor()
-        );
-        $r = $service->api_get_envelope('secret?',self::ACCOUNT_ID);
-        $this->assertTrue(
-            is_wp_error($r)
-        );
-        wp_set_current_user(self::factory()->user->create());
-        $r = $service->api_get_envelope('secret?',self::ACCOUNT_ID);
-        $this->assertFalse(
-            is_wp_error($r)
-        );
-    }
-    /**
      * @covers TrustedLoginService::envelope_to_url()
      */
-    public function testEnvelopToUrl(){
+    public function testEnvelopeToUrl(){
         $this->markTestIncomplete('Need mock data');
         $service = new TrustedLoginService(
             trustedlogin_vendor()
