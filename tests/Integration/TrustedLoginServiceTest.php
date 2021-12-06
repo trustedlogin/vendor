@@ -94,6 +94,7 @@ class TrustedLoginServiceTests extends \WP_UnitTestCase {
         $service = new TrustedLoginService(
             trustedlogin_vendor()
         );
+        $envelope = json_decode($this->getEnvelopeData(),true);
         $r = $service->envelope_to_url($envelope);
         $this->assertTrue(
             is_wp_error($r)

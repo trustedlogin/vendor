@@ -20,7 +20,13 @@ trait MocksTLApi {
         $sender = new class implements SendsApiRequests {
 			public $method;
             public $nextResponse;
-
+            /**
+             * The data for get envelope response
+             * @return string
+             */
+            protected  function getEnvelopeData(){
+                return file_get_contents(__DIR__ . '/data/get-envelope.json');
+            }
 
 			public function send( $url, $data, $method, $additional_headers ){
                 $strEndsWith = function ($string, $search) {
@@ -38,7 +44,7 @@ trait MocksTLApi {
                     $url,
                     '/get-envelope',
                 )){
-                    $json = file_get_contents(__DIR__ . '/data/get-envelope.json');
+                    $json = $this->getEnvelopeData();
                     return [
                         'body' => $json
                     ];
@@ -59,6 +65,14 @@ trait MocksTLApi {
         trustedlogin_vendor()->setApiSender(
 			$sender
 		);
+    }
+
+    /**
+     * The data for get envelope response
+     * @return string
+     */
+    protected  function getEnvelopeData(){
+        return file_get_contents(__DIR__ . '/data/get-envelope.json');
     }
 
     /**
