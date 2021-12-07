@@ -20,6 +20,7 @@
         "@wordpress/scripts": "^16"
     },
     "dependencies": {
+        "@imaginary-machines/wp-admin-components": "^0.1.2",
         "@wordpress/components": "^14",
         "@wordpress/element": "^3",
         "@wordpress/i18n": "^4",

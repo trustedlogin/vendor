@@ -137,13 +137,13 @@ class TrustedLoginService {
 		}
 
 		if ( empty( $envelope ) ) {
-			$this->plgin->getAuditLog()->insert( $secret_id, 'failed', esc_html__( 'Empty envelope.', 'trustedlogin-vendor' ) );
+			$this->plugin->getAuditLog()->insert( $secret_id, 'failed', esc_html__( 'Empty envelope.', 'trustedlogin-vendor' ) );
 			wp_safe_redirect( $redirect_url, self::REDIRECT_ERROR_STATUS, 'TrustedLogin' );
 		}
 
 		if ( is_wp_error( $envelope ) ) {
 			$this->log( 'Error: ' . $envelope->get_error_message(), __METHOD__, 'error' );
-			$this->getAuditLog()->insert( $secret_id, 'failed', $envelope->get_error_message() );
+			$this->plugin->getAuditLog()->insert( $secret_id, 'failed', $envelope->get_error_message() );
 			wp_safe_redirect( add_query_arg( array( 'tl-error' => self::REDIRECT_ERROR_STATUS ), $redirect_url ), self::REDIRECT_ERROR_STATUS, 'TrustedLogin' );
 			exit;
 		}
@@ -262,7 +262,7 @@ class TrustedLoginService {
 		$data['nonce']       = $auth_nonce['nonce'];
 		$data['signedNonce'] = $auth_nonce['signed'];
 
-		$this->plugin->auditLog->insert( $secret_id, 'requested' );
+		$this->plugin->getAuditLog()->insert( $secret_id, 'requested',true );
 
 		$endpoint = 'sites/' . $account_id . '/' . $secret_id . '/get-envelope';
 
@@ -291,7 +291,7 @@ class TrustedLoginService {
 			$success = sprintf( esc_html__( 'Failed: %s', 'trustedlogin-vendor' ), $envelope->get_error_message() );
 		}
 
-		$this->plugin->auditLog()->insert( $secret_id, 'received', $success );
+		$this->plugin->getAuditLog()->insert( $secret_id, 'received', $success );
 
 		return $envelope;
 

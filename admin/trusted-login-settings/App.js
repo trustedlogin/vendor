@@ -2,6 +2,10 @@ import { __ } from "@wordpress/i18n";
 import { useMemo, useState, useEffect } from "react";
 import { Notice, BigButton } from "../components";
 import TrustedLoginSettings from "../components/TrustedLoginSettings";
+import HelpDeskSettings from "../components/HelpDeskSettings";
+
+import { Tabs } from "@imaginary-machines/wp-admin-components";
+
 const defaultSettings = {
 	isConnected: false,
 	teams: [],
@@ -108,22 +112,53 @@ export default function App({ getSettings, updateSettings }) {
 
 			<div>
 				<>
-					<BigButton
-						onClick={addTeam}
-						variant={!settings.teams.length ? "primary" : "secondary"}
-					>
-						{__("Add Team")}
-					</BigButton>
-					<TrustedLoginSettings
-						settings={settings}
-						setSettings={setSettings}
-						setTeam={setTeam}
-						canSave={canSave}
-						onSave={onSave}
+					<Tabs
+						initialTabe={"two"}
+						tabs={[
+							{
+								id: "teams",
+								children: (
+									<>
+										<BigButton
+											onClick={addTeam}
+											variant={!settings.teams.length ? "primary" : "secondary"}
+										>
+											{__("Add Team")}
+										</BigButton>
+										<TrustedLoginSettings
+											settings={settings}
+											setSettings={setSettings}
+											setTeam={setTeam}
+											canSave={canSave}
+											onSave={onSave}
+										/>
+										{notice.visible ? (
+											<Notice heading={notice.text} type={notice.type} />
+										) : null}
+									</>
+								),
+								label: "Teams",
+							},
+							{
+								id: "helpdesks",
+								children: (
+									<HelpDeskSettings
+										settings={settings}
+										setSettings={setSettings}
+										canSave={canSave}
+										onSave={onSave}
+									/>
+								),
+								label: "help",
+								label: "Help Desks",
+							},
+							{
+								id: "access",
+								children: <div>Access Logs</div>,
+								label: "Access Logs",
+							},
+						]}
 					/>
-					{notice.visible ? (
-						<Notice heading={notice.text} type={notice.type} />
-					) : null}
 				</>
 			</div>
 		</div>

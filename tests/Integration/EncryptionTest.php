@@ -95,6 +95,7 @@ class EncryptionTest extends \WP_UnitTestCase {
 	}
 
 	/**
+	 * @group encryption
 	 * @covers Encryption::get_keys()
 	 * @covers Encryption::generate_keys()
 	 */
@@ -137,6 +138,8 @@ class EncryptionTest extends \WP_UnitTestCase {
 	}
 
 	/**
+	 * @group encryption
+	 *
 	 * @covers TrustedLogin\Vendor\Encryption::get_public_key
 	 */
 	function test_get_public_key() {
@@ -149,6 +152,8 @@ class EncryptionTest extends \WP_UnitTestCase {
 	}
 
 	/**
+	 * @group encryption
+	 *
 	 * @covers TrustedLogin\Vendor\Encryption::create_identity_nonce
 	 * @covers TrustedLogin\Vendor\Encryption::verify_signature()
 	 */
@@ -208,7 +213,8 @@ class EncryptionTest extends \WP_UnitTestCase {
 
 	/**
 	 * Tests to make sure the decryption doesn't fail because of sodium issues
-	 *
+	 * @group encryption
+
 	 * @todo Update this test to actually check whether it can decrypt properly...
 	 *
 	 * @covers TrustedLogin\Vendor\Encryption::create_identity_nonce
@@ -234,6 +240,18 @@ class EncryptionTest extends \WP_UnitTestCase {
 		$this->assertEquals( 'decryption_failed', $decrypted->get_error_code(), $decrypted->get_error_message() );
 
 		// TODO: Actual decryption test :facepalm:
+	}
+
+	/**
+	 * @group encryption
+	 * @covers TrustedLogin\Vendor\Encryption::encrypt()
+	 * @covers TrustedLogin\Vendor\Encryption::decrypt()
+	 */
+	function test_encrypt_decrypt(){
+		$message = 'Lumens';
+		$encrypted = Encryption::encrypt($message);
+		$this->assertIsString($encrypted);
+		$this->assertEquals($message,Encryption::decrypt($encrypted));
 	}
 
 }
