@@ -95,6 +95,12 @@ class TrustedLoginServiceTests extends \WP_UnitTestCase {
             trustedlogin_vendor()
         );
         $envelope = json_decode($this->getEnvelopeData(),true);
+
+		add_filter( 'trustedlogin/vendor/encryption/get-keys', function() {
+			$keys = 'VALID JSON OVERRIDES HERE!';
+			return json_decode( $keys, false );
+		});
+
         $r = $service->envelope_to_url($envelope);
         $this->assertTrue(
             is_wp_error($r)
