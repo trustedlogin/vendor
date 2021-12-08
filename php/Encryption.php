@@ -73,19 +73,19 @@ class Encryption {
 	}
 
 	/**
-	 * Creats a new public/private key set.
+	 * Creates a new public/private key set.
 	 *
 	 * @since 0.8.0
 	 *
 	 * @param bool $update Whether to update the database with the new keys. Default: true
 	 *
 	 * @return  \stdClass|WP_Error  $keys or WP_Error if any issues
-	 *    $keys = [
-	 *        'private_key'     => (string)  The private key used for encrypt/decrypt.
-	 *        'public_key'         => (string)  The public key used for encrypt/decrypt.
-	 *        'sign_public_key'  => (string)  The public key used for signing/verifying.
-	 *        'sign_private_key' => (string)  The private key used for signing/verifying.
-	 *    ]
+	 *    $keys = {
+	 *        private_key: (string) The private key used for encrypt/decrypt.
+	 *        public_key: (string) The public key used for encrypt/decrypt.
+	 *        sign_public_key: (string) The public key used for signing/verifying.
+	 *        sign_private_key: (string) The private key used for signing/verifying.
+	 *    }
 	 */
 	private function generate_keys( $update = true ) {
 
