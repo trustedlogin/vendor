@@ -58,7 +58,7 @@ A [docker-compose](https://docs.docker.com/samples/wordpress/)-based local devel
 
 - Start server
     - `docker-compose up -d`
-- Acess Site
+- Access Site
     - [http://localhost:6301](http://localhost:6301)
 - Run WP CLI command:
     - `docker-compose run wpcli wp user create admin admin@example.com --role=admin user_pass=pass`
