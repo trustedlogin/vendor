@@ -49,7 +49,7 @@ class AccesKeyLoginTest extends \WP_UnitTestCase {
     }
 
     /**
-     * @covers TrustedLogin\Vendor\AccesKeyLoging::verify_grant_access_request()
+     * @covers TrustedLogin\Vendor\AccessKeyLogin::verify_grant_access_request()
      */
     public  function testVerifyRequest(){
         $ak = new AccessKeyLogin();
@@ -76,7 +76,7 @@ class AccesKeyLoginTest extends \WP_UnitTestCase {
             $ak->verify_grant_access_request()->errors
         );
         //Set account id
-        $_REQUEST[AccessKeyLogin::ACCOUNT_ID_INPUT_NAME ] = 'whatever';
+        $_REQUEST[ AccessKeyLogin::ACCOUNT_ID_INPUT_NAME ] = 'whatever';
         //Check for no no_nonce
         $this->assertTrue(
             is_wp_error(
