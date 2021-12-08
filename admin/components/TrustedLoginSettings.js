@@ -3,7 +3,7 @@ import { __ } from "@wordpress/i18n";
 import TeamSettings from "./TeamSettings";
 
 /**
- * Trusted Login Settings Form
+ * TrustedLogin Settings Form
  */
 export default function ({ onSave, settings, canSave, setTeam, setSettings }) {
 	return (

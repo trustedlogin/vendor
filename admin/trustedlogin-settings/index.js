@@ -10,6 +10,6 @@ window.addEventListener("load", function () {
 				updateSettings,
 			}}
 		/>,
-		document.getElementById("trusted-login-settings")
+		document.getElementById("trustedlogin-settings")
 	);
 });

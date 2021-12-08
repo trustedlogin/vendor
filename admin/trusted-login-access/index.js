@@ -12,6 +12,6 @@ window.addEventListener("load", function () {
     };
     render(
         <App data={data} saveData={saveData} />,
-        document.getElementById("trusted-login-access")
+        document.getElementById("trustedlogin-access")
     );
 });

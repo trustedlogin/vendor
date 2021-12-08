@@ -1,6 +1,6 @@
 {
-    "name": "trustedlogin/trusted-login-vendor",
-    "description": "Trusted Login Vendor Plugin",
+    "name": "trustedlogin/trustedlogin-vendor",
+    "description": "TrustedLogin Vendor Plugin",
     "require": {
         "php": "^7.2|^8.0",
         "paragonie/sodium_compat": "^1.17"

@@ -80,7 +80,7 @@ class Plugin
      * Get API Handler by account id
      *
      * @param string $accountId Account ID, which must be saved in settings, to get handler for.
-     * @param string $apiUrl Optional. Url for Trusted Login API.
+     * @param string $apiUrl Optional. Url for TrustedLogin API.
      */
     public function getApiHandler($accountId,$apiUrl = ''){
         $settings = \TrustedLogin\Vendor\SettingsApi::from_saved()->get_by_account_id($accountId);

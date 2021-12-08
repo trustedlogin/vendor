@@ -3,7 +3,7 @@ import { __ } from "@wordpress/i18n";
 import { useMemo } from "react";
 
 /**
- * Trusted Login Settings Form
+ * TrustedLogin Settings Form
  */
 export default function ({ onSave, settings, canSave, setSettings }) {
 	const helpscout = useMemo(() => {

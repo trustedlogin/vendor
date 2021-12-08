@@ -38,8 +38,8 @@ register_deactivation_hook( __FILE__, 'trustedlogin_vendor_deactivate' );
 //Include files and call trustedlogin_vendor
 if( file_exists( $path . 'vendor/autoload.php' ) ){
 	include_once $path . 'vendor/autoload.php';
-	include_once dirname( __FILE__ ) . '/admin/trusted-login-settings/init.php';
-	include_once dirname( __FILE__ ) . '/admin/trusted-login-access/init.php';
+	include_once dirname( __FILE__ ) . '/admin/trustedlogin-settings/init.php';
+	include_once dirname( __FILE__ ) . '/admin/trustedlogin-access/init.php';
 	$plugin = trustedlogin_vendor();
 	/**
 	 * Runs when plugin is ready.

@@ -1,7 +1,7 @@
 <?php
-//Register assets for Trusted Login Acess
+//Register assets for TrustedLogin Acess
 add_action('init', function () {
-    $handle = 'trusted-login-access';
+    $handle = 'trustedlogin-access';
     if( file_exists(dirname(__FILE__, 3). "/build/admin-page-$handle.asset.php" ) ){
         $assets = include dirname(__FILE__, 3). "/build/admin-page-$handle.asset.php";
         $dependencies = $assets['dependencies'];
@@ -14,24 +14,24 @@ add_action('init', function () {
     }
 });
 
-//Enqueue assets for Trusted Login Acess on admin page only
+//Enqueue assets for TrustedLogin Acess on admin page only
 add_action('admin_enqueue_scripts', function ($hook) {
-    if ('toplevel_page_trusted-login-access' != $hook) {
+    if ('toplevel_page_trustedlogin-access' != $hook) {
         return;
     }
-    wp_enqueue_script('trusted-login-access');
+    wp_enqueue_script('trustedlogin-access');
 });
 
-//Register Trusted Login Acess menu page
+//Register TrustedLogin Acess menu page
 add_action('admin_menu', function () {
     add_menu_page(
-        __('Trusted Login Acess', 'trusted-login-vendor'),
-        __('Trusted Login Acess', 'trusted-login-vendor'),
+        __('TrustedLogin Access', 'trustedlogin-vendor'),
+        __('TrustedLogin Access', 'trustedlogin-vendor'),
         'manage_options',
-        'trusted-login-access',
+        'trustedlogin-access',
         function () {
             //React root
-            echo '<div id="trusted-login-access"></div>';
+            echo '<div id="trustedlogin-access"></div>';
         }
     );
 });

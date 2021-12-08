@@ -1,7 +1,7 @@
 <?php
-//Register assets for Trusted Login Settings
+//Register assets for TrustedLogin Settings
 add_action('init', function () {
-    $handle = 'trusted-login-settings';
+    $handle = 'trustedlogin-settings';
     if( file_exists(dirname(__FILE__, 3). "/build/admin-page-$handle.asset.php" ) ){
         $assets = include dirname(__FILE__, 3). "/build/admin-page-$handle.asset.php";
         $dependencies = $assets['dependencies'];
@@ -14,24 +14,24 @@ add_action('init', function () {
     }
 });
 
-//Enqueue assets for Trusted Login Settings on admin page only
+//Enqueue assets for TrustedLogin Settings on admin page only
 add_action('admin_enqueue_scripts', function ($hook) {
-    if ('toplevel_page_trusted-login-settings' != $hook) {
+    if ('toplevel_page_trustedlogin-settings' != $hook) {
         return;
     }
-    wp_enqueue_script('trusted-login-settings');
+    wp_enqueue_script('trustedlogin-settings');
 });
 
-//Register Trusted Login Settings menu page
+//Register TrustedLogin Settings menu page
 add_action('admin_menu', function () {
     add_menu_page(
-        __('Trusted Login Settings', 'trusted-login-vendor'),
-        __('Trusted Login Settings', 'trusted-login-vendor'),
+        __('TrustedLogin Settings', 'trustedlogin-vendor'),
+        __('TrustedLogin Settings', 'trustedlogin-vendor'),
         'manage_options',
-        'trusted-login-settings',
+        'trustedlogin-settings',
         function () {
             //React root
-            echo '<div id="trusted-login-settings"></div>';
+            echo '<div id="trustedlogin-settings"></div>';
         }
     );
 });
