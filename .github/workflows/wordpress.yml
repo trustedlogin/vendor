@@ -32,6 +32,15 @@ jobs:
         run: |
           composer install
 
+      ## Create .env
+      - shell: bash
+        env:
+          # Should be set in repo secrets
+          KEY: ${{ secrets.TL_VENDOR_ENCRYTPTION_KEY }}
+        run: |
+          echo "TL_VENDOR_ENCRYTPTION_KEY=$KEY" >> .env
+
+
       ## Install test suite
       - name: Install WordPress test suite
         run: bash bin/install-wp-tests.sh wordpress_test root root mysql ${{ matrix.wordpress-version }}
