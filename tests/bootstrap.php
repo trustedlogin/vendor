@@ -24,10 +24,10 @@ require_once $_tests_dir . '/includes/functions.php';
  * Manually load the plugin being tested.
  */
 function _manually_load_plugin() {
+	require dirname( dirname( __FILE__ ) ) . '/trustedlogin-vendor.php';
 	try {
 		$dotenv = Dotenv\Dotenv::createImmutable(dirname( dirname( __FILE__ ) ));
 		$dotenv->load();
-		require dirname( dirname( __FILE__ ) ) . '/trustedlogin-vendor.php';
 	} catch (\Throwable $th) {
 		echo 'You must set .env. See README.md';
 		throw $th;
