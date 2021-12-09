@@ -4,6 +4,8 @@ namespace TrustedLogin\Vendor;
 use TrustedLogin\Vendor\Traits\Logger;
 use TrustedLogin\Vendor\AuditLog;
 use TrustedLogin\Vendor\Plugin;
+use TrustedLogin\Vendor\Traits\VerifyUser;
+
 
 /**
  * High-level API for SaaS interactions
@@ -123,10 +125,19 @@ class TrustedLoginService {
 			$redirect_url = add_query_arg( 'page', sanitize_text_field( $_GET['page'] ), admin_url( 'admin.php' ) );
 		}
 
-		// first check if user can be redirected.
-		if ( ! $this->auth_verify_user() ) {
-			$this->log( 'User cannot be redirected due to auth_verify_user() returning false.', __METHOD__, 'warning' );
+		//Get saved settings an then team settings
+		$settings = SettingsApi::from_saved();
+		try {
+			$teamSettings =  $settings->get_by_account_id($account_id);
+		} catch (\Exception $e) {
+			$this->getAuditLog()->insert( $secret_id, 'failed', $e->getMessage() );
+			wp_safe_redirect( add_query_arg( array( 'tl-error' => self::REDIRECT_ERROR_STATUS ), $redirect_url ), self::REDIRECT_ERROR_STATUS, 'TrustedLogin' );
+			exit;
+		}
 
+		// first check if user can be redirected.
+		if ( ! $this->verifyUserRole($teamSettings) ) {
+			$this->log( 'User cannot be redirected due to auth_verify_user() returning false.', __METHOD__, 'warning' );
 			return;
 		}
 

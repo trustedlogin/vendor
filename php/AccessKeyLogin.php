@@ -1,13 +1,13 @@
 <?php
 namespace TrustedLogin\Vendor;
-
+use TrustedLogin\Vendor\Traits\VerifyUser;
 use TrustedLogin\Vendor\Traits\Logger;
 /**
  * Handler for access key login
  */
 class AccessKeyLogin {
 
-    use Logger;
+    use Logger,VerifyUser;
 
     /**
 	 * WordPress admin slug for access key login
@@ -48,8 +48,20 @@ class AccessKeyLogin {
 		$access_key = sanitize_text_field( $_REQUEST[ self::ACCESS_KEY_INPUT_NAME ] );
 		$account_id = sanitize_text_field( $_REQUEST[ self::ACCOUNT_ID_INPUT_NAME]);
 
-		// First check if user can be here at all.
-		//There used to be a user auth check here.
+		//Get saved settings an then team settings
+		$settings = SettingsApi::from_saved();
+		try {
+			$teamSettings =  $settings->get_by_account_id($account_id);
+		} catch (\Exception $e) {
+			// Print error
+			wp_send_json_error( esc_html__( $e->getMessage() ), 404 );
+			exit;
+		}
+		if( $this->verifyUserRole($teamSettings)){
+			// Print error
+			wp_send_json_error( esc_html__( $e->getMessage(),403 ) );
+			exit;
+		}
 
 		$tl = new TrustedLoginService(
 			trustedlogin_vendor()
