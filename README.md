@@ -34,6 +34,8 @@ The root namespace is TrustedLoginVendor.
 
 ### Tests
 
+Before doing this, you must create a ".env" file in the root of this plugin. You need to set the correct value for `TL_VENDOR_ENCRYTPTION_KEY`. Its value is known to Josh and Zack. It is set as a Github actions environment variable. This is not needed in production.
+
 - Run WordPress tests
     - `composer test`
     - See local development instructions for how to run with Docker.
