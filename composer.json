@@ -22,7 +22,8 @@
         "mockery/mockery": "1.2",
         "brain/monkey": "2.*",
         "squizlabs/php_codesniffer": "^3.6",
-        "dealerdirect/phpcodesniffer-composer-installer": "^0.7"
+        "dealerdirect/phpcodesniffer-composer-installer": "^0.7",
+        "vlucas/phpdotenv": "^5.4"
     },
     "scripts": {
         "test": "composer test:unit && composer test:wordpress",
