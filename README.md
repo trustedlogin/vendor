@@ -30,8 +30,23 @@
 
 PHP classes should be located in the "php" directory and follow the [PSR-4 standard](https://www.php-fig.org/psr/psr-4/).
 
-The root namespace is TrustedLoginVendor.
+The root namespace is `TrustedLoginVendor`.
 
+### Container
+
+```php
+$container = trustedlogin_vendor();
+```
+
+### TrustedLoginService
+
+Interactions with TrustedLogin are in the `TrustedLoginService`. You can get this service, using the container, which it needs, like this:
+
+```php
+$service = new TrustedLoginService(
+    trustedlogin_vendor()
+);
+```
 ### Tests
 
 Before doing this, you must create a ".env" file in the root of this plugin. You need to set the correct value for `TL_VENDOR_ENCRYTPTION_KEY`. Its value is known to Josh and Zack. It is set as a Github actions environment variable. This is not needed in production.

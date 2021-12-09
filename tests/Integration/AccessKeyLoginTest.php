@@ -117,6 +117,9 @@ class AccesKeyLoginTest extends \WP_UnitTestCase {
         );
     }
 
+    /**
+     * @covers AccessKeyLogin::handle()
+     */
     public function testHandler(){
         //Set mock API for TrustedLogin eCommerce
         $this->setTlApiMock();
@@ -131,8 +134,19 @@ class AccesKeyLoginTest extends \WP_UnitTestCase {
         $_REQUEST[ AccessKeyLogin::ACCESS_KEY_INPUT_NAME ]= $access_key;
 		$account_id = self::ACCOUNT_ID;
         $_REQUEST[ AccessKeyLogin::ACCOUNT_ID_INPUT_NAME] = $account_id;
-        $this->markTestIncomplete('');
 
+        $handle = function($handler){
+            return (array)json_decode($handler->handle(),true);
+        };
+        $r = $handle($handler);
+        $this->assertTrue(
+            is_wp_error($r)
+        );
+        wp_set_current_user(self::factory()->user->create());
+        $r = $handle($handler);
+        $this->assertFalse(
+            is_wp_error($r)
+        );
     }
 
 

@@ -9,7 +9,6 @@ use TrustedLogin\Vendor\Plugin;
  * High-level API for SaaS interactions
  *
  * Methods include validation, logging and API calls
- *
  */
 class TrustedLoginService {
 

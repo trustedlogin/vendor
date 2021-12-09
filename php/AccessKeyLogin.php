@@ -49,12 +49,11 @@ class AccessKeyLogin {
 		$account_id = sanitize_text_field( $_REQUEST[ self::ACCOUNT_ID_INPUT_NAME]);
 
 		// First check if user can be here at all.
-		if ( ! $endpoint->auth_verify_user() ) {
-			$this->log( 'User cannot be redirected due to Endpoint::auth_verify_user() returning false.', __METHOD__, 'warning' );
-			return;
-		}
+		//There used to be a user auth check here.
 
-		$tl = new TrustedLoginService();
+		$tl = new TrustedLoginService(
+			trustedlogin_vendor()
+		);
 
 		$site_ids = $tl->api_get_secret_ids( $access_key,$account_id );
 
