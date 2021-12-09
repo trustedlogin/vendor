@@ -32,16 +32,11 @@ PHP classes should be located in the "php" directory and follow the [PSR-4 stand
 
 The root namespace is TrustedLoginVendor.
 
-
-
 ### Tests
-- Run unit tests
-    - `composer test:unit`
+
 - Run WordPress tests
-    - `composer test:wordpress`
-    - See local development instructions for how to run with Docker.
-- Run unit tests and WordPress tests
     - `composer test`
+    - See local development instructions for how to run with Docker.
 
 ### Linter
 
