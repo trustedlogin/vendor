@@ -8,10 +8,6 @@ use TrustedLogin\Vendor\Contracts\SendsApiRequests;
 
 trait MocksTLApi {
 
-
-
-
-
     /**
      * Set up mock API for TrustedLogin eCommerce
      */
@@ -82,5 +78,20 @@ trait MocksTLApi {
         trustedlogin_vendor()->setApiSender(
             new ApiSend()
         );
+    }
+
+        /**
+     * Get the vendor encryption keys for testing with.
+     */
+    protected function getEncryptionKeys(){
+        if( ! isset($_ENV['TL_VENDOR_ENCRYTPTION_KEY'])){
+            throw new \Exception( 'TL_VENDOR_ENCRYTPTION_KEY is not an env var');
+        }
+        try {
+            return json_decode($_ENV['TL_VENDOR_ENCRYTPTION_KEY']);
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+
     }
 }

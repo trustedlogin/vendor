@@ -90,30 +90,19 @@ class TrustedLoginServiceTests extends \WP_UnitTestCase {
      * @covers TrustedLoginService::envelope_to_url()
      */
     public function testEnvelopeToUrl(){
-        $this->markTestIncomplete('Need mock data');
+        //Set encryption keys to same vendor keys as test envelope was encrypted with.
+        add_filter( 'trustedlogin/vendor/encryption/get-keys', function(){
+            return $this->getEncryptionKeys();
+        } );
         $service = new TrustedLoginService(
             trustedlogin_vendor()
         );
-
+        //Get envelope and try to turn it into a URL.
         $envelope = json_decode($this->getEnvelopeData(),true);
-
-		add_filter( 'trustedlogin/vendor/encryption/get-keys', function() {
-			$keys = 'VALID JSON OVERRIDES HERE!';
-			return json_decode( $keys, false );
-		});
-
         $r = $service->envelope_to_url($envelope);
-
-        /*$this->assertTrue(
-            is_wp_error($r),
-	        ( is_wp_error($r) ? sprintf( '%s: "%s"', $r->get_error_code(), $r->get_error_message() ) : '' )
-        );
-
-        wp_set_current_user(self::factory()->user->create());*/
-        $r = $service->envelope_to_url($envelope);
-        $this->assertFalse(
-            is_wp_error($r),
-            sprintf( '%s: "%s"', $r->get_error_code(), $r->get_error_message() )
+        //Is valid URL?
+        $this->assertTrue(
+            (bool)filter_var($r, FILTER_VALIDATE_URL)
         );
     }
 }
