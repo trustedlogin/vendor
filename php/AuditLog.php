@@ -2,9 +2,11 @@
 
 namespace TrustedLogin\Vendor;
 
+class AuditLog
+{
 
-class AuditLog {
 
-
-    public function insert( $secret_id, $message, $success ){}
+	public function insert($secret_id, $message, $success)
+	{
+	}
 }

@@ -11,8 +11,8 @@ namespace TrustedLogin\Vendor;
 use \WP_Error;
 use \Exception;
 
-
-class SettingsApi {
+class SettingsApi
+{
 
 	const TEAM_SETTING_NAME = 'trustedlogin_vendor_team_settings';
 	const HELPSCOUT_SETTING_NAME = 'trustedlogin_helpscout_settings';
@@ -35,13 +35,13 @@ class SettingsApi {
 	 * @param array $helpscout_data Helpscout settings data
 	 * @since 0.10.0
 	 */
-	public function __construct(array $team_data,array $helpscout_data = [])
+	public function __construct(array $team_data, array $helpscout_data = [])
 	{
 		foreach ($team_data as $values) {
-			if( is_array($values)){
+			if (is_array($values)) {
 				$values = new TeamSettings($values);
 			}
-			if(  is_a($values, TeamSettings::class)){
+			if (is_a($values, TeamSettings::class)) {
 				$this->team_settings[] = $values;
 			}
 		}
@@ -53,22 +53,23 @@ class SettingsApi {
 	 * @since 0.10.0
 	 * @return SettingsApi
 	 */
-	public static function from_saved(){
-		$saved = get_option(self::TEAM_SETTING_NAME,[]);
+	public static function from_saved()
+	{
+		$saved = get_option(self::TEAM_SETTING_NAME, []);
 
 		$data = [];
-		if( ! empty($saved)){
+		if (! empty($saved)) {
 			$saved = (array)json_decode($saved);
-			foreach ($saved as  $value) {
+			foreach ($saved as $value) {
 				$data[] = new TeamSettings((array)$value);
 			}
 		}
-		$helpscout_data = get_option(self::HELPSCOUT_SETTING_NAME,[]);
-		if( ! is_array($helpscout_data)){
+		$helpscout_data = get_option(self::HELPSCOUT_SETTING_NAME, []);
+		if (! is_array($helpscout_data)) {
 			$helpscout_data = [];
 		}
 
-		return new self($data,$helpscout_data);
+		return new self($data, $helpscout_data);
 	}
 
 	/**
@@ -77,12 +78,13 @@ class SettingsApi {
 	 * @since 0.10.0
 	 * @return SettingsApi
 	 */
-	public function save(){
+	public function save()
+	{
 		$data = [];
 		foreach ($this->team_settings as $setting) {
 			$data[] = $setting->to_array();
 		}
-		update_option(self::TEAM_SETTING_NAME, json_encode($data) );
+		update_option(self::TEAM_SETTING_NAME, json_encode($data));
 		update_option(self::HELPSCOUT_SETTING_NAME, $this->get_helpscout_data());
 		return $this;
 	}
@@ -94,14 +96,15 @@ class SettingsApi {
 	 * @param string|int $account_id Account to search for
 	 * @return TeamSettings
 	 */
-	public function get_by_account_id($account_id){
+	public function get_by_account_id($account_id)
+	{
 		foreach ($this->team_settings as $setting) {
-			if( $account_id === $setting->get('account_id')){
+			if ($account_id === $setting->get('account_id')) {
 				return $setting;
 			}
 		}
 
-		throw new \Exception( $account_id. ' Not found' );
+		throw new \Exception($account_id. ' Not found');
 	}
 
 	/*
@@ -111,15 +114,15 @@ class SettingsApi {
 	 * @param TeamSettings $values New settings object
 	 * @return SettingsApi
 	 */
-	public function update_by_account_id(TeamSettings $value){
+	public function update_by_account_id(TeamSettings $value)
+	{
 		foreach ($this->team_settings as $key => $setting) {
-			if( $value->get( 'account_id') == $setting->get('account_id')){
+			if ($value->get('account_id') == $setting->get('account_id')) {
 				$this->team_settings[$key] = $value;
 				return $this;
 			}
 		}
-		throw new \Exception( 'Canot save, Account not found' );
-
+		throw new \Exception('Canot save, Account not found');
 	}
 
 	/**
@@ -128,12 +131,12 @@ class SettingsApi {
 	 * @param string $account_id
 	 * @return bool
 	 */
-	public function has_setting( $account_id ){
+	public function has_setting($account_id)
+	{
 		foreach ($this->team_settings as $setting) {
-			if( $account_id == $setting->get('account_id')){
+			if ($account_id == $setting->get('account_id')) {
 				return true;
 			}
-
 		}
 		return false;
 	}
@@ -144,9 +147,10 @@ class SettingsApi {
 	 * @param TeamSetting $setting
 	 * @return $this
 	 */
-	public function add_setting(TeamSettings $setting ){
+	public function add_setting(TeamSettings $setting)
+	{
 		//If we have it already, update
-		if($this->has_setting($setting->get('account_id'))){
+		if ($this->has_setting($setting->get('account_id'))) {
 			$this->update_by_account_id($setting);
 			return $this;
 		}
@@ -161,7 +165,8 @@ class SettingsApi {
 	* @since 0.10.0
 	* @return $this
 	*/
-	public function reset(){
+	public function reset()
+	{
 		$this->team_settings = [];
 		$this->helpscout_data = [];
 		return $this;
@@ -171,10 +176,11 @@ class SettingsApi {
 	 * Set helpscout data
 	 *
 	 * @since 0.10.0
-     * @param array $helpscout_data
+	 * @param array $helpscout_data
 	 * @return $this
 	 */
-	public function set_helpscout_data(array $helpscout_data){
+	public function set_helpscout_data(array $helpscout_data)
+	{
 		$this->helpscout_data = $helpscout_data;
 		return $this;
 	}
@@ -183,9 +189,10 @@ class SettingsApi {
 	 * Get helpscout data
 	 *
 	 * @since 0.10.0
-     * @return array
+	 * @return array
 	 */
-	public function get_helpscout_data(){
+	public function get_helpscout_data()
+	{
 		return [
 			'secret' => isset($this->helpscout_data['secret']) ?$this->helpscout_data['secret'] :"",
 			'callback' => isset($this->helpscout_data['callback']) ?$this->helpscout_data['callback'] :"",
@@ -197,7 +204,8 @@ class SettingsApi {
 	 * @since 0.10.0
 	 * @return array
 	 */
-	public function to_array(){
+	public function to_array()
+	{
 		$data = [
 			'teams' => [],
 			'helpscout' => $this->get_helpscout_data()

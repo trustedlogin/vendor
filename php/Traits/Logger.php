@@ -2,9 +2,11 @@
 
 namespace TrustedLogin\Vendor\Traits;
 
+trait Logger
+{
 
-trait Logger {
 
-
-    public function log(string $message){}
+	public function log(string $message)
+	{
+	}
 }

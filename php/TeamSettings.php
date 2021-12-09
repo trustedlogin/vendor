@@ -8,11 +8,11 @@
 
 namespace TrustedLogin\Vendor;
 
-
 /**
  * Object-representation of one Team's settings.
  */
-class TeamSettings {
+class TeamSettings
+{
 
 	/**
 	 * @var array
@@ -44,7 +44,6 @@ class TeamSettings {
 	public function __construct(array $values = [])
 	{
 		$this->reset($values);
-
 	}
 
 	/**
@@ -54,7 +53,8 @@ class TeamSettings {
 	 *
 	 * @return array
 	 */
-	public function to_array(){
+	public function to_array()
+	{
 		return $this->values;
 	}
 
@@ -66,12 +66,13 @@ class TeamSettings {
 	 * @param array $values Values to set
 	 * @return $this
 	 */
-	public function reset(array $values ){
+	public function reset(array $values)
+	{
 		$this->values = [];
 		foreach ($this->defaults as $key => $default) {
-			if( isset($values[$key])){
+			if (isset($values[$key])) {
 				$this->values[$key] = $values[$key];
-			}else{
+			} else {
 				$this->values[$key] = $default;
 			}
 		}
@@ -87,10 +88,11 @@ class TeamSettings {
 	 * @param mixed $value The new value
 	 * @return $this
 	 */
-	public function set($key, $value){
-		if( $this->valid($key)){
+	public function set($key, $value)
+	{
+		if ($this->valid($key)) {
 			$this->values[$key] = $value;
-		}else{
+		} else {
 			throw new \Exception('Invalid key');
 		}
 		return $this;
@@ -103,8 +105,9 @@ class TeamSettings {
 	 * @param string $key Setting to get
 	 * @return mixed
 	 */
-	public function get($key){
-		if( $this->valid($key)){
+	public function get($key)
+	{
+		if ($this->valid($key)) {
 			return $this->values[$key];
 		}
 		throw new \Exception('Invalid key');
@@ -117,8 +120,8 @@ class TeamSettings {
 	 * @param string $key Setting to get
 	 * @return bool
 	 */
-	public function valid($key){
+	public function valid($key)
+	{
 		return array_key_exists($key, $this->defaults);
 	}
-
 }

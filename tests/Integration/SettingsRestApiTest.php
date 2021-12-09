@@ -7,7 +7,8 @@ use TrustedLogin\Vendor\SettingsApi;
 /**
  * Tests Settings REST API
  */
-class SettingsRestApiTest extends \WP_UnitTestCase {
+class SettingsRestApiTest extends \WP_UnitTestCase
+{
 
 
 
@@ -17,7 +18,8 @@ class SettingsRestApiTest extends \WP_UnitTestCase {
 	 * @covers SettingsApi::to_array()
 	 * @covers Endpoint::
 	 */
-	public function test_get_settings_via_rest_api(){
+	public function test_get_settings_via_rest_api()
+	{
 		$data = [
 			[
 				'account_id'       => '12216',
@@ -50,5 +52,4 @@ class SettingsRestApiTest extends \WP_UnitTestCase {
 			$r->get_data()['helpscout']
 		);
 	}
-
 }

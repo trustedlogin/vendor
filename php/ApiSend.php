@@ -10,9 +10,10 @@ use \Exception;
 /**
  *
  */
-class ApiSend implements SendsApiRequests {
+class ApiSend implements SendsApiRequests
+{
 
-    use Logger;
+	use Logger;
 
 
 	/**
@@ -27,10 +28,11 @@ class ApiSend implements SendsApiRequests {
 	 *
 	 * @return array|false|WP_Error - wp_remote_post response, false if invalid HTTP method, WP_Error if request errors
 	 */
-	public function send( $url, $data, $method, $additional_headers ) {
+	public function send($url, $data, $method, $additional_headers)
+	{
 
-		if ( ! in_array( $method, array( 'POST', 'PUT', 'GET', 'PUSH', 'DELETE' ) ) ) {
-			$this->log( "Error: Method not in allowed array list ($method)", __METHOD__, 'error' );
+		if (! in_array($method, array( 'POST', 'PUT', 'GET', 'PUSH', 'DELETE' ))) {
+			$this->log("Error: Method not in allowed array list ($method)", __METHOD__, 'error');
 
 			return false;
 		}
@@ -40,8 +42,8 @@ class ApiSend implements SendsApiRequests {
 			'Content-Type' => 'application/json',
 		);
 
-		if ( ! empty( $additional_headers ) ) {
-			$headers = array_merge( $headers, $additional_headers );
+		if (! empty($additional_headers)) {
+			$headers = array_merge($headers, $additional_headers);
 		}
 
 		$request_atts = array(
@@ -54,22 +56,20 @@ class ApiSend implements SendsApiRequests {
 			'cookies'     => array(),
 		);
 
-		if ( $data ) {
-			$request_atts['body'] = json_encode( $data );
+		if ($data) {
+			$request_atts['body'] = json_encode($data);
 		}
 
-		$response = wp_remote_request( $url, $request_atts );
+		$response = wp_remote_request($url, $request_atts);
 
-		if ( is_wp_error( $response ) ) {
-
-			$this->log( sprintf( "%s - Something went wrong (%s): %s", __METHOD__, $response->get_error_code(), $response->get_error_message() ), __METHOD__, 'error' );
+		if (is_wp_error($response)) {
+			$this->log(sprintf("%s - Something went wrong (%s): %s", __METHOD__, $response->get_error_code(), $response->get_error_message()), __METHOD__, 'error');
 
 			return $response;
 		}
 
-		$this->log( __METHOD__ . " - result " . print_r( $response['response'], true ) );
+		$this->log(__METHOD__ . " - result " . print_r($response['response'], true));
 
 		return $response;
-
 	}
 }

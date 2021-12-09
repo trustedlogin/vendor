@@ -7,38 +7,39 @@ use TrustedLogin\Vendor\TeamSettings;
 use TrustedLogin\Vendor\Contracts\SendsApiRequests;
 
 use TrustedLogin\Vendor\Endpoints\Endpoint;
-class PluginTest extends TestCase {
+
+class PluginTest extends TestCase
+{
 
 
 	/**
 	 * @covers TrustedLogin\Vendor\Plugin\getPublicKey
 	 */
-	public function testGetPublicKey(){
+	public function testGetPublicKey()
+	{
 
 		$this->assertNotEmpty(
 			trustedlogin_vendor()->getPublicKey(),
-
 		);
-
 	}
 
 	/**
 	 * @covers TrustedLogin\Vendor\Plugin\getPublicKey
 	 */
-	public function testGetSignatureKey(){
+	public function testGetSignatureKey()
+	{
 
 		$this->assertNotEmpty(
 			trustedlogin_vendor()->getSignatureKey(),
-
 		);
-
 	}
 
 	/**
 	 * @covers TrustedLogin\Vendor\Plugin::getApiHandler()
 	 * @covers TrustedLogin\Vendor\ApiHandler::get_api_key()
 	 */
-	public function testGetApiHandler(){
+	public function testGetApiHandler()
+	{
 		//Add a team
 		$setting = new TeamSettings(
 			[
@@ -62,13 +63,14 @@ class PluginTest extends TestCase {
 			$handler->get_api_url()
 		);
 		$this->assertNotEmpty($handler->get_x_tl_token());
-		$this->assertSame($setting->get( 'api_key' ), $handler->get_api_key());
+		$this->assertSame($setting->get('api_key'), $handler->get_api_key());
 	}
 
 	/**
 	 * @covers TrustedLogin\Vendor\Plugin::getEncryption()
 	 */
-	public function testGetEncryption(){
+	public function testGetEncryption()
+	{
 		$this->assertSame(
 			trustedlogin_vendor()->getEncryption(),
 			trustedlogin_vendor()->getEncryption(),
@@ -83,10 +85,12 @@ class PluginTest extends TestCase {
 	/**
 	 * @covers TrustedLogin\Vendor\Plugin::setApiSender()
 	 */
-	public function testGetSetApiSender(){
+	public function testGetSetApiSender()
+	{
 		$sender = new class implements SendsApiRequests {
 			public $method;
-			public function send( $url, $data, $method, $additional_headers ){
+			public function send($url, $data, $method, $additional_headers)
+			{
 				$this->method = $method;
 			}
 		};
@@ -111,8 +115,7 @@ class PluginTest extends TestCase {
 			'6a',
 			'https://test.com'
 		);
-		$handler->call('/a',[],'GET' );
+		$handler->call('/a', [], 'GET');
 		$this->assertSame('GET', $sender->method);
 	}
-
 }
