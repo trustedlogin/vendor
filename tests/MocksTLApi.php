@@ -27,20 +27,22 @@ trait MocksTLApi
 				return file_get_contents(__DIR__ . '/data/get-envelope.json');
 			}
 
+			protected function strEndsWith($string, $search)
+			{
+				if (function_exists('str_ends_with')) {
+					return str_ends_with($string, $search);
+				}
+				$len = strlen($search);
+				if ($len == 0) {
+					return true;
+				}
+				return (substr($string, -$len) === $search);
+			}
+
 			public function send($url, $data, $method, $additional_headers)
 			{
-				$strEndsWith = function ($string, $search) {
-					if (function_exists('str_ends_with')) {
-						return str_ends_with($string, $search);
-					}
-					$len = strlen($search);
-					if ($len == 0) {
-						return true;
-					}
-					return (substr($string, -$len) === $search);
-				};
 				//Mock get envelope
-				if ($strEndsWith(
+				if ($this->strEndsWith(
 					$url,
 					'/get-envelope',
 				)) {
@@ -50,7 +52,7 @@ trait MocksTLApi
 					];
 				}
 				//Mock
-				if ($strEndsWith(
+				if ($this->strEndsWith(
 					str_replace(\trustedlogin_vendor()->getApiUrl(), '', $url),
 					'/sites/'
 				)) {
