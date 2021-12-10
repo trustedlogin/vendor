@@ -127,7 +127,7 @@ class AccesKeyLoginTest extends \WP_UnitTestCase
 	 */
 	public function testHandler()
 	{
-        $this->markTestIncomplete("Need to figure out how to avoid exiting");
+		$this->markTestIncomplete("Need to figure out how to avoid exiting");
 		//Set mock API for TrustedLogin eCommerce
 		$this->setTlApiMock();
 		//Handler that will lways return true on verification.
@@ -146,9 +146,10 @@ class AccesKeyLoginTest extends \WP_UnitTestCase
 		$handle = function ($handler) {
 			return (array)json_decode($handler->handle(), true);
 		};
-        add_filter( 'wp_die_ajax_handler', function(...$args){
-            var_dump(1);exit;
-        });
+		add_filter('wp_die_ajax_handler', function (...$args) {
+			var_dump(1);
+			exit;
+		});
 
 		wp_set_current_user(self::factory()->user->create());
 		$r = $handle($handler);
