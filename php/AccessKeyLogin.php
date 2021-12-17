@@ -46,7 +46,7 @@ class AccessKeyLogin
 		$verified = $this->verify_grant_access_request();
 
 		if (! $verified || is_wp_error($verified)) {
-			wp_send_json_error($verified);
+			trustedlogin_vendor_send_json_error($verified);
 		}
 
 		$access_key = sanitize_text_field($_REQUEST[ self::ACCESS_KEY_INPUT_NAME ]);
@@ -58,12 +58,12 @@ class AccessKeyLogin
 			$teamSettings =  $settings->get_by_account_id($account_id);
 		} catch (\Exception $e) {
 			// Print error
-			wp_send_json_error(esc_html__($e->getMessage()), 404);
+			trustedlogin_vendor_send_json_error(esc_html__($e->getMessage()), 404);
 			exit;
 		}
 		if ($this->verifyUserRole($teamSettings)) {
 			// Print error
-			wp_send_json_error(esc_html__($e->getMessage(), 403));
+			trustedlogin_vendor_send_json_error(esc_html__($e->getMessage(), 403));
 			exit;
 		}
 
@@ -74,11 +74,11 @@ class AccessKeyLogin
 		$site_ids = $tl->api_get_secret_ids($access_key, $account_id);
 
 		if (is_wp_error($site_ids)) {
-			wp_send_json_error($site_ids);
+			trustedlogin_vendor_send_json_error($site_ids);
 		}
 
 		if (empty($site_ids)) {
-			wp_send_json_error(esc_html__('No sites were found matching the access key.', 'trustedlogin-vendor'), 404);
+			trustedlogin_vendor_send_json_error(esc_html__('No sites were found matching the access key.', 'trustedlogin-vendor'), 404);
 		}
 
 		/**
@@ -86,19 +86,18 @@ class AccessKeyLogin
 		 * @see  https://github.com/trustedlogin/trustedlogin-vendor/issues/47
 		 */
 		$envelope = $tl->api_get_envelope($site_ids[0], $account_id);
-
 		// Print error
 		if (is_wp_error($envelope)) {
-			wp_send_json_error($envelope);
+			trustedlogin_vendor_send_json_error($envelope);
 		}
 
 		$parts = $tl->envelope_to_url($envelope, true);
 
 		if (is_wp_error($parts)) {
-			wp_send_json_error($parts);
+			trustedlogin_vendor_send_json_error($parts);
 		}
 
-		wp_send_json($parts);
+		trustedlogin_vendor_send_json($parts);
 	}
 
 	/**

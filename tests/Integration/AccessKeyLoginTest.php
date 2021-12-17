@@ -127,7 +127,6 @@ class AccesKeyLoginTest extends \WP_UnitTestCase
 	 */
 	public function testHandler()
 	{
-		$this->markTestIncomplete("Need to figure out how to avoid exiting");
 		//Set mock API for TrustedLogin eCommerce
 		$this->setTlApiMock();
 		//Handler that will lways return true on verification.
@@ -143,18 +142,18 @@ class AccesKeyLoginTest extends \WP_UnitTestCase
 		$account_id = self::ACCOUNT_ID;
 		$_REQUEST[ AccessKeyLogin::ACCOUNT_ID_INPUT_NAME] = $account_id;
 
-		$handle = function ($handler) {
-			return (array)json_decode($handler->handle(), true);
-		};
-		add_filter('wp_die_ajax_handler', function (...$args) {
-			var_dump(1);
-			exit;
-		});
-
+		//Use filter callback to test response
+		add_filter('trustedlogin_vendor_send_json',function () {
+			return function($output) {
+				$output = json_decode($output, true);
+				$this->assertArrayHasKey( 'data', $output);
+				$this->assertNotSame( 'decryption_failed', $output['data'][0]['code'],'decryption failed');
+				$this->assertArrayHasKey( 'success', $output);
+				$this->assertTrue($output['success']);
+			};
+		} );
 		wp_set_current_user(self::factory()->user->create());
-		$r = $handle($handler);
-		$this->assertFalse(
-			is_wp_error($r)
-		);
+		$handler->handle();
 	}
+
 }

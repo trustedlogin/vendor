@@ -39,7 +39,7 @@ register_deactivation_hook( __FILE__, 'trustedlogin_vendor_deactivate' );
 if( file_exists( $path . 'vendor/autoload.php' ) ){
 	include_once $path . 'vendor/autoload.php';
 	include_once dirname( __FILE__ ) . '/admin/trustedlogin-settings/init.php';
-	include_once dirname( __FILE__ ) . '/admin/trustedlogin-access/init.php';
+	//include_once dirname( __FILE__ ) . '/admin/trustedlogin-access/init.php';
 	$plugin = trustedlogin_vendor();
 	/**
 	 * Runs when plugin is ready.
@@ -74,4 +74,68 @@ function trustedlogin_vendor(){
 		);
 	}
 	return $trustedlogin_vendor;
+}
+
+
+
+/**
+ * Use this, instead of wp_send_json_error()
+ */
+function trustedlogin_vendor_send_json_error( $data = null, $status_code = null, $options = 0 ) {
+    $response = array( 'success' => false );
+
+    if ( isset( $data ) ) {
+        if ( is_wp_error( $data ) ) {
+            $result = array();
+            foreach ( $data->errors as $code => $messages ) {
+                foreach ( $messages as $message ) {
+                    $result[] = array(
+                        'code'    => $code,
+                        'message' => $message,
+                    );
+                }
+            }
+
+            $response['data'] = $result;
+        } else {
+            $response['data'] = $data;
+        }
+    }
+
+    trustedlogin_vendor_send_json( $response, $status_code, $options );
+}
+
+/**
+ * Use this, instead of wp_send_json()
+ */
+function trustedlogin_vendor_send_json( $response, $status_code = null, $options = 0 ) {
+
+	$output = wp_json_encode( $response, $options );
+	$handler = apply_filters( 'trustedlogin_vendor_send_json', null );
+
+	if( is_callable( $handler) ){
+		call_user_func( $handler,
+			$output, $status_code, $options);
+		return;
+	}
+
+    if ( ! headers_sent() ) {
+        header( 'Content-Type: application/json; charset=' . get_option( 'blog_charset' ) );
+        if ( null !== $status_code ) {
+            status_header( $status_code );
+        }
+    }
+
+
+	if ( wp_doing_ajax() ) {
+        wp_die(
+            '',
+            '',
+            array(
+                'response' => null,
+            )
+        );
+    } else {
+        die;
+    }
 }
