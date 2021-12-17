@@ -70,6 +70,9 @@ A [docker-compose](https://docs.docker.com/samples/wordpress/)-based local devel
 
 - Start server
     - `docker-compose up -d`
+    - If you get errors about port already being allocated, you can either:
+        - Kill all containers and try again: `docker kill $(docker ps -q) && docker-compose up -d`
+        - Change the port in docker-compose.yml.
 - Access Site
     - [http://localhost:6301](http://localhost:6301)
 - Run WP CLI command:
