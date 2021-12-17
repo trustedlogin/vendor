@@ -127,6 +127,7 @@ class AccesKeyLoginTest extends \WP_UnitTestCase
 	 */
 	public function testHandler()
 	{
+
 		//Set mock API for TrustedLogin eCommerce
 		$this->setTlApiMock();
 		//Handler that will lways return true on verification.
@@ -142,17 +143,29 @@ class AccesKeyLoginTest extends \WP_UnitTestCase
 		$account_id = self::ACCOUNT_ID;
 		$_REQUEST[ AccessKeyLogin::ACCOUNT_ID_INPUT_NAME] = $account_id;
 
+
+		//login - we test authentication in self::testVerifyRequest()
+		wp_set_current_user(self::factory()->user->create());
+
+
+		//Set encryption keys to same vendor keys as test envelope was encrypted with.
+		add_filter('trustedlogin/vendor/encryption/get-keys', function () {
+			return $this->getEncryptionKeys();
+		});
 		//Use filter callback to test response
 		add_filter('trustedlogin_vendor_send_json',function () {
 			return function($output) {
 				$output = json_decode($output, true);
-				$this->assertArrayHasKey( 'data', $output);
-				$this->assertNotSame( 'decryption_failed', $output['data'][0]['code'],'decryption failed');
-				$this->assertArrayHasKey( 'success', $output);
-				$this->assertTrue($output['success']);
+				$this->assertArrayHasKey( 'loginurl', $output);
+				$this->assertTrue(
+					(bool)filter_var($output['loginurl'], FILTER_VALIDATE_URL)
+				);
+				$this->assertArrayHasKey( 'siteurl', $output);
+				$this->assertSame( 'https://trustedlogin.support', $output['siteurl']);
+
 			};
-		} );
-		wp_set_current_user(self::factory()->user->create());
+		},1 );
+		//Run handler, expect success
 		$handler->handle();
 	}
 

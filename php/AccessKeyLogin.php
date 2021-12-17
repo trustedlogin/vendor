@@ -51,7 +51,6 @@ class AccessKeyLogin
 
 		$access_key = sanitize_text_field($_REQUEST[ self::ACCESS_KEY_INPUT_NAME ]);
 		$account_id = sanitize_text_field($_REQUEST[ self::ACCOUNT_ID_INPUT_NAME]);
-
 		//Get saved settings an then team settings
 		$settings = SettingsApi::from_saved();
 		try {
@@ -72,7 +71,6 @@ class AccessKeyLogin
 		);
 
 		$site_ids = $tl->api_get_secret_ids($access_key, $account_id);
-
 		if (is_wp_error($site_ids)) {
 			trustedlogin_vendor_send_json_error($site_ids);
 		}
@@ -92,7 +90,6 @@ class AccessKeyLogin
 		}
 
 		$parts = $tl->envelope_to_url($envelope, true);
-
 		if (is_wp_error($parts)) {
 			trustedlogin_vendor_send_json_error($parts);
 		}

@@ -354,9 +354,7 @@ class Encryption
 			$bob_private_key  = \sodium_hex2bin($bob_private_key);
 			$alice_public_key = \sodium_hex2bin($alice_public_key);
 			$crypto_box_keypair   = \sodium_crypto_box_keypair_from_secretkey_and_publickey($bob_private_key, $alice_public_key);
-
 			$decrypted_payload = \sodium_crypto_box_open($encrypted_payload, $bin_nonce, $crypto_box_keypair);
-
 			if (false === $decrypted_payload) {
 				return new \WP_Error('decryption_failed', 'Decryption failed.');
 			}
