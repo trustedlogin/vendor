@@ -15,7 +15,6 @@ class SettingsApi
 {
 
 	const TEAM_SETTING_NAME = 'trustedlogin_vendor_team_settings';
-	const HELPSCOUT_SETTING_NAME = 'trustedlogin_helpscout_settings';
 
 	/**
 	 * @var TeamSettings[]
@@ -24,18 +23,12 @@ class SettingsApi
 	protected $team_settings = [];
 
 
-	/**
-	 * @var array
-	 * @since 0.10.0
-	 */
-	protected $helpscout_data = [];
+
 
 	/**
 	 * @param TeamSettings[]|array[] $team_data Collection of team data
-	 * @param array $helpscout_data Helpscout settings data
 	 * @since 0.10.0
-	 */
-	public function __construct(array $team_data, array $helpscout_data = [])
+	 */	public function __construct(array $team_data)
 	{
 		foreach ($team_data as $values) {
 			if (is_array($values)) {
@@ -45,7 +38,6 @@ class SettingsApi
 				$this->team_settings[] = $values;
 			}
 		}
-		$this->helpscout_data = $helpscout_data;
 	}
 
 	/**
@@ -61,15 +53,12 @@ class SettingsApi
 		if (! empty($saved)) {
 			$saved = (array)json_decode($saved);
 			foreach ($saved as $value) {
-				$data[] = new TeamSettings((array)$value);
+				$team = new TeamSettings((array)$value);
+				$data[] = $team;
 			}
 		}
-		$helpscout_data = get_option(self::HELPSCOUT_SETTING_NAME, []);
-		if (! is_array($helpscout_data)) {
-			$helpscout_data = [];
-		}
 
-		return new self($data, $helpscout_data);
+		return new self($data);
 	}
 
 	/**
@@ -85,7 +74,6 @@ class SettingsApi
 			$data[] = $setting->to_array();
 		}
 		update_option(self::TEAM_SETTING_NAME, json_encode($data));
-		update_option(self::HELPSCOUT_SETTING_NAME, $this->get_helpscout_data());
 		return $this;
 	}
 
@@ -168,36 +156,12 @@ class SettingsApi
 	public function reset()
 	{
 		$this->team_settings = [];
-		$this->helpscout_data = [];
 		return $this;
 	}
 
-	/**
-	 * Set helpscout data
-	 *
-	 * @since 0.10.0
-	 * @param array $helpscout_data
-	 * @return $this
-	 */
-	public function set_helpscout_data(array $helpscout_data)
-	{
-		$this->helpscout_data = $helpscout_data;
-		return $this;
-	}
 
-	/**
-	 * Get helpscout data
-	 *
-	 * @since 0.10.0
-	 * @return array
-	 */
-	public function get_helpscout_data()
-	{
-		return [
-			'secret' => isset($this->helpscout_data['secret']) ?$this->helpscout_data['secret'] :"",
-			'callback' => isset($this->helpscout_data['callback']) ?$this->helpscout_data['callback'] :"",
-		];
-	}
+
+
 	/**
 	 * Convert to array of arrays
 	 *
@@ -208,7 +172,6 @@ class SettingsApi
 	{
 		$data = [
 			'teams' => [],
-			'helpscout' => $this->get_helpscout_data()
 		];
 		foreach ($this->team_settings as $setting) {
 			$data['teams'][] = $setting->to_array();

@@ -21,6 +21,11 @@ class SettingsApiTest extends \WP_UnitTestCase
 			'account_id'       => '6',
 			'private_key'      => '7',
 			'api_key'       	=> '8',
+
+
+			'helpdesk_settings' => [
+
+			]
 		];
 		$setting = new TeamSettings(
 			$data
@@ -218,23 +223,38 @@ class SettingsApiTest extends \WP_UnitTestCase
 	}
 
 	/**
-	 * @covers SettingsApi::get_helpscout_data()
-	 * @covers SettingsApi::set_helpscout_data()
+	 * @covers TeamSettings::get_helpscout_data()
 	 */
 	public function test_get_helpscout_data()
 	{
 
-		$settings = new SettingsApi([], []);
-		$this->assertArrayHasKey('secret', $settings->get_helpscout_data());
-		$this->assertArrayHasKey('callback', $settings->get_helpscout_data());
+		update_option(SettingsApi::TEAM_SETTING_NAME, false);
+		$accountId = 'a216';
 		$helpscout_data = [
 			'secret' => '42',
 			'callback' => 'https://walk.dog'
 		];
-		$settings->set_helpscout_data(($helpscout_data));
+		$data = [
+			[
+				'account_id'       => $accountId,
+				'private_key'      => 'a217',
+				'api_key'       	=> 'a218',
+				'helpdesk_settings' => [
+					'helpscout' => $helpscout_data
+				]
+			],
+			[
+				'account_id'       => 'b26',
+				'private_key'      => 'b227',
+				'api_key'       	=> 'b228',
+			]
+		];
+
+		$settings = new SettingsApi($data);
+
 		$this->assertSame(
 			$helpscout_data,
-			$settings->get_helpscout_data()
+			$settings->get_by_account_id($accountId)->get_helpdesk_data()
 		);
 	}
 
@@ -243,49 +263,78 @@ class SettingsApiTest extends \WP_UnitTestCase
 	 * @covers SettingsApi::from_saved()
 	 * @covers SettingsApi::save()
 	 * @covers SettingsApi::update_by_account_id()
-	 * @covers SettingsApi::get_helpscout_data()
+	 * @covers TeamSettings::get_helpscout_data()
 	 * @covers TeamSettings::get()
+	 * @group a
 	 */
 	public function test_settings_save()
 	{
 		update_option(SettingsApi::TEAM_SETTING_NAME, false);
-		update_option(SettingsApi::HELPSCOUT_SETTING_NAME, false);
 
+		$helpscout_data = [
+			'secret' => '42',
+			'callback' => 'https://walk.dog'
+		];
 		$data = [
 			[
-				'account_id'       => 'a216',
+				'account_id'      => 'a216',
 				'private_key'      => 'a217',
-				'api_key'       	=> 'a218',
+				'api_key'       => 'a218',
+				'helpdesk' => 'helpscout',
 			],
 			[
 				'account_id'       => 'b26',
 				'private_key'      => 'b227',
 				'api_key'       	=> 'b228',
+				'helpdesk' => 'helpscout',
+				'helpdesk_settings' => [
+					'helpscout' => $helpscout_data
+				]
 			]
 		];
-		$helpscout_data = [
-			'secret' => '42',
-			'callback' => 'https://walk.dog'
-		];
-		$settings = new SettingsApi($data, $helpscout_data);
+
+		$settings = new SettingsApi($data);
 
 		$settings->save();
 
 		$settings = SettingsApi::from_saved();
-
+		$settings->save();
 		$this->assertSame(
 			'b227',
 			$settings->get_by_account_id('b26')
 				->get('private_key')
 		);
 
+		$teamSettings = $settings->get_by_account_id('b26')
+		->get_helpdesk_data();
+		//Team we saved helpscout data for has helpscout data
 		$this->assertSame(
 			$helpscout_data,
-			$settings->get_helpscout_data()
+			$teamSettings
+		);
+		return;
+
+		//Team we did not save helpscout data for has generated data
+
+		$helpscout_data = $settings->get_by_account_id('a216')
+			->get_helpdesk_data();
+
+		//Is valid URL?
+		$this->assertTrue(
+			(bool)filter_var($helpscout_data['callback'], FILTER_VALIDATE_URL)
+		);
+		$this->assertNotEmpty(
+			$helpscout_data['secret']
+		);
+
+		//It gets same everytime
+		$this->assertSame(
+			$helpscout_data,
+			$settings->get_by_account_id('a216')
+			->get_helpdesk_data()
 		);
 
 		update_option(SettingsApi::TEAM_SETTING_NAME, false);
-		update_option(SettingsApi::HELPSCOUT_SETTING_NAME, false);
 	}
 
 	/**
