@@ -32,8 +32,21 @@ class AccessKeyLogin
 	const ACCESS_KEY_INPUT_NAME = 'ak';
 
 	const ACCOUNT_ID_INPUT_NAME = 'ak_account_id';
+
 	const REDIRECT_ENDPOINT = 'trustedlogin';
 
+
+	/**
+	 * The URL for access key login
+	 *
+	 *  @return string
+	 */
+	public static function url($account_id){
+		return add_query_arg([
+			'action' => self::ACCESS_KEY_ACTION_NAME,
+			self::ACCOUNT_ID_INPUT_NAME => $account_id,
+		], site_url());
+	}
 	/**
 	 * Processes the request.
 	 *
