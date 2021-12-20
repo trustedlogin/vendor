@@ -51,7 +51,6 @@ class MaybeRedirect
 
 		$account_id = sanitize_text_field($_REQUEST[ AccessKeyLogin::ACCOUNT_ID_INPUT_NAME ]);
 
-
 		if (isset($_REQUEST['provider'])) {
 			$active_helpdesk = 'helpscout';
 
@@ -65,7 +64,7 @@ class MaybeRedirect
 		$tl = new TrustedLoginService(
 			trustedlogin_vendor()
 		);
-=		switch ($_REQUEST['action']) {
+		switch ($_REQUEST['action']) {
 			case 'accesskey_login':
 				if (! isset($_REQUEST[ AccessKeyLogin::ACCESS_KEY_INPUT_NAME ])) {
 					$this->log('Required arg `' . AccessKeyLogin::ACCESS_KEY_INPUT_NAME . '` missing.', __METHOD__, 'error');
