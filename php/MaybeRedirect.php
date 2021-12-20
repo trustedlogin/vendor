@@ -2,6 +2,7 @@
 namespace TrustedLogin\Vendor;
 
 use TrustedLogin\Vendor\Traits\Logger;
+use TrustedLogin\Vendor\Traits\VerifyUser;
 
 /**
  * Checks for support redirect logins and tries to handle them.
@@ -9,7 +10,7 @@ use TrustedLogin\Vendor\Traits\Logger;
 class MaybeRedirect
 {
 
-	use Logger;
+	use Logger, VerifyUser;
 	/**
 	 * Checks if the specified attributes are set has a valid access_key before checking if we can redirect support agent.
 	 *
@@ -61,17 +62,18 @@ class MaybeRedirect
 			}
 		}
 
-		$tl = new TrustedLoginService();
-
-		switch ($_REQUEST['action']) {
+		$tl = new TrustedLoginService(
+			trustedlogin_vendor()
+		);
+=		switch ($_REQUEST['action']) {
 			case 'accesskey_login':
-				if (! isset($_REQUEST[ ACCESS_KEY_INPUT_NAME::ACCESS_KEY_INPUT_NAME ])) {
-					$this->log('Required arg `' . ACCESS_KEY_INPUT_NAME::ACCESS_KEY_INPUT_NAME . '` missing.', __METHOD__, 'error');
+				if (! isset($_REQUEST[ AccessKeyLogin::ACCESS_KEY_INPUT_NAME ])) {
+					$this->log('Required arg `' . AccessKeyLogin::ACCESS_KEY_INPUT_NAME . '` missing.', __METHOD__, 'error');
 
 					return;
 				}
 
-				$access_key = sanitize_text_field($_REQUEST[ ACCESS_KEY_INPUT_NAME::ACCESS_KEY_INPUT_NAME ]);
+				$access_key = sanitize_text_field($_REQUEST[ AccessKeyLogin::ACCESS_KEY_INPUT_NAME ]);
 				$secret_ids = $tl->api_get_secret_ids($access_key, $account_id);
 
 				if (is_wp_error($secret_ids)) {
@@ -95,7 +97,7 @@ class MaybeRedirect
 				}
 
 				if (1 === count($secret_ids)) {
-					$tl->maybe_redirect_support($secret_ids[0]);
+					$tl->maybe_redirect_support($secret_ids[0],$account_id);
 				}
 
 				$tl->handle_multiple_secret_ids($secret_ids, $account_id);
@@ -103,13 +105,13 @@ class MaybeRedirect
 				break;
 
 			case 'support_redirect':
-				if (! isset($_REQUEST[ ACCESS_KEY_INPUT_NAME::ACCESS_KEY_INPUT_NAME ])) {
-					$this->log('Required arg ' . ACCESS_KEY_INPUT_NAME::ACCESS_KEY_INPUT_NAME . ' missing.', __METHOD__, 'error');
+				if (! isset($_REQUEST[ AccessKeyLogin::ACCESS_KEY_INPUT_NAME ])) {
+					$this->log('Required arg ' . AccessKeyLogin::ACCESS_KEY_INPUT_NAME . ' missing.', __METHOD__, 'error');
 
 					return;
 				}
 
-				$secret_id = sanitize_text_field($_REQUEST[ ACCESS_KEY_INPUT_NAME::ACCESS_KEY_INPUT_NAME ]);
+				$secret_id = sanitize_text_field($_REQUEST[ AccessKeyLogin::ACCESS_KEY_INPUT_NAME ]);
 
 				$tl->maybe_redirect_support($secret_id, $account_id);
 

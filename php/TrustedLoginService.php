@@ -14,7 +14,7 @@ use TrustedLogin\Vendor\Traits\VerifyUser;
 class TrustedLoginService
 {
 
-	use Logger;
+	use Logger, VerifyUser;
 	/**
 	 * @var Plugin
 	 */
@@ -136,7 +136,7 @@ class TrustedLoginService
 			exit;
 		}
 
-		// first check if user can be redirected.
+		// first check if l can be redirected.
 		if (! $this->verifyUserRole($teamSettings)) {
 			$this->log('User cannot be redirected due to auth_verify_user() returning false.', __METHOD__, 'warning');
 			return;
