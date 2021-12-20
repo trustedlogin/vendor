@@ -22,3 +22,5 @@ vendor
 wordpress
 build
 .phpunit.result.cache
+
+debug.log
