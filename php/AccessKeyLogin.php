@@ -3,7 +3,7 @@ namespace TrustedLogin\Vendor;
 
 use TrustedLogin\Vendor\Traits\VerifyUser;
 use TrustedLogin\Vendor\Traits\Logger;
-
+use TrustedLogin\Vendor\Webhooks\Factory;
 /**
  * Handler for access key login
  */
@@ -47,11 +47,12 @@ class AccessKeyLogin
 	 *
 	 *  @return string
 	 */
-	public static function url($account_id){
-		return add_query_arg([
-			'action' => self::ACCESS_KEY_ACTION_NAME,
-			self::ACCOUNT_ID_INPUT_NAME => $account_id,
-		], site_url());
+	public static function url($account_id,$provider){
+		return Factory::actionUrl(
+			self::ACCESS_KEY_ACTION_NAME,
+			$account_id,
+			$provider
+		);
 	}
 
 	public static function makeSecret(){

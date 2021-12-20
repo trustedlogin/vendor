@@ -79,7 +79,7 @@ class SettingsApi
 					foreach( $setting->get_helpdesks() as $helpdesk){
 						$_setting[TeamSettings::HELPDESK_SETTINGS][$helpdesk] = [
 							'secret' => AccessKeyLogin::makeSecret( $account_id ),
-							'callback' => AccessKeyLogin::url( $account_id )
+							'callback' => AccessKeyLogin::url( $account_id,$helpdesk )
 						];
 					}
 				}

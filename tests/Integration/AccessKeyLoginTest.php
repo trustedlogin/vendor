@@ -174,7 +174,7 @@ class AccesKeyLoginTest extends \WP_UnitTestCase
 	 */
 	public function testUrl(){
 		$this->assertTrue(
-			(bool)filter_var(AccessKeyLogin::url('arms'), FILTER_VALIDATE_URL)
+			(bool)filter_var(AccessKeyLogin::url('arms','helpscout'), FILTER_VALIDATE_URL)
 		);
 	}
 

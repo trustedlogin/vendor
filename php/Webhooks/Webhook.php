@@ -18,7 +18,12 @@ abstract class Webhook {
         $this->secret = $secret;
     }
 
-
+	/**
+	 * Calculate signature from request data
+	 *
+	 * @param string $secret
+	 * @return bool
+	 */
     public function make_signature(string $data){
         return base64_encode( hash_hmac( 'sha1', $data, $this->secret, true ) );
     }
@@ -29,11 +34,12 @@ abstract class Webhook {
 	 * @since 1.0.0
 	 *
 	 * @param string $action What action the link should do. eg 'support_redirect'.
+	 * @param string $account_id What account ID link is for.
 	 * @param string $access_key (Optional) The key for the access being requested.
 	 *
 	 * @return string|\WP_Error The url with GET variables.
 	 */
-	public function build_action_url( $action, $access_key = '' ) {
+	public function build_action_url( $action, $account_id, $access_key = '' ) {
 
 		if ( empty( $action ) ) {
 			return new \WP_Error( 'variable-missing', 'Cannot build helpdesk action URL without a specified action' );
@@ -45,6 +51,7 @@ abstract class Webhook {
 			$endpoint  => 1,
 			'action'   => $action,
 			'provider' => $this->get_slug(),
+			AccessKeyLogin::ACCOUNT_ID_INPUT_NAME  => $account_id,
         ];
 
 		if ( $access_key ) {
