@@ -20,10 +20,6 @@ class Settings extends Endpoint
 			'teams' => [
 				'type' => 'array',
 				'required' => true
-			],
-			'helpscout' => [
-				'type' => 'object',
-				'required' => true
 			]
 		];
 	}
@@ -53,8 +49,6 @@ class Settings extends Endpoint
 				}
 			}
 		}
-
-		$settings_api->set_helpscout_data($request->get_param('helpscout', []));
 
 		$settings_api->save();
 		return rest_ensure_response(

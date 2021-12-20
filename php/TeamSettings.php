@@ -14,22 +14,14 @@ namespace TrustedLogin\Vendor;
 class TeamSettings
 {
 
+	const HELPDESK_SETTINGS = 'helpdesk_settings';
+
+
 	/**
 	 * @var array
 	 * @since 0.10.0
 	 */
-	protected $defaults = [
-		'account_id'       => '',
-		'private_key'      => '',
-		'api_key'       => '',
-		'helpdesk'         => [ 'helpscout' ],
-		'approved_roles'   => [ 'administrator' ],
-		'debug_enabled'    => 'on',
-		'enable_audit_log' => 'on',
-		'helpdesk_settings' => [
-
-		]
-	];
+	protected $defaults;
 
 
 	/**
@@ -46,6 +38,18 @@ class TeamSettings
 	 */
 	public function __construct(array $values = [])
 	{
+		$this->defaults  = [
+			'account_id'       => '',
+			'private_key'      => '',
+			'api_key'       => '',
+			'helpdesk'         => [ 'helpscout' ],
+			'approved_roles'   => [ 'administrator' ],
+			'debug_enabled'    => 'on',
+			'enable_audit_log' => 'on',
+			self::HELPDESK_SETTINGS => [
+
+			]
+		];
 		$this->reset($values);
 	}
 
@@ -58,25 +62,17 @@ class TeamSettings
 	 */
 	public function to_array()
 	{
-		$data = $this->values;
-		//Make sure we have data for helpscout settings
-		if( ! empty( $this->values['helpdesk'] ) ) {
-			$helpdesks = $this->get_helpdesks($this->values['helpdesk']);
-			foreach($helpdesks as $helpdesk){
-				if( ! isset( $data['helpdesk_settings'][$helpdesk] ) ) {
-					$data['helpdesk_settings'][$helpdesk] = [
-						'secret' => hash('sha256', uniqid(rand(), true)),
-						'callback' => AccessKeyLogin::url(
-							$this->get('account_id'),
-						),
-					];
-				}
-			}
-		}
-		return $data;
+		return $this->values;
 	}
 
-	protected function get_helpdesks( $helpdesks = null){
+	/**
+	 * Get array of helpdesks that are enabled.
+	 *
+	 * @since 0.10.0
+	 *
+	 * @param array $values Values to set
+	 */
+	public function get_helpdesks( $helpdesks = null){
 		if( empty( $helpdesks ) ){
 			$helpdesks = $this->get('helpdesk');
 		}
@@ -104,14 +100,7 @@ class TeamSettings
 				$this->values[$key] = $default;
 			}
 		}
-		if( isset($values['helpdesk']) && ! empty( $values['helpdesk']) ) {
-			$helpdesks = $this->get_helpdesks();
-			$settings = [];
-			foreach($helpdesks as $helpdesk => $data ){
-				$settings[$helpdesk] = is_object($data) ? (array) $data : $data;
-			}
-			$this->values['helpdesk_settings'] = $settings;
-		}
+
 		return $this;
 	}
 
@@ -177,9 +166,8 @@ class TeamSettings
 		if( is_array($helpdesk)){
 			$helpdesk = $helpdesk[0];
 		}
-		$key = 'helpdesk_settings';
-		if (isset($this->get($key)[$helpdesk])) {
-			$data = $this->get($key)[$helpdesk];
+		if (isset($this->get(self::HELPDESK_SETTINGS)[$helpdesk])) {
+			$data = $this->get(self::HELPDESK_SETTINGS)[$helpdesk];
 			if( is_object($data)){
 				$data=(array)$data;
 			}

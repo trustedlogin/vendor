@@ -27,11 +27,17 @@ class AccessKeyLogin
 	 */
 	const NONCE_ACTION = 'ak-redirect';
 
+	/**
+	 * Query param for redirect URL, to indicate it is a key login
+	 */
 	const ACCESS_KEY_ACTION_NAME = 'tl_access_key_login';
 
-	const ACCESS_KEY_INPUT_NAME = 'ak';
-
+	/**
+	 * Query param for redirect URL, to indicate account ID
+	 */
 	const ACCOUNT_ID_INPUT_NAME = 'ak_account_id';
+
+	const ACCESS_KEY_INPUT_NAME = 'ak';
 
 	const REDIRECT_ENDPOINT = 'trustedlogin';
 
@@ -46,6 +52,10 @@ class AccessKeyLogin
 			'action' => self::ACCESS_KEY_ACTION_NAME,
 			self::ACCOUNT_ID_INPUT_NAME => $account_id,
 		], site_url());
+	}
+
+	public static function makeSecret(){
+		return bin2hex(random_bytes(8));
 	}
 	/**
 	 * Processes the request.

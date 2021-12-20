@@ -275,15 +275,17 @@ class SettingsApiTest extends \WP_UnitTestCase
 			'secret' => '42',
 			'callback' => 'https://walk.dog'
 		];
+		$accountId = 'b26';
+		$accountId2 = 'a216';
 		$data = [
 			[
-				'account_id'      => 'a216',
+				'account_id'      => $accountId2,
 				'private_key'      => 'a217',
 				'api_key'       => 'a218',
 				'helpdesk' => 'helpscout',
 			],
 			[
-				'account_id'       => 'b26',
+				'account_id'       => $accountId,
 				'private_key'      => 'b227',
 				'api_key'       	=> 'b228',
 				'helpdesk' => 'helpscout',
@@ -301,22 +303,20 @@ class SettingsApiTest extends \WP_UnitTestCase
 		$settings->save();
 		$this->assertSame(
 			'b227',
-			$settings->get_by_account_id('b26')
+			$settings->get_by_account_id($accountId)
 				->get('private_key')
 		);
 
-		$teamSettings = $settings->get_by_account_id('b26')
-		->get_helpdesk_data();
 		//Team we saved helpscout data for has helpscout data
 		$this->assertSame(
 			$helpscout_data,
-			$teamSettings
+			$settings->get_by_account_id($accountId)
+			->get_helpdesk_data()
 		);
-		return;
 
 		//Team we did not save helpscout data for has generated data
 
-		$helpscout_data = $settings->get_by_account_id('a216')
+		$helpscout_data = $settings->get_by_account_id($accountId2)
 			->get_helpdesk_data();
 
 		//Is valid URL?
@@ -328,9 +328,10 @@ class SettingsApiTest extends \WP_UnitTestCase
 		);
 
 		//It gets same everytime
+		//It gets same
 		$this->assertSame(
 			$helpscout_data,
-			$settings->get_by_account_id('a216')
+			SettingsApi::from_saved()->get_by_account_id($accountId2)
 			->get_helpdesk_data()
 		);
 

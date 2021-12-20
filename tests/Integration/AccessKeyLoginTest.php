@@ -169,4 +169,22 @@ class AccesKeyLoginTest extends \WP_UnitTestCase
 		$handler->handle();
 	}
 
+	/**
+	 * @covers AccessKeyLogin::url()
+	 */
+	public function testUrl(){
+		$this->assertTrue(
+			(bool)filter_var(AccessKeyLogin::url('arms'), FILTER_VALIDATE_URL)
+		);
+	}
+
+	/**
+	 * @covers AccessKeyLogin::makeSecret()
+	 */
+	public function testMakeSecret(){
+		$this->assertTrue(
+			is_string(AccessKeyLogin::makeSecret())
+		);
+	}
+
 }

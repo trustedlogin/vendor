@@ -22,9 +22,6 @@ class SettingsApi
 	 */
 	protected $team_settings = [];
 
-
-
-
 	/**
 	 * @param TeamSettings[]|array[] $team_data Collection of team data
 	 * @since 0.10.0
@@ -71,7 +68,26 @@ class SettingsApi
 	{
 		$data = [];
 		foreach ($this->team_settings as $setting) {
-			$data[] = $setting->to_array();
+			$_setting = $setting->to_array();
+			//If enabled a helpdesk...
+			if( ! empty( $setting->get_helpdesks() ) ) {
+				//And don't have helpdesk settings...
+				if( empty( $setting->get_helpdesk_data())){
+					//...then add them.
+					$_setting[TeamSettings::HELPDESK_SETTINGS] = [];
+					$account_id = $setting->get( 'account_id');
+					foreach( $setting->get_helpdesks() as $helpdesk){
+						$_setting[TeamSettings::HELPDESK_SETTINGS][$helpdesk] = [
+							'secret' => AccessKeyLogin::makeSecret( $account_id ),
+							'callback' => AccessKeyLogin::url( $account_id )
+						];
+					}
+				}
+			}
+			$data[] = $_setting;
+
+
+
 		}
 		update_option(self::TEAM_SETTING_NAME, json_encode($data));
 		return $this;
@@ -158,9 +174,6 @@ class SettingsApi
 		$this->team_settings = [];
 		return $this;
 	}
-
-
-
 
 	/**
 	 * Convert to array of arrays
