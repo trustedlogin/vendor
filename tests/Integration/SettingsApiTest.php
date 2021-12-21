@@ -265,7 +265,6 @@ class SettingsApiTest extends \WP_UnitTestCase
 	 * @covers SettingsApi::update_by_account_id()
 	 * @covers TeamSettings::get_helpscout_data()
 	 * @covers TeamSettings::get()
-	 * @group a
 	 */
 	public function test_settings_save()
 	{
@@ -275,15 +274,10 @@ class SettingsApiTest extends \WP_UnitTestCase
 			'secret' => '42',
 			'callback' => 'https://walk.dog'
 		];
-		$accountId = 'b26';
-		$accountId2 = 'a216';
+		$accountId = 'account-one';
+		$accountId2 = 'account-two';
 		$data = [
-			[
-				'account_id'      => $accountId2,
-				'private_key'      => 'a217',
-				'api_key'       => 'a218',
-				'helpdesk' => 'helpscout',
-			],
+
 			[
 				'account_id'       => $accountId,
 				'private_key'      => 'b227',
@@ -292,6 +286,12 @@ class SettingsApiTest extends \WP_UnitTestCase
 				'helpdesk_settings' => [
 					'helpscout' => $helpscout_data
 				]
+			],
+			[
+				'account_id'       => $accountId2,
+				'private_key'      => 'aab227',
+				'api_key'       	=> 'ab228',
+
 			]
 		];
 
@@ -300,22 +300,35 @@ class SettingsApiTest extends \WP_UnitTestCase
 		$settings->save();
 
 		$settings = SettingsApi::from_saved();
-		$settings->save();
+
+		$setting1 = $settings->get_by_account_id($accountId);
+		//Team we saved helpscout data for has helpscout data
+		$this->assertSame(
+			$helpscout_data,
+			$setting1
+			->get_helpdesk_data()
+		);
+		$this->assertArrayHasKey(
+			TeamSettings::HELPDESK_SETTINGS,
+			$setting1->to_array()
+		);
+
+		$this->assertSame(
+			$helpscout_data,
+			SettingsApi::from_saved()->get_by_account_id($accountId)
+			->get_helpdesk_data()
+		);
+
 		$this->assertSame(
 			'b227',
 			$settings->get_by_account_id($accountId)
 				->get('private_key')
 		);
 
-		//Team we saved helpscout data for has helpscout data
-		$this->assertSame(
-			$helpscout_data,
-			$settings->get_by_account_id($accountId)
-			->get_helpdesk_data()
-		);
 
-		//Team we did not save helpscout data for has generated data
 
+		//Team we didn't provide any helpdesk settings for.
+		// Did it  save helpscout data?
 		$helpscout_data = $settings->get_by_account_id($accountId2)
 			->get_helpdesk_data();
 

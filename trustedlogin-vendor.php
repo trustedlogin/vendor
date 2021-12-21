@@ -13,6 +13,7 @@
  * Copyright: © 2020 Katz Web Services, Inc.
  */
 
+use TrustedLogin\Vendor\ErrorHandler;
 
 if (!defined('ABSPATH')) {
     exit;
@@ -29,7 +30,6 @@ if( ! defined( 'TRUSTEDLOGIN_API_URL')){
 /** @define "$path" "./" */
 $path = plugin_dir_path(__FILE__);
 
-
 /**
  * Initialization plugin
  */
@@ -41,6 +41,7 @@ if( file_exists( $path . 'vendor/autoload.php' ) ){
 	include_once dirname( __FILE__ ) . '/admin/trustedlogin-settings/init.php';
 	//include_once dirname( __FILE__ ) . '/admin/trustedlogin-access/init.php';
 	$plugin = trustedlogin_vendor();
+    \TrustedLogin\Vendor\ErrorHandler::register();
 	/**
 	 * Runs when plugin is ready.
 	 */

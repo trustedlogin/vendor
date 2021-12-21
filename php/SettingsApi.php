@@ -71,6 +71,7 @@ class SettingsApi
 			$_setting = $setting->to_array();
 			//If enabled a helpdesk...
 			if( ! empty( $setting->get_helpdesks() ) ) {
+
 				//And don't have helpdesk settings...
 				if( empty( $setting->get_helpdesk_data())){
 					//...then add them.

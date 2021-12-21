@@ -356,7 +356,6 @@ class TrustedLoginService
 		try {
 			$this->log('Starting to decrypt envelope. Envelope: ' . print_r($envelope, true), __METHOD__, 'debug');
 			$decrypted_identifier = $trustedlogin_encryption->decrypt_crypto_box($envelope['identifier'], $envelope['nonce'], $envelope['publicKey']);
-			//var_dump([__LINE__ => $decrypted_identifier]);exit;
 			if (is_wp_error($decrypted_identifier)) {
 				$this->log('There was an error decrypting the envelope.' . print_r($decrypted_identifier, true), __METHOD__);
 

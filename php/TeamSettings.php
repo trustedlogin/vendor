@@ -42,7 +42,7 @@ class TeamSettings
 			'account_id'       => '',
 			'private_key'      => '',
 			'api_key'       => '',
-			'helpdesk'         => [ 'helpscout' ],
+			'helpdesk'         => 'helpscout',
 			'approved_roles'   => [ 'administrator' ],
 			'debug_enabled'    => 'on',
 			'enable_audit_log' => 'on',
@@ -53,15 +53,10 @@ class TeamSettings
 		$this->reset($values);
 	}
 
-	/**
-	 * Get all values as array.
-	 *
-	 * @since 0.10.0
-	 *
-	 * @return array
-	 */
-	public function to_array()
-	{
+	public function to_array(){
+		if( ! is_array($this->values['helpdesk'])){
+			$this->values['helpdesk'] = [ $this->values['helpdesk'] ];
+		}
 		return $this->values;
 	}
 
@@ -79,6 +74,9 @@ class TeamSettings
 		if( is_string($helpdesks)){
 			$helpdesks = [$helpdesks];
 		}
+		if( empty($helpdesks)){
+			return ['helpscout'];
+		}
 		return $helpdesks;
 	}
 
@@ -95,12 +93,21 @@ class TeamSettings
 		$this->values = [];
 		foreach ($this->defaults as $key => $default) {
 			if (isset($values[$key])) {
-				$this->values[$key] = $values[$key];
+				$value = $values[$key];
+				if( is_object($value)){
+					$value = (array)$value;
+					foreach ($value as $k => $v) {
+						if( is_object($v)){
+							$value[$k] = (array)$v;
+						}
+					}
+				}
+
+				$this->values[$key] = $value;
 			} else {
 				$this->values[$key] = $default;
 			}
 		}
-
 		return $this;
 	}
 
@@ -162,20 +169,30 @@ class TeamSettings
 	 */
 	public function get_helpdesk_data()
 	{
-		$helpdesk = $this->get('helpdesk');
-		if( is_array($helpdesk)){
-			$helpdesk = $helpdesk[0];
+		$helpdesks = $this->get('helpdesk');
+		if( empty( $helpdesks)){
+			$helpdesks = ['helpscout'];
+			$this->set( 'helpdesk', $helpdesks);
 		}
-		if (isset($this->get(self::HELPDESK_SETTINGS)[$helpdesk])) {
-			$data = $this->get(self::HELPDESK_SETTINGS)[$helpdesk];
-			if( is_object($data)){
-				$data=(array)$data;
+		if( ! is_array($helpdesks)){
+			$helpdesks = [$helpdesks];
+		}
+		$helpdeskSettings = $this->get(self::HELPDESK_SETTINGS,[]);
+		if ($helpdeskSettings){
+			$helpdesk = $helpdesks[0];
+			if(  isset($helpdeskSettings[$helpdesk])) {
+				$data = $helpdeskSettings[$helpdesk];
+				if( is_object($data)){
+					$data=(array)$data;
+				}
+				return [
+					'secret' => isset($data['secret']) ?$data['secret'] :"",
+					'callback' => isset($data['callback']) ?$data['callback'] :"",
+				];
 			}
-			return [
-				'secret' => isset($data['secret']) ?$data['secret'] :"",
-				'callback' => isset($data['callback']) ?$data['callback'] :"",
-			];
+
 		}
+
 
 	}
 }

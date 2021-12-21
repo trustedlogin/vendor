@@ -43,8 +43,6 @@ class Settings extends Endpoint
 					);
 					$settings_api->add_setting($setting);
 				} catch (\Throwable $th) {
-					var_dump($th);
-					exit;
 					throw $th;
 				}
 			}
