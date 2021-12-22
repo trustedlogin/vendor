@@ -75,7 +75,7 @@ export const FieldTr = ({ children, name, label, help }) => {
 	);
 };
 
-export const Input = ({ name, label, value, type, onChange }) => {
+export const Input = ({ name, label, value, type, onChange,disabled }) => {
 	return (
 		<FieldTr name={name} label={label}>
 			<input
@@ -85,6 +85,7 @@ export const Input = ({ name, label, value, type, onChange }) => {
 				value={value}
 				className="regular-text ltr"
 				onChange={(e) => onChange(e.target.value)}
+				disabled={disabled}
 			/>
 		</FieldTr>
 	);

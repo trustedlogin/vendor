@@ -67,6 +67,7 @@ export default function App({ getSettings, updateSettings }) {
 		});
 	};
 
+
 	//Disables/enables save button
 	const canSave = useMemo(() => {
 		return settings.teams.length > 0;
@@ -75,8 +76,9 @@ export default function App({ getSettings, updateSettings }) {
 	///Handles save
 	const onSave = (e) => {
 		e.preventDefault();
-		updateSettings({ teams: settings.teams, helpscout: settings.helpscout })
-			.then(() => {
+		updateSettings({ teams: settings.teams})
+			.then(({teams}) => {
+				setSettings({...settings, teams});
 				setNotice({
 					text: "Settings Saved",
 					type: "sucess",
@@ -84,7 +86,7 @@ export default function App({ getSettings, updateSettings }) {
 				});
 			})
 			.catch((err) => {
-				console.log(r);
+				console.log(err);
 			});
 	};
 
@@ -113,7 +115,7 @@ export default function App({ getSettings, updateSettings }) {
 			<div>
 				<>
 					<Tabs
-						initialTabe={"two"}
+						initialTab={"teams"}
 						tabs={[
 							{
 								id: "teams",
@@ -138,19 +140,6 @@ export default function App({ getSettings, updateSettings }) {
 									</>
 								),
 								label: "Teams",
-							},
-							{
-								id: "helpdesks",
-								children: (
-									<HelpDeskSettings
-										settings={settings}
-										setSettings={setSettings}
-										canSave={canSave}
-										onSave={onSave}
-									/>
-								),
-								label: "help",
-								label: "Help Desks",
 							},
 							{
 								id: "access",

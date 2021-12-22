@@ -2,6 +2,7 @@ import { useMemo, useState } from "react";
 import { __ } from "@wordpress/i18n";
 import { FormTable, Input, Select } from "./index";
 import RoleMultiSelect from "./RoleMultiSelect";
+import HelpDeskSettings from "./HelpDeskSettings";
 
 /**
  * Settings for one single team
@@ -78,6 +79,9 @@ const TeamSettings = ({ team, setTeam }) => {
 					})
 				}
 			/>
+			{team.helpdesk  ? (
+				<HelpDeskSettings team={team} helpdesk={team.helpdesk} />
+			) : null }
 		</FormTable>
 	);
 };

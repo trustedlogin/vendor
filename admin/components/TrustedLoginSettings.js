@@ -5,12 +5,12 @@ import TeamSettings from "./TeamSettings";
 /**
  * TrustedLogin Settings Form
  */
-export default function ({ onSave, settings, canSave, setTeam, setSettings }) {
+export default function ({ onSave, settings, canSave, setTeam }) {
 	return (
 		<Form onSubmit={onSave}>
 			{settings.teams
 				? settings.teams.map((team) => (
-						<TeamSettings team={team} setTeam={setTeam} key={team.id} />
+						<TeamSettings team={team} setTeam={setTeam} key={team.id}  />
 				  ))
 				: null}
 			<Submit

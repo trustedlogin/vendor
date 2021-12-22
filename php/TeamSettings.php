@@ -92,7 +92,7 @@ class TeamSettings
 	{
 		$this->values = [];
 		foreach ($this->defaults as $key => $default) {
-			if (isset($values[$key])) {
+			if (isset($values[$key])&& ! empty($values[$key])) {
 				$value = $values[$key];
 				if( is_object($value)){
 					$value = (array)$value;
@@ -107,6 +107,12 @@ class TeamSettings
 			} else {
 				$this->values[$key] = $default;
 			}
+		}
+		if( empty( $this->values['approved_roles'])){
+			$this->values['approved_roles'] = [ 'administrator' ];
+		}
+		if( empty( $this->values['helpdesk'])){
+			$this->values['helpdesk'] = [ 'helpscout' ];
 		}
 		return $this;
 	}

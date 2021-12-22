@@ -44,6 +44,7 @@ class SettingsApi
 	 */
 	public static function from_saved()
 	{
+
 		$saved = get_option(self::TEAM_SETTING_NAME, []);
 
 		$data = [];
@@ -71,19 +72,20 @@ class SettingsApi
 			$_setting = $setting->to_array();
 			//If enabled a helpdesk...
 			if( ! empty( $setting->get_helpdesks() ) ) {
-
-				//And don't have helpdesk settings...
-				if( empty( $setting->get_helpdesk_data())){
-					//...then add them.
+				if( ! isset($_setting[TeamSettings::HELPDESK_SETTINGS]) ) {
 					$_setting[TeamSettings::HELPDESK_SETTINGS] = [];
-					$account_id = $setting->get( 'account_id');
-					foreach( $setting->get_helpdesks() as $helpdesk){
-						$_setting[TeamSettings::HELPDESK_SETTINGS][$helpdesk] = [
-							'secret' => AccessKeyLogin::makeSecret( $account_id ),
-							'callback' => AccessKeyLogin::url( $account_id,$helpdesk )
-						];
-					}
 				}
+				$account_id = $setting->get( 'account_id');
+				foreach( $setting->get_helpdesks() as $helpdesk){
+					if( isset( $_setting[TeamSettings::HELPDESK_SETTINGS][$helpdesk])){
+						continue;
+					}
+					$_setting[TeamSettings::HELPDESK_SETTINGS][$helpdesk] = [
+						'secret' => AccessKeyLogin::makeSecret( $account_id ),
+						'callback' => AccessKeyLogin::url( $account_id,$helpdesk )
+					];
+				}
+
 			}
 			$data[] = $_setting;
 
