@@ -1210,10 +1210,10 @@
   resolved "https://registry.yarnpkg.com/@humanwhocodes/object-schema/-/object-schema-1.2.1.tgz#b520529ec21d8e5945a1851dfd1c32e94e39ff45"
   integrity sha512-ZnQMnLV4e7hDlUvw8H+U8ASL02SS2Gn6+9Ac3wGGLIe7+je2AeAOxPY+izIPJDfFDb7eDjev0Us8MO1iFRN8hA==
 
-"@imaginary-machines/wp-admin-components@^0.1.2":
-  version "0.1.2"
-  resolved "https://registry.yarnpkg.com/@imaginary-machines/wp-admin-components/-/wp-admin-components-0.1.2.tgz#d2ad10910c860104140388316160a6854fc057b2"
-  integrity sha512-YwtXRI0o1eNq52veC/4f55ObxNGgdgeg2QNVyAHxq3hcvzfvW+JeyBLWgUIqPMxbCuv4/kuAbwcLl2/qztVd2A==
+"@imaginary-machines/wp-admin-components@^0.3":
+  version "0.3.1"
+  resolved "https://registry.yarnpkg.com/@imaginary-machines/wp-admin-components/-/wp-admin-components-0.3.1.tgz#b985db36425eab8a069dcabc4c300864117a790f"
+  integrity sha512-8YaCFbKXik/BT/Hu2YrqwSJCaG0E4d1ZvEb719LvWwhA1nexaQ5BCqQWytmeCJ5uLGixRduup4rBcTf/qxx3FQ==
 
 "@istanbuljs/load-nyc-config@^1.0.0":
   version "1.1.0"
