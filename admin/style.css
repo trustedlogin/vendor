@@ -2,3 +2,7 @@
     font-weight: 400;
     display: block;
 }
+
+div#dashboard-widgets .postbox {
+    width: 500px;
+}
