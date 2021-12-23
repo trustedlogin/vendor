@@ -9,7 +9,7 @@ const RoleMultiSelect = ({ approvedRoles, help, label, onChange }) => {
 	const rolesOptions = useMemo(() => {
 		let tl = window.tlVendor || {
 			roles: {
-				admistrator: "Administrator",
+				administrator: "Administrator",
 				editor: "Editor",
 			},
 		};
@@ -20,7 +20,6 @@ const RoleMultiSelect = ({ approvedRoles, help, label, onChange }) => {
 			};
 		});
 	}, [window.tlVendor]);
-
 	function handleChange(selectedList) {
 		onChange(selectedList.map((item) => item.id));
 	}

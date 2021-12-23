@@ -2,7 +2,6 @@ import { __ } from "@wordpress/i18n";
 import { useMemo, useState, useEffect } from "react";
 import { Notice, BigButton } from "../components";
 import TrustedLoginSettings from "../components/TrustedLoginSettings";
-import HelpDeskSettings from "../components/HelpDeskSettings";
 
 import { Tabs } from "@imaginary-machines/wp-admin-components";
 
@@ -51,6 +50,29 @@ export default function App({ getSettings, updateSettings }) {
 			teams: addEmptyTeam(settings.teams),
 		});
 	};
+
+	/**
+	 * Remove a team.
+	 */
+	const removeTeam = (id) => {
+
+		updateSettings({
+			...settings,
+			teams: settings.teams.filter((team) => team.id !== id),
+		})
+			.then(({teams}) => {
+				setSettings({...settings, teams});
+				setNotice({
+					text: "Team deleted",
+					type: "sucess",
+					visible: true,
+				});
+
+			})
+			.catch((err) => {
+				console.log(err);
+			});
+	}
 
 	/**
 	 * Update one team in settings
@@ -137,6 +159,7 @@ export default function App({ getSettings, updateSettings }) {
 												setTeam={setTeam}
 												canSave={canSave}
 												onSave={onSave}
+												removeTeam={removeTeam}
 											/>
 											{notice.visible ? (
 												<Notice heading={notice.text} type={notice.type} />

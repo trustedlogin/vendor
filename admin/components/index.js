@@ -33,14 +33,15 @@ export const FormTable = ({ children, title }) => {
 	);
 };
 
-export const Select = ({ name, label, value, options, help, onChange }) => {
+export const Select = ({ name, label, value, options, help, onChange,disabled }) => {
 	const attrs = useMemo(() => {
 		let a = {
 			name,
 			label,
 			value,
-			className: "postform",
+			className: disabled? "postform disabled":"postform",
 		};
+
 		if (help) {
 			a["aria-describedby"] = `${name}-description`;
 		}
@@ -82,7 +83,7 @@ export const Input = ({ name, label, value, type, onChange,disabled }) => {
 				type={type ? type : "text"}
 				id={name}
 				value={value}
-				className="regular-text ltr"
+				className={`regular-text ltr ${disabled? "disabled":""}`}
 				onChange={(e) => onChange(e.target.value)}
 				disabled={disabled}
 			/>

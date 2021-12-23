@@ -6,7 +6,7 @@ import {Metabox,MetaboxWrapper}from '@imaginary-machines/wp-admin-components'
 /**
  * TrustedLogin Settings Form
  */
-export default function ({ onSave, settings, canSave, setTeam }) {
+export default function ({ onSave, settings, canSave, setTeam,removeTeam }) {
 
 	return (
 		<>
@@ -16,7 +16,7 @@ export default function ({ onSave, settings, canSave, setTeam }) {
 						? settings.teams.map((team) => (
 							<div key={team.id} className={"team-settings-form"}>
 								<Form onSubmit={onSave} >
-									<TeamSettings team={team} setTeam={setTeam} key={team.id}  />
+									<TeamSettings team={team} setTeam={setTeam} removeTeam={removeTeam} />
 								</Form>
 							</div>
 
