@@ -170,9 +170,9 @@ export default function App({ getSettings, updateSettings }) {
 								label: "Teams",
 							},
 							{
-								id: "access",
+								id: "login",
 								children: <div>Access Logs</div>,
-								label: "Access Logs",
+								label: "Login With Access Key",
 							},
 						]}
 					/>

@@ -14,14 +14,14 @@ export default function (props) {
 	}, [team]);
 	const noop = () => {};
 	const secret = useMemo(() => {
-		if( helpdesk && team.helpdesk_settings.hasOwnProperty(helpdesk) ) {
+		if( helpdesk && team.helpdesk_settings && team.helpdesk_settings.hasOwnProperty(helpdesk) ) {
 			return team.helpdesk_settings[helpdesk].secret;
 		}
 		return '';
 	}, [team,helpdesk]);
 
 	const callback = useMemo(() => {
-		if( helpdesk && team.helpdesk_settings.hasOwnProperty(helpdesk)){
+		if( helpdesk && team.helpdesk_settings  && team.helpdesk_settings.hasOwnProperty(helpdesk)){
 			return team.helpdesk_settings[helpdesk].callback;
 		}
 		return '';
