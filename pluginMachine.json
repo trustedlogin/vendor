@@ -3,7 +3,7 @@
     "buildId": 64,
     "entryPoints": {
         "adminPages": [
-            "trustedlogin-settings",
+            "trustedlogin-settings"
         ],
         "blocks": []
     }

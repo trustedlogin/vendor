@@ -4,7 +4,7 @@ import { Notice, BigButton } from "../components";
 import TrustedLoginSettings from "../components/TrustedLoginSettings";
 
 import { Tabs } from "@imaginary-machines/wp-admin-components";
-
+import AccessKeyForm from "../components/AccessKeyForm";
 const defaultSettings = {
 	isConnected: false,
 	teams: [],
@@ -171,7 +171,12 @@ export default function App({ getSettings, updateSettings }) {
 							},
 							{
 								id: "login",
-								children: <div>Access Logs</div>,
+								children: <div>
+									<AccessKeyForm
+										teams={settings.teams || []}
+										initialAccountId={settings.teams.length ? settings.teams[0].account_id : ""}
+									/>
+									</div>,
 								label: "Login With Access Key",
 							},
 						]}
