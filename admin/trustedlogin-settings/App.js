@@ -137,7 +137,7 @@ export default function App({ getSettings, updateSettings }) {
 			<div>
 				<>
 					<Tabs
-						initialTab={"teams"}
+						//initialTab={"teams"}
 						tabs={[
 							{
 								id: "teams",
@@ -170,7 +170,7 @@ export default function App({ getSettings, updateSettings }) {
 								label: "Teams",
 							},
 							{
-								id: "login",
+								id: "accces-key-login",
 								children: <div>
 									<AccessKeyForm
 										teams={settings.teams || []}

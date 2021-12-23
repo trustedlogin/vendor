@@ -186,11 +186,27 @@ class SettingsApi
 	 */
 	public function to_array()
 	{
-		$data = [
-			'teams' => [],
+
+		return [
+			'teams' => $this->allTeams(true)
 		];
+	}
+
+	/**
+	 * Get all Teams as an array
+	 *
+	 * @since 0.10.0
+	 * @param bool $as_array If true, teams are converted to array.
+	 * @return array
+	 */
+	public function allTeams($as_array = false){
+		$data = [];
 		foreach ($this->team_settings as $setting) {
-			$data['teams'][] = $setting->to_array();
+			if( $as_array ){
+				$data[] = $setting->to_array();
+			}else{
+				$data[] = $setting;
+			}
 		}
 		return $data;
 	}

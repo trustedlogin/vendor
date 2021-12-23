@@ -8,14 +8,15 @@ import { FieldTr } from "./index";
 const RoleMultiSelect = ({ approvedRoles, help, label, onChange }) => {
 	const rolesOptions = useMemo(() => {
 		let tl = window.tlVendor || {
-			roles: {
-				administrator: "Administrator",
-				editor: "Editor",
-			},
+
 		};
-		return Object.keys(tl.roles).map((role) => {
+		let roles = tl && tl.roles ? tl.roles : {
+			administrator: "Administrator",
+			editor: "Editor",
+		};
+		return Object.keys(roles).map((role) => {
 			return {
-				name: tl.roles[role],
+				name: roles[role],
 				id: role,
 			};
 		});

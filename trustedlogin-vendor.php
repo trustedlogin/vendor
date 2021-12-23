@@ -45,6 +45,7 @@ if( file_exists( $path . 'vendor/autoload.php' ) ){
 	 * Runs when plugin is ready.
 	 */
 	do_action( 'trustedlogin_vendor', $plugin );
+    //Add REST API endpoints
 	add_action( 'rest_api_init', [$plugin, 'restApiInit']);
 	add_action( 'template_redirect',[new \TrustedLogin\Vendor\MaybeRedirect, 'handle']);
 }else{

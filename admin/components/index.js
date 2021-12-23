@@ -13,9 +13,15 @@ export const Notice = ({ heading, link, description, type }) => {
 	);
 };
 
-export const Form = ({ children, onSubmit, title,className }) => {
+export const Form = ({ children, onSubmit, title,className,method,action }) => {
 	return (
-		<form onSubmit={onSubmit} title={title} className={className}>
+		<form
+			onSubmit={onSubmit}
+			title={title}
+			className={className}
+			method={method}
+			action={action}
+		>
 			{title ? <h2 className="title">{title}</h2> : null}
 			{children}
 		</form>
