@@ -47,6 +47,7 @@ if( file_exists( $path . 'vendor/autoload.php' ) ){
 	do_action( 'trustedlogin_vendor', $plugin );
     //Add REST API endpoints
 	add_action( 'rest_api_init', [$plugin, 'restApiInit']);
+    //Handle access key login if requests.
 	add_action( 'template_redirect',[new \TrustedLogin\Vendor\MaybeRedirect, 'handle']);
 }else{
 	throw new \Exception('Autoloader not found.');
