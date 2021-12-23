@@ -2,6 +2,7 @@ import React from "react";
 import { render } from "@wordpress/element";
 import App from "./App";
 import { getSettings, updateSettings } from "../api";
+import "./style.scss";
 window.addEventListener("load", function () {
 	render(
 		<App

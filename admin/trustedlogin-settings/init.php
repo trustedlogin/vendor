@@ -11,7 +11,15 @@ add_action('init', function () {
             $dependencies,
             $assets['version']
         );
+        wp_register_style(
+            $handle,
+            plugins_url("/build/style-admin-page-$handle.css", dirname(__FILE__, 2)),
+            [],
+            $assets['version']
+        );
     }
+
+
 });
 
 //Enqueue assets for TrustedLogin Settings on admin page only
@@ -20,6 +28,8 @@ add_action('admin_enqueue_scripts', function ($hook) {
         return;
     }
     wp_enqueue_script('trustedlogin-settings');
+    wp_enqueue_style('trustedlogin-settings');
+
 });
 
 //Register TrustedLogin Settings menu page

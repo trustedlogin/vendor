@@ -121,22 +121,27 @@ export default function App({ getSettings, updateSettings }) {
 								id: "teams",
 								children: (
 									<>
-										<BigButton
-											onClick={addTeam}
-											variant={!settings.teams.length ? "primary" : "secondary"}
-										>
-											{__("Add Team")}
-										</BigButton>
-										<TrustedLoginSettings
-											settings={settings}
-											setSettings={setSettings}
-											setTeam={setTeam}
-											canSave={canSave}
-											onSave={onSave}
-										/>
-										{notice.visible ? (
-											<Notice heading={notice.text} type={notice.type} />
-										) : null}
+										<section id="team-buttons">
+											<BigButton
+												onClick={addTeam}
+												variant={!settings.teams.length ? "primary" : "secondary"}
+												className={'add-team-button'}
+											>
+												{__("Add Team")}
+											</BigButton>
+										</section>
+										<section>
+											<TrustedLoginSettings
+												settings={settings}
+												setSettings={setSettings}
+												setTeam={setTeam}
+												canSave={canSave}
+												onSave={onSave}
+											/>
+											{notice.visible ? (
+												<Notice heading={notice.text} type={notice.type} />
+											) : null}
+										</section>
 									</>
 								),
 								label: "Teams",

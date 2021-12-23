@@ -13,11 +13,10 @@ export const Notice = ({ heading, link, description, type }) => {
 	);
 };
 
-export const Form = ({ children, onSubmit, title }) => {
+export const Form = ({ children, onSubmit, title,className }) => {
 	return (
-		<form onSubmit={onSubmit} title={title}>
+		<form onSubmit={onSubmit} title={title} className={className}>
 			{title ? <h2 className="title">{title}</h2> : null}
-
 			{children}
 		</form>
 	);
@@ -105,8 +104,8 @@ export const Submit = ({ name, variant, value, disabled, onClick }) => (
 	</p>
 );
 
-export const BigButton = ({ children, variant, onClick }) => (
-	<p className="big-button">
+export const BigButton = ({ children, variant, onClick,className }) => (
+	<p className={`big-button ${className}`}>
 		<button
 			className={`button button-${variant ? variant : "secondary"} button-hero`}
 			onClick={onClick}

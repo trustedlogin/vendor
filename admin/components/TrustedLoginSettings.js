@@ -10,18 +10,19 @@ export default function ({ onSave, settings, canSave, setTeam }) {
 
 	return (
 		<>
-			<section>
-				<MetaboxWrapper>
+			<section id="team-wrapper">
+				<>
 					{settings.teams
 						? settings.teams.map((team) => (
-							<Form onSubmit={onSave}>
-								<Metabox title={team.account_id} key={team.id}>
+							<div key={team.id} className={"team-settings-form"}>
+								<Form onSubmit={onSave} >
 									<TeamSettings team={team} setTeam={setTeam} key={team.id}  />
-								</Metabox>
-							</Form>
+								</Form>
+							</div>
+
 						))
 						: null}
-				</MetaboxWrapper>
+				</>
 			</section>
 
 
