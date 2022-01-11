@@ -1,6 +1,21 @@
 version: "3.9"
 
 services:
+  ngrok:
+    image: shkoliar/ngrok:latest
+    ports:
+      - 4551:4551
+    links:
+      - wordpress
+    environment:
+      - DOMAIN=wordpress
+      - PORT=80
+      - SUBDOMAIN=trustedlogin
+      - DEBUG=true
+      - AUTH_TOKEN=${NGROK_AUTH_TOKEN}
+    restart: always
+    depends_on:
+      - wordpress
 
   wordpress:
     depends_on:
@@ -10,13 +25,17 @@ services:
       - wordpress_data:/var/www/html
       - ./:/var/www/html/wp-content/plugins/trustedlogin-vendor
     ports:
-      - "6301:80"
+      - "8000:80"
     restart: always
     environment:
       WORDPRESS_DB_HOST: wpdb:3306
       WORDPRESS_DB_USER: wordpress
       WORDPRESS_DB_PASSWORD: wordpress
       WORDPRESS_DB_NAME: wordpress
+      WORDPRESS_CONFIG_EXTRA: |
+          /* ngrok wp urls overrides */
+          define('WP_SITEURL', 'https://trustedlogin.ngrok.io/');
+          define('WP_HOME', 'https://trustedlogin.ngrok.io/' );
 
   wpdb:
     image: mariadb:10.5.8
@@ -29,18 +48,7 @@ services:
       MYSQL_USER: wordpress
       MYSQL_PASSWORD: wordpress
 
-  wpcli:
-    image: wordpress:cli
-    volumes:
-      - wordpress_data:/var/www/html
-      - ./:/var/www/html/wp-content/plugins/trustedlogin-vendor
-      - ./db:/var/www/html/db
-    environment:
-      WORDPRESS_DB_HOST: wpdb:3306
-      WORDPRESS_DB_USER: wordpress
-      WORDPRESS_DB_PASSWORD: wordpress
-      WORDPRESS_DB_NAME: wordpress
-      ABSPATH: /usr/src/wordpress/
+
 
   phpunit:
     command:
@@ -64,3 +72,5 @@ services:
 volumes:
   db_data: {}
   wordpress_data: {}
+networks:
+  wordpress:
