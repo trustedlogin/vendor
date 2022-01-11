@@ -68,16 +68,20 @@ Before doing this, you must create a ".env" file in the root of this plugin. You
 
 A [docker-compose](https://docs.docker.com/samples/wordpress/)-based local development environment is provided.
 
+### Starting & WPCLI
+
 - Start server
     - `docker-compose up -d`
     - If you get errors about port already being allocated, you can either:
         - Kill all containers and try again: `docker kill $(docker ps -q) && docker-compose up -d`
         - Change the port in docker-compose.yml.
 - Access Site
-    - [http://localhost:6301](http://localhost:6301)
+    - [http://localhost:8000](http://localhost:8000)
 - Run WP CLI command:
     - `docker-compose run wpcli wp user create admin admin@example.com --role=admin user_pass=pass`
 
+
+### PHPUnit
 
 There is a special phpunit container for running WordPress tests, with WordPress and MySQL configured.
 
@@ -87,3 +91,9 @@ There is a special phpunit container for running WordPress tests, with WordPress
     - `composer install`
 - Test
     - `composer test:wordpress`
+
+### ngrok
+
+The WordPress site will also be on the internets at [https://trustedlogin.ngrok.io/](https://trustedlogin.ngrok.io/). This requires setting the variable `NGROK_AUTH_TOKEN` in the .env file.
+
+Find the auth token in [the ngrok dashboard](https://dashboard.ngrok.com/get-started/your-authtoken), while logged in to the Trusted Login account. Ask Zack for access if needed.
