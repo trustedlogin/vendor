@@ -13,6 +13,9 @@ const TeamSettings = ({ team, setTeam,removeTeam }) => {
 		return team.id;
 	}, [team]);
 
+	const title = useMemo(() => {
+		return team.name ??__("Team");
+	},[team])
 	const helpDeskOptions = [
 		{
 			label: __("Helpscout"),
@@ -20,7 +23,15 @@ const TeamSettings = ({ team, setTeam,removeTeam }) => {
 		},
 	];
 	return (
-		<FormTable title={team.name ??__("Team")}>
+		<FormTable title={title} RenderTitle={({title})=> (
+			<h2 className="title">
+				<strong>{title}</strong>
+				{' | '}
+				<span>Connected: {team.connected ? __('Connected') : __('Not Connected')}</span>
+				{' | '}
+				<span>Status: {team.status ? team.status : __('Unknown')}</span>
+			</h2>
+		)}>
 			<Input
 				label={__("TrustedLogin Account ID")}
 				name={`team-${teamId}[account_id]`}

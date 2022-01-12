@@ -28,10 +28,12 @@ export const Form = ({ children, onSubmit, title,className,method,action }) => {
 	);
 };
 
-export const FormTable = ({ children, title }) => {
+export const FormTable = ({ children, title,RenderTitle }) => {
 	return (
 		<>
-			{title ? <h2 className="title">{title}</h2> : null}
+			{RenderTitle ? (<RenderTitle title={title}/>):
+				title ? <h2 className="title">{title}</h2> : null
+			}
 			<table className="form-table" role="presentation">
 				<tbody>{children}</tbody>
 			</table>
