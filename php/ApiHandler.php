@@ -70,7 +70,8 @@ class ApiHandler
 			'api_key'  => null,
 			'debug_mode'  => false,
 			'type'        => 'saas',
-			'api_url' => 'https://app.trustedlogin.com/api/v1/'
+			'api_url' => 'https://app.trustedlogin.com/api/v1/',
+			'auth_required' => true,
 		];
 
 		$atts = wp_parse_args($data, $defaults);
@@ -141,6 +142,10 @@ class ApiHandler
 	 */
 	public function get_additional_headers()
 	{
+		if (! empty($this->private_key)) {
+			$this->additional_headers[ $this->auth_header_type ] = 'Bearer ' . $this->get_auth_bearer_token();
+			$this->additional_headers[ 'X-TL-TOKEN'] = $this->get_x_tl_token();
+		}
 		return $this->additional_headers;
 	}
 
@@ -231,6 +236,9 @@ class ApiHandler
 		 );
 		$headers  = $this->get_additional_headers();
 
+		$this->log( json_encode($headers),__METHOD__.':'.__LINE__, 'debug',$headers);
+		$this->log( json_encode($this->private_key),__METHOD__.':'.__LINE__, 'debug',$headers);
+
 		$verification = $this->api_send($url, $body, $method, $headers);
 
 		if (is_wp_error($verification)) {
@@ -249,7 +257,7 @@ class ApiHandler
 		}
 
 		$status = wp_remote_retrieve_response_code($verification);
-
+		$this->log($status, __METHOD__, 'debug');
 		switch ($status) {
 			case 400:
 			case 403:
@@ -284,6 +292,7 @@ class ApiHandler
 		$body = wp_remote_retrieve_body($verification);
 
 		$body = json_decode($body);
+		$this->log(__LINE__, __METHOD__, 'debug',$body);
 
 		if (! $body) {
 			return new WP_Error(

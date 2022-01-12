@@ -3,7 +3,8 @@
 namespace TrustedLogin\Vendor;
 
 use TrustedLogin\Vendor\Contracts\SendsApiRequests as ApiSend;
-
+use TrustedLogin\Vendor\SettingsApi;
+use TrustedLogin\Vendor\TeamSettings;
 class Plugin
 {
 	/**
@@ -93,20 +94,23 @@ class Plugin
 	 *
 	 * @param string $accountId Account ID, which must be saved in settings, to get handler for.
 	 * @param string $apiUrl Optional. Url for TrustedLogin API.
+	 * @param null|TeamSettings $team Optional. TeamSettings  to use.
 	 */
-	public function getApiHandler($accountId, $apiUrl = '')
+	public function getApiHandler($accountId, $apiUrl = '', $team = null )
 	{
-		$settings = \TrustedLogin\Vendor\SettingsApi::from_saved()->get_by_account_id($accountId);
+		if( ! $team ) {
+			$team = SettingsApi::from_saved()->get_by_account_id($accountId);
+		}
 		if (empty($apiUrl)) {
 			$apiUrl = TRUSTEDLOGIN_API_URL;
 		}
 		return new ApiHandler([
-			'private_key' => $settings->get('private_key'),
-			'api_key'  => $settings->get('api_key'),
-			'debug_mode'  => $settings->get('debug_enabled'),
+			'private_key' => $team->get('private_key'),
+			'api_key'  => $team->get('api_key'),
+			'debug_mode'  => $team->get('debug_enabled'),
 			'type'        => 'saas',
 			'api_url' => $apiUrl
-		], $this->apiSender);
+		], $this->apiSender );
 	}
 
 	public function getApiUrl()

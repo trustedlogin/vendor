@@ -46,6 +46,8 @@ class TeamSettings
 			'approved_roles'   => [ 'administrator' ],
 			'debug_enabled'    => 'on',
 			'enable_audit_log' => 'on',
+			'connected' => false,
+			'status' => false,
 			self::HELPDESK_SETTINGS => [
 
 			]

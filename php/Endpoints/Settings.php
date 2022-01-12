@@ -51,10 +51,14 @@ class Settings extends Endpoint
 		if (! empty($teams)) {
 			foreach ($teams as $team) {
 				try {
-					$setting = new TeamSettings(
+					$teamSetting = new TeamSettings(
 						$team
 					);
-					$settings_api->add_setting($setting);
+					$this->verifyAccountId(
+						$teamSetting
+					);
+
+					$settings_api->add_setting($teamSetting);
 				} catch (\Throwable $th) {
 					throw $th;
 				}
@@ -67,4 +71,31 @@ class Settings extends Endpoint
 			SettingsApi::from_saved()->to_array()
 		);
 	}
+
+	public function verifyAccountId(TeamSettings $team){
+		$r = \trustedlogin_vendor()->getApiHandler(
+			$team->get('account_id'),
+			'',
+			$team
+		)->verify(
+			$team->get('account_id')
+		);
+		if( ! is_wp_error($r) ){
+			$team->set(
+				'connected',
+				true
+			);
+			$team->set( 'status', $r->status );
+		}else{
+			$team->set(
+				'connected',
+				false
+			);
+			$team->set( 'status', 'error' );
+		}
+
+		return ! is_wp_error($r);
+	}
+
+
 }
