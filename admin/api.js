@@ -2,7 +2,7 @@ import apiFetch from "@wordpress/api-fetch";
 
 const path = "/trustedlogin/v1/settings";
 export const getSettings = async () => {
-	let settings = await apiFetch({ path }).catch( e => console.log(e))
+	let settings = await apiFetch({ path }).catch( e => console.log(e));
 	if (settings.teams) {
 		settings.teams = settings.teams.map((team, id) => {
 			if( !team.helpdesk ) {

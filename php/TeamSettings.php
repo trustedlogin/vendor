@@ -48,6 +48,7 @@ class TeamSettings
 			'enable_audit_log' => 'on',
 			'connected' => false,
 			'status' => false,
+			'name' => '',
 			self::HELPDESK_SETTINGS => [
 
 			]

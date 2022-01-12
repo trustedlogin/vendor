@@ -20,7 +20,7 @@ const TeamSettings = ({ team, setTeam,removeTeam }) => {
 		},
 	];
 	return (
-		<FormTable title={__("Team")}>
+		<FormTable title={team.name ??__("Team")}>
 			<Input
 				label={__("TrustedLogin Account ID")}
 				name={`team-${teamId}[account_id]`}

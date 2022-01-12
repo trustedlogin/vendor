@@ -86,6 +86,7 @@ class Settings extends Endpoint
 				true
 			);
 			$team->set( 'status', $r->status );
+			$team->set( 'name', $r->name );
 		}else{
 			$team->set(
 				'connected',
