@@ -50,7 +50,8 @@ class Settings extends Endpoint
 
 		$settings_api->save();
 		return rest_ensure_response(
-			$settings_api->to_array()
+			//Get from saved so generated secret/ url is returned
+			SettingsApi::from_saved()->to_array()
 		);
 	}
 }
