@@ -21,7 +21,7 @@ const AccessKeyForm = ({initialAccountId,teams}) => {
         const actions = window.tlVendor.accesKeyActions;
         return actions.hasOwnProperty(accountId) ? actions[accountId] : null;
     }, [teams,accountId]);
-
+    console.log({action})
     useEffect(() => {
         setAccountId(initialAccountId);
     }, [initialAccountId,setAccountId]);

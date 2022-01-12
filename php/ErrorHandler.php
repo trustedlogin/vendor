@@ -35,8 +35,8 @@ class ErrorHandler {
 	 *
 	 * @return bool
 	 */
-	public function on_error( $num, $str, $file, $line, $context = NULL ) {
-        $this->log( implode(' ',  [$num,$str, "$file:$line"] ) );
+	public function on_error( $num, $str, $file, $line, $context = [] ) {
+        $this->log( implode(' ',  [$num,$str, "$file:$line"] ),__METHOD__, 'error',$context );
 		return false;
 	}
 
