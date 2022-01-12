@@ -9,13 +9,14 @@ class PublicKey extends Endpoint
 {
 
 
-
+	/** @inheritdoc */
 	protected function route()
 	{
 		return 'public_key';
 	}
 
 
+	/** @inheritdoc */
 	public function get(\WP_REST_Request $request)
 	{
 		$public_key = \trustedlogin_vendor()->getPublicKey();
