@@ -110,10 +110,11 @@ class AccesKeyLoginTest extends \WP_UnitTestCase
 		///set _wp_http_referer
 		$_REQUEST['_wp_http_referer'] = 'https://something.com';
 
-		//Return false, not error
-		$this->assertFalse(
+		//Return WP_Error for bad nonce
+		$this->assertTrue(
+			is_wp_error(
 			$ak->verify_grant_access_request()
-		);
+			));
 
 		//Set valid nonce
 		$_REQUEST[AccessKeyLogin::NONCE_NAME ] = wp_create_nonce(AccessKeyLogin::NONCE_ACTION);

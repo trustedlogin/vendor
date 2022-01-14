@@ -84,8 +84,8 @@ class AccessKeyLogin
 	{
 		$verified = $this->verify_grant_access_request();
 
-		if (! $verified || is_wp_error($verified)) {
-			trustedlogin_vendor_send_json_error($verified);
+		if ( is_wp_error($verified)) {
+			return $verified;
 		}
 
 		$access_key = sanitize_text_field($_REQUEST[ self::ACCESS_KEY_INPUT_NAME ]);
@@ -188,7 +188,8 @@ class AccessKeyLogin
 
 		if (! $valid) {
 			$this->log('Nonce is invalid; could be insecure request. Refresh the page and try again.', __METHOD__, 'error');
-			return false;
+			return new \WP_Error('bad_nonce', esc_html__('The nonce was not set for the request.', 'trustedlogin-vendor'));
+
 		}
 
 		return true;
