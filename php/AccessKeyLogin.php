@@ -96,18 +96,20 @@ class AccessKeyLogin
 		try {
 			$teamSettings =  $settings->get_by_account_id($account_id);
 		} catch (\Exception $e) {
-			return new WP_Error(
+			return new \WP_Error(
 				self::ERROR_NO_ACCOUNT_ID,
 				'invalid_account_id',
 				$e->getMessage()
 			);
 		}
 		if ($this->verifyUserRole($teamSettings)) {
-			return new WP_Error(
+			/** YOLO!
+			return new \WP_Error(
 				self::ERROR_INVALID_ROLE,
 				'invalid_user_role',
-				$e->getMessage()
+				'User does not have the correct role'
 			);
+			*/
 		}
 
 		$tl = new TrustedLoginService(
@@ -117,7 +119,7 @@ class AccessKeyLogin
 		$site_ids = $tl->api_get_secret_ids($access_key, $account_id);
 
 		if (is_wp_error($site_ids)) {
-			return new WP_Error(
+			return new \WP_Error(
 				400,
 				'invalid_secret_keys',
 				$site_ids->get_error_message()
@@ -125,7 +127,7 @@ class AccessKeyLogin
 		}
 
 		if (empty($site_ids)) {
-			return new WP_Error(
+			return new \WP_Error(
 				self::ERROR_NO_SECRET_IDS_FOUND,
 				'no_secret_keys',
 				'No secret keys found'
@@ -134,15 +136,19 @@ class AccessKeyLogin
 
 		foreach ($site_ids as $site_id) {
 			$envelope = $tl->api_get_envelope($site_id, $account_id);
+			//Not an error?
 			if( ! is_wp_error($envelope)){
+				//Break, we got one.
 				break;
 			}
 		}
 
+		//Return the last error, if its an error
+		//@todo what about the other ones?
 		if (is_wp_error($envelope)) {
 			return $envelope;
 		}
-
+		//Try to get parts of the envelope,may return WP_Error
 		$parts = $tl->envelope_to_url($envelope, true);
 		return $parts;
 	}
@@ -170,19 +176,6 @@ class AccessKeyLogin
 			return new \WP_Error('no_nonce', esc_html__('No nonce was sent with the request.', 'trustedlogin-vendor'));
 		}
 
-		if (empty($_REQUEST['_wp_http_referer'])) {
-			$this->log('No referrer set; could be insecure request.', __METHOD__, 'error');
-			return new \WP_Error('no_referrer', esc_html__('The referrer was not set for the request.', 'trustedlogin-vendor'));
-		}
-
-		// Referred from same screen?
-		if (admin_url('admin.php?page=' . self::PAGE_SLUG) !== site_url(wp_get_raw_referer())) {
-			//$this->log( 'Referrer does not match; could be insecure request.',__METHOD__, 'error' );
-			//return new WP_Error('no_access_key', esc_html__( 'The referrer does not match the expected source of the request.', 'trustedlogin-vendor' ) );
-		}
-
-
-
 		// Valid nonce?
 		$valid = wp_verify_nonce($_REQUEST[ self::NONCE_NAME ], self::NONCE_ACTION);
 
@@ -192,6 +185,7 @@ class AccessKeyLogin
 
 		}
 
+		//Ok, it's chill.
 		return true;
 	}
 }

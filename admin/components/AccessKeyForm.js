@@ -21,7 +21,6 @@ const AccessKeyForm = ({initialAccountId,teams}) => {
         const actions = window.tlVendor.accesKeyActions;
         return actions.hasOwnProperty(accountId) ? actions[accountId] : null;
     }, [teams,accountId]);
-    console.log({action})
     useEffect(() => {
         setAccountId(initialAccountId);
     }, [initialAccountId,setAccountId]);
@@ -33,10 +32,9 @@ const AccessKeyForm = ({initialAccountId,teams}) => {
             method={'GET'}
             action={action}
             onSubmit={e => {
-                const provider = 'helpscout';
-                let tlaction = 'accesskey_login';//tl_access_key_login
-                let redirect = action.split("?trustedlogin")[0] + `?trustedlogin=1&action=${tlaction}&provider=${provider}&ak_account_id=${accountId}&ak=${accessKey}`;
                 e.preventDefault();
+                const redirect = `${action}&ak=${accessKey}`;
+                alert(redirect);
                 window.location = redirect;
             }}
         >

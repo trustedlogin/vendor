@@ -29,7 +29,13 @@ class MaybeRedirect
 		if( is_array($parts_or_error)){
 			wp_safe_redirect( $parts_or_error['loginurl'] );
 		}
-		wp_safe_redirect( admin_url('?page=trustedlogin-settings') );
+
+		wp_safe_redirect(
+			add_query_arg( [
+				'page' => 'trustedlogin-settings',
+				'error' => $parts_or_error->get_error_code()
+			], admin_url() )
+		);
 		exit;
 
 	}

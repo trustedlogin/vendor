@@ -43,7 +43,8 @@ class Factory {
 			'action'   => $action,
 			'provider' => $provider,
 			AccessKeyLogin::ACCOUNT_ID_INPUT_NAME  => $account_id,
-        ];
+			AccessKeyLogin::NONCE_NAME => wp_create_nonce( AccessKeyLogin::NONCE_ACTION ),
+		];
 
 		if ( $access_key ) {
 			$args['ak'] = $access_key;
@@ -53,6 +54,6 @@ class Factory {
         }
 
 		$url = add_query_arg( $args, site_url() );
-		return esc_url_raw( $url );
+		return $url;
 	}
 }

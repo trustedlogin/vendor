@@ -45,6 +45,11 @@ add_action('admin_menu', function () {
         'manage_options',
         'trustedlogin-settings',
         function () {
+            //@todo better way to handle error.
+            if( isset($_GET['error'])){
+                wp_die( sanitize_text_field($_GET['error']));
+                exit;
+            };
             //React root
             echo '<div id="trustedlogin-settings"></div>';
         }
