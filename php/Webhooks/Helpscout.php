@@ -45,7 +45,7 @@ class Helpscout extends Webhook{
 		if ( ! $data || ! $this->verify_request( $data, $signature ) ) {
 			$error_text  = '<p class="red">' . esc_html__( 'Unauthorized.', 'trustedlogin-vendor' ) . '</p>';
 			$error_text .= '<p>' . esc_html__( 'Verify your site\'s TrustedLogin Settings match the Help Scout widget settings.', 'trustedlogin-vendor' ) . '</p>';
-			trustedlogin_vendor_send_json_error( array( 'html' => $error_text ), 401 );
+			wp_send_json_error( array( 'html' => $error_text ), 401 );
 		}
 
 
@@ -56,7 +56,7 @@ class Helpscout extends Webhook{
         }else{
             $error_text  = '<p class="red">' . esc_html__( 'Missing Account ID.', 'trustedlogin-vendor' ) . '</p>';
 			$error_text .= '<p>' . esc_html__( 'Verify your site\'s TrustedLogin Settings match the Help Scout widget settings.', 'trustedlogin-vendor' ) . '</p>';
-            trustedlogin_vendor_send_json_error( [
+            wp_send_json_error( [
                     'html' => $error_text,
                     'message' => 'missing_account_id'
                 ]
@@ -73,12 +73,12 @@ class Helpscout extends Webhook{
 		if ( is_null( $data_obj ) || ! $customer_emails ) {
 			$error_text  = '<p class="red">' . esc_html__( 'Unable to Process.', 'trustedlogin-vendor' ) . '</p>';
 			$error_text .= '<p>' . esc_html__( 'The help desk sent corrupted customer data. Please try refreshing the page.', 'trustedlogin-vendor' ) . '</p>';
-			trustedlogin_vendor_send_json_error( array( 'html' => $error_text ), 400 );
+			wp_send_json_error( array( 'html' => $error_text ), 400 );
 		}
 
 		$return_html = $this->get_widget_response( $customer_emails,$account_id );
 
-		trustedlogin_vendor_send_json( array( 'html' => $return_html ), 200 );
+		wp_send_json( array( 'html' => $return_html ), 200 );
 
 	}
 
