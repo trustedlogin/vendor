@@ -106,7 +106,7 @@ class SettingsApi
 	public function get_by_account_id($account_id)
 	{
 		foreach ($this->team_settings as $setting) {
-			if ($account_id === $setting->get('account_id')) {
+			if (intval($account_id) === intval($setting->get('account_id'))) {
 				return $setting;
 			}
 		}

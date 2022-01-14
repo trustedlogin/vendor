@@ -53,6 +53,7 @@ class AccesKeyLoginTest extends \WP_UnitTestCase
 	}
 
 	/**
+	 * @group AccessKeyLogin
 	 * @covers TrustedLogin\Vendor\AccessKeyLogin::verify_grant_access_request()
 	 */
 	public function testVerifyRequest()
@@ -123,6 +124,7 @@ class AccesKeyLoginTest extends \WP_UnitTestCase
 	}
 
 	/**
+	 * @group AccessKeyLogin
 	 * @covers AccessKeyLogin::handle()
 	 */
 	public function testHandler()
@@ -152,21 +154,17 @@ class AccesKeyLoginTest extends \WP_UnitTestCase
 		add_filter('trustedlogin/vendor/encryption/get-keys', function () {
 			return $this->getEncryptionKeys();
 		});
-		//Use filter callback to test response
-		add_filter('trustedlogin_vendor_send_json',function () {
-			return function($output) {
-				$output = json_decode($output, true);
-				$this->assertArrayHasKey( 'loginurl', $output);
-				$this->assertTrue(
-					(bool)filter_var($output['loginurl'], FILTER_VALIDATE_URL)
-				);
-				$this->assertArrayHasKey( 'siteurl', $output);
-				$this->assertSame( 'https://trustedlogin.support', $output['siteurl']);
 
-			};
-		},1 );
-		//Run handler, expect success
-		$handler->handle();
+		//Run handler, expect it to return the envelope, as an array
+		$output = $handler->handle();
+		$this->assertIsArray( $output );
+		//With the right things in it
+		$this->assertArrayHasKey( 'loginurl', $output);
+		$this->assertTrue(
+			(bool)filter_var($output['loginurl'], FILTER_VALIDATE_URL)
+		);
+		$this->assertArrayHasKey( 'siteurl', $output);
+		$this->assertSame( 'https://trustedlogin.support', $output['siteurl']);
 	}
 
 	/**

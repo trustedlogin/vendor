@@ -41,6 +41,21 @@ class AccessKeyLogin
 
 	const REDIRECT_ENDPOINT = 'trustedlogin';
 
+	const ERROR_NO_ACCOUNT_ID = 404;
+
+	const ERROR_INVALID_ROLE = 403;
+
+	/*
+	* Error for no secret ids founc
+	* @See https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/406
+	*/
+	const ERROR_NO_SECRET_IDS_FOUND = 406;
+	/**
+	 * Error code for no envelope found
+	 *
+	 * @see https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/510
+	 */
+	const ERROR_NO_ENVELOPE= 510;
 
 	/**
 	 * The URL for access key login
@@ -63,10 +78,10 @@ class AccessKeyLogin
 	 *
 	 * Sends JSON responses.
 	 *
+	 * return array|WP_Error
 	 */
 	public function handle()
 	{
-
 		$verified = $this->verify_grant_access_request();
 
 		if (! $verified || is_wp_error($verified)) {
@@ -77,17 +92,22 @@ class AccessKeyLogin
 		$account_id = sanitize_text_field($_REQUEST[ self::ACCOUNT_ID_INPUT_NAME]);
 		//Get saved settings an then team settings
 		$settings = SettingsApi::from_saved();
+
 		try {
 			$teamSettings =  $settings->get_by_account_id($account_id);
 		} catch (\Exception $e) {
-			// Print error
-			trustedlogin_vendor_send_json_error(esc_html__($e->getMessage()), 404);
-			exit;
+			return new WP_Error(
+				self::ERROR_NO_ACCOUNT_ID,
+				'invalid_account_id',
+				$e->getMessage()
+			);
 		}
 		if ($this->verifyUserRole($teamSettings)) {
-			// Print error
-			trustedlogin_vendor_send_json_error(esc_html__($e->getMessage(), 403));
-			exit;
+			return new WP_Error(
+				self::ERROR_INVALID_ROLE,
+				'invalid_user_role',
+				$e->getMessage()
+			);
 		}
 
 		$tl = new TrustedLoginService(
@@ -95,30 +115,36 @@ class AccessKeyLogin
 		);
 
 		$site_ids = $tl->api_get_secret_ids($access_key, $account_id);
+
 		if (is_wp_error($site_ids)) {
-			trustedlogin_vendor_send_json_error($site_ids);
+			return new WP_Error(
+				400,
+				'invalid_secret_keys',
+				$site_ids->get_error_message()
+			);
 		}
 
 		if (empty($site_ids)) {
-			trustedlogin_vendor_send_json_error(esc_html__('No sites were found matching the access key.', 'trustedlogin-vendor'), 404);
+			return new WP_Error(
+				self::ERROR_NO_SECRET_IDS_FOUND,
+				'no_secret_keys',
+				'No secret keys found'
+			);
 		}
 
-		/**
-		 * TODO: Add handling for multiple siteIds
-		 * @see  https://github.com/trustedlogin/trustedlogin-vendor/issues/47
-		 */
-		$envelope = $tl->api_get_envelope($site_ids[0], $account_id);
-		// Print error
+		foreach ($site_ids as $site_id) {
+			$envelope = $tl->api_get_envelope($site_id, $account_id);
+			if( ! is_wp_error($envelope)){
+				break;
+			}
+		}
+
 		if (is_wp_error($envelope)) {
-			trustedlogin_vendor_send_json_error($envelope);
+			return $envelope;
 		}
 
 		$parts = $tl->envelope_to_url($envelope, true);
-		if (is_wp_error($parts)) {
-			trustedlogin_vendor_send_json_error($parts);
-		}
-
-		trustedlogin_vendor_send_json($parts);
+		return $parts;
 	}
 
 	/**

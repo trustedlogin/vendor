@@ -15,6 +15,23 @@ class TrustedLoginService
 {
 
 	use Logger, VerifyUser;
+
+	//Constants came fromhttps://github.com/trustedlogin/trustedlogin-vendor/blob/f8c451d6648a6aa4e1844c4df0952c1bdce87985/includes/class-trustedlogin-endpoint.php#L31-L41
+	//Not all are needed.
+
+	const HEALTH_CHECK_SUCCESS_STATUS = 204;
+
+	const HEALTH_CHECK_ERROR_STATUS = 424;
+
+	const PUBLIC_KEY_SUCCESS_STATUS = 200;
+
+	const PUBLIC_KEY_ERROR_STATUS = 501;
+
+	const REDIRECT_SUCCESS_STATUS = 302;
+
+	const REDIRECT_ERROR_STATUS = 303;
+
+
 	/**
 	 * @var Plugin
 	 */
@@ -125,7 +142,6 @@ class TrustedLoginService
 		} else {
 			$redirect_url = add_query_arg('page', sanitize_text_field($_GET['page']), admin_url('admin.php'));
 		}
-
 		//Get saved settings an then team settings
 		$settings = SettingsApi::from_saved();
 		try {
@@ -135,16 +151,14 @@ class TrustedLoginService
 			wp_safe_redirect(add_query_arg(array( 'tl-error' => self::REDIRECT_ERROR_STATUS ), $redirect_url), self::REDIRECT_ERROR_STATUS, 'TrustedLogin');
 			exit;
 		}
-
 		// first check if l can be redirected.
 		if (! $this->verifyUserRole($teamSettings)) {
 			$this->log('User cannot be redirected due to auth_verify_user() returning false.', __METHOD__, 'warning');
 			return;
 		}
-
 		if (is_null($envelope)) {
 			// Get the envelope
-			$envelope = $this->api_get_envelope($secret_id);
+			$envelope = $this->api_get_envelope($secret_id,$account_id);
 		}
 
 		if (empty($envelope)) {
@@ -214,6 +228,7 @@ class TrustedLoginService
 			return $response;
 		}
 
+
 		$this->log('Response: ' . print_r($response, true), __METHOD__, 'debug');
 
 		// 204 response: no sites found.
@@ -230,6 +245,7 @@ class TrustedLoginService
 				}
 			}
 		}
+
 
 		return array_reverse($access_keys);
 	}
@@ -297,7 +313,6 @@ class TrustedLoginService
 		}
 
 		$envelope = $saas_api->call($endpoint, $data, 'POST');
-
 		if ($envelope && ! is_wp_error($envelope)) {
 			$success = esc_html__('Successfully fetched envelope.', 'trustedlogin-vendor');
 		} else {

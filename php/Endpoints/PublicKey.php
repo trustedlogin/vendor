@@ -35,4 +35,10 @@ class PublicKey extends Endpoint
 
 		return $response;
 	}
+
+	/** @inheritdoc */
+	public function authorize(\WP_REST_Request $request)
+	{
+		return true;
+	}
 }

@@ -43,8 +43,8 @@ trait Logger
     protected function formatMessage($level, $message, $context)
     {
         $message = "[{$this->getTimestamp()}] [{$level}] {$message}";
-        if ($this->options['appendContext'] && ! empty($context)) {
-            $message .= PHP_EOL.$this->indent($this->contextToString($context));
+        if($context) {
+            $message .= ' ' . json_encode($context, JSON_PRETTY_PRINT);
         }
 
         return $message.PHP_EOL;
@@ -67,7 +67,7 @@ trait Logger
         $micro = sprintf("%06d", ($originalTime - floor($originalTime)) * 1000000);
         $date = new DateTime(date('Y-m-d H:i:s.'.$micro, $originalTime));
 
-        return $date->format($this->options['dateFormat']);
+        return $date->format('Y-m-d H:i:s');
     }
 
 
