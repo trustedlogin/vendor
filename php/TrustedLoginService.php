@@ -76,13 +76,17 @@ class TrustedLoginService
 				continue;
 			}
 
-			$this->log('$envelope is not an error. Here\'s the envelope: ' . print_r($envelope, true), __METHOD__, 'debug');
+			$this->log('$envelope is not an error. Here\'s the envelope: ', __METHOD__, 'debug',[
+				'envelope' => $envelope,
+			]);
 
 			// TODO: Convert to shared (client/vendor) Envelope library
 			$url_parts = $this->envelope_to_url($envelope, true);
 
 			if (is_wp_error($url_parts)) {
-				$this->log('Error: ' . $url_parts->get_error_message(), __METHOD__, 'error');
+				$this->log('Error: ' , __METHOD__, 'error',[
+					'error_messages'=>$url_parts->get_error_message()
+				]);
 				continue;
 			}
 
@@ -229,7 +233,7 @@ class TrustedLoginService
 		}
 
 
-		$this->log('Response: ' . print_r($response, true), __METHOD__, 'debug');
+		$this->log('Response: ', __METHOD__, 'debug',['response' => $response]);
 
 		// 204 response: no sites found.
 		if (true === $response) {
@@ -350,7 +354,9 @@ class TrustedLoginService
 		}
 
 		if (! is_array($envelope)) {
-			$this->log('Error: envelope not an array. e:' . print_r($envelope, true), __METHOD__, 'error');
+			$this->log('Error: envelope not an array. e:', __METHOD__, 'error',[
+				'envelope' => $envelope
+			]);
 
 			return new WP_Error('malformed_envelope', 'The data received is not formatted correctly');
 		}
@@ -369,15 +375,15 @@ class TrustedLoginService
 		$trustedlogin_encryption = $this->plugin->getEncryption();
 
 		try {
-			$this->log('Starting to decrypt envelope. Envelope: ' . print_r($envelope, true), __METHOD__, 'debug');
+			$this->log('Starting to decrypt envelope.', __METHOD__, 'debug',['envelope' => $envelope]);
 			$decrypted_identifier = $trustedlogin_encryption->decrypt_crypto_box($envelope['identifier'], $envelope['nonce'], $envelope['publicKey']);
 			if (is_wp_error($decrypted_identifier)) {
-				$this->log('There was an error decrypting the envelope.' . print_r($decrypted_identifier, true), __METHOD__);
+				$this->log('There was an error decrypting the envelope.', __METHOD__,['print_identifier' => $decrypted_identifier]);
 
 				return $decrypted_identifier;
 			}
 
-			$this->log('Decrypted identifier: ' . print_r($decrypted_identifier, true), __METHOD__, 'debug');
+			$this->log('Decrypted identifier: ', __METHOD__, 'debug',['print_identifier' => $decrypted_identifier]);
 
 			$parts = [
 				'siteurl'    => $envelope['siteUrl'],

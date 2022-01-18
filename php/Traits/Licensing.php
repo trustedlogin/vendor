@@ -37,7 +37,9 @@ trait Licensing {
 
 		$license = new EDD_SL_License( $key );
 
-		$this->log( 'License: ' . print_r( $license, true ), __METHOD__, 'debug' );
+		$this->log( 'License: ' , __METHOD__, 'debug', [
+			'license' => $license,
+		] );
 
 		return $license->exists;
 	}

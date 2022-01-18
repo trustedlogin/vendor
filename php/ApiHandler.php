@@ -335,7 +335,9 @@ class ApiHandler
 		}
 
 		if (empty($api_response) || ! is_array($api_response)) {
-			$this->log('Malformed api_response received:' . print_r($api_response, true), __METHOD__, 'error');
+			$this->log('Malformed api_response received:', __METHOD__, 'error',[
+				'response' => $api_response
+			]);
 
 			return new WP_Error('malformed_response', esc_html__('Malformed API response received.', 'trustedlogin-vendor'));
 		}
@@ -353,7 +355,7 @@ class ApiHandler
 		$body = json_decode($body);
 
 		if (empty($body) || ! is_object($body)) {
-			$this->log('No body received:' . print_r($body, true), __METHOD__, 'error');
+			$this->log('No body received:' , __METHOD__, 'error',['body' => $body]);
 
 			return new WP_Error('empty_body', esc_html__('No body received.', 'trustedlogin-vendor'));
 		}
@@ -362,10 +364,14 @@ class ApiHandler
 
 		switch ($response_code) {
 			case 424:
-				$this->log('Error Getting Signature Key from Vendor: ' . print_r($api_response, true), __METHOD__, 'error');
+				$this->log('Error Getting Signature Key from Vendor: ', __METHOD__, 'error',[
+					'response' => $api_response
+				]);
 				return new WP_Error('signature_key_error', $body_message);
 			case 410:
-				$this->log('Error Getting Signature Key from Vendor: ' . print_r($api_response, true), __METHOD__, 'error');
+				$this->log('Error Getting Signature Key from Vendor: ', __METHOD__, 'error',[
+					'response' => $api_response
+				]);
 				return new WP_Error('gone', 'This support request is gone. Please create a new request. (SecretNotFoundInVaultException)');
 			case 403:
 				// Problem with Token

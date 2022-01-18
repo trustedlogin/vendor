@@ -163,7 +163,9 @@ class Helpscout extends Webhook{
 			if ( is_wp_error( $response ) ) {
 				$item_html = $response->get_error_message();
 			} else {
-				$this->log( 'Response: ' . print_r( $response, true ), __METHOD__ );
+				$this->log( 'Response: ', __METHOD__,[
+					'response' => $response
+				] );
 
 				if ( ! empty( $response ) ) {
 					foreach ( $response as $key => $secrets ) {
