@@ -79,5 +79,52 @@ class HelpscoutWebhookTest extends \WP_UnitTestCase
 
 	}
 
+	/**
+	 * Test webhook endpoint returns correct arrya
+	 * @covers TrustedLogin\Vendor\Webhooks\Helpscout::webhook_endpoint()
+	 * @covers TrustedLogin\Vendor\Webhooks\Helpscout::get_widget_response()
+	 */
+	public function testWebhookEndpoint(){
+		//Make webhook class
+		$helpscout = new Helpscout( 'secret' );
+		//Mock data object
+		$data = (object)[
+			'customer' => [
+				'emails' => [
+					'spaceperson@rocks.space'
+				],
+			],
+			'account_id' => self::ACCOUNT_ID
+		];
+		//Encode that data.
+		$encodedData = json_encode( $data );
+		//Sign that data.
+		$signature = $helpscout->make_signature(
+			$encodedData
+		);
+		//Verify signature
+		$this->assertTrue(
+			$helpscout->verify_request(
+				$encodedData,
+				$signature
+			)
+		);
+
+		//Mock request signature
+		$_SERVER['X-HELPSCOUT-SIGNATURE']= $signature;
+		//Process request
+		$r = $helpscout->webhook_endpoint( $encodedData );
+		$this->assertArrayHasKey( 'html', $r );
+		$this->assertArrayHasKey( 'status', $r );
+		$this->assertEquals( 200, $r['status'] );
+
+		//Test with invalid signature
+		$_SERVER['X-HELPSCOUT-SIGNATURE']= md5($encodedData);
+		$r = $helpscout->webhook_endpoint( $encodedData );
+		$this->assertEquals( 403, $r['status'] );
+
+
+	}
+
 
 }

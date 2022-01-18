@@ -24,7 +24,7 @@ abstract class Webhook {
 	/**
 	 * Calculate signature from request data
 	 *
-	 * @param string $secret
+	 * @param string $data JSON encoded data
 	 * @return bool
 	 */
     public function make_signature(string $data){
@@ -69,7 +69,7 @@ abstract class Webhook {
 	 *
 	 * @param array|null $data The data sent to the webhook. If null, php://input is used
 	 *
-	 * @return void Sends JSON response back, should be sent with wp_send_json()
+	 * @return array
 	 */
     abstract public function webhook_endpoint($data = null );
 

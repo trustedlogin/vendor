@@ -23,7 +23,7 @@ class Helpscout extends Webhook{
 	 * @param array|null $data The data sent to the webhook. If null, php://input is used
 	 * @uses self::verify_request()
 	 *
-	 * @return void Sends JSON response back to an Ajax request via wp_send_json()
+	 * @return array
 	 */
 	public function webhook_endpoint($data = null ) {
 
@@ -45,7 +45,7 @@ class Helpscout extends Webhook{
 		if ( ! $data || ! $this->verify_request( $data, $signature ) ) {
 			$error_text  = '<p class="red">' . esc_html__( 'Unauthorized.', 'trustedlogin-vendor' ) . '</p>';
 			$error_text .= '<p>' . esc_html__( 'Verify your site\'s TrustedLogin Settings match the Help Scout widget settings.', 'trustedlogin-vendor' ) . '</p>';
-			wp_send_json_error( array( 'html' => $error_text ), 401 );
+			return [ 'html' => $error_text, 'status' => 403 ];
 		}
 
 
@@ -56,11 +56,11 @@ class Helpscout extends Webhook{
         }else{
             $error_text  = '<p class="red">' . esc_html__( 'Missing Account ID.', 'trustedlogin-vendor' ) . '</p>';
 			$error_text .= '<p>' . esc_html__( 'Verify your site\'s TrustedLogin Settings match the Help Scout widget settings.', 'trustedlogin-vendor' ) . '</p>';
-            wp_send_json_error( [
-                    'html' => $error_text,
-                    'message' => 'missing_account_id'
-                ]
-            );
+			return [
+				'html' => $error_text,
+				'status' => 401,
+				'message' => 'missing_account_id'
+		 	];
         }
 		if ( isset( $data_obj->customer->emails ) && is_array( $data_obj->customer->emails ) ) {
 			$customer_emails = $data_obj->customer->emails;
@@ -73,12 +73,15 @@ class Helpscout extends Webhook{
 		if ( is_null( $data_obj ) || ! $customer_emails ) {
 			$error_text  = '<p class="red">' . esc_html__( 'Unable to Process.', 'trustedlogin-vendor' ) . '</p>';
 			$error_text .= '<p>' . esc_html__( 'The help desk sent corrupted customer data. Please try refreshing the page.', 'trustedlogin-vendor' ) . '</p>';
-			wp_send_json_error( array( 'html' => $error_text ), 400 );
+			return [
+				'html' => $error_text,
+				'status' =>  400
+			];
 		}
 
 		$return_html = $this->get_widget_response( $customer_emails,$account_id );
 
-		wp_send_json( array( 'html' => $return_html ), 200 );
+		return [  'html' => $return_html, 'status' => 200 ];
 
 	}
 
