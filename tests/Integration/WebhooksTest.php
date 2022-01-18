@@ -77,7 +77,4 @@ class WebhooksTest extends \WP_UnitTestCase
         );
 	}
 
-
-
-
 }

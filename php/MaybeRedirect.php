@@ -3,6 +3,7 @@ namespace TrustedLogin\Vendor;
 
 use TrustedLogin\Vendor\Traits\Logger;
 use TrustedLogin\Vendor\Traits\VerifyUser;
+use TrustedLogin\Vendor\Webhooks\Factory;
 use TrustedLogin\Vendor\Webhooks\Webhook;
 
 /**
@@ -37,8 +38,27 @@ class MaybeRedirect
 			exit;
 		}
 
-		if( isset($_REQUEST[Webhook::WEBHOOK_ENDPOINT])){
+		if( isset($_REQUEST[Webhook::WEBHOOK_ACTION])){
+			$provider = $_REQUEST[Factory::PROVIDER_KEY];
+			if( ! in_array($provider, Factory::getProviders())){
+				$this->log( 'Unknown provider: ' . $provider,__METHOD__ );
+				return;
+			}
+			$accountId = $_REQUEST[AccessKeyLogin::ACCOUNT_ID_INPUT_NAME];
 
+			try {
+				$team  = SettingsApi::from_saved()->get_by_account_id($accountId);
+				$webhook = Factory::webhook( $team );
+				$r = $webhook->webhook_endpoint();
+				if( 200 === $r['status']){
+					wp_send_json_success($r);
+				}else{
+					wp_send_json_error($r,$r['status']);
+				}
+			} catch (\Throwable $th) {
+				wp_send_json_error( ['message' => $th->getMessage()],404);
+			}
+			exit;
 		}
 
 	}

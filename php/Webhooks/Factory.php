@@ -8,6 +8,8 @@ use TrustedLogin\Vendor\AccessKeyLogin;
 class Factory {
 
 
+	const PROVIDER_KEY = 'provider';
+
     public static function webhook( TeamSettings $teamSettings ){
 
         $type = $teamSettings->get_helpdesks()[0];
@@ -19,6 +21,12 @@ class Factory {
                 throw new \Exception( 'Unknown webhook type' );
         }
     }
+
+	public static function getProviders(){
+		return [
+			'helpscout'
+		];
+	}
 
 
     /**
@@ -42,7 +50,7 @@ class Factory {
 		$args = [
 			AccessKeyLogin::REDIRECT_ENDPOINT  => true,
 			'action'   => $action,
-			'provider' => $provider,
+			self::PROVIDER_KEY => $provider,
 			AccessKeyLogin::ACCOUNT_ID_INPUT_NAME  => $account_id,
 			AccessKeyLogin::NONCE_NAME => wp_create_nonce( AccessKeyLogin::NONCE_ACTION ),
 		];
