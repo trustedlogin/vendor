@@ -8,6 +8,9 @@ use TrustedLogin\Vendor\Traits\Logger;
 abstract class Webhook {
 
     use Licensing,Logger;
+
+	const WEBHOOK_ACTION = 'trusted_login_webhook';
+
     /**
      * @var string
      */
@@ -33,30 +36,21 @@ abstract class Webhook {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param string $action What action the link should do. eg 'support_redirect'.
 	 * @param string $account_id What account ID link is for.
-	 * @param string $access_key (Optional) The key for the access being requested.
 	 *
 	 * @return string|\WP_Error The url with GET variables.
 	 */
-	public function build_action_url( $action, $account_id, $access_key = '' ) {
+	public function action_url( $account_id ) {
 
-		if ( empty( $action ) ) {
-			return new \WP_Error( 'variable-missing', 'Cannot build helpdesk action URL without a specified action' );
-		}
 
 		$endpoint = AccessKeyLogin::REDIRECT_ENDPOINT;
 
 		$args = [
-			$endpoint  => 1,
-			'action'   => $action,
-			'provider' => $this->get_slug(),
+			$endpoint  => '1',
+			'action'   => self::WEBHOOK_ACTION,
+			'provider' => $this->get_provider_name(),
 			AccessKeyLogin::ACCOUNT_ID_INPUT_NAME  => $account_id,
         ];
-
-		if ( $access_key ) {
-			$args['ak'] = $access_key;
-		}
 
 		$url = add_query_arg( $args, site_url() );
 
@@ -64,18 +58,18 @@ abstract class Webhook {
 	}
 
     /**
-     * Get slug for this webhook.
+     * Get provider name for this webhook.
      *
      * @return string
      */
-    abstract protected function get_slug();
+    abstract protected function get_provider_name();
 
     /**
 	 * Generates the HTML output for the webhook.
 	 *
 	 * @param array|null $data The data sent to the webhook. If null, php://input is used
 	 *
-	 * @return void Sends JSON response back to an Ajax request via wp_send_json()
+	 * @return void Sends JSON response back, should be sent with wp_send_json()
 	 */
     abstract public function webhook_endpoint($data = null );
 
@@ -90,11 +84,12 @@ abstract class Webhook {
 	protected function get_licenses_by_emails( $customer_emails ) {
 
         $licenses = [];
-        if( $this->is_edd_store()) {
-		foreach ( $customer_emails as $customer_email ) {
+        if( $this->is_edd_store() && $this->edd_has_licensing()) {
+			foreach ( $customer_emails as $customer_email ) {
                 $email = sanitize_email( $customer_email );
-
-                $_licenses_for_email = get_transient( 'trustedlogin_licenses_edd' . md5( $email ) );
+				$cache_key ='trustedlogin_licenses_edd' . md5( $email );
+				$cache_group = 'trustedlogin_edd';
+                $_licenses_for_email = wp_cache_get( $cache_key, $cache_group  );
 
                 if ( false === $_licenses_for_email ) {
                     $_licenses_for_email = $this->edd_get_licenses( $email );
@@ -102,7 +97,7 @@ abstract class Webhook {
 
                 if ( ! empty( $_licenses_for_email ) ) {
 
-                    set_transient( 'trustedlogin_licenses_edd' . md5( $email ), $_licenses_for_email, DAY_IN_SECONDS );
+                    wp_cache_set( $cache_key, $_licenses_for_email,$cache_group, DAY_IN_SECONDS );
 
                     $licenses = array_merge( $licenses, $_licenses_for_email );
                 }

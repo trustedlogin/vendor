@@ -3,6 +3,7 @@ namespace TrustedLogin\Vendor;
 
 use TrustedLogin\Vendor\Traits\Logger;
 use TrustedLogin\Vendor\Traits\VerifyUser;
+use TrustedLogin\Vendor\Webhooks\Webhook;
 
 /**
  * Checks for support redirect logins and tries to handle them.
@@ -20,23 +21,25 @@ class MaybeRedirect
 	public function handle()
 	{
 
-		if (! isset($_REQUEST[ AccessKeyLogin::REDIRECT_ENDPOINT ])) {
-			return;
+		if ( isset($_REQUEST[ AccessKeyLogin::REDIRECT_ENDPOINT ])) {
+			$handler = new AccessKeyLogin();
+			$parts_or_error = $handler->handle();
+			if( is_array($parts_or_error)){
+				wp_safe_redirect( $parts_or_error['loginurl'] );
+			}
+
+			wp_safe_redirect(
+				add_query_arg( [
+					'page' => 'trustedlogin-settings',
+					'error' => $parts_or_error->get_error_code()
+				], admin_url() )
+			);
+			exit;
 		}
 
-		$handler = new AccessKeyLogin();
-		$parts_or_error = $handler->handle();
-		if( is_array($parts_or_error)){
-			wp_safe_redirect( $parts_or_error['loginurl'] );
-		}
+		if( isset($_REQUEST[Webhook::WEBHOOK_ENDPOINT])){
 
-		wp_safe_redirect(
-			add_query_arg( [
-				'page' => 'trustedlogin-settings',
-				'error' => $parts_or_error->get_error_code()
-			], admin_url() )
-		);
-		exit;
+		}
 
 	}
 }

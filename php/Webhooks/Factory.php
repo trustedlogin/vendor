@@ -20,6 +20,7 @@ class Factory {
         }
     }
 
+
     /**
 	 * Builds a URL for helpdesk request and redirect actions.
 	 *

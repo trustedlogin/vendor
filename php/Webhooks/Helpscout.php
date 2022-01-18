@@ -11,7 +11,7 @@ class Helpscout extends Webhook{
      *
      * @return string
      */
-    public function get_slug(){
+    public function get_provider_name(){
         return 'helpscout';
     }
 
@@ -65,7 +65,7 @@ class Helpscout extends Webhook{
 		if ( isset( $data_obj->customer->emails ) && is_array( $data_obj->customer->emails ) ) {
 			$customer_emails = $data_obj->customer->emails;
 		} elseif ( isset( $data_obj->customer->email ) ) {
-			$customer_emails = array ( $data_obj->customer->email );
+			$customer_emails = [ $data_obj->customer->email ];
 		} else {
 			$customer_emails = false;
 		}
@@ -103,7 +103,7 @@ class Helpscout extends Webhook{
 		 * @param string $html
 		 */
 		$html_template = apply_filters(
-			'trustedlogin/vendor/helpdesk/' . $this->get_slug() . '/template/wrapper',
+			'trustedlogin/vendor/helpdesk/' . $this->get_provider_name() . '/template/wrapper',
 			'<ul class="c-sb-list c-sb-list--two-line">%1$s</ul>'.
 			'<a href="' . esc_url( admin_url( 'admin.php?page=' . AccessKeyLogin::PAGE_SLUG ) ) . '"><i class="icon-gear"></i>' . esc_html__( 'Go to Access Key Log-In', 'trustedlogin-vendor' ) . '</a>'
 		);
@@ -114,7 +114,7 @@ class Helpscout extends Webhook{
 		 * @param string $html
 		 */
 		$item_template = apply_filters(
-			'trustedlogin/vendor/helpdesk/' . $this->get_slug() . '/template/item',
+			'trustedlogin/vendor/helpdesk/' . $this->get_provider_name() . '/template/item',
 			'<li class="c-sb-list-item"><span class="c-sb-list-item__label">%4$s <span class="c-sb-list-item__text"><a href="%1$s" target="_blank" title="%3$s"><i class="icon-pointer"></i> %2$s</a></span></span></li>'
 		);
 
@@ -124,15 +124,15 @@ class Helpscout extends Webhook{
 		 * @param string $html
 		 */
 		$no_items_template = apply_filters(
-			'trustedlogin/vendor/helpdesk/' . $this->get_slug() . '/template/no-items',
+			'trustedlogin/vendor/helpdesk/' . $this->get_provider_name() . '/template/no-items',
 			'<li class="c-sb-list-item">%1$s</li>'
 		);
 
 		$endpoint = 'accounts/' . $account_id . '/sites/';
 		$method   = 'POST';
-		$data     = array( 'searchKeys' => array() );
+		$data     = [ 'searchKeys' => [] ];
 
-		$statuses = array();
+		$statuses = [];
 
 		foreach ( $licenses as $license ) {
 
@@ -144,7 +144,7 @@ class Helpscout extends Webhook{
 			}
 
 			$statuses[ $license_hash ] = $license->status;
-		} // foreach($licenses)
+		}
 
 		if ( ! empty( $data['searchKeys'] ) ) {
 
@@ -173,7 +173,7 @@ class Helpscout extends Webhook{
 
 						foreach ( $secrets_reversed as $secret ) {
 
-							$url = $this->build_action_url( 'support_redirect', $secret );
+							$url = AccessKeyLogin::url( $account_id, $this->get_provider_name() );
 
 							if ( is_wp_error( $url ) ) {
 								$this->log( 'Error building item HTML. ' . $url->get_error_code() . ': ' . $url->get_error_message() );
@@ -211,7 +211,7 @@ class Helpscout extends Webhook{
 	}
 
     /**
-	 * Verifies the source of the Widget AJAX request is from Help Scout
+	 * Verifies the source of the Widget request is from Helpscout
 	 *
 	 * @since 0.1.0
 	 *
