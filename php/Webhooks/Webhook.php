@@ -5,14 +5,29 @@ use TrustedLogin\Vendor\AccessKeyLogin;
 use TrustedLogin\Vendor\Traits\Licensing;
 use TrustedLogin\Vendor\Traits\Logger;
 
+/**
+ * Base class for all webhooks to integrated with
+ *
+ * The webhook_endpoint() method must be defined in a concrete class.
+ * It must return an array with a key "html"
+ * This should be the output of the webhook for the widget.
+ *
+ * The get_provider_name() method must be defined in a concrete class.
+ * It must return a string, with the name of the provider and should be URL safe.
+ * This name is used as the value of the "provider" query arg in the webhook URL.
+ */
 abstract class Webhook {
 
     use Licensing,Logger;
 
+	/**
+	 * Value of "action" query arg for webhooks
+	 */
 	const WEBHOOK_ACTION = 'trusted_login_webhook';
 
     /**
-     * @var string
+     * Shared secret for the webhook
+	 * @var string
      */
     protected $secret;
 
@@ -20,6 +35,22 @@ abstract class Webhook {
     {
         $this->secret = $secret;
     }
+
+	/**
+     * Get provider name for this webhook.
+     *
+     * @return string
+     */
+    abstract static protected function get_provider_name();
+
+    /**
+	 * Generates the HTML output for the webhook.
+	 *
+	 * @param array|null $data The data sent to the webhook. If null, php://input is used
+	 *
+	 * @return array
+	 */
+    abstract public function webhook_endpoint($data = null );
 
 	/**
 	 * Calculate signature from request data
@@ -40,39 +71,12 @@ abstract class Webhook {
 	 *
 	 * @return string|\WP_Error The url with GET variables.
 	 */
-	public function action_url( $account_id ) {
-
-
-		$endpoint = AccessKeyLogin::REDIRECT_ENDPOINT;
-
-		$args = [
-			$endpoint  => '1',
-			'action'   => self::WEBHOOK_ACTION,
-			'provider' => $this->get_provider_name(),
-			AccessKeyLogin::ACCOUNT_ID_INPUT_NAME  => $account_id,
-        ];
-
-		$url = add_query_arg( $args, site_url() );
-
-		return esc_url( $url );
+	public static function actionUrl( $account_id ) {
+		return Factory::actionUrl(
+			self::WEBHOOK_ACTION,
+			$account_id,static::get_provider_name()
+		);
 	}
-
-    /**
-     * Get provider name for this webhook.
-     *
-     * @return string
-     */
-    abstract protected function get_provider_name();
-
-    /**
-	 * Generates the HTML output for the webhook.
-	 *
-	 * @param array|null $data The data sent to the webhook. If null, php://input is used
-	 *
-	 * @return array
-	 */
-    abstract public function webhook_endpoint($data = null );
-
 
     /**
 	 * Returns license keys associated with customer email addresses.

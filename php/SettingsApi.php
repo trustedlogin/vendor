@@ -1,31 +1,33 @@
 <?php
-/**
- * Class: TrustedLogin Settings API
- *
- * @package trustedlogin-vendor
- * @version 0.10.0
- */
+
 
 namespace TrustedLogin\Vendor;
 
-use \WP_Error;
-use \Exception;
 
+use TrustedLogin\Vendor\Webhooks\Helpscout;
+
+/**
+ * Responsible for all read/write of settings plugin uses.
+ *
+ * Encryption class doesn't follow this rule BTW, but you should.
+ */
 class SettingsApi
 {
 
+	/**
+	 * The name of the option we store team settings in.
+	 */
 	const TEAM_SETTING_NAME = 'trustedlogin_vendor_team_settings';
 
 	/**
 	 * @var TeamSettings[]
-	 * @since 0.10.0
 	 */
 	protected $team_settings = [];
 
 	/**
 	 * @param TeamSettings[]|array[] $team_data Collection of team data
-	 * @since 0.10.0
-	 */	public function __construct(array $team_data)
+	 */
+	public function __construct(array $team_data)
 	{
 		foreach ($team_data as $values) {
 			if (is_array($values)) {
@@ -39,7 +41,6 @@ class SettingsApi
 
 	/**
 	 * Create instance from saved data.
-	 * @since 0.10.0
 	 * @return SettingsApi
 	 */
 	public static function from_saved()
@@ -82,7 +83,7 @@ class SettingsApi
 					}
 					$_setting[TeamSettings::HELPDESK_SETTINGS][$helpdesk] = [
 						'secret' => AccessKeyLogin::makeSecret( $account_id ),
-						'callback' => AccessKeyLogin::url( $account_id,$helpdesk )
+						'callback' => Helpscout::actionUrl( $account_id,$helpdesk )
 					];
 				}
 

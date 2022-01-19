@@ -11,7 +11,7 @@ class Helpscout extends Webhook{
      *
      * @return string
      */
-    public function get_provider_name(){
+    public static function get_provider_name(){
         return 'helpscout';
     }
 
@@ -200,8 +200,8 @@ class Helpscout extends Webhook{
 			$this->log( 'item_html: ' . $item_html, __METHOD__ );
 
 		} else {
-
-			$this->log( 'No license keys found for email ' . esc_attr( $email ), __METHOD__ );
+			array_walk($customer_emails,'sanitize_email');
+			$this->log( 'No license keys found for email ' . implode(',',$customer_emails), __METHOD__ );
 
 		}
 

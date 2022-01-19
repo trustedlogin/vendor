@@ -69,10 +69,9 @@ class HelpscoutWebhookTest extends \WP_UnitTestCase
 	 */
 	public function testBuildActionUrl()
 	{
-		$helpscout = new Helpscout( 'secret' );
 		$this->assertTrue(
 			is_string( filter_var(
-				$helpscout->action_url( 'id' ),
+				Helpscout::actionUrl( 'id' ),
 				FILTER_VALIDATE_URL
 			) )
 		);
