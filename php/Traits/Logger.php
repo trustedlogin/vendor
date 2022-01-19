@@ -12,7 +12,8 @@ trait Logger
 		$context = (array) $context;
 		$logLevel = strtolower( $logLevel );
 		if (defined('WP_DEBUG') && WP_DEBUG) {
-			error_log($message);
+            //In phpunit, this is printing, which is annoying, so we'll just not.
+			//error_log($message);
 		}
 		$message = "[{$this->getTimestamp()}] [{$logLevel}] {$message}";
 		if($context) {
