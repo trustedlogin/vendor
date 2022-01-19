@@ -54,7 +54,7 @@ class AccesKeyLoginTest extends \WP_UnitTestCase
 
 	/**
 	 * @group AccessKeyLogin
-	 * @covers TrustedLogin\Vendor\AccessKeyLogin::verify_grant_access_request()
+	 * @covers TrustedLogin\Vendor\AccessKeyLogin::verifyGrantAccessRequest()
 	 */
 	public function testVerifyRequest()
 	{
@@ -62,36 +62,36 @@ class AccesKeyLoginTest extends \WP_UnitTestCase
 		//Check for no_access_key error
 		$this->assertTrue(
 			is_wp_error(
-				$ak->verify_grant_access_request()
+				$ak->verifyGrantAccessRequest()
 			)
 		);
 		$this->assertArrayHasKey(
 			'no_access_key',
-			$ak->verify_grant_access_request()->errors
+			$ak->verifyGrantAccessRequest()->errors
 		);
 		//Set access key
 		$_REQUEST[ AccessKeyLogin::ACCESS_KEY_INPUT_NAME ] ='something';
 		//Check for no no_account_id error
 		$this->assertTrue(
 			is_wp_error(
-				$ak->verify_grant_access_request()
+				$ak->verifyGrantAccessRequest()
 			)
 		);
 		$this->assertArrayHasKey(
 			'no_account_id',
-			$ak->verify_grant_access_request()->errors
+			$ak->verifyGrantAccessRequest()->errors
 		);
 		//Set account id
 		$_REQUEST[ AccessKeyLogin::ACCOUNT_ID_INPUT_NAME ] = 'whatever';
 		//Check for no no_nonce
 		$this->assertTrue(
 			is_wp_error(
-				$ak->verify_grant_access_request()
+				$ak->verifyGrantAccessRequest()
 			)
 		);
 		$this->assertArrayHasKey(
 			'no_nonce',
-			$ak->verify_grant_access_request()->errors
+			$ak->verifyGrantAccessRequest()->errors
 		);
 
 
@@ -101,14 +101,14 @@ class AccesKeyLoginTest extends \WP_UnitTestCase
 		//Return WP_Error for bad nonce
 		$this->assertTrue(
 			is_wp_error(
-			$ak->verify_grant_access_request()
+			$ak->verifyGrantAccessRequest()
 			));
 
 		//Set valid nonce
 		$_REQUEST[AccessKeyLogin::NONCE_NAME ] = wp_create_nonce(AccessKeyLogin::NONCE_ACTION);
 
 		$this->assertTrue(
-			$ak->verify_grant_access_request()
+			$ak->verifyGrantAccessRequest()
 		);
 	}
 
@@ -123,7 +123,7 @@ class AccesKeyLoginTest extends \WP_UnitTestCase
 		$this->setTlApiMock();
 		//Handler that will lways return true on verification.
 		$handler = new class extends AccessKeyLogin {
-			public function verify_grant_access_request()
+			public function verifyGrantAccessRequest()
 			{
 				return true;
 			}

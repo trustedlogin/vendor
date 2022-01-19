@@ -82,7 +82,7 @@ class AccessKeyLogin
 	 */
 	public function handle()
 	{
-		$verified = $this->verify_grant_access_request();
+		$verified = $this->verifyGrantAccessRequest();
 
 		if ( is_wp_error($verified)) {
 			return $verified;
@@ -158,7 +158,7 @@ class AccessKeyLogin
 	 *
 	 * @return bool|WP_Error
 	 */
-	public function verify_grant_access_request()
+	public function verifyGrantAccessRequest()
 	{
 
 		if (empty($_REQUEST[ self::ACCESS_KEY_INPUT_NAME ])) {
