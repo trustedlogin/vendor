@@ -144,7 +144,7 @@ class Plugin
 			$url = AccessKeyLogin::url(
 				$team->get('account_id'),
 				'helpscout',
-				//$team->get_helpdesks()[0]
+				//$team->getHelpdesks()[0]
 			);
 			$data[$team->get('account_id')] = $url;
 		}

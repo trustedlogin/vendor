@@ -56,7 +56,7 @@ class TeamSettings
 		$this->reset($values);
 	}
 
-	public function to_array(){
+	public function toArray(){
 		if( ! is_array($this->values['helpdesk'])){
 			$this->values['helpdesk'] = [ $this->values['helpdesk'] ];
 		}
@@ -70,7 +70,7 @@ class TeamSettings
 	 *
 	 * @param array $values Values to set
 	 */
-	public function get_helpdesks( $helpdesks = null){
+	public function getHelpdesks( $helpdesks = null){
 		if( empty( $helpdesks ) ){
 			$helpdesks = $this->get('helpdesk');
 		}
@@ -176,7 +176,7 @@ class TeamSettings
 	 * @since 0.10.0
 	 * @return array
 	 */
-	public function get_helpdesk_data()
+	public function getHelpdeskData()
 	{
 		$helpdesks = $this->get('helpdesk');
 		if( empty( $helpdesks)){

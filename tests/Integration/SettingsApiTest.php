@@ -13,7 +13,7 @@ class SettingsApiTest extends \WP_UnitTestCase
 
 	/**
 	 * @covers TeamSettings::reset()
-	 * @covers TeamSettings::to_array()
+	 * @covers TeamSettings::toArray()
 	 */
 	public function test_settings_object_defaults()
 	{
@@ -33,18 +33,18 @@ class SettingsApiTest extends \WP_UnitTestCase
 		//Do defaults get overridden when possible?
 		$this->assertSame(
 			$data['api_key'],
-			$setting->to_array()['api_key']
+			$setting->toArray()['api_key']
 		);
 		//Do default values get set when needed?
 		$this->assertSame(
 			[ 'helpscout' ],
-			$setting->to_array()['helpdesk']
+			$setting->toArray()['helpdesk']
 		);
 	}
 
 	/**
 	 * @covers TeamSettings::reset()
-	 * @covers TeamSettings::to_array()
+	 * @covers TeamSettings::toArray()
 	 */
 	public function test_settings_object_reset()
 	{
@@ -65,12 +65,12 @@ class SettingsApiTest extends \WP_UnitTestCase
 		//Do defaults get overridden when possible?
 		$this->assertSame(
 			$data['api_key'],
-			$setting->to_array()['api_key']
+			$setting->toArray()['api_key']
 		);
 		//Do default values get set when needed?
 		$this->assertSame(
 			[ 'helpscout' ],
-			$setting->to_array()['helpdesk']
+			$setting->toArray()['helpdesk']
 		);
 	}
 
@@ -96,7 +96,7 @@ class SettingsApiTest extends \WP_UnitTestCase
 		);
 		$this->assertSame(
 			'42',
-			$setting->to_array()['account_id']
+			$setting->toArray()['account_id']
 		);
 	}
 
@@ -254,7 +254,7 @@ class SettingsApiTest extends \WP_UnitTestCase
 
 		$this->assertSame(
 			$helpscout_data,
-			$settings->getByAccountId($accountId)->get_helpdesk_data()
+			$settings->getByAccountId($accountId)->getHelpdeskData()
 		);
 	}
 
@@ -306,17 +306,17 @@ class SettingsApiTest extends \WP_UnitTestCase
 		$this->assertSame(
 			$helpscout_data,
 			$setting1
-			->get_helpdesk_data()
+			->getHelpdeskData()
 		);
 		$this->assertArrayHasKey(
 			TeamSettings::HELPDESK_SETTINGS,
-			$setting1->to_array()
+			$setting1->toArray()
 		);
 
 		$this->assertSame(
 			$helpscout_data,
 			SettingsApi::fromSaved()->getByAccountId($accountId)
-			->get_helpdesk_data()
+			->getHelpdeskData()
 		);
 
 		$this->assertSame(
@@ -330,7 +330,7 @@ class SettingsApiTest extends \WP_UnitTestCase
 		//Team we didn't provide any helpdesk settings for.
 		// Did it  save helpscout data?
 		$helpscout_data = $settings->getByAccountId($accountId2)
-			->get_helpdesk_data();
+			->getHelpdeskData();
 
 		//Is valid URL?
 		$this->assertTrue(
@@ -345,7 +345,7 @@ class SettingsApiTest extends \WP_UnitTestCase
 		$this->assertSame(
 			$helpscout_data,
 			SettingsApi::fromSaved()->getByAccountId($accountId2)
-			->get_helpdesk_data()
+			->getHelpdeskData()
 		);
 
 		update_option(SettingsApi::TEAM_SETTING_NAME, false);

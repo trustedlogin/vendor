@@ -70,14 +70,14 @@ class SettingsApi
 	{
 		$data = [];
 		foreach ($this->team_settings as $setting) {
-			$_setting = $setting->to_array();
+			$_setting = $setting->toArray();
 			//If enabled a helpdesk...
-			if( ! empty( $setting->get_helpdesks() ) ) {
+			if( ! empty( $setting->getHelpdesks() ) ) {
 				if( ! isset($_setting[TeamSettings::HELPDESK_SETTINGS]) ) {
 					$_setting[TeamSettings::HELPDESK_SETTINGS] = [];
 				}
 				$account_id = $setting->get( 'account_id');
-				foreach( $setting->get_helpdesks() as $helpdesk){
+				foreach( $setting->getHelpdesks() as $helpdesk){
 					if( isset( $_setting[TeamSettings::HELPDESK_SETTINGS][$helpdesk])){
 						continue;
 					}
@@ -185,7 +185,7 @@ class SettingsApi
 	 * @since 0.10.0
 	 * @return array
 	 */
-	public function to_array()
+	public function toArray()
 	{
 
 		return [
@@ -204,7 +204,7 @@ class SettingsApi
 		$data = [];
 		foreach ($this->team_settings as $setting) {
 			if( $as_array ){
-				$data[] = $setting->to_array();
+				$data[] = $setting->toArray();
 			}else{
 				$data[] = $setting;
 			}

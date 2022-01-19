@@ -34,7 +34,7 @@ class Settings extends Endpoint
 	public function get(\WP_REST_Request $request)
 	{
 		return rest_ensure_response(
-			SettingsApi::fromSaved()->to_array()
+			SettingsApi::fromSaved()->toArray()
 		);
 	}
 
@@ -68,7 +68,7 @@ class Settings extends Endpoint
 		$settings_api->save();
 		return rest_ensure_response(
 			//Get from saved so generated secret/ url is returned
-			SettingsApi::fromSaved()->to_array()
+			SettingsApi::fromSaved()->toArray()
 		);
 	}
 
