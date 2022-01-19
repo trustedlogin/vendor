@@ -3,7 +3,8 @@
 namespace TrustedLogin\Vendor;
 
 use TrustedLogin\Vendor\Contracts\SendsApiRequests as ApiSend;
-
+use TrustedLogin\Vendor\SettingsApi;
+use TrustedLogin\Vendor\TeamSettings;
 class Plugin
 {
 	/**
@@ -22,6 +23,11 @@ class Plugin
 	protected $apiSender;
 
 	/**
+	 * @var SettingsApi
+	 */
+	protected $settings;
+
+	/**
 	 * @param Encryption $encryption
 	 */
 	public function __construct(Encryption $encryption)
@@ -29,6 +35,7 @@ class Plugin
 		$this->encryption = $encryption;
 		$this->auditLog = new AuditLog();
 		$this->apiSender = new \TrustedLogin\Vendor\ApiSend();
+		$this->settings = SettingsApi::from_saved();
 	}
 
 
@@ -87,20 +94,23 @@ class Plugin
 	 *
 	 * @param string $accountId Account ID, which must be saved in settings, to get handler for.
 	 * @param string $apiUrl Optional. Url for TrustedLogin API.
+	 * @param null|TeamSettings $team Optional. TeamSettings  to use.
 	 */
-	public function getApiHandler($accountId, $apiUrl = '')
+	public function getApiHandler($accountId, $apiUrl = '', $team = null )
 	{
-		$settings = \TrustedLogin\Vendor\SettingsApi::from_saved()->get_by_account_id($accountId);
+		if( ! $team ) {
+			$team = SettingsApi::from_saved()->get_by_account_id($accountId);
+		}
 		if (empty($apiUrl)) {
 			$apiUrl = TRUSTEDLOGIN_API_URL;
 		}
 		return new ApiHandler([
-			'private_key' => $settings->get('private_key'),
-			'api_key'  => $settings->get('api_key'),
-			'debug_mode'  => $settings->get('debug_enabled'),
+			'private_key' => $team->get('private_key'),
+			'api_key'  => $team->get('api_key'),
+			'debug_mode'  => $team->get('debug_enabled'),
 			'type'        => 'saas',
 			'api_url' => $apiUrl
-		], $this->apiSender);
+		], $this->apiSender );
 	}
 
 	public function getApiUrl()
@@ -126,5 +136,18 @@ class Plugin
 	{
 		$this->apiSender = $apiSender;
 		return $this;
+	}
+
+	public function getAccessKeyActions(){
+		$data = [];
+		foreach($this->settings->allTeams(false) as $team){
+			$url = AccessKeyLogin::url(
+				$team->get('account_id'),
+				'helpscout',
+				//$team->get_helpdesks()[0]
+			);
+			$data[$team->get('account_id')] = $url;
+		}
+		return $data;
 	}
 }

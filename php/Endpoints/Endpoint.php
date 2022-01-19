@@ -2,20 +2,34 @@
 
 namespace TrustedLogin\Vendor\Endpoints;
 
+/**
+ * Base class for all endpoints to extend
+ */
 abstract class Endpoint
 {
+	/**
+	 * Error code for public key sucess.
+	 */
 	const PUBLIC_KEY_SUCCESS_STATUS = 200;
+
+	/**
+	 * Error code for public key error.
+	 */
 	const PUBLIC_KEY_ERROR_STATUS = 501;
 
+	/**
+	 * Namespace for all routes
+	 */
 	const NAMESPACE =  'trustedlogin/v1';
+
+	/**
+	 * Register endpoint
+	 *
+	 * @param bool $editable Defaults to true. If false, the endpoint will not be updateable.
+	 */
 	public function register($editable = true)
 	{
-		$args = [
-			'methods'             => \WP_REST_Server::READABLE,
-			'callback'            => [ $this, 'get' ],
-			'permission_callback' => [$this, 'authorize'],
-			'args' => $this->getArgs(),
-		];
+
 		if ($editable) {
 			register_rest_route(
 				self::NAMESPACE,
@@ -39,40 +53,6 @@ abstract class Endpoint
 				'args' => $this->getArgs(),
 			]
 		);
-	}
-
-
-
-	/**
-	 * Callback for GET requests
-	 *
-	 * @param \WP_REST_Request $request
-	 * @return \WP_REST_Response
-	 */
-	abstract public function get(\WP_REST_Request $request);
-
-	/**
-	 * Callback for POST requests
-	 * @param \WP_REST_Request $request
-	 * @return \WP_REST_Response
-	 */
-	public function update(\WP_REST_Request $request)
-	{
-		return new \WP_REST_Response(
-			[],
-			501
-		);
-	}
-
-	/**
-	 *
-	 * @param \WP_REST_Request $request
-	 * @return bool
-	 */
-	public function authorize(\WP_REST_Request $request)
-	{
-		$capability = is_multisite() ? 'delete_sites' : 'manage_options';
-		return current_user_can($capability);
 	}
 
 	/**
@@ -101,4 +81,41 @@ abstract class Endpoint
 	{
 		return [];
 	}
+
+
+
+	/**
+	 * Callback for GET requests
+	 *
+	 * @param \WP_REST_Request $request
+	 * @return \WP_REST_Response
+	 */
+	abstract public function get(\WP_REST_Request $request);
+
+	/**
+	 * Callback for POST requests
+	 * @param \WP_REST_Request $request
+	 * @return \WP_REST_Response
+	 */
+	public function update(\WP_REST_Request $request)
+	{
+		return new \WP_REST_Response(
+			[],
+			501
+		);
+	}
+
+	/**
+	 * permission_callback for get and update.
+	 *
+	 * @param \WP_REST_Request $request
+	 * @return bool
+	 */
+	public function authorize(\WP_REST_Request $request)
+	{
+		$capability = is_multisite() ? 'delete_sites' : 'manage_options';
+		return current_user_can($capability);
+	}
+
+
 }

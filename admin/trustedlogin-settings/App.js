@@ -2,10 +2,9 @@ import { __ } from "@wordpress/i18n";
 import { useMemo, useState, useEffect } from "react";
 import { Notice, BigButton } from "../components";
 import TrustedLoginSettings from "../components/TrustedLoginSettings";
-import HelpDeskSettings from "../components/HelpDeskSettings";
 
 import { Tabs } from "@imaginary-machines/wp-admin-components";
-
+import AccessKeyForm from "../components/AccessKeyForm";
 const defaultSettings = {
 	isConnected: false,
 	teams: [],
@@ -53,6 +52,29 @@ export default function App({ getSettings, updateSettings }) {
 	};
 
 	/**
+	 * Remove a team.
+	 */
+	const removeTeam = (id) => {
+
+		updateSettings({
+			...settings,
+			teams: settings.teams.filter((team) => team.id !== id),
+		})
+			.then(({teams}) => {
+				setSettings({...settings, teams});
+				setNotice({
+					text: "Team deleted",
+					type: "sucess",
+					visible: true,
+				});
+
+			})
+			.catch((err) => {
+				console.log(err);
+			});
+	}
+
+	/**
 	 * Update one team in settings
 	 */
 	const setTeam = (team) => {
@@ -67,6 +89,7 @@ export default function App({ getSettings, updateSettings }) {
 		});
 	};
 
+
 	//Disables/enables save button
 	const canSave = useMemo(() => {
 		return settings.teams.length > 0;
@@ -75,8 +98,9 @@ export default function App({ getSettings, updateSettings }) {
 	///Handles save
 	const onSave = (e) => {
 		e.preventDefault();
-		updateSettings({ teams: settings.teams, helpscout: settings.helpscout })
-			.then(() => {
+		updateSettings({ teams: settings.teams})
+			.then(({teams}) => {
+				setSettings({...settings, teams});
 				setNotice({
 					text: "Settings Saved",
 					type: "sucess",
@@ -84,7 +108,7 @@ export default function App({ getSettings, updateSettings }) {
 				});
 			})
 			.catch((err) => {
-				console.log(r);
+				console.log(err);
 			});
 	};
 
@@ -113,49 +137,47 @@ export default function App({ getSettings, updateSettings }) {
 			<div>
 				<>
 					<Tabs
-						initialTabe={"two"}
+						//initialTab={"teams"}
 						tabs={[
 							{
 								id: "teams",
 								children: (
 									<>
-										<BigButton
-											onClick={addTeam}
-											variant={!settings.teams.length ? "primary" : "secondary"}
-										>
-											{__("Add Team")}
-										</BigButton>
-										<TrustedLoginSettings
-											settings={settings}
-											setSettings={setSettings}
-											setTeam={setTeam}
-											canSave={canSave}
-											onSave={onSave}
-										/>
-										{notice.visible ? (
-											<Notice heading={notice.text} type={notice.type} />
-										) : null}
+										<section id="team-buttons">
+											<BigButton
+												onClick={addTeam}
+												variant={!settings.teams.length ? "primary" : "secondary"}
+												className={'add-team-button'}
+											>
+												{__("Add Team")}
+											</BigButton>
+										</section>
+										<section>
+											<TrustedLoginSettings
+												settings={settings}
+												setSettings={setSettings}
+												setTeam={setTeam}
+												canSave={canSave}
+												onSave={onSave}
+												removeTeam={removeTeam}
+											/>
+											{notice.visible ? (
+												<Notice heading={notice.text} type={notice.type} />
+											) : null}
+										</section>
 									</>
 								),
 								label: "Teams",
 							},
 							{
-								id: "helpdesks",
-								children: (
-									<HelpDeskSettings
-										settings={settings}
-										setSettings={setSettings}
-										canSave={canSave}
-										onSave={onSave}
+								id: "accces-key-login",
+								children: <div>
+									<AccessKeyForm
+										teams={settings.teams || []}
+										initialAccountId={settings.teams.length ? settings.teams[0].account_id : ""}
 									/>
-								),
-								label: "help",
-								label: "Help Desks",
-							},
-							{
-								id: "access",
-								children: <div>Access Logs</div>,
-								label: "Access Logs",
+									</div>,
+								label: "Login With Access Key",
 							},
 						]}
 					/>

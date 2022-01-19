@@ -14,19 +14,14 @@ namespace TrustedLogin\Vendor;
 class TeamSettings
 {
 
+	const HELPDESK_SETTINGS = 'helpdesk_settings';
+
+
 	/**
 	 * @var array
 	 * @since 0.10.0
 	 */
-	protected $defaults = [
-		'account_id'       => '',
-		'private_key'      => '',
-		'api_key'       => '',
-		'helpdesk'         => [ 'helpscout' ],
-		'approved_roles'   => [ 'administrator' ],
-		'debug_enabled'    => 'on',
-		'enable_audit_log' => 'on',
-	];
+	protected $defaults;
 
 
 	/**
@@ -43,19 +38,49 @@ class TeamSettings
 	 */
 	public function __construct(array $values = [])
 	{
+		$this->defaults  = [
+			'account_id'       => '',
+			'private_key'      => '',
+			'api_key'       => '',
+			'helpdesk'         => 'helpscout',
+			'approved_roles'   => [ 'administrator' ],
+			'debug_enabled'    => 'on',
+			'enable_audit_log' => 'on',
+			'connected' => false,
+			'status' => false,
+			'name' => '',
+			self::HELPDESK_SETTINGS => [
+
+			]
+		];
 		$this->reset($values);
 	}
 
+	public function to_array(){
+		if( ! is_array($this->values['helpdesk'])){
+			$this->values['helpdesk'] = [ $this->values['helpdesk'] ];
+		}
+		return $this->values;
+	}
+
 	/**
-	 * Get all values as array.
+	 * Get array of helpdesks that are enabled.
 	 *
 	 * @since 0.10.0
 	 *
-	 * @return array
+	 * @param array $values Values to set
 	 */
-	public function to_array()
-	{
-		return $this->values;
+	public function get_helpdesks( $helpdesks = null){
+		if( empty( $helpdesks ) ){
+			$helpdesks = $this->get('helpdesk');
+		}
+		if( is_string($helpdesks)){
+			$helpdesks = [$helpdesks];
+		}
+		if( empty($helpdesks)){
+			return ['helpscout'];
+		}
+		return $helpdesks;
 	}
 
 	/**
@@ -70,11 +95,27 @@ class TeamSettings
 	{
 		$this->values = [];
 		foreach ($this->defaults as $key => $default) {
-			if (isset($values[$key])) {
-				$this->values[$key] = $values[$key];
+			if (isset($values[$key])&& ! empty($values[$key])) {
+				$value = $values[$key];
+				if( is_object($value)){
+					$value = (array)$value;
+					foreach ($value as $k => $v) {
+						if( is_object($v)){
+							$value[$k] = (array)$v;
+						}
+					}
+				}
+
+				$this->values[$key] = $value;
 			} else {
 				$this->values[$key] = $default;
 			}
+		}
+		if( empty( $this->values['approved_roles'])){
+			$this->values['approved_roles'] = [ 'administrator' ];
+		}
+		if( empty( $this->values['helpdesk'])){
+			$this->values['helpdesk'] = [ 'helpscout' ];
 		}
 		return $this;
 	}
@@ -108,7 +149,11 @@ class TeamSettings
 	public function get($key)
 	{
 		if ($this->valid($key)) {
-			return $this->values[$key];
+			$value = $this->values[$key];
+			if( is_object($value)){
+				$value = (array)$value;
+			}
+			return $value;
 		}
 		throw new \Exception('Invalid key');
 	}
@@ -123,5 +168,40 @@ class TeamSettings
 	public function valid($key)
 	{
 		return array_key_exists($key, $this->defaults);
+	}
+
+	/**
+	 * Get settings for current helpdesk data
+	 *
+	 * @since 0.10.0
+	 * @return array
+	 */
+	public function get_helpdesk_data()
+	{
+		$helpdesks = $this->get('helpdesk');
+		if( empty( $helpdesks)){
+			$helpdesks = ['helpscout'];
+			$this->set( 'helpdesk', $helpdesks);
+		}
+		if( ! is_array($helpdesks)){
+			$helpdesks = [$helpdesks];
+		}
+		$helpdeskSettings = $this->get(self::HELPDESK_SETTINGS,[]);
+		if ($helpdeskSettings){
+			$helpdesk = $helpdesks[0];
+			if(  isset($helpdeskSettings[$helpdesk])) {
+				$data = $helpdeskSettings[$helpdesk];
+				if( is_object($data)){
+					$data=(array)$data;
+				}
+				return [
+					'secret' => isset($data['secret']) ?$data['secret'] :"",
+					'callback' => isset($data['callback']) ?$data['callback'] :"",
+				];
+			}
+
+		}
+
+
 	}
 }

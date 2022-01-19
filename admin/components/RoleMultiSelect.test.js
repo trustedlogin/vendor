@@ -9,7 +9,7 @@ describe("RoleMultiSelect", () => {
 		const { container } = render(
 			<FormTable title={"Testing"}>
 				<RoleMultiSelect
-					approvedRoles={["admistrator"]}
+					approvedRoles={["administrator"]}
 					help={"help"}
 					label={"label"}
 					onChange={onChange}

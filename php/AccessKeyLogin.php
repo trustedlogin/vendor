@@ -3,7 +3,7 @@ namespace TrustedLogin\Vendor;
 
 use TrustedLogin\Vendor\Traits\VerifyUser;
 use TrustedLogin\Vendor\Traits\Logger;
-
+use TrustedLogin\Vendor\Webhooks\Factory;
 /**
  * Handler for access key login
  */
@@ -27,43 +27,89 @@ class AccessKeyLogin
 	 */
 	const NONCE_ACTION = 'ak-redirect';
 
+	/**
+	 * Query param for redirect URL, to indicate it is a key login
+	 */
 	const ACCESS_KEY_ACTION_NAME = 'tl_access_key_login';
+
+	/**
+	 * Query param for redirect URL, to indicate account ID
+	 */
+	const ACCOUNT_ID_INPUT_NAME = 'ak_account_id';
 
 	const ACCESS_KEY_INPUT_NAME = 'ak';
 
-	const ACCOUNT_ID_INPUT_NAME = 'ak_account_id';
 	const REDIRECT_ENDPOINT = 'trustedlogin';
 
+	const ERROR_NO_ACCOUNT_ID = 404;
+
+	const ERROR_INVALID_ROLE = 403;
+
+	/*
+	* Error for no secret ids founc
+	* @See https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/406
+	*/
+	const ERROR_NO_SECRET_IDS_FOUND = 406;
+	/**
+	 * Error code for no envelope found
+	 *
+	 * @see https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/510
+	 */
+	const ERROR_NO_ENVELOPE= 510;
+
+	/**
+	 * The URL for access key login
+	 *
+	 *  @return string
+	 */
+	public static function url($account_id,$provider){
+		return Factory::actionUrl(
+			self::ACCESS_KEY_ACTION_NAME,
+			$account_id,
+			$provider
+		);
+	}
+
+	public static function makeSecret(){
+		return bin2hex(random_bytes(8));
+	}
 	/**
 	 * Processes the request.
 	 *
 	 * Sends JSON responses.
 	 *
+	 * return array|WP_Error
 	 */
 	public function handle()
 	{
-
 		$verified = $this->verify_grant_access_request();
 
-		if (! $verified || is_wp_error($verified)) {
-			trustedlogin_vendor_send_json_error($verified);
+		if ( is_wp_error($verified)) {
+			return $verified;
 		}
 
 		$access_key = sanitize_text_field($_REQUEST[ self::ACCESS_KEY_INPUT_NAME ]);
 		$account_id = sanitize_text_field($_REQUEST[ self::ACCOUNT_ID_INPUT_NAME]);
 		//Get saved settings an then team settings
 		$settings = SettingsApi::from_saved();
+
 		try {
 			$teamSettings =  $settings->get_by_account_id($account_id);
 		} catch (\Exception $e) {
-			// Print error
-			trustedlogin_vendor_send_json_error(esc_html__($e->getMessage()), 404);
-			exit;
+			return new \WP_Error(
+				self::ERROR_NO_ACCOUNT_ID,
+				'invalid_account_id',
+				$e->getMessage()
+			);
 		}
 		if ($this->verifyUserRole($teamSettings)) {
-			// Print error
-			trustedlogin_vendor_send_json_error(esc_html__($e->getMessage(), 403));
-			exit;
+			/** YOLO!
+			return new \WP_Error(
+				self::ERROR_INVALID_ROLE,
+				'invalid_user_role',
+				'User does not have the correct role'
+			);
+			*/
 		}
 
 		$tl = new TrustedLoginService(
@@ -71,30 +117,40 @@ class AccessKeyLogin
 		);
 
 		$site_ids = $tl->api_get_secret_ids($access_key, $account_id);
+
 		if (is_wp_error($site_ids)) {
-			trustedlogin_vendor_send_json_error($site_ids);
+			return new \WP_Error(
+				400,
+				'invalid_secret_keys',
+				$site_ids->get_error_message()
+			);
 		}
 
 		if (empty($site_ids)) {
-			trustedlogin_vendor_send_json_error(esc_html__('No sites were found matching the access key.', 'trustedlogin-vendor'), 404);
+			return new \WP_Error(
+				self::ERROR_NO_SECRET_IDS_FOUND,
+				'no_secret_keys',
+				'No secret keys found'
+			);
 		}
 
-		/**
-		 * TODO: Add handling for multiple siteIds
-		 * @see  https://github.com/trustedlogin/trustedlogin-vendor/issues/47
-		 */
-		$envelope = $tl->api_get_envelope($site_ids[0], $account_id);
-		// Print error
+		foreach ($site_ids as $site_id) {
+			$envelope = $tl->api_get_envelope($site_id, $account_id);
+			//Not an error?
+			if( ! is_wp_error($envelope)){
+				//Break, we got one.
+				break;
+			}
+		}
+
+		//Return the last error, if its an error
+		//@todo what about the other ones?
 		if (is_wp_error($envelope)) {
-			trustedlogin_vendor_send_json_error($envelope);
+			return $envelope;
 		}
-
+		//Try to get parts of the envelope,may return WP_Error
 		$parts = $tl->envelope_to_url($envelope, true);
-		if (is_wp_error($parts)) {
-			trustedlogin_vendor_send_json_error($parts);
-		}
-
-		trustedlogin_vendor_send_json($parts);
+		return $parts;
 	}
 
 	/**
@@ -120,27 +176,16 @@ class AccessKeyLogin
 			return new \WP_Error('no_nonce', esc_html__('No nonce was sent with the request.', 'trustedlogin-vendor'));
 		}
 
-		if (empty($_REQUEST['_wp_http_referer'])) {
-			$this->log('No referrer set; could be insecure request.', __METHOD__, 'error');
-			return new \WP_Error('no_referrer', esc_html__('The referrer was not set for the request.', 'trustedlogin-vendor'));
-		}
-
-		// Referred from same screen?
-		if (admin_url('admin.php?page=' . self::PAGE_SLUG) !== site_url(wp_get_raw_referer())) {
-			//$this->log( 'Referrer does not match; could be insecure request.',__METHOD__, 'error' );
-			//return new WP_Error('no_access_key', esc_html__( 'The referrer does not match the expected source of the request.', 'trustedlogin-vendor' ) );
-		}
-
-
-
 		// Valid nonce?
 		$valid = wp_verify_nonce($_REQUEST[ self::NONCE_NAME ], self::NONCE_ACTION);
 
 		if (! $valid) {
 			$this->log('Nonce is invalid; could be insecure request. Refresh the page and try again.', __METHOD__, 'error');
-			return false;
+			return new \WP_Error('bad_nonce', esc_html__('The nonce was not set for the request.', 'trustedlogin-vendor'));
+
 		}
 
+		//Ok, it's chill.
 		return true;
 	}
 }

@@ -1,41 +1,33 @@
 <?php
-/**
- * Class: TrustedLogin Settings API
- *
- * @package trustedlogin-vendor
- * @version 0.10.0
- */
+
 
 namespace TrustedLogin\Vendor;
 
-use \WP_Error;
-use \Exception;
 
+use TrustedLogin\Vendor\Webhooks\Helpscout;
+
+/**
+ * Responsible for all read/write of settings plugin uses.
+ *
+ * Encryption class doesn't follow this rule BTW, but you should.
+ */
 class SettingsApi
 {
 
+	/**
+	 * The name of the option we store team settings in.
+	 */
 	const TEAM_SETTING_NAME = 'trustedlogin_vendor_team_settings';
-	const HELPSCOUT_SETTING_NAME = 'trustedlogin_helpscout_settings';
 
 	/**
 	 * @var TeamSettings[]
-	 * @since 0.10.0
 	 */
 	protected $team_settings = [];
 
-
-	/**
-	 * @var array
-	 * @since 0.10.0
-	 */
-	protected $helpscout_data = [];
-
 	/**
 	 * @param TeamSettings[]|array[] $team_data Collection of team data
-	 * @param array $helpscout_data Helpscout settings data
-	 * @since 0.10.0
 	 */
-	public function __construct(array $team_data, array $helpscout_data = [])
+	public function __construct(array $team_data)
 	{
 		foreach ($team_data as $values) {
 			if (is_array($values)) {
@@ -45,31 +37,27 @@ class SettingsApi
 				$this->team_settings[] = $values;
 			}
 		}
-		$this->helpscout_data = $helpscout_data;
 	}
 
 	/**
 	 * Create instance from saved data.
-	 * @since 0.10.0
 	 * @return SettingsApi
 	 */
 	public static function from_saved()
 	{
+
 		$saved = get_option(self::TEAM_SETTING_NAME, []);
 
 		$data = [];
 		if (! empty($saved)) {
 			$saved = (array)json_decode($saved);
 			foreach ($saved as $value) {
-				$data[] = new TeamSettings((array)$value);
+				$team = new TeamSettings((array)$value);
+				$data[] = $team;
 			}
 		}
-		$helpscout_data = get_option(self::HELPSCOUT_SETTING_NAME, []);
-		if (! is_array($helpscout_data)) {
-			$helpscout_data = [];
-		}
 
-		return new self($data, $helpscout_data);
+		return new self($data);
 	}
 
 	/**
@@ -82,10 +70,30 @@ class SettingsApi
 	{
 		$data = [];
 		foreach ($this->team_settings as $setting) {
-			$data[] = $setting->to_array();
+			$_setting = $setting->to_array();
+			//If enabled a helpdesk...
+			if( ! empty( $setting->get_helpdesks() ) ) {
+				if( ! isset($_setting[TeamSettings::HELPDESK_SETTINGS]) ) {
+					$_setting[TeamSettings::HELPDESK_SETTINGS] = [];
+				}
+				$account_id = $setting->get( 'account_id');
+				foreach( $setting->get_helpdesks() as $helpdesk){
+					if( isset( $_setting[TeamSettings::HELPDESK_SETTINGS][$helpdesk])){
+						continue;
+					}
+					$_setting[TeamSettings::HELPDESK_SETTINGS][$helpdesk] = [
+						'secret' => AccessKeyLogin::makeSecret( $account_id ),
+						'callback' => Helpscout::actionUrl( $account_id,$helpdesk )
+					];
+				}
+
+			}
+			$data[] = $_setting;
+
+
+
 		}
 		update_option(self::TEAM_SETTING_NAME, json_encode($data));
-		update_option(self::HELPSCOUT_SETTING_NAME, $this->get_helpscout_data());
 		return $this;
 	}
 
@@ -99,7 +107,7 @@ class SettingsApi
 	public function get_by_account_id($account_id)
 	{
 		foreach ($this->team_settings as $setting) {
-			if ($account_id === $setting->get('account_id')) {
+			if (intval($account_id) === intval($setting->get('account_id'))) {
 				return $setting;
 			}
 		}
@@ -168,36 +176,9 @@ class SettingsApi
 	public function reset()
 	{
 		$this->team_settings = [];
-		$this->helpscout_data = [];
 		return $this;
 	}
 
-	/**
-	 * Set helpscout data
-	 *
-	 * @since 0.10.0
-	 * @param array $helpscout_data
-	 * @return $this
-	 */
-	public function set_helpscout_data(array $helpscout_data)
-	{
-		$this->helpscout_data = $helpscout_data;
-		return $this;
-	}
-
-	/**
-	 * Get helpscout data
-	 *
-	 * @since 0.10.0
-	 * @return array
-	 */
-	public function get_helpscout_data()
-	{
-		return [
-			'secret' => isset($this->helpscout_data['secret']) ?$this->helpscout_data['secret'] :"",
-			'callback' => isset($this->helpscout_data['callback']) ?$this->helpscout_data['callback'] :"",
-		];
-	}
 	/**
 	 * Convert to array of arrays
 	 *
@@ -206,12 +187,27 @@ class SettingsApi
 	 */
 	public function to_array()
 	{
-		$data = [
-			'teams' => [],
-			'helpscout' => $this->get_helpscout_data()
+
+		return [
+			'teams' => $this->allTeams(true)
 		];
+	}
+
+	/**
+	 * Get all Teams as an array
+	 *
+	 * @since 0.10.0
+	 * @param bool $as_array If true, teams are converted to array.
+	 * @return array
+	 */
+	public function allTeams($as_array = false){
+		$data = [];
 		foreach ($this->team_settings as $setting) {
-			$data['teams'][] = $setting->to_array();
+			if( $as_array ){
+				$data[] = $setting->to_array();
+			}else{
+				$data[] = $setting;
+			}
 		}
 		return $data;
 	}

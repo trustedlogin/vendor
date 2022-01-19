@@ -14,7 +14,24 @@ use TrustedLogin\Vendor\Traits\VerifyUser;
 class TrustedLoginService
 {
 
-	use Logger;
+	use Logger, VerifyUser;
+
+	//Constants came fromhttps://github.com/trustedlogin/trustedlogin-vendor/blob/f8c451d6648a6aa4e1844c4df0952c1bdce87985/includes/class-trustedlogin-endpoint.php#L31-L41
+	//Not all are needed.
+
+	const HEALTH_CHECK_SUCCESS_STATUS = 204;
+
+	const HEALTH_CHECK_ERROR_STATUS = 424;
+
+	const PUBLIC_KEY_SUCCESS_STATUS = 200;
+
+	const PUBLIC_KEY_ERROR_STATUS = 501;
+
+	const REDIRECT_SUCCESS_STATUS = 302;
+
+	const REDIRECT_ERROR_STATUS = 303;
+
+
 	/**
 	 * @var Plugin
 	 */
@@ -59,13 +76,17 @@ class TrustedLoginService
 				continue;
 			}
 
-			$this->log('$envelope is not an error. Here\'s the envelope: ' . print_r($envelope, true), __METHOD__, 'debug');
+			$this->log('$envelope is not an error. Here\'s the envelope: ', __METHOD__, 'debug',[
+				'envelope' => $envelope,
+			]);
 
 			// TODO: Convert to shared (client/vendor) Envelope library
 			$url_parts = $this->envelope_to_url($envelope, true);
 
 			if (is_wp_error($url_parts)) {
-				$this->log('Error: ' . $url_parts->get_error_message(), __METHOD__, 'error');
+				$this->log('Error: ' , __METHOD__, 'error',[
+					'error_messages'=>$url_parts->get_error_message()
+				]);
 				continue;
 			}
 
@@ -125,7 +146,6 @@ class TrustedLoginService
 		} else {
 			$redirect_url = add_query_arg('page', sanitize_text_field($_GET['page']), admin_url('admin.php'));
 		}
-
 		//Get saved settings an then team settings
 		$settings = SettingsApi::from_saved();
 		try {
@@ -135,16 +155,14 @@ class TrustedLoginService
 			wp_safe_redirect(add_query_arg(array( 'tl-error' => self::REDIRECT_ERROR_STATUS ), $redirect_url), self::REDIRECT_ERROR_STATUS, 'TrustedLogin');
 			exit;
 		}
-
-		// first check if user can be redirected.
+		// first check if l can be redirected.
 		if (! $this->verifyUserRole($teamSettings)) {
 			$this->log('User cannot be redirected due to auth_verify_user() returning false.', __METHOD__, 'warning');
 			return;
 		}
-
 		if (is_null($envelope)) {
 			// Get the envelope
-			$envelope = $this->api_get_envelope($secret_id);
+			$envelope = $this->api_get_envelope($secret_id,$account_id);
 		}
 
 		if (empty($envelope)) {
@@ -214,7 +232,8 @@ class TrustedLoginService
 			return $response;
 		}
 
-		$this->log('Response: ' . print_r($response, true), __METHOD__, 'debug');
+
+		$this->log('Response: ', __METHOD__, 'debug',['response' => $response]);
 
 		// 204 response: no sites found.
 		if (true === $response) {
@@ -230,6 +249,7 @@ class TrustedLoginService
 				}
 			}
 		}
+
 
 		return array_reverse($access_keys);
 	}
@@ -297,7 +317,6 @@ class TrustedLoginService
 		}
 
 		$envelope = $saas_api->call($endpoint, $data, 'POST');
-
 		if ($envelope && ! is_wp_error($envelope)) {
 			$success = esc_html__('Successfully fetched envelope.', 'trustedlogin-vendor');
 		} else {
@@ -335,7 +354,9 @@ class TrustedLoginService
 		}
 
 		if (! is_array($envelope)) {
-			$this->log('Error: envelope not an array. e:' . print_r($envelope, true), __METHOD__, 'error');
+			$this->log('Error: envelope not an array. e:', __METHOD__, 'error',[
+				'envelope' => $envelope
+			]);
 
 			return new WP_Error('malformed_envelope', 'The data received is not formatted correctly');
 		}
@@ -354,16 +375,15 @@ class TrustedLoginService
 		$trustedlogin_encryption = $this->plugin->getEncryption();
 
 		try {
-			$this->log('Starting to decrypt envelope. Envelope: ' . print_r($envelope, true), __METHOD__, 'debug');
+			$this->log('Starting to decrypt envelope.', __METHOD__, 'debug',['envelope' => $envelope]);
 			$decrypted_identifier = $trustedlogin_encryption->decrypt_crypto_box($envelope['identifier'], $envelope['nonce'], $envelope['publicKey']);
-			//var_dump([__LINE__ => $decrypted_identifier]);exit;
 			if (is_wp_error($decrypted_identifier)) {
-				$this->log('There was an error decrypting the envelope.' . print_r($decrypted_identifier, true), __METHOD__);
+				$this->log('There was an error decrypting the envelope.', __METHOD__,['print_identifier' => $decrypted_identifier]);
 
 				return $decrypted_identifier;
 			}
 
-			$this->log('Decrypted identifier: ' . print_r($decrypted_identifier, true), __METHOD__, 'debug');
+			$this->log('Decrypted identifier: ', __METHOD__, 'debug',['print_identifier' => $decrypted_identifier]);
 
 			$parts = [
 				'siteurl'    => $envelope['siteUrl'],

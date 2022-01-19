@@ -1,16 +1,21 @@
 import { useMemo, useState } from "react";
 import { __ } from "@wordpress/i18n";
-import { FormTable, Input, Select } from "./index";
+import { FormTable, Input, Select, FieldTr} from "./index";
 import RoleMultiSelect from "./RoleMultiSelect";
+import HelpDeskSettings from "./HelpDeskSettings";
 
 /**
  * Settings for one single team
  */
-const TeamSettings = ({ team, setTeam }) => {
+const TeamSettings = ({ team, setTeam,removeTeam }) => {
+	const [isRemoving, setIsRemoving] = useState(false);
 	const teamId = useMemo(() => {
 		return team.id;
 	}, [team]);
 
+	const title = useMemo(() => {
+		return team.name ??__("Team");
+	},[team])
 	const helpDeskOptions = [
 		{
 			label: __("Helpscout"),
@@ -18,7 +23,15 @@ const TeamSettings = ({ team, setTeam }) => {
 		},
 	];
 	return (
-		<FormTable title={__("Team")}>
+		<FormTable title={title} RenderTitle={({title})=> (
+			<h2 className="title">
+				<strong>{title}</strong>
+				{' | '}
+				<span>Connected: {team.connected ? __('Connected') : __('Not Connected')}</span>
+				{' | '}
+				<span>Status: {team.status ? team.status : __('Unknown')}</span>
+			</h2>
+		)}>
 			<Input
 				label={__("TrustedLogin Account ID")}
 				name={`team-${teamId}[account_id]`}
@@ -29,6 +42,7 @@ const TeamSettings = ({ team, setTeam }) => {
 						account_id: value,
 					})
 				}
+				disabled={isRemoving}
 			/>
 			<Input
 				label={__("TrustedLogin API Key")}
@@ -40,6 +54,7 @@ const TeamSettings = ({ team, setTeam }) => {
 						api_key: value,
 					})
 				}
+				disabled={isRemoving}
 			/>
 			<Input
 				label={__("TrustedLogin Private Key")}
@@ -51,6 +66,7 @@ const TeamSettings = ({ team, setTeam }) => {
 						private_key: value,
 					})
 				}
+				disabled={isRemoving}
 			/>
 			<RoleMultiSelect
 				label={__("What user roles provide support?")}
@@ -58,7 +74,7 @@ const TeamSettings = ({ team, setTeam }) => {
 					"Which users should be able to log into customers’ sites if they have an Access Key?"
 				)}
 				name={`team-${teamId}[approved_roles]`}
-				approvedRoles={team.approved_roles}
+				approvedRoles={team ? team.approved_roles: ''}
 				onChange={(value) =>
 					setTeam({
 						...team,
@@ -77,7 +93,37 @@ const TeamSettings = ({ team, setTeam }) => {
 						helpdesk: value,
 					})
 				}
+				disabled={isRemoving}
 			/>
+			{team.helpdesk  ? (
+				<HelpDeskSettings team={team} helpdesk={team.helpdesk} />
+			) : null }
+
+
+			<FieldTr name={'remove-team'} label={'Remove Team'} >
+				<button
+					className={"button button-secondary"}
+					onClick={(e)=> {
+						e.preventDefault();
+						if( ! isRemoving){
+							setIsRemoving(true)
+						}else{
+							removeTeam(team.id)
+						}
+					}}
+				>
+					{isRemoving ? 'Are you sure?' : 'Remove Team'}
+				</button>
+				{isRemoving ? <button
+					className={"button button-secondary"}
+					onClick={(e)=> {
+						e.preventDefault();
+						setIsRemoving(false)
+					}}
+				>
+					Cancel
+				</button>: null}
+			</FieldTr>
 		</FormTable>
 	);
 };

@@ -70,7 +70,8 @@ class ApiHandler
 			'api_key'  => null,
 			'debug_mode'  => false,
 			'type'        => 'saas',
-			'api_url' => 'https://app.trustedlogin.com/api/v1/'
+			'api_url' => 'https://app.trustedlogin.com/api/v1/',
+			'auth_required' => true,
 		];
 
 		$atts = wp_parse_args($data, $defaults);
@@ -141,6 +142,10 @@ class ApiHandler
 	 */
 	public function get_additional_headers()
 	{
+		if (! empty($this->private_key)) {
+			$this->additional_headers[ $this->auth_header_type ] = 'Bearer ' . $this->get_auth_bearer_token();
+			$this->additional_headers[ 'X-TL-TOKEN'] = $this->get_x_tl_token();
+		}
 		return $this->additional_headers;
 	}
 
@@ -231,6 +236,9 @@ class ApiHandler
 		 );
 		$headers  = $this->get_additional_headers();
 
+		$this->log( json_encode($headers),__METHOD__.':'.__LINE__, 'debug',$headers);
+		$this->log( json_encode($this->private_key),__METHOD__.':'.__LINE__, 'debug',$headers);
+
 		$verification = $this->api_send($url, $body, $method, $headers);
 
 		if (is_wp_error($verification)) {
@@ -249,7 +257,7 @@ class ApiHandler
 		}
 
 		$status = wp_remote_retrieve_response_code($verification);
-
+		$this->log($status, __METHOD__, 'debug');
 		switch ($status) {
 			case 400:
 			case 403:
@@ -284,6 +292,7 @@ class ApiHandler
 		$body = wp_remote_retrieve_body($verification);
 
 		$body = json_decode($body);
+		$this->log(__LINE__, __METHOD__, 'debug',$body);
 
 		if (! $body) {
 			return new WP_Error(
@@ -326,7 +335,9 @@ class ApiHandler
 		}
 
 		if (empty($api_response) || ! is_array($api_response)) {
-			$this->log('Malformed api_response received:' . print_r($api_response, true), __METHOD__, 'error');
+			$this->log('Malformed api_response received:', __METHOD__, 'error',[
+				'response' => $api_response
+			]);
 
 			return new WP_Error('malformed_response', esc_html__('Malformed API response received.', 'trustedlogin-vendor'));
 		}
@@ -344,7 +355,7 @@ class ApiHandler
 		$body = json_decode($body);
 
 		if (empty($body) || ! is_object($body)) {
-			$this->log('No body received:' . print_r($body, true), __METHOD__, 'error');
+			$this->log('No body received:' , __METHOD__, 'error',['body' => $body]);
 
 			return new WP_Error('empty_body', esc_html__('No body received.', 'trustedlogin-vendor'));
 		}
@@ -353,10 +364,14 @@ class ApiHandler
 
 		switch ($response_code) {
 			case 424:
-				$this->log('Error Getting Signature Key from Vendor: ' . print_r($api_response, true), __METHOD__, 'error');
+				$this->log('Error Getting Signature Key from Vendor: ', __METHOD__, 'error',[
+					'response' => $api_response
+				]);
 				return new WP_Error('signature_key_error', $body_message);
 			case 410:
-				$this->log('Error Getting Signature Key from Vendor: ' . print_r($api_response, true), __METHOD__, 'error');
+				$this->log('Error Getting Signature Key from Vendor: ', __METHOD__, 'error',[
+					'response' => $api_response
+				]);
 				return new WP_Error('gone', 'This support request is gone. Please create a new request. (SecretNotFoundInVaultException)');
 			case 403:
 				// Problem with Token

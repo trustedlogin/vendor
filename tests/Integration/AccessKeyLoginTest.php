@@ -53,6 +53,7 @@ class AccesKeyLoginTest extends \WP_UnitTestCase
 	}
 
 	/**
+	 * @group AccessKeyLogin
 	 * @covers TrustedLogin\Vendor\AccessKeyLogin::verify_grant_access_request()
 	 */
 	public function testVerifyRequest()
@@ -96,23 +97,12 @@ class AccesKeyLoginTest extends \WP_UnitTestCase
 
 		//Set invalid nonce
 		$_REQUEST[AccessKeyLogin::NONCE_NAME ] = wp_create_nonce('bad-action');
-		//Check for no no_referrer
+
+		//Return WP_Error for bad nonce
 		$this->assertTrue(
 			is_wp_error(
-				$ak->verify_grant_access_request()
-			)
-		);
-		$this->assertArrayHasKey(
-			'no_referrer',
-			$ak->verify_grant_access_request()->errors
-		);
-		///set _wp_http_referer
-		$_REQUEST['_wp_http_referer'] = 'https://something.com';
-
-		//Return false, not error
-		$this->assertFalse(
 			$ak->verify_grant_access_request()
-		);
+			));
 
 		//Set valid nonce
 		$_REQUEST[AccessKeyLogin::NONCE_NAME ] = wp_create_nonce(AccessKeyLogin::NONCE_ACTION);
@@ -123,6 +113,7 @@ class AccesKeyLoginTest extends \WP_UnitTestCase
 	}
 
 	/**
+	 * @group AccessKeyLogin
 	 * @covers AccessKeyLogin::handle()
 	 */
 	public function testHandler()
@@ -152,21 +143,35 @@ class AccesKeyLoginTest extends \WP_UnitTestCase
 		add_filter('trustedlogin/vendor/encryption/get-keys', function () {
 			return $this->getEncryptionKeys();
 		});
-		//Use filter callback to test response
-		add_filter('trustedlogin_vendor_send_json',function () {
-			return function($output) {
-				$output = json_decode($output, true);
-				$this->assertArrayHasKey( 'loginurl', $output);
-				$this->assertTrue(
-					(bool)filter_var($output['loginurl'], FILTER_VALIDATE_URL)
-				);
-				$this->assertArrayHasKey( 'siteurl', $output);
-				$this->assertSame( 'https://trustedlogin.support', $output['siteurl']);
 
-			};
-		},1 );
-		//Run handler, expect success
-		$handler->handle();
+		//Run handler, expect it to return the envelope, as an array
+		$output = $handler->handle();
+		$this->assertIsArray( $output );
+		//With the right things in it
+		$this->assertArrayHasKey( 'loginurl', $output);
+		$this->assertTrue(
+			(bool)filter_var($output['loginurl'], FILTER_VALIDATE_URL)
+		);
+		$this->assertArrayHasKey( 'siteurl', $output);
+		$this->assertSame( 'https://trustedlogin.support', $output['siteurl']);
+	}
+
+	/**
+	 * @covers AccessKeyLogin::url()
+	 */
+	public function testUrl(){
+		$this->assertTrue(
+			(bool)filter_var(AccessKeyLogin::url('arms','helpscout'), FILTER_VALIDATE_URL)
+		);
+	}
+
+	/**
+	 * @covers AccessKeyLogin::makeSecret()
+	 */
+	public function testMakeSecret(){
+		$this->assertTrue(
+			is_string(AccessKeyLogin::makeSecret())
+		);
 	}
 
 }

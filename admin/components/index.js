@@ -13,20 +13,27 @@ export const Notice = ({ heading, link, description, type }) => {
 	);
 };
 
-export const Form = ({ children, onSubmit, title }) => {
+export const Form = ({ children, onSubmit, title,className,method,action }) => {
 	return (
-		<form onSubmit={onSubmit} title={title}>
+		<form
+			onSubmit={onSubmit}
+			title={title}
+			className={className}
+			method={method}
+			action={action}
+		>
 			{title ? <h2 className="title">{title}</h2> : null}
-
 			{children}
 		</form>
 	);
 };
 
-export const FormTable = ({ children, title }) => {
+export const FormTable = ({ children, title,RenderTitle }) => {
 	return (
 		<>
-			{title ? <h2 className="title">{title}</h2> : null}
+			{RenderTitle ? (<RenderTitle title={title}/>):
+				title ? <h2 className="title">{title}</h2> : null
+			}
 			<table className="form-table" role="presentation">
 				<tbody>{children}</tbody>
 			</table>
@@ -34,14 +41,15 @@ export const FormTable = ({ children, title }) => {
 	);
 };
 
-export const Select = ({ name, label, value, options, help, onChange }) => {
+export const Select = ({ name, label, value, options, help, onChange,disabled }) => {
 	const attrs = useMemo(() => {
 		let a = {
 			name,
 			label,
 			value,
-			className: "postform",
+			className: disabled? "postform disabled":"postform",
 		};
+
 		if (help) {
 			a["aria-describedby"] = `${name}-description`;
 		}
@@ -75,7 +83,7 @@ export const FieldTr = ({ children, name, label, help }) => {
 	);
 };
 
-export const Input = ({ name, label, value, type, onChange }) => {
+export const Input = ({ name, label, value, type, onChange,disabled }) => {
 	return (
 		<FieldTr name={name} label={label}>
 			<input
@@ -83,8 +91,9 @@ export const Input = ({ name, label, value, type, onChange }) => {
 				type={type ? type : "text"}
 				id={name}
 				value={value}
-				className="regular-text ltr"
+				className={`regular-text ltr ${disabled? "disabled":""}`}
 				onChange={(e) => onChange(e.target.value)}
+				disabled={disabled}
 			/>
 		</FieldTr>
 	);
@@ -104,8 +113,8 @@ export const Submit = ({ name, variant, value, disabled, onClick }) => (
 	</p>
 );
 
-export const BigButton = ({ children, variant, onClick }) => (
-	<p className="big-button">
+export const BigButton = ({ children, variant, onClick,className }) => (
+	<p className={`big-button ${className}`}>
 		<button
 			className={`button button-${variant ? variant : "secondary"} button-hero`}
 			onClick={onClick}

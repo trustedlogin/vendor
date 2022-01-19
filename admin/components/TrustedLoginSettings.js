@@ -1,24 +1,37 @@
-import { Form, Submit, Input, FormTable } from "./index";
+import { Form, Submit, } from "./index";
 import { __ } from "@wordpress/i18n";
 import TeamSettings from "./TeamSettings";
+import {Metabox,MetaboxWrapper}from '@imaginary-machines/wp-admin-components'
 
 /**
  * TrustedLogin Settings Form
  */
-export default function ({ onSave, settings, canSave, setTeam, setSettings }) {
+export default function ({ onSave, settings, canSave, setTeam,removeTeam }) {
+
 	return (
-		<Form onSubmit={onSave}>
-			{settings.teams
-				? settings.teams.map((team) => (
-						<TeamSettings team={team} setTeam={setTeam} key={team.id} />
-				  ))
-				: null}
+		<>
+			<section id="team-wrapper">
+				<>
+					{settings.teams
+						? settings.teams.map((team) => (
+							<div key={team.id} className={"team-settings-form"}>
+								<Form onSubmit={onSave} >
+									<TeamSettings team={team} setTeam={setTeam} removeTeam={removeTeam} />
+								</Form>
+							</div>
+
+						))
+						: null}
+				</>
+			</section>
+
+
 			<Submit
 				onClick={onSave}
 				variant={canSave ? "primary" : "secondary"}
 				value={__("Save")}
 				disabled={!canSave}
 			/>
-		</Form>
+		</>
 	);
 }
