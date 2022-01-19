@@ -77,8 +77,8 @@ class PluginTest extends TestCase
 		);
 
 		$this->assertSame(
-			trustedlogin_vendor()->getEncryption()->get_public_key(),
-			trustedlogin_vendor()->getEncryption()->get_public_key(),
+			trustedlogin_vendor()->getEncryption()->getPublicKey(),
+			trustedlogin_vendor()->getEncryption()->getPublicKey(),
 		);
 	}
 

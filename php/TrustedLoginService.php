@@ -286,7 +286,7 @@ class TrustedLoginService
 
 		// Then let's get the identity verification pair to confirm the site is the one sending the request.
 		$trustedlogin_encryption = $this->plugin->getEncryption();
-		$auth_nonce              = $trustedlogin_encryption->create_identity_nonce();
+		$auth_nonce              = $trustedlogin_encryption->createIdentityNonce();
 
 		if (is_wp_error($auth_nonce)) {
 			return $auth_nonce;
@@ -376,7 +376,7 @@ class TrustedLoginService
 
 		try {
 			$this->log('Starting to decrypt envelope.', __METHOD__, 'debug',['envelope' => $envelope]);
-			$decrypted_identifier = $trustedlogin_encryption->decrypt_crypto_box($envelope['identifier'], $envelope['nonce'], $envelope['publicKey']);
+			$decrypted_identifier = $trustedlogin_encryption->decryptCryptoBox($envelope['identifier'], $envelope['nonce'], $envelope['publicKey']);
 			if (is_wp_error($decrypted_identifier)) {
 				$this->log('There was an error decrypting the envelope.', __METHOD__,['print_identifier' => $decrypted_identifier]);
 

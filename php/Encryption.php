@@ -43,11 +43,11 @@ class Encryption
 	 *
 	 * @since 0.8.0
 	 *
-	 * @param bool $generate_if_not_set If keys aren't saved in the database, should create using {@see generate_keys}?
+	 * @param bool $generate_if_not_set If keys aren't saved in the database, should create using {@see generateKeys}?
 	 *
 	 * @return \stdClass|WP_Error If keys exist, returns the stdClass of keys. Otherwise, WP_Error explaning things.
 	 */
-	private function get_keys($generate_if_not_set = true)
+	private function getKeys($generate_if_not_set = true)
 	{
 
 		$keys  = false;
@@ -62,7 +62,7 @@ class Encryption
 		}
 
 		if (! $keys && $generate_if_not_set) {
-			$keys = $this->generate_keys(true);
+			$keys = $this->generateKeys(true);
 		}
 
 		/**
@@ -89,7 +89,7 @@ class Encryption
 	 *        sign_private_key: (string) The private key used for signing/verifying.
 	 *    }
 	 */
-	private function generate_keys($update = true)
+	private function generateKeys($update = true)
 	{
 
 		if (! function_exists('sodium_crypto_box_keypair')) {
@@ -115,7 +115,7 @@ class Encryption
 			);
 
 			if ($update) {
-				$updated = $this->update_keys($keys);
+				$updated = $this->updateKeys($keys);
 
 				if (is_wp_error($updated)) {
 					return $updated;
@@ -139,7 +139,7 @@ class Encryption
 	 *
 	 * @return true|WP_Error True if keys saved. WP_Error if not.
 	 */
-	private function update_keys($keys)
+	private function updateKeys($keys)
 	{
 
 		$keys_db_ready = json_encode($keys);
@@ -171,10 +171,10 @@ class Encryption
 	 *
 	 * @return string|WP_Error  Returns key if found, otherwise WP_Error.
 	 */
-	public function get_public_key($key_slug = 'public_key')
+	public function getPublicKey($key_slug = 'public_key')
 	{
 
-		$keys = $this->get_keys();
+		$keys = $this->getKeys();
 
 		if (is_wp_error($keys)) {
 			return $keys;
@@ -201,10 +201,10 @@ class Encryption
 	 *
 	 * @return string|WP_Error  Returns key if found, otherwise WP_Error.
 	 */
-	private function get_private_key($key_slug = 'private_key')
+	private function getPrivateKey($key_slug = 'private_key')
 	{
 
-		$keys = $this->get_keys();
+		$keys = $this->getKeys();
 
 		if (is_wp_error($keys)) {
 			return $keys;
@@ -318,7 +318,7 @@ class Encryption
 	 *
 	 * @return string|WP_Error If successful the decrypted string (could be a JSON string), otherwise WP_Error.
 	 */
-	public function decrypt_crypto_box($encoded_and_encrypted_payload, $hex_nonce, $alice_public_key)
+	public function decryptCryptoBox($encoded_and_encrypted_payload, $hex_nonce, $alice_public_key)
 	{
 
 		if (! function_exists('sodium_crypto_box_open')) {
@@ -336,7 +336,7 @@ class Encryption
 		}
 
 		try {
-			$bob_private_key = $this->get_private_key();
+			$bob_private_key = $this->getPrivateKey();
 
 			if (is_wp_error($bob_private_key)) {
 				return new \WP_Error('key_error', 'Cannot decrypt: can\'t get private keys from the local DB.', $bob_private_key);
@@ -380,16 +380,16 @@ class Encryption
 	 *        'signed' => (string)  The `nonce` encrypted with this site's Private Key, also base64 encoded.
 	 *    ]
 	 */
-	public function create_identity_nonce()
+	public function createIdentityNonce()
 	{
 
-		$unsigned_nonce = $this->generate_nonce();
+		$unsigned_nonce = $this->generateNonce();
 
 		if (is_wp_error($unsigned_nonce)) {
 			return $unsigned_nonce;
 		}
 
-		$key = $this->get_private_key('sign_private_key');
+		$key = $this->getPrivateKey('sign_private_key');
 
 		if (is_wp_error($key)) {
 			return $key;
@@ -401,7 +401,7 @@ class Encryption
 			return $signed_nonce;
 		}
 
-		$verified = $this->verify_signature($signed_nonce, $unsigned_nonce);
+		$verified = $this->verifySignature($signed_nonce, $unsigned_nonce);
 
 		if (is_wp_error($verified)) {
 			return $verified;
@@ -424,11 +424,11 @@ class Encryption
 	 *
 	 * @return bool|WP_Error  True if signature validates correctly, otherwise false. Returns WP_Error on issue.
 	 */
-	private function verify_signature($signed_nonce, $unsigned_nonce)
+	private function verifySignature($signed_nonce, $unsigned_nonce)
 	{
 
 		try {
-			$sign_public_key = $this->get_public_key('sign_public_key');
+			$sign_public_key = $this->getPublicKey('sign_public_key');
 
 			if (is_wp_error($sign_public_key)) {
 				return $sign_public_key;
@@ -466,7 +466,7 @@ class Encryption
 	 *
 	 * @return string|WP_Error  If generated, a nonce. Otherwise a WP_Error.
 	 */
-	private function generate_nonce()
+	private function generateNonce()
 	{
 
 		if (! function_exists('sodium_bin2hex')) {
@@ -518,10 +518,10 @@ class Encryption
 	 *
 	 * @return true|WP_Error
 	 */
-	public function reset_keys()
+	public function resetKeys()
 	{
 
-		$reset = $this->generate_keys(true);
+		$reset = $this->generateKeys(true);
 
 		if (is_wp_error($reset)) {
 			return $reset;

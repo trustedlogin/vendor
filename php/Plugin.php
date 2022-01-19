@@ -74,7 +74,7 @@ class Plugin
 	public function getPublicKey()
 	{
 		return $this->encryption
-			->get_public_key();
+			->getPublicKey();
 	}
 
 	/**
@@ -85,7 +85,7 @@ class Plugin
 	public function getSignatureKey()
 	{
 		return $this->encryption
-			->get_public_key('sign_public_key');
+			->getPublicKey('sign_public_key');
 	}
 
 
