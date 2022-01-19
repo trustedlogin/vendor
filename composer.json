@@ -23,12 +23,13 @@
         "brain/monkey": "2.*",
         "squizlabs/php_codesniffer": "^3.6",
         "dealerdirect/phpcodesniffer-composer-installer": "^0.7",
-        "vlucas/phpdotenv": "^5.4"
+        "vlucas/phpdotenv": "^5.4",
+        "symplify/easy-coding-standard": "^10.0"
     },
     "scripts": {
         "test": "composer test:wordpress",
         "test:wordpress": "phpunit --config=phpunit-integration.xml",
-        "sniffs": "phpcs php/ && phpcs tests/",
-        "fixes": "phpcbf php/ && phpcbf tests/"
+        "sniffs": "vendor/bin/ecs check",
+        "fixes": "vendor/bin/ecs check --fix"
     }
 }
