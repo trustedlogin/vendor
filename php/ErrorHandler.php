@@ -20,9 +20,9 @@ class ErrorHandler {
 	public static function register(){
 
 		$controller = new static();
-		register_shutdown_function( [ $controller, 'on_fatal', ] );
-		set_error_handler( [ $controller, 'on_error' ], E_ALL|E_STRICT );
-		set_exception_handler( [ $controller, 'on_exception', ] );
+		register_shutdown_function( [ $controller, 'onFatal', ] );
+		set_error_handler( [ $controller, 'onError' ], E_ALL|E_STRICT );
+		set_exception_handler( [ $controller, 'onException', ] );
 	}
     /**
 	 * Error handler.
@@ -35,7 +35,7 @@ class ErrorHandler {
 	 *
 	 * @return bool
 	 */
-	public function on_error( $num, $str, $file, $line, $context = [] ) {
+	public function onError( $num, $str, $file, $line, $context = [] ) {
         $this->log( implode(' ',  [$num,$str, "$file:$line"] ),__METHOD__, 'error',$context );
 		return false;
 	}
@@ -47,9 +47,9 @@ class ErrorHandler {
 	 *
 	 * @throws \Throwable
 	 */
-	public function on_exception( $e ) {
+	public function onException( $e ) {
 
-        $this->on_error( $e->getCode(), $e->getMessage(), $e->getFile(), $e->getLine() );
+        $this->onError( $e->getCode(), $e->getMessage(), $e->getFile(), $e->getLine() );
 
 		throw $e;
 	}
@@ -57,7 +57,7 @@ class ErrorHandler {
 	/**
 	 * Checks for a fatal error, work-around for `set_error_handler` not working with fatal errors.
 	 */
-	public function on_fatal() {
+	public function onFatal() {
 
 		$last_error = error_get_last();
 		if ( ! $last_error ) {
@@ -76,7 +76,7 @@ class ErrorHandler {
 		];
 
 		if ( in_array( $error[ 'type' ], $fatals, TRUE ) ) {
-			$this->on_error( $error[ 'type' ], $error[ 'message' ], $error[ 'file' ], $error[ 'line' ] );
+			$this->onError( $error[ 'type' ], $error[ 'message' ], $error[ 'file' ], $error[ 'line' ] );
 		}
 	}
 }
