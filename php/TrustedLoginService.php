@@ -300,7 +300,7 @@ class TrustedLoginService
 		$endpoint = 'sites/' . $account_id . '/' . $secret_id . '/get-envelope';
 
 		$saas_api = $this->plugin->getApiHandler($account_id);
-		$x_tl_token  = $saas_api->get_x_tl_token();
+		$x_tl_token  = $saas_api->getXTlToken();
 
 		if (is_wp_error($x_tl_token)) {
 			$error = esc_html__('Error getting X-TL-TOKEN header', 'trustedlogin-vendor');
@@ -308,7 +308,7 @@ class TrustedLoginService
 			return new \WP_Error('x-tl-token-error', $error);
 		}
 
-		$token_added = $saas_api->set_additional_header('X-TL-TOKEN', $x_tl_token);
+		$token_added = $saas_api->setAdditionalHeader('X-TL-TOKEN', $x_tl_token);
 
 		if (! $token_added) {
 			$error = esc_html__('Error setting X-TL-TOKEN header', 'trustedlogin-vendor');

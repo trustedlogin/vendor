@@ -85,7 +85,7 @@ class ApiHandler
 	 * @internal
 	 * @return string Full versioned API url, with trailing slash.
 	 */
-	public function get_api_url()
+	public function getApiUrl()
 	{
 		return $this->api_url;
 	}
@@ -93,7 +93,7 @@ class ApiHandler
 	/**
 	 * @return string
 	 */
-	public function get_auth_header_type()
+	public function getAuthHeaderType()
 	{
 		return $this->auth_header_type;
 	}
@@ -101,7 +101,7 @@ class ApiHandler
 	/**
 	 * @return string Authentication bearer token hash
 	 */
-	private function get_auth_bearer_token()
+	private function getAuthBearerToken()
 	{
 		return hash('sha256', $this->private_key);
 	}
@@ -113,7 +113,7 @@ class ApiHandler
 	 *
 	 * @return string|WP_Error $saas_token Additional SaaS Token for authenticating API queries. WP_Error on error.
 	 */
-	public function get_x_tl_token()
+	public function getXTlToken()
 	{
 
 		if (! $this->api_key) {
@@ -132,7 +132,7 @@ class ApiHandler
 	 *
 	 * @return string
 	 */
-	public function get_api_key()
+	public function getApiKey()
 	{
 		return $this->api_key;
 	}
@@ -140,11 +140,11 @@ class ApiHandler
 	/**
 	 * @return array
 	 */
-	public function get_additional_headers()
+	public function getAdditionalHeader()
 	{
 		if (! empty($this->private_key)) {
-			$this->additional_headers[ $this->auth_header_type ] = 'Bearer ' . $this->get_auth_bearer_token();
-			$this->additional_headers[ 'X-TL-TOKEN'] = $this->get_x_tl_token();
+			$this->additional_headers[ $this->auth_header_type ] = 'Bearer ' . $this->getAuthBearerToken();
+			$this->additional_headers[ 'X-TL-TOKEN'] = $this->getXTlToken();
 		}
 		return $this->additional_headers;
 	}
@@ -160,7 +160,7 @@ class ApiHandler
 	 *
 	 * @return array|false
 	 */
-	public function set_additional_header($key, $value)
+	public function setAdditionalHeader($key, $value)
 	{
 
 		if (empty($key) || empty($value) || is_wp_error($value)) {
@@ -189,12 +189,12 @@ class ApiHandler
 	public function call($endpoint, $data, $method)
 	{
 
-		$additional_headers = $this->get_additional_headers();
+		$additional_headers = $this->getAdditionalHeader();
 
-		$url = $this->get_api_url() . $endpoint;
+		$url = $this->getApiUrl() . $endpoint;
 
 		if (! empty($this->private_key)) {
-			$additional_headers[ $this->auth_header_type ] = 'Bearer ' . $this->get_auth_bearer_token();
+			$additional_headers[ $this->auth_header_type ] = 'Bearer ' . $this->getAuthBearerToken();
 		}
 
 		if ($this->auth_required && empty($additional_headers)) {
@@ -205,9 +205,9 @@ class ApiHandler
 
 		$this->log("Sending $method API call to $url", __METHOD__, 'debug');
 
-		$api_response = $this->api_send($url, $data, $method, $additional_headers);
+		$api_response = $this->apiSend($url, $data, $method, $additional_headers);
 
-		return $this->handle_response($api_response);
+		return $this->handleResponse($api_response);
 	}
 
 	/**
@@ -229,17 +229,17 @@ class ApiHandler
 			);
 		}
 
-		$url 	  = $this->get_api_url() . 'accounts/' . $account_id ;
+		$url 	  = $this->getApiUrl() . 'accounts/' . $account_id ;
 		$method   = 'POST';
 		$body     = array(
 			'api_endpoint' => get_rest_url(),
 		 );
-		$headers  = $this->get_additional_headers();
+		$headers  = $this->getAdditionalHeader();
 
 		$this->log( json_encode($headers),__METHOD__.':'.__LINE__, 'debug',$headers);
 		$this->log( json_encode($this->private_key),__METHOD__.':'.__LINE__, 'debug',$headers);
 
-		$verification = $this->api_send($url, $body, $method, $headers);
+		$verification = $this->apiSend($url, $body, $method, $headers);
 
 		if (is_wp_error($verification)) {
 			return new WP_Error(
@@ -323,15 +323,15 @@ class ApiHandler
 	 *
 	 * @since 0.4.1
 	 *
-	 * @param array|false|WP_Error $api_response The result from `$this->api_send()`.
+	 * @param array|false|WP_Error $api_response The result from `$this->apiSend()`.
 	 *
 	 * @return object|true|WP_Error  Either `json_decode()` of the result's body, or true if status === 204 (successful response, but no sites found) or WP_Error if empty body or error.
 	 */
-	public function handle_response($api_response)
+	public function handleResponse($api_response)
 	{
 
 		if (is_wp_error($api_response)) {
-			return $api_response; // Logging intentionally left out; already logged in api_send()
+			return $api_response; // Logging intentionally left out; already logged in apiSend()
 		}
 
 		if (empty($api_response) || ! is_array($api_response)) {
@@ -404,7 +404,7 @@ class ApiHandler
 	 *
 	 * @return array|false|WP_Error - wp_remote_post response, false if invalid HTTP method, WP_Error if request errors
 	 */
-	public function api_send($url, $data, $method, $additional_headers)
+	public function apiSend($url, $data, $method, $additional_headers)
 	{
 
 		return $this->apiSender->send($url, $data, $method, $additional_headers);
