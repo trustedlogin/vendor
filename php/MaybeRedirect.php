@@ -47,7 +47,7 @@ class MaybeRedirect
 			$accountId = $_REQUEST[AccessKeyLogin::ACCOUNT_ID_INPUT_NAME];
 
 			try {
-				$team  = SettingsApi::from_saved()->get_by_account_id($accountId);
+				$team  = SettingsApi::fromSaved()->getByAccountId($accountId);
 				$webhook = Factory::webhook( $team );
 				$r = $webhook->webhook_endpoint();
 				if( 200 === $r['status']){

@@ -35,7 +35,7 @@ class Plugin
 		$this->encryption = $encryption;
 		$this->auditLog = new AuditLog();
 		$this->apiSender = new \TrustedLogin\Vendor\ApiSend();
-		$this->settings = SettingsApi::from_saved();
+		$this->settings = SettingsApi::fromSaved();
 	}
 
 
@@ -99,7 +99,7 @@ class Plugin
 	public function getApiHandler($accountId, $apiUrl = '', $team = null )
 	{
 		if( ! $team ) {
-			$team = SettingsApi::from_saved()->get_by_account_id($accountId);
+			$team = SettingsApi::fromSaved()->getByAccountId($accountId);
 		}
 		if (empty($apiUrl)) {
 			$apiUrl = TRUSTEDLOGIN_API_URL;

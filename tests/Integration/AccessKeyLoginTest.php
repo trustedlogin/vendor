@@ -16,7 +16,7 @@ class AccesKeyLoginTest extends \WP_UnitTestCase
 	public function setUp()
 	{
 		$this->setTlApiMock();
-		SettingsApi::from_saved()->reset()->save();
+		SettingsApi::fromSaved()->reset()->save();
 		$settings = new SettingsApi([
 			[
 				'account_id'       => self::ACCOUNT_ID,
@@ -46,7 +46,7 @@ class AccesKeyLoginTest extends \WP_UnitTestCase
 		] as $key) {
 			unset($_REQUEST[ $key]);
 		}
-		SettingsApi::from_saved()->reset()->save();
+		SettingsApi::fromSaved()->reset()->save();
 		//Always reset API sender
 		$this->resetTlApiMock();
 		parent::tearDown();

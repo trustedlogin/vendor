@@ -15,7 +15,7 @@ class HelpscoutWebhookTest extends \WP_UnitTestCase
 	public function setUp()
 	{
 		$this->setTlApiMock();
-		SettingsApi::from_saved()->reset()->save();
+		SettingsApi::fromSaved()->reset()->save();
 		$settings = new SettingsApi([
 			[
 				'account_id'       => self::ACCOUNT_ID,
@@ -36,7 +36,7 @@ class HelpscoutWebhookTest extends \WP_UnitTestCase
 
 	public function tearDown()
 	{
-		SettingsApi::from_saved()->reset()->save();
+		SettingsApi::fromSaved()->reset()->save();
 		//Always reset API sender
 		$this->resetTlApiMock();
 		parent::tearDown();

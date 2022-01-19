@@ -17,7 +17,7 @@ class TrustedLoginServiceTests extends \WP_UnitTestCase
 	{
 		$this->setTlApiMock();
 
-		SettingsApi::from_saved()->reset()->save();
+		SettingsApi::fromSaved()->reset()->save();
 		$settings = new SettingsApi([
 			[
 				'account_id'       => self::ACCOUNT_ID,
@@ -37,7 +37,7 @@ class TrustedLoginServiceTests extends \WP_UnitTestCase
 
 	public function tearDown()
 	{
-		SettingsApi::from_saved()->reset()->save();
+		SettingsApi::fromSaved()->reset()->save();
 		$this->resetTlApiMock();
 		parent::tearDown();
 	}
@@ -49,8 +49,8 @@ class TrustedLoginServiceTests extends \WP_UnitTestCase
 	{
 
 		$this->assertNotEmpty(
-			SettingsApi::from_saved()
-				->get_by_account_id(
+			SettingsApi::fromSaved()
+				->getByAccountId(
 					self::ACCOUNT_ID,
 				)
 		);

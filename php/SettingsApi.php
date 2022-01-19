@@ -43,7 +43,7 @@ class SettingsApi
 	 * Create instance from saved data.
 	 * @return SettingsApi
 	 */
-	public static function from_saved()
+	public static function fromSaved()
 	{
 
 		$saved = get_option(self::TEAM_SETTING_NAME, []);
@@ -104,7 +104,7 @@ class SettingsApi
 	 * @param string|int $account_id Account to search for
 	 * @return TeamSettings
 	 */
-	public function get_by_account_id($account_id)
+	public function getByAccountId($account_id)
 	{
 		foreach ($this->team_settings as $setting) {
 			if (intval($account_id) === intval($setting->get('account_id'))) {
@@ -122,7 +122,7 @@ class SettingsApi
 	 * @param TeamSettings $values New settings object
 	 * @return SettingsApi
 	 */
-	public function update_by_account_id(TeamSettings $value)
+	public function updateByAccountId(TeamSettings $value)
 	{
 		foreach ($this->team_settings as $key => $setting) {
 			if ($value->get('account_id') == $setting->get('account_id')) {
@@ -139,7 +139,7 @@ class SettingsApi
 	 * @param string $account_id
 	 * @return bool
 	 */
-	public function has_setting($account_id)
+	public function hasSetting($account_id)
 	{
 		foreach ($this->team_settings as $setting) {
 			if ($account_id == $setting->get('account_id')) {
@@ -155,11 +155,11 @@ class SettingsApi
 	 * @param TeamSetting $setting
 	 * @return $this
 	 */
-	public function add_setting(TeamSettings $setting)
+	public function addSetting(TeamSettings $setting)
 	{
 		//If we have it already, update
-		if ($this->has_setting($setting->get('account_id'))) {
-			$this->update_by_account_id($setting);
+		if ($this->hasSetting($setting->get('account_id'))) {
+			$this->updateByAccountId($setting);
 			return $this;
 		}
 		//add it to collection

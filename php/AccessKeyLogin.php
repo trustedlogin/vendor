@@ -91,10 +91,10 @@ class AccessKeyLogin
 		$access_key = sanitize_text_field($_REQUEST[ self::ACCESS_KEY_INPUT_NAME ]);
 		$account_id = sanitize_text_field($_REQUEST[ self::ACCOUNT_ID_INPUT_NAME]);
 		//Get saved settings an then team settings
-		$settings = SettingsApi::from_saved();
+		$settings = SettingsApi::fromSaved();
 
 		try {
-			$teamSettings =  $settings->get_by_account_id($account_id);
+			$teamSettings =  $settings->getByAccountId($account_id);
 		} catch (\Exception $e) {
 			return new \WP_Error(
 				self::ERROR_NO_ACCOUNT_ID,

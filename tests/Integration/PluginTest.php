@@ -48,8 +48,8 @@ class PluginTest extends TestCase
 				'api_key'       	=> '8',
 			]
 		);
-		\TrustedLogin\Vendor\SettingsApi::from_saved()
-			->add_setting(
+		\TrustedLogin\Vendor\SettingsApi::fromSaved()
+			->addSetting(
 				$setting
 			)
 			->save();
@@ -105,8 +105,8 @@ class PluginTest extends TestCase
 				'api_key'       	=> '8',
 			]
 		);
-		\TrustedLogin\Vendor\SettingsApi::from_saved()
-			->add_setting(
+		\TrustedLogin\Vendor\SettingsApi::fromSaved()
+			->addSetting(
 				$setting
 			)
 			->save();

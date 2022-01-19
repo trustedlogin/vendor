@@ -15,7 +15,7 @@ class SettingsRestApiTest extends \WP_UnitTestCase
 
 	/**
 	 *
-	 * @covers SettingsApi::from_saved()
+	 * @covers SettingsApi::fromSaved()
 	 * @covers SettingsApi::to_array()
 	 * @covers Endpoint::
 	 */
