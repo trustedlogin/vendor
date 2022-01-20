@@ -52,7 +52,7 @@ class WebhooksTest extends \WP_UnitTestCase
 			self::ACCOUNT_ID
 		);
 		$webhook = Factory::webhook( $account );
-		$this->assertSame( 'helpscout', $webhook->get_provider_name());
+		$this->assertSame( 'helpscout', $webhook->getProviderName());
 
 		$account->set( 'helpdesk', [ 'random' ] );
 		$this->expectException( '\Exception' );

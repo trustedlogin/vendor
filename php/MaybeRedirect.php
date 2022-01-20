@@ -49,7 +49,7 @@ class MaybeRedirect
 			try {
 				$team  = SettingsApi::fromSaved()->getByAccountId($accountId);
 				$webhook = Factory::webhook( $team );
-				$r = $webhook->webhook_endpoint();
+				$r = $webhook->webhookEndpoint();
 				if( 200 === $r['status']){
 					wp_send_json_success($r);
 				}else{

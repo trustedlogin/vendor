@@ -11,7 +11,7 @@ class Helpscout extends Webhook{
      *
      * @return string
      */
-    public static function get_provider_name(){
+    public static function getProviderName(){
         return 'helpscout';
     }
 
@@ -25,7 +25,7 @@ class Helpscout extends Webhook{
 	 *
 	 * @return array
 	 */
-	public function webhook_endpoint($data = null ) {
+	public function webhookEndpoint($data = null ) {
 
 		$signature = null;
 
@@ -94,7 +94,7 @@ class Helpscout extends Webhook{
 	 */
 	protected function get_widget_response( $customer_emails,$account_id ) {
 
-		$licenses = $this->get_licenses_by_emails( $customer_emails );
+		$licenses = $this->getLicensesByEmails( $customer_emails );
 
         $saas_api = trustedlogin_vendor()->getApiHandler( $account_id );
 
@@ -106,7 +106,7 @@ class Helpscout extends Webhook{
 		 * @param string $html
 		 */
 		$html_template = apply_filters(
-			'trustedlogin/vendor/helpdesk/' . $this->get_provider_name() . '/template/wrapper',
+			'trustedlogin/vendor/helpdesk/' . $this->getProviderName() . '/template/wrapper',
 			'<ul class="c-sb-list c-sb-list--two-line">%1$s</ul>'.
 			'<a href="' . esc_url( admin_url( 'admin.php?page=' . AccessKeyLogin::PAGE_SLUG ) ) . '"><i class="icon-gear"></i>' . esc_html__( 'Go to Access Key Log-In', 'trustedlogin-vendor' ) . '</a>'
 		);
@@ -117,7 +117,7 @@ class Helpscout extends Webhook{
 		 * @param string $html
 		 */
 		$item_template = apply_filters(
-			'trustedlogin/vendor/helpdesk/' . $this->get_provider_name() . '/template/item',
+			'trustedlogin/vendor/helpdesk/' . $this->getProviderName() . '/template/item',
 			'<li class="c-sb-list-item"><span class="c-sb-list-item__label">%4$s <span class="c-sb-list-item__text"><a href="%1$s" target="_blank" title="%3$s"><i class="icon-pointer"></i> %2$s</a></span></span></li>'
 		);
 
@@ -127,7 +127,7 @@ class Helpscout extends Webhook{
 		 * @param string $html
 		 */
 		$no_items_template = apply_filters(
-			'trustedlogin/vendor/helpdesk/' . $this->get_provider_name() . '/template/no-items',
+			'trustedlogin/vendor/helpdesk/' . $this->getProviderName() . '/template/no-items',
 			'<li class="c-sb-list-item">%1$s</li>'
 		);
 
@@ -178,7 +178,7 @@ class Helpscout extends Webhook{
 
 						foreach ( $secrets_reversed as $secret ) {
 
-							$url = AccessKeyLogin::url( $account_id, $this->get_provider_name() );
+							$url = AccessKeyLogin::url( $account_id, $this->getProviderName() );
 
 							if ( is_wp_error( $url ) ) {
 								$this->log( 'Error building item HTML. ' . $url->get_error_code() . ': ' . $url->get_error_message() );
@@ -226,7 +226,7 @@ class Helpscout extends Webhook{
 	 * @return bool  if the calculated hash matches the signature provided.
 	 */
 	public function verify_request( $data, $signature = null ) {
-		return hash_equals( $signature, $this->make_signature(
+		return hash_equals( $signature, $this->makeSignature(
             is_array($data) ? json_encode($data) : $data
         ) );
 	}
