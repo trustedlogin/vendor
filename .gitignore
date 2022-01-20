@@ -24,3 +24,4 @@ build
 .phpunit.result.cache
 
 debug.log
+admin/trustedlogin-dist.css
