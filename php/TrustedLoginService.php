@@ -52,7 +52,7 @@ class TrustedLoginService
 	 *
 	 * @return void.
 	 */
-	public function handle_multiple_secret_ids($account_id, $secret_ids = array())
+	public function handleMultipleSecrectIds($account_id, $secret_ids = array())
 	{
 
 		if (! is_array($secret_ids) || empty($secret_ids)) {
@@ -64,7 +64,7 @@ class TrustedLoginService
 		$valid_ids    = array();
 
 		foreach ($secret_ids as $secret_id) {
-			$envelope = $this->api_get_envelope($secret_id);
+			$envelope = $this->apiGetEnvelope($secret_id);
 
 			if (is_wp_error($envelope)) {
 				$this->log('Error: ' . $envelope->get_error_message(), __METHOD__, 'error');
@@ -81,7 +81,7 @@ class TrustedLoginService
 			]);
 
 			// TODO: Convert to shared (client/vendor) Envelope library
-			$url_parts = $this->envelope_to_url($envelope, true);
+			$url_parts = $this->envelopeToUrl($envelope, true);
 
 			if (is_wp_error($url_parts)) {
 				$this->log('Error: ' , __METHOD__, 'error',[
@@ -109,7 +109,7 @@ class TrustedLoginService
 
 		if (1 === sizeof($valid_ids)) {
 			reset($valid_ids);
-			$this->maybe_redirect_support($valid_ids[0]['id'], $valid_ids[0]['envelope']);
+			$this->maybeRedirectSupport($valid_ids[0]['id'], $valid_ids[0]['envelope']);
 		}
 
 		if (empty($urls_output)) {
@@ -136,10 +136,10 @@ class TrustedLoginService
 	 *
 	 * @return null
 	 */
-	public function maybe_redirect_support($secret_id, $account_id, $envelope = null)
+	public function maybeRedirectSupport($secret_id, $account_id, $envelope = null)
 	{
 
-		$this->log("Got to maybe_redirect_support. ID: $secret_id", __METHOD__, 'debug');
+		$this->log("Got to maybeRedirectSupport. ID: $secret_id", __METHOD__, 'debug');
 
 		if (! is_admin()) {
 			$redirect_url = get_site_url();
@@ -162,7 +162,7 @@ class TrustedLoginService
 		}
 		if (is_null($envelope)) {
 			// Get the envelope
-			$envelope = $this->api_get_envelope($secret_id,$account_id);
+			$envelope = $this->apiGetEnvelope($secret_id,$account_id);
 		}
 
 		if (empty($envelope)) {
@@ -177,7 +177,7 @@ class TrustedLoginService
 			exit;
 		}
 
-		$envelope_parts = ( $envelope ) ? $this->envelope_to_url($envelope, true) : false;
+		$envelope_parts = ( $envelope ) ? $this->envelopeToUrl($envelope, true) : false;
 
 		if (is_wp_error($envelope_parts)) {
 			$this->getAuditLog()->insert($secret_id, 'failed', $envelope_parts->get_error_message());
@@ -206,7 +206,7 @@ class TrustedLoginService
 	 * @param string $account_id The account ID for access key.
 	 * @return array|\WP_Error  Array of siteIds or \WP_Error  on issue.
 	 */
-	public function api_get_secret_ids($access_key, $account_id)
+	public function apiGetSecretIds($access_key, $account_id)
 	{
 
 		if (empty($access_key)) {
@@ -263,7 +263,7 @@ class TrustedLoginService
 	 *
 	 * @return array|false|\WP_Error
 	 */
-	public function api_get_envelope($secret_id, $account_id)
+	public function apiGetEnvelope($secret_id, $account_id)
 	{
 
 		if (empty($secret_id)) {
@@ -279,7 +279,7 @@ class TrustedLoginService
 		// The data array that will be sent to TrustedLogin to request a site's envelope
 		$data = array();
 
-		// Let's grab the user details. Logged in status already confirmed in maybe_redirect_support();
+		// Let's grab the user details. Logged in status already confirmed in maybeRedirectSupport();
 		$current_user = wp_get_current_user();
 
 		$data['user'] = array( 'id' => $current_user->ID, 'name' => $current_user->display_name );
@@ -346,7 +346,7 @@ class TrustedLoginService
 	 *
 	 * @return string|array|\WP_Error  If $return_parts is false, returns login URL. If true, returns array with login parts. If error, returns \WP_Error .
 	 */
-	public function envelope_to_url($envelope, $return_parts = false)
+	public function envelopeToUrl($envelope, $return_parts = false)
 	{
 
 		if (is_object($envelope)) {

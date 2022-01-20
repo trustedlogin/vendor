@@ -116,7 +116,7 @@ class AccessKeyLogin
 			trustedlogin_vendor()
 		);
 
-		$site_ids = $tl->api_get_secret_ids($access_key, $account_id);
+		$site_ids = $tl->apiGetSecretIds($access_key, $account_id);
 
 		if (is_wp_error($site_ids)) {
 			return new \WP_Error(
@@ -135,7 +135,7 @@ class AccessKeyLogin
 		}
 
 		foreach ($site_ids as $site_id) {
-			$envelope = $tl->api_get_envelope($site_id, $account_id);
+			$envelope = $tl->apiGetEnvelope($site_id, $account_id);
 			//Not an error?
 			if( ! is_wp_error($envelope)){
 				//Break, we got one.
@@ -149,7 +149,7 @@ class AccessKeyLogin
 			return $envelope;
 		}
 		//Try to get parts of the envelope,may return WP_Error
-		$parts = $tl->envelope_to_url($envelope, true);
+		$parts = $tl->envelopeToUrl($envelope, true);
 		return $parts;
 	}
 
