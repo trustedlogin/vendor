@@ -13,16 +13,27 @@
 
 ## Working With JavaScript
 
-- Build JS/CSS
+- Build JavaScript for production
     - `yarn build`
-- Start JS/CSS for development
+- Start JS watcher for development
     - `yarn start`
 - Test changed files
     - `yarn test --watch`
 - Test all files once
     - `yarn test`
     - `yarn test --ci`
+## Working With CSS
 
+- Build CSS for production
+    - `yarn build:css`
+- Start CSS watcher for development
+    - `yarn start:css`
+
+### Tailwind CSS
+
+The file `admin/tailwind.css` is used, with [Tailwind CSS](https://tailwindcss.com/docs/) to write CSS for the admin screens. We are using [Tailwind 3, with just in time compliation](https://tailwindcss.com/blog/just-in-time-the-next-generation-of-tailwind-css).
+
+When Tailwind does its purge, it is configured to look for classes in PHP or JavaScript files in the admin directory only.
 
 ## Working With PHP
 
