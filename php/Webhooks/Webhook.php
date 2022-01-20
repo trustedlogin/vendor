@@ -88,7 +88,7 @@ abstract class Webhook {
 	protected function getLicensesByEmails( $customer_emails ) {
 
         $licenses = [];
-        if( $this->is_edd_store() && $this->edd_has_licensing()) {
+        if( $this->isEDDStore() && $this->eddHasLicensing()) {
 			foreach ( $customer_emails as $customer_email ) {
                 $email = sanitize_email( $customer_email );
 				$cache_key ='trustedlogin_licenses_edd' . md5( $email );
@@ -96,7 +96,7 @@ abstract class Webhook {
                 $_licenses_for_email = wp_cache_get( $cache_key, $cache_group  );
 
                 if ( false === $_licenses_for_email ) {
-                    $_licenses_for_email = $this->edd_get_licenses( $email );
+                    $_licenses_for_email = $this->eddGetLicenses( $email );
                 }
 
                 if ( ! empty( $_licenses_for_email ) ) {

@@ -3,11 +3,11 @@ namespace TrustedLogin\Vendor\Traits;
 
 trait Licensing {
 
-	public function edd_has_licensing() {
+	public function eddHasLicensing() {
 		return function_exists( 'edd_software_licensing' );
 	}
 
-	public function edd_get_licenses( $email ) {
+	public function eddGetLicenses( $email ) {
 
 		$licenses = array();
 		$_u   = get_user_by( 'email', $email );
@@ -31,7 +31,7 @@ trait Licensing {
 		return ( ! empty( $licenses ) ) ? $licenses : false;
 	}
 
-	public function edd_verify_license( $key ) {
+	public function eddVerifyLicense( $key ) {
 
 		$key = sanitize_text_field( $key );
 
@@ -50,7 +50,7 @@ trait Licensing {
 	 * @since 0.2.0
 	 * @return Boolean
 	 */
-	public function is_edd_store() {
+	public function isEddStore() {
 		return class_exists( 'Easy_Digital_Downloads' );
 	}
 
@@ -60,11 +60,11 @@ trait Licensing {
 	 * @since 0.8.0
 	 * @return Boolean
 	 */
-	public function is_woo_store() {
+	public function isWooStore() {
 		return class_exists( 'woocommerce' );
 	}
 
-	public function get_licenses_by( $type, $value ) {
+	public function getLicensesBy( $type, $value ) {
 
 		$this->log( 'Getting licenses', __METHOD__, 'debug', array( 'type' => $type, 'value' => $value ) );
 
@@ -72,13 +72,13 @@ trait Licensing {
 			return false;
 		}
 
-		if ( $this->is_edd_store() && $this->edd_has_licensing() ) {
+		if ( $this->isEDDStore() && $this->eddHasLicensing() ) {
 			if ( 'email' == $type ) {
-				return $this->edd_get_licenses( $value );
+				return $this->eddGetLicenses( $value );
 			} else if ( 'key' == $type ) {
-				return $this->edd_verify_license( $value );
+				return $this->eddVerifyLicense( $value );
 			}
-		} else if ( $this->is_woo_store() ) {
+		} else if ( $this->isWooStore() ) {
 			// handle woo licensing
 		}
 
