@@ -15,7 +15,7 @@ class HelpscoutWebhookTest extends \WP_UnitTestCase
 	public function setUp()
 	{
 		$this->setTlApiMock();
-		SettingsApi::from_saved()->reset()->save();
+		SettingsApi::fromSaved()->reset()->save();
 		$settings = new SettingsApi([
 			[
 				'account_id'       => self::ACCOUNT_ID,
@@ -36,7 +36,7 @@ class HelpscoutWebhookTest extends \WP_UnitTestCase
 
 	public function tearDown()
 	{
-		SettingsApi::from_saved()->reset()->save();
+		SettingsApi::fromSaved()->reset()->save();
 		//Always reset API sender
 		$this->resetTlApiMock();
 		parent::tearDown();
@@ -50,7 +50,7 @@ class HelpscoutWebhookTest extends \WP_UnitTestCase
 	{
 		$data = ['hi' => 'roy'];
 		$helpscout = new Helpscout( 'secret' );
-		$signature = $helpscout->make_signature( json_encode( $data ) );
+		$signature = $helpscout->makeSignature( json_encode( $data ) );
 		$this->assertTrue(
 			$helpscout->verify_request( $data, $signature )
 
@@ -80,7 +80,7 @@ class HelpscoutWebhookTest extends \WP_UnitTestCase
 
 	/**
 	 * Test webhook endpoint returns correct arrya
-	 * @covers TrustedLogin\Vendor\Webhooks\Helpscout::webhook_endpoint()
+	 * @covers TrustedLogin\Vendor\Webhooks\Helpscout::webhookEndpoint()
 	 * @covers TrustedLogin\Vendor\Webhooks\Helpscout::get_widget_response()
 	 */
 	public function testWebhookEndpoint(){
@@ -98,7 +98,7 @@ class HelpscoutWebhookTest extends \WP_UnitTestCase
 		//Encode that data.
 		$encodedData = json_encode( $data );
 		//Sign that data.
-		$signature = $helpscout->make_signature(
+		$signature = $helpscout->makeSignature(
 			$encodedData
 		);
 		//Verify signature
@@ -112,14 +112,14 @@ class HelpscoutWebhookTest extends \WP_UnitTestCase
 		//Mock request signature
 		$_SERVER['X-HELPSCOUT-SIGNATURE']= $signature;
 		//Process request
-		$r = $helpscout->webhook_endpoint( $encodedData );
+		$r = $helpscout->webhookEndpoint( $encodedData );
 		$this->assertArrayHasKey( 'html', $r );
 		$this->assertArrayHasKey( 'status', $r );
 		$this->assertEquals( 200, $r['status'] );
 
 		//Test with invalid signature
 		$_SERVER['X-HELPSCOUT-SIGNATURE']= md5($encodedData);
-		$r = $helpscout->webhook_endpoint( $encodedData );
+		$r = $helpscout->webhookEndpoint( $encodedData );
 		$this->assertEquals( 403, $r['status'] );
 
 

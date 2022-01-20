@@ -4,7 +4,7 @@ namespace TrustedLogin\Vendor\Webhooks;
 
 use TrustedLogin\Vendor\TeamSettings;
 use TrustedLogin\Vendor\AccessKeyLogin;
-
+use TrustedLogin\Vendor\Webhooks\Helpscout;
 class Factory {
 
 
@@ -12,11 +12,11 @@ class Factory {
 
     public static function webhook( TeamSettings $teamSettings ){
 
-        $type = $teamSettings->get_helpdesks()[0];
+        $type = $teamSettings->getHelpdesks()[0];
         switch($type)
         {
             case 'helpscout':
-                return new HelpScout( $teamSettings->get_helpdesk_data()['secret'] );
+                return new HelpScout( $teamSettings->getHelpdeskData()['secret'] );
             default:
                 throw new \Exception( 'Unknown webhook type' );
         }

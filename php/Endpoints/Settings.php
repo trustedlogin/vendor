@@ -34,7 +34,7 @@ class Settings extends Endpoint
 	public function get(\WP_REST_Request $request)
 	{
 		return rest_ensure_response(
-			SettingsApi::from_saved()->to_array()
+			SettingsApi::fromSaved()->toArray()
 		);
 	}
 
@@ -46,7 +46,7 @@ class Settings extends Endpoint
 	 */
 	public function update(\WP_REST_Request $request)
 	{
-		$settings_api = SettingsApi::from_saved()->reset();
+		$settings_api = SettingsApi::fromSaved()->reset();
 		$teams = $request->get_param('teams', []);
 		if (! empty($teams)) {
 			foreach ($teams as $team) {
@@ -58,7 +58,7 @@ class Settings extends Endpoint
 						$teamSetting
 					);
 
-					$settings_api->add_setting($teamSetting);
+					$settings_api->addSetting($teamSetting);
 				} catch (\Throwable $th) {
 					throw $th;
 				}
@@ -68,7 +68,7 @@ class Settings extends Endpoint
 		$settings_api->save();
 		return rest_ensure_response(
 			//Get from saved so generated secret/ url is returned
-			SettingsApi::from_saved()->to_array()
+			SettingsApi::fromSaved()->toArray()
 		);
 	}
 

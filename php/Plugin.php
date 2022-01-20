@@ -35,7 +35,7 @@ class Plugin
 		$this->encryption = $encryption;
 		$this->auditLog = new AuditLog();
 		$this->apiSender = new \TrustedLogin\Vendor\ApiSend();
-		$this->settings = SettingsApi::from_saved();
+		$this->settings = SettingsApi::fromSaved();
 	}
 
 
@@ -74,7 +74,7 @@ class Plugin
 	public function getPublicKey()
 	{
 		return $this->encryption
-			->get_public_key();
+			->getPublicKey();
 	}
 
 	/**
@@ -85,7 +85,7 @@ class Plugin
 	public function getSignatureKey()
 	{
 		return $this->encryption
-			->get_public_key('sign_public_key');
+			->getPublicKey('sign_public_key');
 	}
 
 
@@ -99,7 +99,7 @@ class Plugin
 	public function getApiHandler($accountId, $apiUrl = '', $team = null )
 	{
 		if( ! $team ) {
-			$team = SettingsApi::from_saved()->get_by_account_id($accountId);
+			$team = SettingsApi::fromSaved()->getByAccountId($accountId);
 		}
 		if (empty($apiUrl)) {
 			$apiUrl = TRUSTEDLOGIN_API_URL;
@@ -144,7 +144,7 @@ class Plugin
 			$url = AccessKeyLogin::url(
 				$team->get('account_id'),
 				'helpscout',
-				//$team->get_helpdesks()[0]
+				//$team->getHelpdesks()[0]
 			);
 			$data[$team->get('account_id')] = $url;
 		}

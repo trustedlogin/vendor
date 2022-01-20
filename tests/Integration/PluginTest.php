@@ -36,7 +36,7 @@ class PluginTest extends TestCase
 
 	/**
 	 * @covers TrustedLogin\Vendor\Plugin::getApiHandler()
-	 * @covers TrustedLogin\Vendor\ApiHandler::get_api_key()
+	 * @covers TrustedLogin\Vendor\ApiHandler::getApiKey()
 	 */
 	public function testGetApiHandler()
 	{
@@ -48,8 +48,8 @@ class PluginTest extends TestCase
 				'api_key'       	=> '8',
 			]
 		);
-		\TrustedLogin\Vendor\SettingsApi::from_saved()
-			->add_setting(
+		\TrustedLogin\Vendor\SettingsApi::fromSaved()
+			->addSetting(
 				$setting
 			)
 			->save();
@@ -60,10 +60,10 @@ class PluginTest extends TestCase
 		);
 		$this->assertSame(
 			'https://test.com',
-			$handler->get_api_url()
+			$handler->getApiUrl()
 		);
-		$this->assertNotEmpty($handler->get_x_tl_token());
-		$this->assertSame($setting->get('api_key'), $handler->get_api_key());
+		$this->assertNotEmpty($handler->getXTlToken());
+		$this->assertSame($setting->get('api_key'), $handler->getApiKey());
 	}
 
 	/**
@@ -77,8 +77,8 @@ class PluginTest extends TestCase
 		);
 
 		$this->assertSame(
-			trustedlogin_vendor()->getEncryption()->get_public_key(),
-			trustedlogin_vendor()->getEncryption()->get_public_key(),
+			trustedlogin_vendor()->getEncryption()->getPublicKey(),
+			trustedlogin_vendor()->getEncryption()->getPublicKey(),
 		);
 	}
 
@@ -105,8 +105,8 @@ class PluginTest extends TestCase
 				'api_key'       	=> '8',
 			]
 		);
-		\TrustedLogin\Vendor\SettingsApi::from_saved()
-			->add_setting(
+		\TrustedLogin\Vendor\SettingsApi::fromSaved()
+			->addSetting(
 				$setting
 			)
 			->save();

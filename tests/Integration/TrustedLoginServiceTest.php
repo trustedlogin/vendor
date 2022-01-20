@@ -17,7 +17,7 @@ class TrustedLoginServiceTests extends \WP_UnitTestCase
 	{
 		$this->setTlApiMock();
 
-		SettingsApi::from_saved()->reset()->save();
+		SettingsApi::fromSaved()->reset()->save();
 		$settings = new SettingsApi([
 			[
 				'account_id'       => self::ACCOUNT_ID,
@@ -37,20 +37,20 @@ class TrustedLoginServiceTests extends \WP_UnitTestCase
 
 	public function tearDown()
 	{
-		SettingsApi::from_saved()->reset()->save();
+		SettingsApi::fromSaved()->reset()->save();
 		$this->resetTlApiMock();
 		parent::tearDown();
 	}
 
 	/**
-	 * @covers TrustedLoginService::api_get_secret_ids()
+	 * @covers TrustedLoginService::apiGetSecretIds()
 	 */
 	public function testGetSecretIds()
 	{
 
 		$this->assertNotEmpty(
-			SettingsApi::from_saved()
-				->get_by_account_id(
+			SettingsApi::fromSaved()
+				->getByAccountId(
 					self::ACCOUNT_ID,
 				)
 		);
@@ -58,12 +58,12 @@ class TrustedLoginServiceTests extends \WP_UnitTestCase
 		$service = new TrustedLoginService(
 			trustedlogin_vendor()
 		);
-		$r = $service->api_get_secret_ids('accessKey1', self::ACCOUNT_ID);
+		$r = $service->apiGetSecretIds('accessKey1', self::ACCOUNT_ID);
 		$this->assertTrue(
 			is_wp_error($r)
 		);
 		wp_set_current_user(self::factory()->user->create());
-		$r = $service->api_get_secret_ids('accessKey1', self::ACCOUNT_ID);
+		$r = $service->apiGetSecretIds('accessKey1', self::ACCOUNT_ID);
 		$this->assertIsArray(
 			$r
 		);
@@ -73,26 +73,26 @@ class TrustedLoginServiceTests extends \WP_UnitTestCase
 	}
 
 	 /**
-	 * @covers TrustedLoginService::api_get_envelope()
+	 * @covers TrustedLoginService::apiGetEnvelope()
 	 */
 	public function testApiGetEnvelope()
 	{
 		$service = new TrustedLoginService(
 			trustedlogin_vendor()
 		);
-		$r = $service->api_get_envelope('secret?', self::ACCOUNT_ID);
+		$r = $service->apiGetEnvelope('secret?', self::ACCOUNT_ID);
 		$this->assertTrue(
 			is_wp_error($r)
 		);
 		wp_set_current_user(self::factory()->user->create());
-		$r = $service->api_get_envelope('secret?', self::ACCOUNT_ID);
+		$r = $service->apiGetEnvelope('secret?', self::ACCOUNT_ID);
 		$this->assertFalse(
 			is_wp_error($r)
 		);
 	}
 
 	/**
-	 * @covers TrustedLoginService::envelope_to_url()
+	 * @covers TrustedLoginService::envelopeToUrl()
 	 */
 	public function testEnvelopeToUrl()
 	{
@@ -105,7 +105,7 @@ class TrustedLoginServiceTests extends \WP_UnitTestCase
 		);
 		//Get envelope and try to turn it into a URL.
 		$envelope = json_decode($this->getEnvelopeData(), true);
-		$r = $service->envelope_to_url($envelope);
+		$r = $service->envelopeToUrl($envelope);
 		//Is valid URL?
 		$this->assertTrue(
 			(bool)filter_var($r, FILTER_VALIDATE_URL)

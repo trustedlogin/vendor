@@ -82,7 +82,7 @@ class AccessKeyLogin
 	 */
 	public function handle()
 	{
-		$verified = $this->verify_grant_access_request();
+		$verified = $this->verifyGrantAccessRequest();
 
 		if ( is_wp_error($verified)) {
 			return $verified;
@@ -91,10 +91,10 @@ class AccessKeyLogin
 		$access_key = sanitize_text_field($_REQUEST[ self::ACCESS_KEY_INPUT_NAME ]);
 		$account_id = sanitize_text_field($_REQUEST[ self::ACCOUNT_ID_INPUT_NAME]);
 		//Get saved settings an then team settings
-		$settings = SettingsApi::from_saved();
+		$settings = SettingsApi::fromSaved();
 
 		try {
-			$teamSettings =  $settings->get_by_account_id($account_id);
+			$teamSettings =  $settings->getByAccountId($account_id);
 		} catch (\Exception $e) {
 			return new \WP_Error(
 				self::ERROR_NO_ACCOUNT_ID,
@@ -116,7 +116,7 @@ class AccessKeyLogin
 			trustedlogin_vendor()
 		);
 
-		$site_ids = $tl->api_get_secret_ids($access_key, $account_id);
+		$site_ids = $tl->apiGetSecretIds($access_key, $account_id);
 
 		if (is_wp_error($site_ids)) {
 			return new \WP_Error(
@@ -135,7 +135,7 @@ class AccessKeyLogin
 		}
 
 		foreach ($site_ids as $site_id) {
-			$envelope = $tl->api_get_envelope($site_id, $account_id);
+			$envelope = $tl->apiGetEnvelope($site_id, $account_id);
 			//Not an error?
 			if( ! is_wp_error($envelope)){
 				//Break, we got one.
@@ -149,7 +149,7 @@ class AccessKeyLogin
 			return $envelope;
 		}
 		//Try to get parts of the envelope,may return WP_Error
-		$parts = $tl->envelope_to_url($envelope, true);
+		$parts = $tl->envelopeToUrl($envelope, true);
 		return $parts;
 	}
 
@@ -158,7 +158,7 @@ class AccessKeyLogin
 	 *
 	 * @return bool|WP_Error
 	 */
-	public function verify_grant_access_request()
+	public function verifyGrantAccessRequest()
 	{
 
 		if (empty($_REQUEST[ self::ACCESS_KEY_INPUT_NAME ])) {

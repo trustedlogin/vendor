@@ -52,7 +52,7 @@ class TrustedLoginService
 	 *
 	 * @return void.
 	 */
-	public function handle_multiple_secret_ids($account_id, $secret_ids = array())
+	public function handleMultipleSecrectIds($account_id, $secret_ids = array())
 	{
 
 		if (! is_array($secret_ids) || empty($secret_ids)) {
@@ -64,7 +64,7 @@ class TrustedLoginService
 		$valid_ids    = array();
 
 		foreach ($secret_ids as $secret_id) {
-			$envelope = $this->api_get_envelope($secret_id);
+			$envelope = $this->apiGetEnvelope($secret_id);
 
 			if (is_wp_error($envelope)) {
 				$this->log('Error: ' . $envelope->get_error_message(), __METHOD__, 'error');
@@ -81,7 +81,7 @@ class TrustedLoginService
 			]);
 
 			// TODO: Convert to shared (client/vendor) Envelope library
-			$url_parts = $this->envelope_to_url($envelope, true);
+			$url_parts = $this->envelopeToUrl($envelope, true);
 
 			if (is_wp_error($url_parts)) {
 				$this->log('Error: ' , __METHOD__, 'error',[
@@ -109,7 +109,7 @@ class TrustedLoginService
 
 		if (1 === sizeof($valid_ids)) {
 			reset($valid_ids);
-			$this->maybe_redirect_support($valid_ids[0]['id'], $valid_ids[0]['envelope']);
+			$this->maybeRedirectSupport($valid_ids[0]['id'], $valid_ids[0]['envelope']);
 		}
 
 		if (empty($urls_output)) {
@@ -136,10 +136,10 @@ class TrustedLoginService
 	 *
 	 * @return null
 	 */
-	public function maybe_redirect_support($secret_id, $account_id, $envelope = null)
+	public function maybeRedirectSupport($secret_id, $account_id, $envelope = null)
 	{
 
-		$this->log("Got to maybe_redirect_support. ID: $secret_id", __METHOD__, 'debug');
+		$this->log("Got to maybeRedirectSupport. ID: $secret_id", __METHOD__, 'debug');
 
 		if (! is_admin()) {
 			$redirect_url = get_site_url();
@@ -147,9 +147,9 @@ class TrustedLoginService
 			$redirect_url = add_query_arg('page', sanitize_text_field($_GET['page']), admin_url('admin.php'));
 		}
 		//Get saved settings an then team settings
-		$settings = SettingsApi::from_saved();
+		$settings = SettingsApi::fromSaved();
 		try {
-			$teamSettings =  $settings->get_by_account_id($account_id);
+			$teamSettings =  $settings->getByAccountId($account_id);
 		} catch (\Exception $e) {
 			$this->getAuditLog()->insert($secret_id, 'failed', $e->getMessage());
 			wp_safe_redirect(add_query_arg(array( 'tl-error' => self::REDIRECT_ERROR_STATUS ), $redirect_url), self::REDIRECT_ERROR_STATUS, 'TrustedLogin');
@@ -162,7 +162,7 @@ class TrustedLoginService
 		}
 		if (is_null($envelope)) {
 			// Get the envelope
-			$envelope = $this->api_get_envelope($secret_id,$account_id);
+			$envelope = $this->apiGetEnvelope($secret_id,$account_id);
 		}
 
 		if (empty($envelope)) {
@@ -177,7 +177,7 @@ class TrustedLoginService
 			exit;
 		}
 
-		$envelope_parts = ( $envelope ) ? $this->envelope_to_url($envelope, true) : false;
+		$envelope_parts = ( $envelope ) ? $this->envelopeToUrl($envelope, true) : false;
 
 		if (is_wp_error($envelope_parts)) {
 			$this->getAuditLog()->insert($secret_id, 'failed', $envelope_parts->get_error_message());
@@ -206,7 +206,7 @@ class TrustedLoginService
 	 * @param string $account_id The account ID for access key.
 	 * @return array|\WP_Error  Array of siteIds or \WP_Error  on issue.
 	 */
-	public function api_get_secret_ids($access_key, $account_id)
+	public function apiGetSecretIds($access_key, $account_id)
 	{
 
 		if (empty($access_key)) {
@@ -263,7 +263,7 @@ class TrustedLoginService
 	 *
 	 * @return array|false|\WP_Error
 	 */
-	public function api_get_envelope($secret_id, $account_id)
+	public function apiGetEnvelope($secret_id, $account_id)
 	{
 
 		if (empty($secret_id)) {
@@ -279,14 +279,14 @@ class TrustedLoginService
 		// The data array that will be sent to TrustedLogin to request a site's envelope
 		$data = array();
 
-		// Let's grab the user details. Logged in status already confirmed in maybe_redirect_support();
+		// Let's grab the user details. Logged in status already confirmed in maybeRedirectSupport();
 		$current_user = wp_get_current_user();
 
 		$data['user'] = array( 'id' => $current_user->ID, 'name' => $current_user->display_name );
 
 		// Then let's get the identity verification pair to confirm the site is the one sending the request.
 		$trustedlogin_encryption = $this->plugin->getEncryption();
-		$auth_nonce              = $trustedlogin_encryption->create_identity_nonce();
+		$auth_nonce              = $trustedlogin_encryption->createIdentityNonce();
 
 		if (is_wp_error($auth_nonce)) {
 			return $auth_nonce;
@@ -300,7 +300,7 @@ class TrustedLoginService
 		$endpoint = 'sites/' . $account_id . '/' . $secret_id . '/get-envelope';
 
 		$saas_api = $this->plugin->getApiHandler($account_id);
-		$x_tl_token  = $saas_api->get_x_tl_token();
+		$x_tl_token  = $saas_api->getXTlToken();
 
 		if (is_wp_error($x_tl_token)) {
 			$error = esc_html__('Error getting X-TL-TOKEN header', 'trustedlogin-vendor');
@@ -308,7 +308,7 @@ class TrustedLoginService
 			return new \WP_Error('x-tl-token-error', $error);
 		}
 
-		$token_added = $saas_api->set_additional_header('X-TL-TOKEN', $x_tl_token);
+		$token_added = $saas_api->setAdditionalHeader('X-TL-TOKEN', $x_tl_token);
 
 		if (! $token_added) {
 			$error = esc_html__('Error setting X-TL-TOKEN header', 'trustedlogin-vendor');
@@ -346,7 +346,7 @@ class TrustedLoginService
 	 *
 	 * @return string|array|\WP_Error  If $return_parts is false, returns login URL. If true, returns array with login parts. If error, returns \WP_Error .
 	 */
-	public function envelope_to_url($envelope, $return_parts = false)
+	public function envelopeToUrl($envelope, $return_parts = false)
 	{
 
 		if (is_object($envelope)) {
@@ -376,7 +376,7 @@ class TrustedLoginService
 
 		try {
 			$this->log('Starting to decrypt envelope.', __METHOD__, 'debug',['envelope' => $envelope]);
-			$decrypted_identifier = $trustedlogin_encryption->decrypt_crypto_box($envelope['identifier'], $envelope['nonce'], $envelope['publicKey']);
+			$decrypted_identifier = $trustedlogin_encryption->decryptCryptoBox($envelope['identifier'], $envelope['nonce'], $envelope['publicKey']);
 			if (is_wp_error($decrypted_identifier)) {
 				$this->log('There was an error decrypting the envelope.', __METHOD__,['print_identifier' => $decrypted_identifier]);
 

@@ -8,11 +8,11 @@ use TrustedLogin\Vendor\Traits\Logger;
 /**
  * Base class for all webhooks to integrated with
  *
- * The webhook_endpoint() method must be defined in a concrete class.
+ * The webhookEndpoint() method must be defined in a concrete class.
  * It must return an array with a key "html"
  * This should be the output of the webhook for the widget.
  *
- * The get_provider_name() method must be defined in a concrete class.
+ * The getProviderName() method must be defined in a concrete class.
  * It must return a string, with the name of the provider and should be URL safe.
  * This name is used as the value of the "provider" query arg in the webhook URL.
  */
@@ -41,7 +41,7 @@ abstract class Webhook {
      *
      * @return string
      */
-    abstract static protected function get_provider_name();
+    abstract static protected function getProviderName();
 
     /**
 	 * Generates the HTML output for the webhook.
@@ -50,7 +50,7 @@ abstract class Webhook {
 	 *
 	 * @return array
 	 */
-    abstract public function webhook_endpoint($data = null );
+    abstract public function webhookEndpoint($data = null );
 
 	/**
 	 * Calculate signature from request data
@@ -58,7 +58,7 @@ abstract class Webhook {
 	 * @param string $data JSON encoded data
 	 * @return bool
 	 */
-    public function make_signature(string $data){
+    public function makeSignature(string $data){
         return base64_encode( hash_hmac( 'sha1', $data, $this->secret, true ) );
     }
 
@@ -74,7 +74,7 @@ abstract class Webhook {
 	public static function actionUrl( $account_id ) {
 		return Factory::actionUrl(
 			self::WEBHOOK_ACTION,
-			$account_id,static::get_provider_name()
+			$account_id,static::getProviderName()
 		);
 	}
 
@@ -85,10 +85,10 @@ abstract class Webhook {
 	 *
 	 * @return array Array of license keys associated with the passed emails.
 	 */
-	protected function get_licenses_by_emails( $customer_emails ) {
+	protected function getLicensesByEmails( $customer_emails ) {
 
         $licenses = [];
-        if( $this->is_edd_store() && $this->edd_has_licensing()) {
+        if( $this->isEDDStore() && $this->eddHasLicensing()) {
 			foreach ( $customer_emails as $customer_email ) {
                 $email = sanitize_email( $customer_email );
 				$cache_key ='trustedlogin_licenses_edd' . md5( $email );
@@ -96,7 +96,7 @@ abstract class Webhook {
                 $_licenses_for_email = wp_cache_get( $cache_key, $cache_group  );
 
                 if ( false === $_licenses_for_email ) {
-                    $_licenses_for_email = $this->edd_get_licenses( $email );
+                    $_licenses_for_email = $this->eddGetLicenses( $email );
                 }
 
                 if ( ! empty( $_licenses_for_email ) ) {

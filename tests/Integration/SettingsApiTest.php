@@ -13,7 +13,7 @@ class SettingsApiTest extends \WP_UnitTestCase
 
 	/**
 	 * @covers TeamSettings::reset()
-	 * @covers TeamSettings::to_array()
+	 * @covers TeamSettings::toArray()
 	 */
 	public function test_settings_object_defaults()
 	{
@@ -33,18 +33,18 @@ class SettingsApiTest extends \WP_UnitTestCase
 		//Do defaults get overridden when possible?
 		$this->assertSame(
 			$data['api_key'],
-			$setting->to_array()['api_key']
+			$setting->toArray()['api_key']
 		);
 		//Do default values get set when needed?
 		$this->assertSame(
 			[ 'helpscout' ],
-			$setting->to_array()['helpdesk']
+			$setting->toArray()['helpdesk']
 		);
 	}
 
 	/**
 	 * @covers TeamSettings::reset()
-	 * @covers TeamSettings::to_array()
+	 * @covers TeamSettings::toArray()
 	 */
 	public function test_settings_object_reset()
 	{
@@ -65,12 +65,12 @@ class SettingsApiTest extends \WP_UnitTestCase
 		//Do defaults get overridden when possible?
 		$this->assertSame(
 			$data['api_key'],
-			$setting->to_array()['api_key']
+			$setting->toArray()['api_key']
 		);
 		//Do default values get set when needed?
 		$this->assertSame(
 			[ 'helpscout' ],
-			$setting->to_array()['helpdesk']
+			$setting->toArray()['helpdesk']
 		);
 	}
 
@@ -96,7 +96,7 @@ class SettingsApiTest extends \WP_UnitTestCase
 		);
 		$this->assertSame(
 			'42',
-			$setting->to_array()['account_id']
+			$setting->toArray()['account_id']
 		);
 	}
 
@@ -137,7 +137,7 @@ class SettingsApiTest extends \WP_UnitTestCase
 	}
 
 	/**
-	 * @covers SettingsApi::get_by_account_id()
+	 * @covers SettingsApi::getByAccountId()
 	 * @covers TeamSettings::get()
 	 */
 	public function test_settings_collection_get()
@@ -157,15 +157,15 @@ class SettingsApiTest extends \WP_UnitTestCase
 		$settings = new SettingsApi($data);
 		$this->assertSame(
 			'27',
-			$settings->get_by_account_id('26')
+			$settings->getByAccountId('26')
 				->get('private_key')
 		);
 	}
 
 	/**
 	 *
-	 * @covers SettingsApi::get_by_account_id()
-	 * @covers SettingsApi::update_by_account_id()
+	 * @covers SettingsApi::getByAccountId()
+	 * @covers SettingsApi::updateByAccountId()
 	 * @covers TeamSettings::get()
 	 * @covers TeamSettings::set()
 	 */
@@ -186,22 +186,22 @@ class SettingsApiTest extends \WP_UnitTestCase
 		$settings = new SettingsApi($data);
 
 		$this->assertTrue(
-			is_object($settings->get_by_account_id('26'))
+			is_object($settings->getByAccountId('26'))
 		);
-		$settings = $settings->update_by_account_id(
-			$settings->get_by_account_id('26')
+		$settings = $settings->updateByAccountId(
+			$settings->getByAccountId('26')
 				->set('private_key', 'pkforks')
 		);
 		$this->assertSame(
 			'pkforks',
-			$settings->get_by_account_id('26')
+			$settings->getByAccountId('26')
 				->get('private_key')
 		);
 	}
 
 	/**
 	 *
-	 * @covers SettingsApi::get_by_account_id()
+	 * @covers SettingsApi::getByAccountId()
 	 */
 	public function test_settings_collection_get_invalid()
 	{
@@ -219,7 +219,7 @@ class SettingsApiTest extends \WP_UnitTestCase
 		];
 		$settings = new SettingsApi($data);
 		$this->expectException(\Exception::class);
-		$settings->get_by_account_id('aaa26');
+		$settings->getByAccountId('aaa26');
 	}
 
 	/**
@@ -254,15 +254,15 @@ class SettingsApiTest extends \WP_UnitTestCase
 
 		$this->assertSame(
 			$helpscout_data,
-			$settings->get_by_account_id($accountId)->get_helpdesk_data()
+			$settings->getByAccountId($accountId)->getHelpdeskData()
 		);
 	}
 
 	/**
 	 *
-	 * @covers SettingsApi::from_saved()
+	 * @covers SettingsApi::fromSaved()
 	 * @covers SettingsApi::save()
-	 * @covers SettingsApi::update_by_account_id()
+	 * @covers SettingsApi::updateByAccountId()
 	 * @covers TeamSettings::get_helpscout_data()
 	 * @covers TeamSettings::get()
 	 */
@@ -299,29 +299,29 @@ class SettingsApiTest extends \WP_UnitTestCase
 
 		$settings->save();
 
-		$settings = SettingsApi::from_saved();
+		$settings = SettingsApi::fromSaved();
 
-		$setting1 = $settings->get_by_account_id($accountId);
+		$setting1 = $settings->getByAccountId($accountId);
 		//Team we saved helpscout data for has helpscout data
 		$this->assertSame(
 			$helpscout_data,
 			$setting1
-			->get_helpdesk_data()
+			->getHelpdeskData()
 		);
 		$this->assertArrayHasKey(
 			TeamSettings::HELPDESK_SETTINGS,
-			$setting1->to_array()
+			$setting1->toArray()
 		);
 
 		$this->assertSame(
 			$helpscout_data,
-			SettingsApi::from_saved()->get_by_account_id($accountId)
-			->get_helpdesk_data()
+			SettingsApi::fromSaved()->getByAccountId($accountId)
+			->getHelpdeskData()
 		);
 
 		$this->assertSame(
 			'b227',
-			$settings->get_by_account_id($accountId)
+			$settings->getByAccountId($accountId)
 				->get('private_key')
 		);
 
@@ -329,8 +329,8 @@ class SettingsApiTest extends \WP_UnitTestCase
 
 		//Team we didn't provide any helpdesk settings for.
 		// Did it  save helpscout data?
-		$helpscout_data = $settings->get_by_account_id($accountId2)
-			->get_helpdesk_data();
+		$helpscout_data = $settings->getByAccountId($accountId2)
+			->getHelpdeskData();
 
 		//Is valid URL?
 		$this->assertTrue(
@@ -344,8 +344,8 @@ class SettingsApiTest extends \WP_UnitTestCase
 		//It gets same
 		$this->assertSame(
 			$helpscout_data,
-			SettingsApi::from_saved()->get_by_account_id($accountId2)
-			->get_helpdesk_data()
+			SettingsApi::fromSaved()->getByAccountId($accountId2)
+			->getHelpdeskData()
 		);
 
 		update_option(SettingsApi::TEAM_SETTING_NAME, false);
@@ -353,9 +353,9 @@ class SettingsApiTest extends \WP_UnitTestCase
 
 	/**
 	 *
-	 * @covers SettingsApi::has_setting()
+	 * @covers SettingsApi::hasSetting()
 	 */
-	public function test_settings_collection_has_setting()
+	public function test_settings_collection_hasSetting()
 	{
 		$data = [
 			[
@@ -372,23 +372,23 @@ class SettingsApiTest extends \WP_UnitTestCase
 		$settings = new SettingsApi($data);
 
 		$this->assertTrue(
-			$settings->has_setting('216')
+			$settings->hasSetting('216')
 		);
 		$this->assertTrue(
-			$settings->has_setting('126')
+			$settings->hasSetting('126')
 		);
 		$this->assertFalse(
-			$settings->has_setting('zzzz')
+			$settings->hasSetting('zzzz')
 		);
 	}
 
 
 	/**
 	 *
-	 * @covers SettingsApi::add_setting()
-	 * @covers SettingsApi::get_by_account_id()
+	 * @covers SettingsApi::addSetting()
+	 * @covers SettingsApi::getByAccountId()
 	 */
-	public function test_add_setting_to_api()
+	public function test_addSetting_to_api()
 	{
 		$data = [
 			[
@@ -409,25 +409,25 @@ class SettingsApiTest extends \WP_UnitTestCase
 			'api_key'       	=> 'ab228',
 		]);
 
-		$settings->add_setting(
+		$settings->addSetting(
 			$setting
 		);
 		//Has new one.
 		$this->assertTrue(
-			$settings->has_setting('1126')
+			$settings->hasSetting('1126')
 		);
 		//Still has old one
 		$this->assertTrue(
-			$settings->has_setting('126')
+			$settings->hasSetting('126')
 		);
 		//Can also update
 		$setting->set('private_key', 'pk9000');
-		$settings->add_setting(
+		$settings->addSetting(
 			$setting
 		);
 		$this->assertSame(
 			'pk9000',
-			$settings->get_by_account_id(
+			$settings->getByAccountId(
 				'1126'
 			)->get(( 'private_key'))
 		);
