@@ -19,7 +19,7 @@ add_action('init', function () {
         ]);
         wp_register_style(
             $handle,
-            plugins_url("/build/style-admin-page-$handle.css", dirname(__FILE__, 2)),
+            plugins_url("/trustedlogin-dist.css", dirname(__FILE__, 1)),
             [],
             $assets['version']
         );
