@@ -4,7 +4,7 @@ namespace TrustedLogin\Vendor\Webhooks;
 
 use TrustedLogin\Vendor\TeamSettings;
 use TrustedLogin\Vendor\AccessKeyLogin;
-
+use TrustedLogin\Vendor\Webhooks\Helpscout;
 class Factory {
 
 

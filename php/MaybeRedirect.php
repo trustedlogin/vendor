@@ -23,6 +23,29 @@ class MaybeRedirect
 	{
 
 		if ( isset($_REQUEST[ AccessKeyLogin::REDIRECT_ENDPOINT ])) {
+			if( isset($_REQUEST['action']) && Webhook::WEBHOOK_ACTION == $_REQUEST['action']){
+				$provider = $_REQUEST[Factory::PROVIDER_KEY];
+				if( ! in_array($provider, Factory::getProviders())){
+					$this->log( 'Unknown provider: ' . $provider,__METHOD__ );
+					return;
+				}
+				$accountId = $_REQUEST[AccessKeyLogin::ACCOUNT_ID_INPUT_NAME];
+
+				try {
+					$team  = SettingsApi::fromSaved()->getByAccountId($accountId);
+					$webhook = Factory::webhook( $team );
+					$r = $webhook->webhookEndpoint();
+					if( 200 === $r['status']){
+						wp_send_json_success($r);
+					}else{
+						wp_send_json_error($r,$r['status']);
+					}
+				} catch (\Throwable $th) {
+					wp_send_json_error( ['message' => $th->getMessage()],404);
+				}
+				exit;
+			}
+
 			$handler = new AccessKeyLogin();
 			$parts_or_error = $handler->handle();
 			if( is_array($parts_or_error)){
@@ -38,28 +61,7 @@ class MaybeRedirect
 			exit;
 		}
 
-		if( isset($_REQUEST[Webhook::WEBHOOK_ACTION])){
-			$provider = $_REQUEST[Factory::PROVIDER_KEY];
-			if( ! in_array($provider, Factory::getProviders())){
-				$this->log( 'Unknown provider: ' . $provider,__METHOD__ );
-				return;
-			}
-			$accountId = $_REQUEST[AccessKeyLogin::ACCOUNT_ID_INPUT_NAME];
 
-			try {
-				$team  = SettingsApi::fromSaved()->getByAccountId($accountId);
-				$webhook = Factory::webhook( $team );
-				$r = $webhook->webhookEndpoint();
-				if( 200 === $r['status']){
-					wp_send_json_success($r);
-				}else{
-					wp_send_json_error($r,$r['status']);
-				}
-			} catch (\Throwable $th) {
-				wp_send_json_error( ['message' => $th->getMessage()],404);
-			}
-			exit;
-		}
 
 	}
 }
