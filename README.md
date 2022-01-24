@@ -87,7 +87,7 @@ A [docker-compose](https://docs.docker.com/samples/wordpress/)-based local devel
         - Kill all containers and try again: `docker kill $(docker ps -q) && docker-compose up -d`
         - Change the port in docker-compose.yml.
 - Access Site
-    - [http://localhost:8000](http://localhost:8000)
+    - [http://localhost:8000](http://localhost:8200)
 - Run WP CLI command:
     - `docker-compose run wpcli wp user create admin admin@example.com --role=admin user_pass=pass`
 
