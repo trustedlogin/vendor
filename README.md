@@ -27,6 +27,13 @@ It is important that you use the `wp.js` script to setup the local dev site, whi
 - Reset WordPress
     - `node wp.js ---reset`
         - Drops the database tables.
+- Run e2e tests
+    - With Chrome:
+        - `node wp.js test`
+        - `node wp.js test chrome`
+    - With Firefox:
+            - `node wp.js test`
+            - `node wp.js test firefox`
 
 The `wp.js` script uses docker compose.
 
@@ -139,3 +146,9 @@ We use [cypress](https://cypress.io) for end to end testing (e2e) the vendor plu
 The [e2e client plugin](https://github.com/trustedlogin/trustedlogin-e2e-client) is installed at [https://e2e.trustedlogin.dev/]. The e2e tests in that plugin will use that site to grant access to the "ngrok" team. We can get the accessKey from that HTTP request's response. The ngrok endpoint will be serving a WordPress site using whatever version of this plugin is being tested, served at the ngrok endpoint.
 
 Then the tests will log into the vendor site and attempt to use the plugin's setting screen to login to the client site, using the access key.
+
+- Run e2e tests using Chrome browser
+    - `docker-compose run e2e-chrome`
+
+- Run e2e tests using Firefox browser
+    - `docker-compose run e2e-firefox`

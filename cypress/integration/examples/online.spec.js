@@ -1,7 +1,6 @@
 /// <reference types="cypress" />
-const {NGROK_WP_URL,CLIENT_WP_URL} = process.env;
-console.log({NGROK_WP_URL,CLIENT_WP_URL});
-context('nGrok Site Online', () => {
+const {NGROK_WP_URL,CLIENT_WP_URL} = Cypress.env();
+context('nGrok Site is Online', () => {
     beforeEach(() => {
       cy.visit(NGROK_WP_URL)
     })
@@ -11,7 +10,7 @@ context('nGrok Site Online', () => {
     })
   })
 
-context('client Site Online', () => {
+context('Client Site is Online', () => {
   beforeEach(() => {
     cy.visit(CLIENT_WP_URL)
   })

@@ -29,10 +29,9 @@ const exitError = () => {
 
 
 /**
- * Run a WP CLI command in Docker containr
+ * Run a command
  */
-const wp = (command) => {
-    command = `docker-compose run wpcli wp ${command}`
+ const runCommand = async (command) => {
     return new Promise( async (resolve, reject) => {
         if (shell.exec(command).code !== 0) {
             reject();
@@ -40,6 +39,15 @@ const wp = (command) => {
             resolve();
         }
     });
+}
+
+
+/**
+ * Run a WP CLI command in Docker containr
+ */
+const wp = async (command) => {
+    command = `docker-compose run wpcli wp ${command}`
+    return runCommand(command);
 }
 
 /**
@@ -83,8 +91,22 @@ const activatePlugin  = async ({slug}) => {
     await wp(`plugin activate ${slug}`);
 }
 
-if( 3 === process.argv.length ){
+const e2eTest = async ({browser}) => {
+    if( ! ['chrome', 'firefox'].includes(browser)){
+        throw Error('Invalid browser');
+    }
+    await runCommand(`docker-compose run e2e-${browser}`);
+
+}
+
+//Run sub-command?
+if(  process.argv.length >= 3 ){
+    const arg3 = process.argv.length >= 4 ? process.argv[3] : null;
     switch(process.argv[2]){
+        case 'test':
+            e2eTest({browser:arg3 ?? 'chrome'})
+                .then(exitSuccess).catch(exitError);
+        break;
         case '--activate':
             activatePlugin({
                 slug: 'trustedlogin-vendor'
@@ -99,7 +121,9 @@ if( 3 === process.argv.length ){
             break;
     }
     exitSuccess();
-}else{
+}
+//By default set everything else up
+else{
     install({url: NGROK_WP_URL, title: 'Trusted Login Vendor Test'})
     .then( createUsers)
     .then( () => {
