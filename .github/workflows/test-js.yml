@@ -1,6 +1,8 @@
 name: JavaScripts
 
-on: [push]
+on: workflow_dispatch
+## Disabled for now.
+#on: [push]
 
 jobs:
   buildAndTest:
