@@ -1,0 +1,61 @@
+name: e2e Tests
+
+on: push
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      # Setup
+      - name: Checkout repository
+        uses: actions/checkout@v1
+
+      - name: Setup PHP 7.3 with composer
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '7.3'
+          tools: composer
+
+      - name: PHP version
+        run: php -v
+
+      - name: Node Version
+        run: node -v
+
+      # Install
+      - name: Get Composer Cache Directory
+        id: get-composer-cache-dir # Instead of composer-cache
+        run: |
+          echo "::set-output name=dir::$(composer config cache-files-dir)"
+
+      - name: Cache Composer packages
+        id: composer-cache
+        uses: actions/cache@v2
+        with:
+          path: vendor
+          key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-php-
+
+      - name: Install dependencies
+        if: steps.composer-cache.outputs.cache-hit != 'true'
+        run: composer install --prefer-dist --no-progress
+
+      # Setup Env
+      ##??
+
+      # Setup Test site
+      - name: Setup WordPress
+      run: |
+        ## Start server
+        docker compose up -d
+        ## Setup WordPress for testing
+        node wp.js
+
+      # Run e2e tests
+      ## With Chrome
+      - name: Test With Chrome
+      run: node wp.js test chrome
+      ## With Firefox
+      - name: Test With Firefox
+      run: node wp.js test firefox
