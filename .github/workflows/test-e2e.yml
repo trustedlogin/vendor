@@ -50,16 +50,16 @@ jobs:
 
       # Setup Test site
       - name: Setup WordPress
-      run: |
-        ## Start server
-        docker compose up -d
-        ## Setup WordPress for testing
-        node wp.js
+        run: |
+          ## Start server
+          docker compose up -d
+          ## Setup WordPress for testing
+          node wp.js
 
       # Run e2e tests
       ## With Chrome
       - name: Test With Chrome
-      run: node wp.js test chrome
+        run: node wp.js test chrome
       ## With Firefox
       - name: Test With Firefox
-      run: node wp.js test firefox
+        run: node wp.js test firefox
