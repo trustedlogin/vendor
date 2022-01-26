@@ -30,11 +30,11 @@ jobs:
         run: node -v
 
       # Install
+      ## Composer
       - name: Get Composer Cache Directory
         id: get-composer-cache-dir # Instead of composer-cache
         run: |
           echo "::set-output name=dir::$(composer config cache-files-dir)"
-
       - name: Cache Composer packages
         id: composer-cache
         uses: actions/cache@v2
@@ -43,10 +43,19 @@ jobs:
           key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
           restore-keys: |
             ${{ runner.os }}-php-
-
-      - name: Install dependencies
+      - name: Install Composer dependencies
         if: steps.composer-cache.outputs.cache-hit != 'true'
         run: composer install --prefer-dist --no-progress
+
+      ## Yarn
+      ### See: https://github.com/marketplace/actions/yarn-install-cache
+      - uses: c-hive/gha-yarn-cache@v2
+      - name: Install JS dependencies
+        run: yarn install
+      - name: Build JS
+        run: yarn build
+      - name: Build CSS
+        run: yarn build:css
 
       # Setup Test site
       - name: Setup WordPress
