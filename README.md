@@ -10,6 +10,20 @@
     - `yarn`
 - Install php dependencies
     - `composer install`
+### wp.js
+
+It is important that you use the `wp.js` script to setup the local dev site, which is served via ngork. The e2e tests assume that site is running and was setup using this script.
+
+- Install WordPress
+    - `node wp.js`
+        - Installs WordPress
+        - Creates admin users, as specified in `NGROK_USERS` env variable
+- Reset WordPress
+    - `node wp.js ---reset`
+        - Drops the database tables.
+
+The `wp.js` script uses docker compose.
+
 
 ## Working With JavaScript
 
@@ -65,6 +79,7 @@ Before doing this, you must create a ".env" file in the root of this plugin. You
 - Run WordPress tests
     - `composer test`
     - See local development instructions for how to run with Docker.
+- Run e2e Tests
 
 ### Linter
 
@@ -87,7 +102,7 @@ A [docker-compose](https://docs.docker.com/samples/wordpress/)-based local devel
         - Kill all containers and try again: `docker kill $(docker ps -q) && docker-compose up -d`
         - Change the port in docker-compose.yml.
 - Access Site
-    - [http://localhost:8000](http://localhost:8200)
+    - [http://localhost:8200](http://localhost:8200)
 - Run WP CLI command:
     - `docker-compose run wpcli wp user create admin admin@example.com --role=admin user_pass=pass`
 
