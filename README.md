@@ -14,10 +14,13 @@
 
 It is important that you use the `wp.js` script to setup the local dev site, which is served via ngork. The e2e tests assume that site is running and was setup using this script.
 
-- Install WordPress
+- Configure WordPress Site
     - `node wp.js`
         - Installs WordPress
         - Creates admin users, as specified in `NGROK_USERS` env variable
+        - Activates plugin
+- Activate Plugin
+    - `node wp.js --activate`
 - Reset WordPress
     - `node wp.js ---reset`
         - Drops the database tables.

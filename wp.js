@@ -78,8 +78,19 @@ const createUsers = async () => {
     });
 }
 
+const activatePlugin  = async ({slug}) => {
+    log('Activating plugin');
+    await wp(`plugin activate ${slug}`);
+}
+
 if( 3 === process.argv.length ){
     switch(process.argv[2]){
+        case '--activate':
+            activatePlugin({
+                slug: 'trustedlogin-vendor'
+            })
+                .then(exitSuccess).catch(exitError);
+        break;
         case '--reset':
             resetWordPress()
                 .then(exitSuccess).catch(exitError);
