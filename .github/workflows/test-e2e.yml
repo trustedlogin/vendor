@@ -2,6 +2,13 @@ name: e2e Tests
 
 on: push
 
+env:
+  TL_VENDOR_ENCRYTPTION_KEY: ${{ secrets.TL_VENDOR_ENCRYTPTION_KEY }}
+  NGROK_AUTH_TOKEN: ${{ secrets.NGROK_AUTH_TOKEN }}
+  NGROK_WP_URL: https://trustedlogin.ngrok.io
+  NGROK_USERS: ${{ secrets.NGROK_USERS }}
+  CLIENT_WP_URL: https://e2e.trustedlogin.de
+
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -40,9 +47,6 @@ jobs:
       - name: Install dependencies
         if: steps.composer-cache.outputs.cache-hit != 'true'
         run: composer install --prefer-dist --no-progress
-
-      # Setup Env
-      ##??
 
       # Setup Test site
       - name: Setup WordPress

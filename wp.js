@@ -8,23 +8,33 @@ const shell = require('shelljs');
 //console.log(process.env) // remove this after you've confirmed it working
 
 const {NGROK_WP_URL,NGROK_USERS,CLIENT_WP_URL} = process.env;
+if( ! NGROK_WP_URL || ! NGROK_USERS || ! CLIENT_WP_URL){
+    throw Error('Missing environment variables');
+}
 
-
+/*
+* Log to console or shell
+*/
 const log = ( ...args ) => {
    // shell.echo(...args);
     console.log(...args);
 }
 
+/**
+ * Exit with success code
+ */
 const exitSuccess = () => {
     log('All done!');
     //barrel roll
     shell.exit(0);
 }
 
-
-const exitError = () => {
+/**
+ * Exit with error code
+ */
+const exitError = (errorCode = 1) => {
     log('Exitting With Error!');
-    shell.exit(1);
+    shell.exit(errorCode);
 }
 
 
