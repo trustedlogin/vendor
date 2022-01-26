@@ -110,3 +110,11 @@ The WordPress site will also be on the internets at [https://trustedlogin.ngrok.
 Find the auth token in [the ngrok dashboard](https://dashboard.ngrok.com/get-started/your-authtoken), while logged in to the TrustedLogin account. Ask Zack for access if needed.
 
 The ngrok container has a UI for inspecting ngrok requests. It can be accessed at [http://localhost:4551/](http://localhost:4551/).
+
+### End To End Testing
+
+We use [cypress](https://cypress.io) for end to end testing (e2e) the vendor plugin, and the [e2e client](https://github.com/trustedlogin/trustedlogin-e2e-client). These tests use the production eCommerce app and Vault. These tests use an "ngrok" team. Zack can add and remove people from that team.
+
+The [e2e client plugin](https://github.com/trustedlogin/trustedlogin-e2e-client) is installed at [https://e2e.trustedlogin.dev/]. The e2e tests in that plugin will use that site to grant access to the "ngrok" team. We can get the accessKey from that HTTP request's response. The ngrok endpoint will be serving a WordPress site using whatever version of this plugin is being tested, served at the ngrok endpoint.
+
+Then the tests will log into the vendor site and attempt to use the plugin's setting screen to login to the client site, using the access key.
