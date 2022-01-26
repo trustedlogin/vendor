@@ -124,7 +124,7 @@ export default function App({ getSettings, updateSettings }) {
 	}, [getSettings, setSettings]);
 
 	return (
-		<div>
+		<div className="mt-24">
 			{!settings.isConnected ? (
 				<Notice
 					heading={__("Connect your site to the TrustedLogin service.")}
@@ -134,7 +134,7 @@ export default function App({ getSettings, updateSettings }) {
 				/>
 			) : null}
 
-			<div>
+			<div className="m-8">
 				<>
 					<Tabs
 						//initialTab={"teams"}
@@ -143,7 +143,7 @@ export default function App({ getSettings, updateSettings }) {
 								id: "teams",
 								children: (
 									<>
-										<section id="team-buttons">
+										<section id="team-buttons" class="m-24">
 											<BigButton
 												onClick={addTeam}
 												variant={!settings.teams.length ? "primary" : "secondary"}

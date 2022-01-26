@@ -29,10 +29,7 @@ module.exports = {
 		...defaultConfig.module,
 		rules: [
 			...defaultConfig.module.rules,
-			{
-				test: /\.css$/,
-				use: ["style-loader", "css-loader"],
-			},
+
 		],
 	},
 	entry,
