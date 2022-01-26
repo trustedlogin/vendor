@@ -10,6 +10,9 @@
     - `yarn`
 - Install php dependencies
     - `composer install`
+- Create env file
+    - `cp .env-example .env`
+    - You will need to ask Josh and/ or Zack for values for `NGROK_WP_URL`, `NGROK_USERS`,`TL_VENDOR_ENCRYTPTION_KEY` and `NGROK_AUTH_TOKEN`.
 ### wp.js
 
 It is important that you use the `wp.js` script to setup the local dev site, which is served via ngork. The e2e tests assume that site is running and was setup using this script.

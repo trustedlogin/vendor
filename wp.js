@@ -7,7 +7,7 @@ const shell = require('shelljs');
 
 //console.log(process.env) // remove this after you've confirmed it working
 
-const {NGROK_WP_URL,NGROK_USERS} = process.env;
+const {NGROK_WP_URL,NGROK_USERS,CLIENT_WP_URL} = process.env;
 
 
 const log = ( ...args ) => {
