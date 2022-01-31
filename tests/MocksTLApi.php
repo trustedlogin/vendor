@@ -87,7 +87,7 @@ trait MocksTLApi
 		);
 	}
 
-		/**
+	/**
 	 * Get the vendor encryption keys for testing with.
 	 */
 	protected function getEncryptionKeys()

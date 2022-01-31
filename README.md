@@ -13,9 +13,10 @@
 - Create env file
     - `cp .env-example .env`
     - You will need to ask Josh and/ or Zack for values for `NGROK_WP_URL`, `NGROK_USERS`,`TL_VENDOR_ENCRYTPTION_KEY` and `NGROK_AUTH_TOKEN`.
+- Setup site using `wp.js` script.
 ### wp.js
 
-It is important that you use the `wp.js` script to setup the local dev site, which is served via ngork. The e2e tests assume that site is running and was setup using this script.
+It is important that you use the `wp.js` script to setup the local dev site, which is served via ngork. The e2e tests assume that site is running and was setup using this script. This script should work with Node 14 or later. Josh developed it using Node 16.
 
 - Configure WordPress Site
     - `node wp.js`
@@ -174,11 +175,16 @@ Then the tests will log into the vendor site and attempt to use the plugin's set
 
 - `CLIENT_WP_URL`
     - URL Of client site:
-    - https://e2e.trustedlogin.dev/
+    - `CLIENT_WP_URL=https://e2e.trustedlogin.dev/`
 - `CLIENT_WP_PASSWORD`
     - Password of user on client site that e2e tests login as.
 - `CLIENT_WP_USER`
     - Username of cf user on client site that e2e tests login as.
+    - `CLIENT_WP_USER=githubactions`
 - `NGROK_AUTH_TOKEN`
     - The auth token for the ngrok account
     - https://dashboard.ngrok.com/get-started/your-authtoken
+- `NGROK_WP_URL`
+    - NGROK_WP_URL=https://trustedlogin.ngrok.io`
+    - ngrok URL for docker compose site.
+    - In CI, this value should be `https://trustedlogin-ci.ngrok.io`

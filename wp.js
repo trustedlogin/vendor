@@ -9,6 +9,7 @@ const shell = require('shelljs');
 
 const {NGROK_WP_URL,NGROK_USERS,CLIENT_WP_URL} = process.env;
 if( ! NGROK_WP_URL || ! NGROK_USERS || ! CLIENT_WP_URL){
+    console.log({NGROK_WP_URL,NGROK_USERS,CLIENT_WP_URL})
     throw Error('Missing environment variables');
 }
 
