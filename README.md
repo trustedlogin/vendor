@@ -87,12 +87,28 @@ $service = new TrustedLoginService(
 ```
 ### Tests
 
-Before doing this, you must create a ".env" file in the root of this plugin. You need to set the correct value for `TL_VENDOR_ENCRYTPTION_KEY`. Its value is known to Josh and Zack. It is set as a Github actions environment variable. This is not needed in production.
+Before doing this, you must create a ".env" file in the root of this plugin. You need to set the correct value for `TL_VENDOR_ENCRYTPTION_KEY`. Its value is saved in Zack and Josh's password managers. It is set as a Github actions environment variable. This is not needed in production.
 
 - Run WordPress tests
     - `composer test`
     - See local development instructions for how to run with Docker.
 - Run e2e Tests
+
+The integration tests mock the SASS API. The mock data was generated using encryption keys for Zack's "Test" team. This is different from the "ngrok" team used for e2e tests.
+
+The integration tests rely on the environment variable `TL_VENDOR_ENCRYTPTION_KEY`:
+
+```js
+{
+	 /*
+     *        private_key: (string) The private key used for encrypt/decrypt.
+	 *        public_key: (string) The public key used for encrypt/decrypt.
+	 *        sign_public_key: (string) The public key used for signing/verifying.
+	 *        sign_private_key: (string) The private key used for signing/verifying.
+     */
+}
+```
+
 
 ### Linter
 
@@ -152,3 +168,17 @@ Then the tests will log into the vendor site and attempt to use the plugin's set
 
 - Run e2e tests using Firefox browser
     - `docker-compose run e2e-firefox`
+
+#### e2e Test Environment Variables
+
+
+- `CLIENT_WP_URL`
+    - URL Of client site:
+    - https://e2e.trustedlogin.dev/
+- `CLIENT_WP_PASSWORD`
+    - Password of user on client site that e2e tests login as.
+- `CLIENT_WP_USER`
+    - Username of cf user on client site that e2e tests login as.
+- `NGROK_AUTH_TOKEN`
+    - The auth token for the ngrok account
+    - https://dashboard.ngrok.com/get-started/your-authtoken
