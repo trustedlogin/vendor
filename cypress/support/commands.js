@@ -18,7 +18,8 @@ const commands = {
   },
 
 
-
+  //Reset WordPress
+  //Not sure this makes sense to keep here.
   resetWP(version = false) {
     const wpVersion = version || (Cypress.wp || {}).version || false;
     cy.log('WP Cypress: performing full teardown...');
@@ -59,10 +60,12 @@ const commands = {
     cy.window().then((win) => win.wp.data.dispatch('core/editor').savePost());
   },
 
+  //Go to wp-login and enter username/ password
   switchUser(siteUrl,{user = 'admin', password}) {
 
 
         cy.clearCookies();
+        //Go to wp-login
         cy.visit(`${siteUrl}/wp-login.php?loggedout=true`);
 
         // Check if Jetpack SSO is installed, click through if so.
@@ -72,9 +75,14 @@ const commands = {
           }
         });
 
+        //Login
         cy.get('#user_login').focus().invoke('val', user);
         cy.get('#user_pass').focus().invoke('val', password);
         cy.get('#wp-submit').click();
+
+        //Make sure we went to wp-admin succesfully, not back to wp-login.
+        //https://docs.cypress.io/api/commands/url#Examples
+        cy.url().should('include', '/wp-admin');
 
 
   },

@@ -1,5 +1,5 @@
 /// <reference types="cypress" />
-const {NGROK_WP_URL,CLIENT_WP_URL} = Cypress.env();
+const {NGROK_WP_URL,CLIENT_WP_URL,CLIENT_WP_PASSWORD,CLIENT_WP_USER} = Cypress.env();
 
 
 context('Grant access', () => {
@@ -8,7 +8,6 @@ context('Grant access', () => {
   })
 
   it('Login to client site', () => {
-    cy.window().should('have.property', 'wp');
-    cy.switchUser(CLIENT_WP_URL,{user: 'admin', password: 'password'});
+    cy.switchUser(CLIENT_WP_URL,{user: CLIENT_WP_USER, password: CLIENT_WP_PASSWORD});
   })
 })
