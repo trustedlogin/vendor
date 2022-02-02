@@ -1,4 +1,5 @@
 
+cypress/.env
 # Logs
 logs
 *.log

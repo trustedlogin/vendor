@@ -121,6 +121,7 @@ services:
       - ./cypress:/cypress
       - ./cypress.json:/cypress.json
       - ./wp.js:/cypress/wp.js
+      - ./.env:/.env
     depends_on:
           - ngrok
 

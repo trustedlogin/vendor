@@ -47,12 +47,12 @@ const commands = {
     wp(`"plugin deactivate ${name}"`);
   },
 
-  visitAdmin(options = {}) {
-    cy.visit('/wp-admin/index.php', options);
+  visitAdmin(siteUrl,options = {}) {
+    cy.visit(`${siteUrl}/wp-admin/index.php`, options);
   },
 
-  editPost(id, options = {}) {
-    cy.visit(`/wp-admin/post.php?post=${id}&action=edit`, options);
+  editPost(siteUrl,id, options = {}) {
+    cy.visit(`${siteUrl}/wp-admin/post.php?post=${id}&action=edit`, options);
   },
 
   saveCurrentPost() {
