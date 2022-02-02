@@ -8,56 +8,43 @@
 
 
 const commands = {
+/**
+ * Run a WP CLI command in Docker container
+ * @param {string} command
+ */
   wp(command) {
-    cy.exec(`node_modules/.bin/wp-cypress wp "${command}"`);
+    command = `docker-compose run wpcli wp ${command}`
+    cy.exec(command);
   },
 
-  seed(seeder) {
-    cy.exec(`node_modules/.bin/wp-cypress wp "seed ${seeder}"`).then((result) => {
-      cy.log(result.stdout);
-    });
-  },
 
-  seedClean(seeder) {
-    cy.exec(`node_modules/.bin/wp-cypress wp "seed ${seeder} --clean"`).then(
-      (result) => {
-        cy.log(result.stdout);
-      },
-    );
-  },
-
-  cleanThenSeed(seeder) {
-    cy.exec(
-      `node_modules/.bin/wp-cypress wp "seed ${seeder} --clean-first"`,
-    ).then((result) => {
-      cy.log(result.stdout);
-    });
-  },
 
   resetWP(version = false) {
     const wpVersion = version || (Cypress.wp || {}).version || false;
     cy.log('WP Cypress: performing full teardown...');
+    //Reset with our wp.js script
+    cy.exec( `node wp.js ---reset`);
     cy.exec(`node_modules/.bin/wp-cypress soft-reset ${wpVersion ? `--version='${wpVersion}'` : ''}`);
   },
 
   installTheme(name) {
-    cy.exec(`node_modules/.bin/wp-cypress wp "theme install ${name}"`);
+    wp(`"theme install ${name}"`);
   },
 
   activateTheme(name) {
-    cy.exec(`node_modules/.bin/wp-cypress wp "theme activate ${name}"`);
+    wp(`"theme activate ${name}"`);
   },
 
   installPlugin(name) {
-    cy.exec(`node_modules/.bin/wp-cypress wp "plugin install ${name}"`);
+    wp(`"plugin install ${name}"`);
   },
 
   activatePlugin(name) {
-    cy.exec(`node_modules/.bin/wp-cypress wp "plugin activate ${name}"`);
+    wp(`"plugin activate ${name}"`);
   },
 
   deactivatePlugin(name) {
-    cy.exec(`node_modules/.bin/wp-cypress wp "plugin deactivate ${name}"`);
+    wp(`"plugin deactivate ${name}"`);
   },
 
   visitAdmin(options = {}) {
@@ -72,11 +59,11 @@ const commands = {
     cy.window().then((win) => win.wp.data.dispatch('core/editor').savePost());
   },
 
-  switchUser(user = 'admin', password = null) {
-    if (password) {
-      cy.exec('node_modules/.bin/wp-cypress wp "wp-cypress-set-user --logout"').then(() => {
+  switchUser(siteUrl,{user = 'admin', password}) {
+
+
         cy.clearCookies();
-        cy.visit('/wp-login.php?loggedout=true');
+        cy.visit(`${siteUrl}/wp-login.php?loggedout=true`);
 
         // Check if Jetpack SSO is installed, click through if so.
         cy.get('body').then((body) => {
@@ -88,14 +75,12 @@ const commands = {
         cy.get('#user_login').focus().invoke('val', user);
         cy.get('#user_pass').focus().invoke('val', password);
         cy.get('#wp-submit').click();
-      });
-    } else {
-      cy.exec(`node_modules/.bin/wp-cypress wp "wp-cypress-set-user ${user}"`);
-    }
+
+
   },
 
   logout() {
-    cy.exec('node_modules/.bin/wp-cypress wp "wp-cypress-set-user --logout"').then(() => {
+    wp('"wp-cypress-set-user --logout"').then(() => {
       cy.clearCookies();
       cy.visit('/wp-login.php?loggedout=true');
     });

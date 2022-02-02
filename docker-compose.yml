@@ -120,6 +120,7 @@ services:
     volumes:
       - ./cypress:/cypress
       - ./cypress.json:/cypress.json
+      - ./wp.js:/cypress/wp.js
     depends_on:
           - ngrok
 
@@ -133,6 +134,7 @@ services:
     volumes:
       - ./cypress:/cypress
       - ./cypress.json:/cypress.json
+      - ./wp.js:/cypress/wp.js
     depends_on:
           - ngrok
 
