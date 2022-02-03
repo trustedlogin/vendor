@@ -1,0 +1,74 @@
+name: e2e Tests
+
+on: push
+
+env:
+  TL_VENDOR_ENCRYTPTION_KEY: ${{ secrets.TL_VENDOR_ENCRYTPTION_KEY }}
+  NGROK_AUTH_TOKEN: ${{ secrets.NGROK_AUTH_TOKEN }}
+  NGROK_WP_URL: https://trustedlogin.ngrok.io
+  NGROK_USERS: ${{ secrets.NGROK_USERS }}
+  CLIENT_WP_URL: https://e2e.trustedlogin.de
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      # Setup
+      - name: Checkout repository
+        uses: actions/checkout@v1
+
+      - name: Setup PHP 7.3 with composer
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '7.3'
+          tools: composer
+
+      - name: PHP version
+        run: php -v
+
+      - name: Node Version
+        run: node -v
+
+      # Install
+      ## Composer
+      - name: Get Composer Cache Directory
+        id: get-composer-cache-dir # Instead of composer-cache
+        run: |
+          echo "::set-output name=dir::$(composer config cache-files-dir)"
+      - name: Cache Composer packages
+        id: composer-cache
+        uses: actions/cache@v2
+        with:
+          path: vendor
+          key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-php-
+      - name: Install Composer dependencies
+        if: steps.composer-cache.outputs.cache-hit != 'true'
+        run: composer install --prefer-dist --no-progress
+
+      ## Yarn
+      ### See: https://github.com/marketplace/actions/yarn-install-cache
+      - uses: c-hive/gha-yarn-cache@v2
+      - name: Install JS dependencies
+        run: yarn install
+      - name: Build JS
+        run: yarn build
+      - name: Build CSS
+        run: yarn build:css
+
+      # Setup Test site
+      - name: Setup WordPress
+        run: |
+          ## Start server
+          docker compose up -d
+          ## Setup WordPress for testing
+          node wp.js
+
+      # Run e2e tests
+      ## With Chrome
+      - name: Test With Chrome
+        run: node wp.js test chrome
+      ## With Firefox
+      - name: Test With Firefox
+        run: node wp.js test firefox

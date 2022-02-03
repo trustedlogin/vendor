@@ -1,4 +1,5 @@
 
+cypress/.env
 # Logs
 logs
 *.log
@@ -25,3 +26,5 @@ build
 
 debug.log
 admin/trustedlogin-dist.css
+cypress/screenshots
+cypress/videos
