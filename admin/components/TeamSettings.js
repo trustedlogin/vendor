@@ -35,8 +35,7 @@ const TeamSettings = ({ team, setTeam, removeTeam }) => {
           {" | "}
           <span>Status: {team.status ? team.status : __("Unknown")}</span>
         </h2>
-      )}
-    >
+      )}>
       <Input
         label={__("TrustedLogin Account ID")}
         name={`team-${teamId}[account_id]`}
@@ -114,8 +113,7 @@ const TeamSettings = ({ team, setTeam, removeTeam }) => {
             } else {
               removeTeam(team.id);
             }
-          }}
-        >
+          }}>
           {isRemoving ? "Are you sure?" : "Remove Team"}
         </button>
         {isRemoving ? (
@@ -124,8 +122,7 @@ const TeamSettings = ({ team, setTeam, removeTeam }) => {
             onClick={(e) => {
               e.preventDefault();
               setIsRemoving(false);
-            }}
-          >
+            }}>
             Cancel
           </button>
         ) : null}

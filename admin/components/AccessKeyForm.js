@@ -35,8 +35,7 @@ const AccessKeyForm = ({ initialAccountId, teams }) => {
         const redirect = `${action}&ak=${accessKey}`;
         alert(redirect);
         window.location = redirect;
-      }}
-    >
+      }}>
       <FormTable title={"Loging To Site Using Access Key"}>
         <>
           <Input

@@ -140,16 +140,14 @@ export default function App({ getSettings, updateSettings }) {
               className="bg-white border border-gray-300 rounded-lg px-4 py-2 inline-flex items-center justify-center text-sm font-medium text-gray-900 hover:bg-gray-50 focus:outline-none focus:ring-2 ring-offset-2 focus:ring-sky-500"
               id="sort-menu-button"
               aria-expanded="false"
-              aria-haspopup="true"
-            >
+              aria-haspopup="true">
               <svg
                 className="text-gray-500 mr-2"
                 width="15"
                 height="15"
                 viewBox="0 0 15 15"
                 fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
+                xmlns="http://www.w3.org/2000/svg">
                 <path
                   d="M10.0001 0.5H2.0001V2.5H10.0001C11.7001 2.5 13.0001 3.8 13.0001 5.5C13.0001 7.2 11.7001 8.5 10.0001 8.5H4.4001L7.4001 5.5L6.0001 4.1L0.600098 9.5L6.0001 14.9L7.4001 13.5L4.4001 10.5H10.0001C12.8001 10.5 15.0001 8.3 15.0001 5.5C15.0001 2.7 12.8001 0.5 10.0001 0.5Z"
                   fill="currentColor"
@@ -185,8 +183,7 @@ export default function App({ getSettings, updateSettings }) {
                   className="bg-white border border-gray-300 rounded-lg px-4 py-2 inline-flex items-center justify-center text-sm font-medium text-gray-900 hover:bg-gray-50 focus:outline-none focus:ring-2 ring-offset-2 focus:ring-sky-500"
                   id="sort-menu-button"
                   aria-expanded="false"
-                  aria-haspopup="true"
-                >
+                  aria-haspopup="true">
                   View Account
                   <svg
                     className="ml-2 text-gray-500"
@@ -194,8 +191,7 @@ export default function App({ getSettings, updateSettings }) {
                     height="12"
                     viewBox="0 0 12 12"
                     fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
+                    xmlns="http://www.w3.org/2000/svg">
                     <path
                       d="M1.8335 10.1666L10.1668 1.83325M10.1668 1.83325H1.8335M10.1668 1.83325V10.1666"
                       stroke="currentColor"
@@ -210,8 +206,7 @@ export default function App({ getSettings, updateSettings }) {
                   className="bg-white border border-gray-300 rounded-lg px-4 py-2 inline-flex items-center justify-center text-sm font-medium text-red-700 hover:bg-gray-50 focus:outline-none focus:ring-2 ring-offset-2 focus:ring-red-700"
                   id="sort-menu-button"
                   aria-expanded="false"
-                  aria-haspopup="true"
-                >
+                  aria-haspopup="true">
                   Disconnect Account
                 </button>
               </div>
@@ -236,8 +231,7 @@ export default function App({ getSettings, updateSettings }) {
                       height="24"
                       viewBox="0 0 24 24"
                       fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
+                      xmlns="http://www.w3.org/2000/svg">
                       <path
                         d="M12 7V23"
                         stroke="currentColor"
@@ -320,14 +314,12 @@ export default function App({ getSettings, updateSettings }) {
                   <div className="flex flex-col">
                     <p
                       className="font-medium text-gray-900"
-                      id="logging-option-1-label"
-                    >
+                      id="logging-option-1-label">
                       Debug Logging
                     </p>
                     <p
                       className="text-sm text-gray-500"
-                      id="logging-option-1-description"
-                    >
+                      id="logging-option-1-description">
                       When enabled, logs will be saved to the
                     </p>
                   </div>
@@ -338,12 +330,10 @@ export default function App({ getSettings, updateSettings }) {
                   role="switch"
                   aria-checked="true"
                   aria-labelledby="logging-option-1-label"
-                  aria-describedby="logging-option-1-description"
-                >
+                  aria-describedby="logging-option-1-description">
                   <span
                     aria-hidden="true"
-                    className="translate-x-0 inline-block h-5 w-5 rounded-full bg-white shadow transform ring-0 transition ease-in-out duration-200"
-                  ></span>
+                    className="translate-x-0 inline-block h-5 w-5 rounded-full bg-white shadow transform ring-0 transition ease-in-out duration-200"></span>
                 </button>
               </li>
               <li className="py-8 flex items-center justify-between">
@@ -355,8 +345,7 @@ export default function App({ getSettings, updateSettings }) {
                       height="24"
                       viewBox="0 0 24 24"
                       fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
+                      xmlns="http://www.w3.org/2000/svg">
                       <path
                         d="M8.1001 16C9.5001 18.4 12.1001 20 15.0001 20C19.4001 20 23.0001 16.4 23.0001 12C23.0001 7.6 19.4001 4 15.0001 4C12.0001 4 9.5001 5.6 8.1001 8"
                         stroke="currentColor"
@@ -383,14 +372,12 @@ export default function App({ getSettings, updateSettings }) {
                   <div className="flex flex-col">
                     <p
                       className="font-medium text-gray-900"
-                      id="logging-option-2-label"
-                    >
+                      id="logging-option-2-label">
                       Activity Log
                     </p>
                     <p
                       className="text-sm text-gray-500"
-                      id="logging-option-2-description"
-                    >
+                      id="logging-option-2-description">
                       Activity Log shows a log of users attempting to log into
                       customer sites using access keys.
                     </p>
@@ -402,12 +389,10 @@ export default function App({ getSettings, updateSettings }) {
                   role="switch"
                   aria-checked="true"
                   aria-labelledby="logging-option-2-label"
-                  aria-describedby="logging-option-2-description"
-                >
+                  aria-describedby="logging-option-2-description">
                   <span
                     aria-hidden="true"
-                    className="translate-x-5 inline-block h-5 w-5 rounded-full bg-white shadow transform ring-0 transition ease-in-out duration-200"
-                  ></span>
+                    className="translate-x-5 inline-block h-5 w-5 rounded-full bg-white shadow transform ring-0 transition ease-in-out duration-200"></span>
                 </button>
               </li>
             </ul>
@@ -431,8 +416,7 @@ export default function App({ getSettings, updateSettings }) {
                       height="12"
                       viewBox="0 0 22 12"
                       fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
+                      xmlns="http://www.w3.org/2000/svg">
                       <path
                         d="M11.65 4C10.83 1.67 8.61 0 6 0C2.69 0 0 2.69 0 6C0 9.31 2.69 12 6 12C8.61 12 10.83 10.33 11.65 8H16V12H20V8H22V4H11.65ZM6 8C4.9 8 4 7.1 4 6C4 4.9 4.9 4 6 4C7.1 4 8 4.9 8 6C8 7.1 7.1 8 6 8Z"
                         fill="currentColor"
@@ -442,14 +426,12 @@ export default function App({ getSettings, updateSettings }) {
                   <div className="flex flex-col">
                     <p
                       className="font-medium text-gray-900"
-                      id="dangerzone-option-1-label"
-                    >
+                      id="dangerzone-option-1-label">
                       Reset encryption keys?
                     </p>
                     <p
                       className="text-sm text-gray-500"
-                      id="dangerzone-option-1-description"
-                    >
+                      id="dangerzone-option-1-description">
                       If you reset the encryption keys, all previous authorized
                       logins will be inaccessible.
                     </p>
@@ -460,8 +442,7 @@ export default function App({ getSettings, updateSettings }) {
                   className="bg-white border border-red-700 rounded-lg px-4 py-2 inline-flex items-center justify-center text-sm font-medium text-red-700 hover:bg-gray-50 focus:outline-none focus:ring-2 ring-offset-2 focus:ring-red-700"
                   id="sort-menu-button"
                   aria-expanded="false"
-                  aria-haspopup="true"
-                >
+                  aria-haspopup="true">
                   Reset Keys
                 </button>
               </div>
@@ -498,8 +479,7 @@ export default function App({ getSettings, updateSettings }) {
                         variant={
                           !settings.teams.length ? "primary" : "secondary"
                         }
-                        className={"add-team-button"}
-                      >
+                        className={"add-team-button"}>
                         {__("Add Team")}
                       </BigButton>
                     </section>

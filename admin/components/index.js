@@ -27,8 +27,7 @@ export const Form = ({
       title={title}
       className={className}
       method={method}
-      action={action}
-    >
+      action={action}>
       {title ? <h2 className="title">{title}</h2> : null}
       {children}
     </form>
@@ -134,8 +133,7 @@ export const BigButton = ({ children, variant, onClick, className }) => (
   <p className={`big-button ${className}`}>
     <button
       className={`button button-${variant ? variant : "secondary"} button-hero`}
-      onClick={onClick}
-    >
+      onClick={onClick}>
       {children}
     </button>
   </p>
