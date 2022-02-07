@@ -1,7 +1,10 @@
+import { HorizontalLogo } from "./TrustedLoginLogo";
 export const TopBar = ({ status }) => {
   return (
     <div className="bg-white flex flex-1 auto justify-between items-center px-5 py-8 shadow-lg sm:px-10">
-      <div className="">Logo</div>
+      <div className="">
+        <HorizontalLogo />
+      </div>
       <div className="relative flex items-center space-x-2">
         <button className="inline-flex items-center pl-2.5 pr-3 h-10 border border-gray-300 text-sm leading-4 rounded-lg text-gray-500 bg-white focus:outline-none focus:ring-2 ring-offset-2 focus:ring-sky-500">
           <svg

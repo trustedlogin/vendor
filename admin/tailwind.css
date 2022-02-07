@@ -54,9 +54,36 @@ body .bg-blue-tl:hover {
 .ring-blue-tl {
   --tw-ring-color: #136388;
 }
+
+/** Push topbar over**/
 #wpbody-content {
   margin-left: -20px;
   padding-left: 0px;
   margin-right: 0px;
   padding-right: 0px;
+}
+
+/** Style Horizontal Logo **/
+.trustedlogin-horizontal-logo {
+  width: 150px;
+  height: auto;
+}
+
+.tl-hl-st0 {
+  fill: #1099d6;
+}
+.tl-hl-st1 {
+  fill: #1b2b59;
+}
+.tl-hl-st2 {
+  fill: #ffffff;
+}
+.tl-hl-st3 {
+  fill: #7f7f7f;
+}
+.tl-hl-st4 {
+  fill: #333333;
+}
+.tl-hl-st5 {
+  fill: none;
 }
