@@ -3,53 +3,54 @@
 @tailwind utilities;
 
 .bg-gray-tl {
-    background-color: #F6F9FC;
+  background-color: #f6f9fc;
 }
 .bg-blue-tl-grad {
-    background: linear-gradient(214.25deg, #00AADD 0%, #233B6B 100%), linear-gradient(0deg, #223B6C, #223B6C), #00AADD;
+  background: linear-gradient(214.25deg, #00aadd 0%, #233b6b 100%),
+    linear-gradient(0deg, #223b6c, #223b6c), #00aadd;
 }
 body .bg-blue-tl {
-    background-color: #00AADD;
+  background-color: #00aadd;
 }
 body .bg-blue-tl-200 {
-    background-color: #DBECF2;
+  background-color: #dbecf2;
 }
 body .text-blue-tl {
-    color: #00AADD;
+  color: #00aadd;
 }
 body .border-blue-tl {
-    border-color: #00AADD;
+  border-color: #00aadd;
 }
 body .bg-blue-tl:hover {
-    background-color: #0092BE;
+  background-color: #0092be;
 }
 .tooltip {
-    visibility: hidden;
-    position: absolute;
+  visibility: hidden;
+  position: absolute;
 }
 .has-tooltip:hover .tooltip {
-    right: 0;
-    visibility: visible;
-    z-index: 100;
+  right: 0;
+  visibility: visible;
+  z-index: 100;
 }
 .has-tooltip .tooltip {
-    right: 0;
-    visibility: visible;
-    z-index: 100;
+  right: 0;
+  visibility: visible;
+  z-index: 100;
 }
 .has-tooltip .tooltip:before {
-    content: '';
-    display: block;
-    width: 0;
-    height: 0;
-    position: absolute;
-    margin-right: -5px;
-    border-width: 6px;
-    border-style: solid;
-    border-color: rgb(185, 28, 28) transparent transparent transparent;
-    bottom: -11px;
-    right: 19px;
+  content: "";
+  display: block;
+  width: 0;
+  height: 0;
+  position: absolute;
+  margin-right: -5px;
+  border-width: 6px;
+  border-style: solid;
+  border-color: rgb(185, 28, 28) transparent transparent transparent;
+  bottom: -11px;
+  right: 19px;
 }
 .ring-blue-tl {
-    --tw-ring-color: #136388;
+  --tw-ring-color: #136388;
 }
