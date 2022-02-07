@@ -2,7 +2,7 @@ import { __ } from "@wordpress/i18n";
 import { useMemo, useState, useEffect } from "react";
 import { Notice, BigButton } from "../components";
 import TrustedLoginSettings from "../components/TrustedLoginSettings";
-
+import { OnboardingLayout } from "../components/Onboarding";
 import { Tabs } from "@imaginary-machines/wp-admin-components";
 import AccessKeyForm from "../components/AccessKeyForm";
 import Layout, { TopBar } from "../components/Layout";
@@ -121,6 +121,11 @@ export default function App({ getSettings, updateSettings }) {
     });
   }, [getSettings, setSettings]);
 
+  const isOnboarding = false;
+
+  if (isOnboarding) {
+    return <OnboardingLayout />;
+  }
   return (
     <Layout>
       <TopBar status={"Connected"} />

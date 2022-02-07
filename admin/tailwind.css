@@ -54,3 +54,9 @@ body .bg-blue-tl:hover {
 .ring-blue-tl {
   --tw-ring-color: #136388;
 }
+#wpbody-content {
+  margin-left: -20px;
+  padding-left: 0px;
+  margin-right: 0px;
+  padding-right: 0px;
+}
