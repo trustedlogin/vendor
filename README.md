@@ -50,6 +50,8 @@ The `wp.js` script uses docker compose.
 - Test all files once
     - `yarn test`
     - `yarn test --ci`
+- Lint JS
+    - `yarn lint`
 ## Working With CSS
 
 - Build CSS for production

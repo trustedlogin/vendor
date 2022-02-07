@@ -11,7 +11,8 @@
     "test:ci": "wp-scripts test-unit-js --ci",
     "format:js": "wp-scripts format-js",
     "lint:css": "wp-scripts lint-style",
-    "lint:js": "wp-scripts lint-js",
+    "lint:js": "prettier ./admin --check",
+    "lint": "prettier ./admin --check",
     "start": "wp-scripts start",
     "start:css": "yarn tailwindcss -i ./admin/tailwind.css -o ./admin/trustedlogin-dist.css --watch",
     "build:css": "NODE_ENV=production TAILWIND_MODE=build yarn tailwindcss -i ./admin/tailwind.css -o ./admin/trustedlogin-dist.css"
