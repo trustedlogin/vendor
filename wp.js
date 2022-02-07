@@ -139,6 +139,7 @@ else{
     .then( createUsers)
     .then( () => {
         log('Done')
+        log(NGROK_WP_URL)
         //log(`Username`)
     })
 
