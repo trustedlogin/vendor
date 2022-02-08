@@ -11,7 +11,7 @@ import { DangerZone, DebugLogSettings } from "../components/Sections";
 
 const defaultSettings = {
   isConnected: false,
-  hasOnboarded: false,
+  hasOnboarded: true,
   teams: [],
   helpscout: {
     secret: "",
