@@ -41,10 +41,14 @@ The `wp.js` script uses docker compose.
 
 ## Working With JavaScript
 
-- Build JavaScript for production
+- Build JavaScript and CSS for production
     - `yarn build`
-- Start JS watcher for development
+- Build JavaScript for production
+    - `yarn build:js`
+- Start JS watcher and CSS watcher in parallel
     - `yarn start`
+- Start JS watcher only
+    - `yarn start:js`
 - Test changed files
     - `yarn test --watch`
 - Test all files once
