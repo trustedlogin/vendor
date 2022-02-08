@@ -3,59 +3,85 @@ import Layout from "./Layout";
 import { HorizontalLogo } from "./TrustedLoginLogo";
 
 
-const CurrentStep = ({title,subTitle}) => (
-  <li className="relative pb-10">
-    <div
-      className="-ml-px  mt-0.5 top-4 left-4 w-0.5 h-full bg-gray-300"
-      aria-hidden="true"></div>
-    <a
-      href="#"
-      className="relative flex items-start group"
-    >
-      <span className="h-9 flex items-center">
-        <span className="relative z-10 w-8 h-8 flex items-center justify-center bg-white border-2 border-blue-tl rounded-full">
-          <span className="h-2.5 w-2.5 bg-blue-tl rounded-full"></span>
+const Aside = {
+  CurrentStep: ({title,subTitle}) => (
+    <li className="relative pb-10">
+      <div
+        className="-ml-px  mt-0.5 top-4 left-4 w-0.5 h-full bg-gray-300"
+        aria-hidden="true"></div>
+      <a
+        href="#"
+        className="relative flex items-start group"
+      >
+        <span className="h-9 flex items-center">
+          <span className="relative z-10 w-8 h-8 flex items-center justify-center bg-white border-2 border-blue-tl rounded-full">
+            <span className="h-2.5 w-2.5 bg-blue-tl rounded-full"></span>
+          </span>
         </span>
-      </span>
-      <span className="ml-4 min-w-0 flex flex-col">
-        <span className="text-xs font-semibold tracking-wide uppercase text-blue-tl">
-          {title}
+        <span className="ml-4 min-w-0 flex flex-col">
+          <span className="text-xs font-semibold tracking-wide uppercase text-blue-tl">
+            {title}
+          </span>
+          <span className="text-sm text-gray-500">
+            {subTitle}
+          </span>
         </span>
-        <span className="text-sm text-gray-500">
-          {subTitle}
+      </a>
+    </li>
+  ),
+  FutureStep: ({title,subTitle}) => (
+    <li className="relative pb-10">
+      <div
+        className="-ml-px  mt-0.5 top-4 left-4 w-0.5 h-full bg-gray-300"
+        aria-hidden="true"></div>
+      <a
+        href="#"
+        className="relative flex items-start group"
+        aria-current="step"
+      >
+        <span
+          className="h-9 flex items-center"
+          aria-hidden="true"
+        >
+          <span className="relative z-10 w-8 h-8 flex items-center justify-center bg-white border-2 border-gray-300 rounded-full group-hover:border-gray-400">
+            <span className="h-2.5 w-2.5 bg-transparent rounded-full group-hover:bg-gray-300"></span>
+          </span>
         </span>
-      </span>
-    </a>
-  </li>
-);
+        <span className="ml-4 min-w-0 flex flex-col">
+          <span className="text-xs font-semibold tracking-wide uppercase text-gray-500">
+            {title}
+          </span>
+          <span className="text-sm text-gray-500">
+            {subTitle}
+          </span>
+        </span>
+      </a>
+    </li>
+  )
+}
 
-const FutureStep = ({title,subTitle}) => (
-  <li className="relative pb-10">
-    <div
-      className="-ml-px  mt-0.5 top-4 left-4 w-0.5 h-full bg-gray-300"
-      aria-hidden="true"></div>
-    <a
-      href="#"
-      className="relative flex items-start group"
-      aria-current="step">
-      <span
-        className="h-9 flex items-center"
-        aria-hidden="true">
-        <span className="relative z-10 w-8 h-8 flex items-center justify-center bg-white border-2 border-gray-300 rounded-full group-hover:border-gray-400">
-          <span className="h-2.5 w-2.5 bg-transparent rounded-full group-hover:bg-gray-300"></span>
-        </span>
-      </span>
-      <span className="ml-4 min-w-0 flex flex-col">
-        <span className="text-xs font-semibold tracking-wide uppercase text-gray-500">
-          {title}
-        </span>
-        <span className="text-sm text-gray-500">
-          {subTitle}
-        </span>
-      </span>
-    </a>
-  </li>
-);
+const Main = {
+  CurrentStep: ({step}) => (
+    <li>
+      <a
+        href="#"
+        className="block w-2 h-2 bg-blue-tl rounded-full">
+        <span className="sr-only">Step {step}</span>
+      </a>
+    </li>
+  ),
+  FutureStep: ({step}) => (
+    <li>
+      <a
+        href="#"
+        className="block w-2 h-2 bg-blue-tl-200 rounded-full hover:bg-gray-400"
+        aria-current="step">
+        <span className="sr-only">Step {step}</span>
+      </a>
+    </li>
+  )
+}
+
 /**
  *
  * I removed .absolute from design to make it appear on the screen
@@ -73,6 +99,7 @@ export const OnboardingLayout = ({ currentStep, children }) => {
           <div className="flex flex-col min-w-0 flex-1 overflow-hidden">
             <div className="flex-1 relative z-0 flex overflow-hidden">
               <div
+                id={"trustedlogin-onboarding-main"}
                 className="flex-1 relative z-0 overflow-y-auto focus:outline-none md:order-last">
                 <div className=" inset-0 py-6 px-4 sm:px-6 lg:px-8">
                   <div className="h-full">
@@ -204,38 +231,9 @@ export const OnboardingLayout = ({ currentStep, children }) => {
                           <ol
                             role="list"
                             className="flex items-center space-x-3 mt-2">
-                            <li>
-                              <a
-                                href="#"
-                                className="block w-2 h-2 bg-blue-tl rounded-full">
-                                <span className="sr-only">Step 1</span>
-                              </a>
-                            </li>
-
-                            <li>
-                              <a
-                                href="#"
-                                className="block w-2 h-2 bg-blue-tl-200 rounded-full hover:bg-gray-400"
-                                aria-current="step">
-                                <span className="sr-only">Step 2</span>
-                              </a>
-                            </li>
-
-                            <li>
-                              <a
-                                href="#"
-                                className="block w-2 h-2 bg-blue-tl-200 rounded-full hover:bg-gray-400">
-                                <span className="sr-only">Step 3</span>
-                              </a>
-                            </li>
-
-                            <li>
-                              <a
-                                href="#"
-                                className="block w-2 h-2 bg-blue-tl-200 rounded-full hover:bg-gray-400">
-                                <span className="sr-only">Step 4</span>
-                              </a>
-                            </li>
+                            <Main.CurrentStep step={1} />
+                            <Main.FutureStep step={1} />
+                            <Main.FutureStep step={2} />
                           </ol>
                         </nav>
                         <div className="inline-flex pt-12 items-center justify-center sm:hidden">
@@ -263,10 +261,13 @@ export const OnboardingLayout = ({ currentStep, children }) => {
                   </div>
                 </div>
               </div>
-              <aside className="hidden relative bg-gray-tl md:order-first md:flex md:flex-col flex-shrink-0 min-w-[26rem] overflow-y-auto">
+              <aside
+                className="hidden relative bg-gray-tl md:order-first md:flex md:flex-col flex-shrink-0 min-w-[26rem] overflow-y-auto"
+                id={"trustedlogin-onboarding-side"}
+              >
                 <div
                   className="inset-0"
-                  id={"trustedlogin-onboarding-side"}>
+                >
                   <div className="h-full flex flex-col justify-between p-12">
                     <div className="space-y-16">
                       <div>
@@ -276,15 +277,15 @@ export const OnboardingLayout = ({ currentStep, children }) => {
                         <nav aria-label="Progress">
                           <ol role="list" className="overflow-hidden">
 
-                            <CurrentStep
+                            <Aside.CurrentStep
                               title={'Link your account'}
                               subTitle={'Vitae sed mi luctus laoreet.'}
                             />
-                            <FutureStep
+                            <Aside.FutureStep
                               title={'Create Team'}
                               subTitle={'Cursus semper viverra facilisis et et some more.'}
                             />
-                            <FutureStep
+                            <Aside.FutureStep
                             title={'Configure Help Desk'}
                             subTitle={'Penatibus eu quis ante.'}
                             />

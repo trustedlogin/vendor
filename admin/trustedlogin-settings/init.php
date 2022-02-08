@@ -23,6 +23,8 @@ add_action('init', function () {
             [],
             md5_file(plugins_url("/trustedlogin-dist.css", dirname(__FILE__, 1)))
         );
+
+
     }
 
 });
