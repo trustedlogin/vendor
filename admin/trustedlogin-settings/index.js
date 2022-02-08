@@ -5,7 +5,6 @@ import { getSettings, updateSettings } from "../api";
 window.addEventListener("load", function () {
   render(
     <App
-      className="container p-4"
       {...{
         getSettings,
         updateSettings,

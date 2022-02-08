@@ -70,6 +70,41 @@ export const TopBar = ({ status }) => {
   );
 };
 
+export const PageHeader = ({ title, subTitle }) => {
+  return (
+    <div className="pb-6 mb-6 border-b md:flex md:items-center md:justify-between md:space-x-5">
+      <div className="flex items-center space-x-5">
+        <div>
+          <h2 className="text-2xl text-gray-900">{title}</h2>
+          <p className="mt-1 text-sm text-gray-500">{subTitle}</p>
+        </div>
+      </div>
+      <div className="mt-6 flex flex-col-reverse justify-stretch space-y-4 space-y-reverse sm:flex-row-reverse sm:justify-end sm:space-x-reverse sm:space-y-0 sm:space-x-3 md:mt-0 md:flex-row md:space-x-3">
+        <button
+          type="button"
+          className="bg-white border border-gray-300 rounded-lg px-4 py-2 inline-flex items-center justify-center text-sm font-medium text-gray-900 hover:bg-gray-50 focus:outline-none focus:ring-2 ring-offset-2 focus:ring-sky-500"
+          id="sort-menu-button"
+          aria-expanded="false"
+          aria-haspopup="true">
+          <svg
+            className="text-gray-500 mr-2"
+            width="15"
+            height="15"
+            viewBox="0 0 15 15"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg">
+            <path
+              d="M10.0001 0.5H2.0001V2.5H10.0001C11.7001 2.5 13.0001 3.8 13.0001 5.5C13.0001 7.2 11.7001 8.5 10.0001 8.5H4.4001L7.4001 5.5L6.0001 4.1L0.600098 9.5L6.0001 14.9L7.4001 13.5L4.4001 10.5H10.0001C12.8001 10.5 15.0001 8.3 15.0001 5.5C15.0001 2.7 12.8001 0.5 10.0001 0.5Z"
+              fill="currentColor"
+            />
+          </svg>
+          Reset All
+        </button>
+      </div>
+    </div>
+  );
+};
+
 const Layout = ({ children }) => {
   return <div className="h-full overflow-hidden">{children}</div>;
 };
