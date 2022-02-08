@@ -11,6 +11,7 @@ import { DangerZone, DebugLogSettings } from "../components/Sections";
 
 const defaultSettings = {
   isConnected: false,
+  hasOnboarded: false,
   teams: [],
   helpscout: {
     secret: "",
@@ -124,11 +125,11 @@ export default function App({ getSettings, updateSettings }) {
     });
   }, [getSettings, setSettings]);
 
-  const isOnboarding = false;
-
-  if (isOnboarding) {
+  //Show onboaring if not onboarded
+  if (!settings.hasOnboarded) {
     return <OnboardingLayout />;
   }
+  //Show primary UI if has onboarded
   return (
     <Layout>
       <TopBar status={"Connected"} />

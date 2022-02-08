@@ -16,8 +16,10 @@ const Button = ({ onClick, id, children, isExpanded, hasPopup, className }) => (
 );
 
 Button.defaultProps = {
-  isExpanded:false,hasPopup:true, onClick: () => {},
-}
+  isExpanded: false,
+  hasPopup: true,
+  onClick: () => {},
+};
 
 export const SecondaryButton = ({
   onClick,
@@ -38,7 +40,13 @@ export const SecondaryButton = ({
     </Button>
   );
 };
-export const DangerButton = ({ onClick, id, children,isExpanded,hasPopup }) => {
+export const DangerButton = ({
+  onClick,
+  id,
+  children,
+  isExpanded,
+  hasPopup,
+}) => {
   return (
     <Button
       onClick={onClick}
@@ -52,8 +60,9 @@ export const DangerButton = ({ onClick, id, children,isExpanded,hasPopup }) => {
 };
 
 DangerButton.defaultProps = {
-  isExpanded:false,hasPopup:true
-}
+  isExpanded: false,
+  hasPopup: true,
+};
 export const ToggleSwitch = ({
   isEnabled,
   onClick,
