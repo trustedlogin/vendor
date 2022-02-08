@@ -7,7 +7,7 @@ import { Tabs } from "@imaginary-machines/wp-admin-components";
 import AccessKeyForm from "../components/AccessKeyForm";
 import Layout, { TopBar, PageHeader } from "../components/Layout";
 import SettingSection from "../components/SettingSection";
-import { DebugLogSettings } from "../components/Sections";
+import { DangerZone, DebugLogSettings } from "../components/Sections";
 
 const defaultSettings = {
   isConnected: false,
@@ -139,58 +139,7 @@ export default function App({ getSettings, updateSettings }) {
         />
         <div className="space-y-6">
           <DebugLogSettings />
-
-          <div className="flex flex-col justify-center w-full bg-white p-8 rounded-lg shadow space-y-8">
-            <div className="flex items-center space-x-5">
-              <div>
-                <h2 className="text-xl text-red-700">Danger Zone</h2>
-                <p className="mt-1 text-sm text-gray-500">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                </p>
-              </div>
-            </div>
-            <div className="bg-white p-8 border border-red-700 rounded-lg">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center space-x-4">
-                  <div className="flex items-center justify-center h-12 w-12 bg-red-700 rounded-lg">
-                    <svg
-                      className="text-white"
-                      width="22"
-                      height="12"
-                      viewBox="0 0 22 12"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg">
-                      <path
-                        d="M11.65 4C10.83 1.67 8.61 0 6 0C2.69 0 0 2.69 0 6C0 9.31 2.69 12 6 12C8.61 12 10.83 10.33 11.65 8H16V12H20V8H22V4H11.65ZM6 8C4.9 8 4 7.1 4 6C4 4.9 4.9 4 6 4C7.1 4 8 4.9 8 6C8 7.1 7.1 8 6 8Z"
-                        fill="currentColor"
-                      />
-                    </svg>
-                  </div>
-                  <div className="flex flex-col">
-                    <p
-                      className="font-medium text-gray-900"
-                      id="dangerzone-option-1-label">
-                      Reset encryption keys?
-                    </p>
-                    <p
-                      className="text-sm text-gray-500"
-                      id="dangerzone-option-1-description">
-                      If you reset the encryption keys, all previous authorized
-                      logins will be inaccessible.
-                    </p>
-                  </div>
-                </div>
-                <button
-                  type="button"
-                  className="bg-white border border-red-700 rounded-lg px-4 py-2 inline-flex items-center justify-center text-sm font-medium text-red-700 hover:bg-gray-50 focus:outline-none focus:ring-2 ring-offset-2 focus:ring-red-700"
-                  id="sort-menu-button"
-                  aria-expanded="false"
-                  aria-haspopup="true">
-                  Reset Keys
-                </button>
-              </div>
-            </div>
-          </div>
+          <DangerZone />
         </div>
       </div>
     </Layout>

@@ -1,3 +1,4 @@
+import { SecondaryButton } from ".";
 import { HorizontalLogo } from "./TrustedLoginLogo";
 export const TopBar = ({ status }) => {
   return (
@@ -70,7 +71,7 @@ export const TopBar = ({ status }) => {
   );
 };
 
-export const PageHeader = ({ title, subTitle }) => {
+export const PageHeader = ({ title, subTitle, children }) => {
   return (
     <div className="pb-6 mb-6 border-b md:flex md:items-center md:justify-between md:space-x-5">
       <div className="flex items-center space-x-5">
@@ -80,12 +81,11 @@ export const PageHeader = ({ title, subTitle }) => {
         </div>
       </div>
       <div className="mt-6 flex flex-col-reverse justify-stretch space-y-4 space-y-reverse sm:flex-row-reverse sm:justify-end sm:space-x-reverse sm:space-y-0 sm:space-x-3 md:mt-0 md:flex-row md:space-x-3">
-        <button
-          type="button"
+        <SecondaryButton
           className="bg-white border border-gray-300 rounded-lg px-4 py-2 inline-flex items-center justify-center text-sm font-medium text-gray-900 hover:bg-gray-50 focus:outline-none focus:ring-2 ring-offset-2 focus:ring-sky-500"
           id="sort-menu-button"
-          aria-expanded="false"
-          aria-haspopup="true">
+          isExpanded={false}
+          hasPopup={true}>
           <svg
             className="text-gray-500 mr-2"
             width="15"
@@ -99,7 +99,7 @@ export const PageHeader = ({ title, subTitle }) => {
             />
           </svg>
           Reset All
-        </button>
+        </SecondaryButton>
       </div>
     </div>
   );
