@@ -28,3 +28,9 @@ export const updateSettings = async ({ teams }) => {
   });
   return data;
 };
+
+
+export default {
+  updateSettings,
+  getSettings,
+}

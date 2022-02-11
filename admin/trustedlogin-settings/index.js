@@ -1,11 +1,14 @@
 import React from "react";
 import { render } from "@wordpress/element";
 import App from "./App";
-import api from "../api";
+import { getSettings, updateSettings } from "../api";
 window.addEventListener("load", function () {
   render(
     <App
-      api={api}
+      {...{
+        getSettings,
+        updateSettings,
+      }}
     />,
     document.getElementById("trustedlogin-settings")
   );

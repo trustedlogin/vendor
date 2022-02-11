@@ -74,7 +74,6 @@ const Main = {
       <div className="h-full">{children}</div>
     </div>
   ),
-
 };
 
 //Display Step one
@@ -88,8 +87,8 @@ const StepOne = () => {
             Link your TrustedLogin account
           </h2>
           <p className="mt-2 mb-4 text-sm text-gray-500">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed
-            ornare tortor in nisl fermentum.
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ornare
+            tortor in nisl fermentum.
           </p>
           <a className="text-blue-tl text-sm" href="#">
             Where can I find this info?
@@ -207,7 +206,7 @@ const StepOne = () => {
   );
 };
 
-const Icon = ({step}) => {
+const Icon = ({ step }) => {
   switch (step) {
     case 1:
     default:
@@ -241,8 +240,6 @@ const Icon = ({step}) => {
         </>
       );
   }
-
-
 };
 
 /**

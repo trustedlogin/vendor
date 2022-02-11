@@ -1,6 +1,6 @@
 import { SecondaryButton } from ".";
 import { HorizontalLogo } from "./TrustedLoginLogo";
-import {useState} from 'react';
+import { useState } from "react";
 export const TopBar = ({ status }) => {
   const [isStatusOpen, setIsStatusOpen] = useState(false);
   const [isHelpMenuOpen, setIsHelpMenuOpen] = useState(false);
@@ -79,76 +79,79 @@ export const TopBar = ({ status }) => {
         </div>
       </div>
       {isStatusOpen ? (
-      <div
-        id={'trustedlogin-status-popover'}
-        className="absolute z-10 top-0 -right-52 -translate-x-1/2 transform translate-y-10 mt-3 px-2 w-[32rem]  sm:w-screen sm:max-w-xl">
-        <div className="rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 overflow-hidden">
-          <div className="relative bg-white px-8 pb-6 space-y-8">
-            <div className="flex py-6 border-b items-center justify-between">
-              <div className="flex items-center space-x-3">
-                <div className="flex-shrink-0">
-                  <img
-                    className="h-10 w-10 rounded-full"
-                    src="https://images.unsplash.com/photo-1550525811-e5869dd03032?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                    alt=""
-                  />
+        <div
+          id={"trustedlogin-status-popover"}
+          className="absolute z-10 top-0 -right-52 -translate-x-1/2 transform translate-y-10 mt-3 px-2 w-[32rem]  sm:w-screen sm:max-w-xl">
+          <div className="rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 overflow-hidden">
+            <div className="relative bg-white px-8 pb-6 space-y-8">
+              <div className="flex py-6 border-b items-center justify-between">
+                <div className="flex items-center space-x-3">
+                  <div className="flex-shrink-0">
+                    <img
+                      className="h-10 w-10 rounded-full"
+                      src="https://images.unsplash.com/photo-1550525811-e5869dd03032?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                      alt=""
+                    />
+                  </div>
+                  <div>
+                    <h2 className="leading-tight text-lg text-gray-900">
+                      Mary Smith
+                    </h2>
+                    <p className="text-sm text-gray-500">
+                      mary.smith@example.com
+                    </p>
+                  </div>
                 </div>
-                <div>
-                  <h2 className="leading-tight text-lg text-gray-900">
-                    Mary Smith
-                  </h2>
-                  <p className="text-sm text-gray-500">
-                    mary.smith@example.com
+                <button className="inline-flex items-center px-2.5 py-1.5 h-7 rounded-full text-xs font-medium border text-gray-900 focus:outline-none focus:ring-2 ring-offset-2 focus:ring-sky-500">
+                  <svg
+                    className="-ml-0.5 mr-1.5 h-2 w-2 text-green-600"
+                    fill="currentColor"
+                    viewBox="0 0 8 8">
+                    <circle cx="4" cy="4" r="3" />
+                  </svg>
+                  <span className="border-r pr-2 mr-2 leading-none">
+                    Connected
+                  </span>
+                </button>
+              </div>
+              <div className="flex space-x-8">
+                <div className="h-32 w-48 bg-gray-200 rounded-lg"></div>
+                <div className="flex flex-col items-start justify-center">
+                  <h4 className="text-gray-900">Account Settings</h4>
+                  <p className="py-2 text-gray-500 text-sm">
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
                   </p>
+                  <a
+                    className="inline-block mt-2 text-sm text-blue-tl"
+                    href="#">
+                    View Settings
+                  </a>
                 </div>
               </div>
-              <button className="inline-flex items-center px-2.5 py-1.5 h-7 rounded-full text-xs font-medium border text-gray-900 focus:outline-none focus:ring-2 ring-offset-2 focus:ring-sky-500">
-                <svg
-                  className="-ml-0.5 mr-1.5 h-2 w-2 text-green-600"
-                  fill="currentColor"
-                  viewBox="0 0 8 8">
-                  <circle cx="4" cy="4" r="3" />
-                </svg>
-                <span className="border-r pr-2 mr-2 leading-none">
-                  Connected
-                </span>
-              </button>
-            </div>
-            <div className="flex space-x-8">
-              <div className="h-32 w-48 bg-gray-200 rounded-lg"></div>
-              <div className="flex flex-col items-start justify-center">
-                <h4 className="text-gray-900">Account Settings</h4>
-                <p className="py-2 text-gray-500 text-sm">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                </p>
-                <a className="inline-block mt-2 text-sm text-blue-tl" href="#">
-                  View Settings
+              <div className="mb-8 inline-flex items-center">
+                <a className="text-sm text-blue-tl" href="#">
+                  Need help? View our Documentation
                 </a>
+                <svg
+                  className="ml-3"
+                  width="14"
+                  height="14"
+                  viewBox="0 0 14 14"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    d="M1.16663 7.00008H12.8333M12.8333 7.00008L6.99996 1.16675M12.8333 7.00008L6.99996 12.8334"
+                    stroke="#00AADD"
+                    stroke-width="1.67"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
               </div>
-            </div>
-            <div className="mb-8 inline-flex items-center">
-              <a className="text-sm text-blue-tl" href="#">
-                Need help? View our Documentation
-              </a>
-              <svg
-                className="ml-3"
-                width="14"
-                height="14"
-                viewBox="0 0 14 14"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg">
-                <path
-                  d="M1.16663 7.00008H12.8333M12.8333 7.00008L6.99996 1.16675M12.8333 7.00008L6.99996 12.8334"
-                  stroke="#00AADD"
-                  stroke-width="1.67"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
-              </svg>
             </div>
           </div>
         </div>
-      </div>): null}
+      ) : null}
     </>
   );
 };
@@ -163,7 +166,9 @@ export const PageHeader = ({ title, subTitle, Button }) => {
         </div>
       </div>
       <div className="mt-6 flex flex-col-reverse justify-stretch space-y-4 space-y-reverse sm:flex-row-reverse sm:justify-end sm:space-x-reverse sm:space-y-0 sm:space-x-3 md:mt-0 md:flex-row md:space-x-3">
-        {Button ? <Button  /> :(
+        {Button ? (
+          <Button />
+        ) : (
           <SecondaryButton
             className="bg-white border border-gray-300 rounded-lg px-4 py-2 inline-flex items-center justify-center text-sm font-medium text-gray-900 hover:bg-gray-50 focus:outline-none focus:ring-2 ring-offset-2 focus:ring-sky-500"
             id="sort-menu-button"

@@ -8,7 +8,10 @@ import SettingsProvider from "../hooks/useSettings";
 
 
 
-export default function App({ api }) {
+export default function App({
+  getSettings,
+  updateSettings
+}) {
   const [notice, setNotice] = useState(() => {
     return {
       text: "",
@@ -19,10 +22,13 @@ export default function App({ api }) {
   return (
     <ViewProvider
       defaultView={"teams"}
-      //defaultViewProvider={!settings.hasOnboarded ? 'onboarding': 'settings'}
+      //defaultView={!settings.hasOnboarded ? 'onboarding': 'settings'}
     >
-      <SettingsProvider api={api}>
-        <TrustedLoginSettings />
+      <SettingsProvider api={{
+        getSettings,
+        updateSettings
+      }}>
+        <TrustedLoginSettings  />
       </SettingsProvider>
     </ViewProvider>
   );

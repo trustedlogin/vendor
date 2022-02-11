@@ -9,7 +9,7 @@
     "test:unit": "wp-scripts test-unit-js",
     "build:js": "wp-scripts build",
     "build": "yarn build:js && yarn build:css",
-    "start": "yarn run-p start:js start:css",
+    "start": "yarn run-p start:js --watch start:css",
     "test:ci": "wp-scripts test-unit-js --ci",
     "format:js": "wp-scripts format-js",
     "lint:css": "wp-scripts lint-style",

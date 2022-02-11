@@ -1,6 +1,6 @@
-import {createContext, useContext,useState} from 'react';
+import { createContext, useContext, useState,useMemo,useEffect } from "react";
 
-const SettingsContext = createContext();
+const SettingsContext = createContext(null);
 
 const defaultSettings = {
   isConnected: false,
@@ -30,11 +30,15 @@ const addEmptyTeam = (teams) => {
 };
 
 export const useSettings = () => {
-  const {settings,setSettings} = useContext(SettingsContext);
+  const {
+    settings,
+    setSettings,
+    api
+   } = useContext(SettingsContext);
   /**
    * Add a team to settings
    */
-   const addTeam = () => {
+  const addTeam = () => {
     setSettings({
       ...settings,
       teams: addEmptyTeam(settings.teams),
@@ -43,8 +47,8 @@ export const useSettings = () => {
   /**
    * Remove a team.
    */
-   const removeTeam = (id) => {
-    updateSettings({
+  const removeTeam = (id) => {
+    api.updateSettings({
       ...settings,
       teams: settings.teams.filter((team) => team.id !== id),
     })
@@ -84,7 +88,7 @@ export const useSettings = () => {
   ///Handles save
   const onSave = (e) => {
     e.preventDefault();
-    updateSettings({ teams: settings.teams })
+    api.updateSettings({ teams: settings.teams })
       .then(({ teams }) => {
         setSettings({ ...settings, teams });
         setNotice({
@@ -100,32 +104,45 @@ export const useSettings = () => {
 
   //Get the saved settings
   useEffect(() => {
-    getSettings().then(({ teams, helpscout }) => {
+    api.getSettings().then(({ teams, helpscout }) => {
       setSettings({
         ...settings,
         teams,
         helpscout,
       });
     });
-  }, [getSettings, setSettings]);
+  }, [api]);
+
   return {
-    ...context,
+    settings,
+    setSettings,
     addTeam,
     removeTeam,
     setTeam,
     onSave,
     canSave,
   };
-}
+};
 
-export default function SettingsProvider({children}) {
+export default function SettingsProvider({
+  getSettings,
+  updateSettings,
+  children
+}) {
   const [settings, setSettings] = useState(() => {
     return defaultSettings;
   });
 
   return (
-    <SettingsContext.Provider value={{settings, setSettings}}>
+    <SettingsContext.Provider value={{
+      settings,
+      setSettings,
+      api: {
+        getSettings,
+        updateSettings
+      }
+    }}>
       {children}
     </SettingsContext.Provider>
-  )
+  );
 }
