@@ -8,7 +8,7 @@ export const useView = () => {
   return context;
 }
 
-export default function View({children,defaultView}) {
+export default function ViewProvider({children,defaultView}) {
   const [currentView, setCurrentView] = useState(defaultView);
 
   return (

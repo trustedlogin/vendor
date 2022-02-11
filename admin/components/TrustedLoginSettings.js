@@ -1,15 +1,13 @@
 import { Form, Submit } from "./index";
 import { __ } from "@wordpress/i18n";
-import { useView } from "./View";
+import { useView } from "../hooks/useView";
 import Layout, { TopBar, PageHeader } from "../components/Layout";
 import { DangerZone, DebugLogSettings } from "../components/Sections";
 import { OnboardingLayout } from "../components/Onboarding";
 
 const TeamSettings = () => {
-
-
   return (
-  <div className="flex flex-col px-5 py-6 sm:px-10">
+    <div className="flex flex-col px-5 py-6 sm:px-10">
       <PageHeader
         title={"Teams"}
         subTitle={"Manage your TrustedLogin settings"}
