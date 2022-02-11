@@ -1,41 +1,35 @@
 import { Form, Submit } from "./index";
 import { __ } from "@wordpress/i18n";
 import TeamSettings from "./TeamSettings";
-import {
-  Metabox,
-  MetaboxWrapper,
-} from "@imaginary-machines/wp-admin-components";
+import { useView } from "./View";
+import Layout, { TopBar, PageHeader } from "../components/Layout";
+import { DangerZone, DebugLogSettings } from "../components/Sections";
+import { OnboardingLayout } from "../components/Onboarding";
 
 /**
- * TrustedLogin Settings Form
+ *TrustedLogin Settings screen
  */
-export default function ({ onSave, settings, canSave, setTeam, removeTeam }) {
-  return (
-    <>
-      <section id="team-wrapper">
-        <>
-          {settings.teams
-            ? settings.teams.map((team) => (
-                <div key={team.id} className={"team-settings-form"}>
-                  <Form onSubmit={onSave}>
-                    <TeamSettings
-                      team={team}
-                      setTeam={setTeam}
-                      removeTeam={removeTeam}
-                    />
-                  </Form>
-                </div>
-              ))
-            : null}
-        </>
-      </section>
-
-      <Submit
-        onClick={onSave}
-        variant={canSave ? "primary" : "secondary"}
-        value={__("Save")}
-        disabled={!canSave}
-      />
-    </>
-  );
+export default function () {
+  const {currentView} = useView();
+  switch (currentView) {
+    case "onboarding":
+      return <OnboardingLayout />;
+    default:
+      //Show primary UI if has onboarded
+      return (
+        <Layout>
+          <TopBar status={"Connected"} />
+          <div className="flex flex-col px-5 py-6 sm:px-10">
+            <PageHeader
+              title={"Settings"}
+              subTitle={"Manage your TrustedLogin settings"}
+            />
+            <div className="space-y-6">
+              <DebugLogSettings />
+              <DangerZone />
+            </div>
+          </div>
+        </Layout>
+      );
+  }
 }
