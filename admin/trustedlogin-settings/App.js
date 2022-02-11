@@ -128,7 +128,7 @@ export default function App({ getSettings, updateSettings }) {
 
   return (
     <View
-      defaultView={"onboarding"}
+      defaultView={"teams"}
       //defaultView={!settings.hasOnboarded ? 'onboarding': 'settings'}
     >
       <TrustedLoginSettings />
