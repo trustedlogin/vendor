@@ -114,6 +114,10 @@ const e2eTest = async ({browser}) => {
 if(  process.argv.length >= 3 ){
     const arg3 = process.argv.length >= 4 ? process.argv[3] : null;
     switch(process.argv[2]){
+        case 'kill':
+            runCommand("docker kill $(docker ps -q)")
+            .then(exitSuccess).catch(exitError);
+            break;
         case 'test':
             e2eTest({browser:arg3 ?? 'chrome'})
                 .then(exitSuccess).catch(exitError);

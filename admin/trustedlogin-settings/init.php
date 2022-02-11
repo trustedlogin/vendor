@@ -21,7 +21,7 @@ add_action('init', function () {
             $handle,
             plugins_url("/trustedlogin-dist.css", dirname(__FILE__, 1)),
             [],
-            md5_file(plugins_url("/trustedlogin-dist.css", dirname(__FILE__, 1)))
+            md5_file(dirname(__FILE__, 2)."/trustedlogin-dist.css"),
         );
 
 
