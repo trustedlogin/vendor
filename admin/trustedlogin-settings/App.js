@@ -2,12 +2,11 @@ import { __ } from "@wordpress/i18n";
 import { useMemo, useState, useEffect } from "react";
 import { Notice, BigButton } from "../components";
 import TrustedLoginSettings from "../components/TrustedLoginSettings";
-import { OnboardingLayout } from "../components/Onboarding";
 import { Tabs } from "@imaginary-machines/wp-admin-components";
 import AccessKeyForm from "../components/AccessKeyForm";
 import Layout, { TopBar, PageHeader } from "../components/Layout";
-import SettingSection from "../components/SettingSection";
 import { DangerZone, DebugLogSettings } from "../components/Sections";
+import View from "../components/View";
 
 const defaultSettings = {
   isConnected: false,
@@ -32,6 +31,8 @@ const addEmptyTeam = (teams) => {
     },
   ];
 };
+
+
 
 export default function App({ getSettings, updateSettings }) {
   const [settings, setSettings] = useState(() => {
@@ -125,6 +126,14 @@ export default function App({ getSettings, updateSettings }) {
     });
   }, [getSettings, setSettings]);
 
+  return (
+    <View
+      defaultView={"onboarding"}
+      //defaultView={!settings.hasOnboarded ? 'onboarding': 'settings'}
+    >
+      <TrustedLoginSettings />
+    </View>
+  )
   //Show onboaring if not onboarded
   if (!settings.hasOnboarded) {
     return <OnboardingLayout />;
