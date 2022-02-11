@@ -1,7 +1,5 @@
 import { createContext, useContext, useState,useMemo,useEffect } from "react";
 
-const SettingsContext = createContext(null);
-
 const defaultSettings = {
   isConnected: false,
   hasOnboarded: true,
@@ -11,6 +9,7 @@ const defaultSettings = {
     callback: "",
   },
 };
+const SettingsContext = createContext(defaultSettings);
 
 /**
  * Add team to collection
@@ -125,22 +124,16 @@ export const useSettings = () => {
 };
 
 export default function SettingsProvider({
-  getSettings,
-  updateSettings,
+  api,
   children
 }) {
-  const [settings, setSettings] = useState(() => {
-    return defaultSettings;
-  });
+  const [settings, setSettings] = useState(defaultSettings);
 
   return (
     <SettingsContext.Provider value={{
       settings,
       setSettings,
-      api: {
-        getSettings,
-        updateSettings
-      }
+      api
     }}>
       {children}
     </SettingsContext.Provider>

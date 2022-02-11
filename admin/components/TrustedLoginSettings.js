@@ -7,20 +7,9 @@ import { OnboardingLayout } from "../components/Onboarding";
 import { useSettings } from "../hooks/useSettings";
 import { useMemo } from "react";
 import Teams from "../components/Teams";
-const TeamSettings = () => {
+const TeamsList = ({teams}) => {
   const { settings } = useSettings();
   const { currentView, setCurrentView } = useView();
-
-  const teams = useMemo(() => {
-    return settings.teams;
-  }, [settings.teams]);
-
-  if( 'teams/new' === currentView ) {
-    return <Teams.Add />
-  }
-  if (!teams.length) {
-    return  <Teams.Empty />;
-  }
   return (
     <div className="flex flex-col px-5 py-6 sm:px-10">
       <PageHeader
@@ -84,11 +73,7 @@ const TeamSettings = () => {
     </div>
   );
 };
-const Settings = ({currentView}) => {
-  if('string' === typeof currentView && currentView.startsWith("teams") ){
-    return <TeamSettings />;
-  }
-
+const GeneralSettings = () => {
   return (
     <>
       <div className="flex flex-col px-5 py-6 sm:px-10">
@@ -105,20 +90,64 @@ const Settings = ({currentView}) => {
   );
 
 };
+
+const TeamsSettings = ( ) => {
+  const {currentView,setCurrentView} = useView();
+  const {addTeam,onSave} = useSettings();
+  const teams = useMemo(() => {
+    return settings && settings.hasOwnProperty('teams') ? settings.teams:[];
+  }, [settings]);
+
+  if( 'teams/new' === currentView ) {
+    return <Teams.Add onSave={(newTeam) => {
+      addTeam(newTeam);
+      onSave();
+      setCurrentView('teams');
+    }} />
+  }
+  if (!teams.length) {
+    return  <Teams.Empty onClick={() => {
+      setCurrentView('teams/new');
+    }} />;
+  }
+  return <TeamsList  />
+
+}
+
+
+
 /**
  * TrustedLogin Settings screen
  */
 export default function () {
-  const { currentView } = useView();
+  const { currentView,settings } = useView();
+  const teams = useMemo(() => {
+    return settings && settings.hasOwnProperty('teams') ? settings.teams:[];
+  }, [settings]);
+
+  if( 'teams/new' === currentView ) {
+    return <Teams.Add />
+  }
+  if (!teams.length) {
+    return  <Teams.Empty />;
+  }
+
   switch (currentView) {
     case "onboarding":
       return <OnboardingLayout />;
+    case "teams/add":
+      return <Teams.Add />
+    case "teams":
+      if (!teams.length) {
+        return  <Teams.Empty />;
+      }
+      return <TeamsList />;
     default:
       //Show primary UI if has onboarded
       return (
         <Layout>
           <TopBar status={"Connected"} />
-          <Settings currentView={currentView} />
+          {string === typeof currentView && currentView.startsWith('teams') ? <TeamsSettings/> : <GeneralSettings />}
         </Layout>
       );
   }
