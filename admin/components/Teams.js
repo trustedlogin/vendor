@@ -1,7 +1,17 @@
-const Teams = {
-  Add: ({onSave}) => (
-    <>
+import { useSettings } from "../hooks/useSettings";
+import { useView } from "../hooks/useView";
 
+const Teams = {
+  Add: ({onSave}) => {
+    const {addTeam,onSave} = useSettings();
+    const {setCurrentView} = useView();
+    const onSave = () => {
+      addTeam(newTeam);
+      onSave();
+      setCurrentView('teams');
+    }
+    return(
+    <>
       <div className="flex px-5 pt-20 sm:px-10">
         <div className="flex flex-col w-full max-w-4xl mx-auto p-8 bg-white rounded-lg shadow sm:p-14 sm:pb-8">
           <svg
@@ -195,8 +205,10 @@ const Teams = {
         </div>
       </div>
     </>
-  ),
-  Empty: ({onClick}) => (
+  )},
+  Empty: () => {
+    const {setCurrentView} = useView();
+    return(
     <>
       <div className="flex px-5 pt-12 sm:px-10 sm:pt-32">
         <div className="flex flex-col justify-center text-center w-full max-w-lg mx-auto p-8 bg-white rounded-lg shadow sm:p-14">
@@ -233,7 +245,7 @@ const Teams = {
             tortor in nisl fermentum.
           </p>
           <button
-            onClick={()=> onClick()}
+            onClick={()=>setCurrentView('teams/new')}
             type="button"
             className="inline-flex items-center justify-center px-4 py-2 border border-transparent shadow-sm font-medium rounded-lg text-white bg-blue-tl focus:outline-none focus:ring-2 ring-offset-2 focus:ring-sky-500 sm:text-sm">
             <svg
@@ -256,7 +268,7 @@ const Teams = {
         </div>
       </div>
     </>
-  ),
+  )},
 };
 
 export default Teams;
