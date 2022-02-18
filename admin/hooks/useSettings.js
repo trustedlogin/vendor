@@ -111,17 +111,6 @@ export const useSettings = () => {
       });
   };
 
-  //Get the saved settings
-  useEffect(() => {
-    api.getSettings().then(({ teams, helpscout }) => {
-      setSettings({
-        ...settings,
-        teams,
-        helpscout,
-      });
-    });
-  }, [api]);
-
   return {
     settings,
     setSettings,
@@ -138,6 +127,16 @@ export default function SettingsProvider({
   children
 }) {
   const [settings, setSettings] = useState(defaultSettings);
+  //Get the saved settings
+  useEffect(() => {
+    api.getSettings().then(({ teams, helpscout }) => {
+      setSettings({
+        ...settings,
+        teams,
+        helpscout,
+      });
+    });
+  }, [api]);
 
   return (
     <SettingsContext.Provider value={{
