@@ -7,7 +7,7 @@ export const TopBar = ({ status }) => {
   const [isHelpMenuOpen, setIsHelpMenuOpen] = useState(false);
   const toggleStatus = () => setIsStatusOpen(!isStatusOpen);
   const toggleHelpMenu = () => setIsHelpMenuOpen(!isHelpMenuOpen);
-  const {setCurrentView} = useView();
+  const { setCurrentView } = useView();
   //Removed sm:-left-24 from popover
   return (
     <>
@@ -125,10 +125,9 @@ export const TopBar = ({ status }) => {
                   <button
                     onClick={() => {
                       setIsStatusOpen(false);
-                      setCurrentView('settings')
+                      setCurrentView("settings");
                     }}
-                    className="inline-block mt-2 text-sm text-blue-tl"
-                  >
+                    className="inline-block mt-2 text-sm text-blue-tl">
                     View Settings
                   </button>
                 </div>

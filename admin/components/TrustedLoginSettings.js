@@ -9,11 +9,11 @@ import { useMemo } from "react";
 import Teams from "../components/Teams";
 const TeamsList = () => {
   const { settings } = useSettings();
-  const teams = useMemo( () => {
+  const teams = useMemo(() => {
     return settings.teams;
-  },[settings])
+  }, [settings]);
   const { currentView, setCurrentView } = useView();
-  const enabled = true;//?
+  const enabled = true; //?
   return (
     <>
       <div className="flex flex-col px-5 py-6 sm:px-10">
@@ -51,7 +51,7 @@ const TeamsList = () => {
                 </div>
               </div>
               <button
-                onClick={() => setCurrentView('teams/new')}
+                onClick={() => setCurrentView("teams/new")}
                 type="button"
                 class="inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-lg text-white focus:outline-none focus:ring-2 ring-offset-2 focus:ring-sky-500">
                 <svg
@@ -76,53 +76,79 @@ const TeamsList = () => {
         />
         <div className="flex flex-col justify-center w-full bg-white rounded-lg shadow">
           <ul role="list" className="divide-y divide-gray-200 px-5 sm:px-8">
-              <li className="py-5 flex flex-col items-center justify-between sm:py-8 sm:flex-row">
+            {teams.map((team) => {
+              return (
+                <li
+                  key={team.id}
+                  className="py-5 flex flex-col items-center justify-between sm:py-8 sm:flex-row">
                   <div className="flex w-full items-center space-x-5 sm:w-auto">
-                      <div className="flex-shrink-0 flex items-center justify-center h-12 w-12 bg-purple-600 text-white text-sm font-medium rounded-lg">
-                          TN
+                    <div className="flex-shrink-0 flex items-center justify-center h-12 w-12 bg-purple-600 text-white text-sm font-medium rounded-lg">
+                      TN
+                    </div>
+                    <div className="flex flex-row space-x-16 items-center w-full justify-between sm:justify-start">
+                      <div className="flex flex-col max-w-[10rem] sm:max-w-[8rem] md:max-w-none">
+                        <p
+                          className="text-lg font-medium text-gray-900 leading-tight min-w-[6rem]"
+                          id="team-option-1-label">
+                          {team.account_id}
+                        </p>
+                        <p
+                          className="text-sm text-gray-500"
+                          id="team-option-1-description">
+                          {team.account_id}
+                        </p>
                       </div>
-                      <div className="flex flex-row space-x-16 items-center w-full justify-between sm:justify-start">
-                          <div className="flex flex-col max-w-[10rem] sm:max-w-[8rem] md:max-w-none">
-                              <p className="text-lg font-medium text-gray-900 leading-tight min-w-[6rem]" id="team-option-1-label">
-                              Team Name
-                              </p>
-                              <p className="text-sm text-gray-500" id="team-option-1-description">
-                              domain.com
-                              </p>
-                          </div>
-                          <div className="flex items-center justify-self-end">
-                              <p className="text-sm mr-4 sm:w-18">148 <span className="text-gray-500">logins</span></p>
-                              <div className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-green-100 text-green-600">
-                                  <svg className="-ml-1 mr-0.5 flex-shrink-0 self-center h-4 w-4 text-green-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                                    <path fill-rule="evenodd" d="M5.293 9.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L11 7.414V15a1 1 0 11-2 0V7.414L6.707 9.707a1 1 0 01-1.414 0z" clip-rule="evenodd" />
-                                  </svg>
-                                  <span className="sr-only">
-                                    Increased by
-                                  </span>
-                                  5%
-                              </div>
-                          </div>
+                      <div className="flex items-center justify-self-end">
+                        <p className="text-sm mr-4 sm:w-18">
+                          148 <span className="text-gray-500">logins</span>
+                        </p>
+                        <div className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-green-100 text-green-600">
+                          <svg
+                            className="-ml-1 mr-0.5 flex-shrink-0 self-center h-4 w-4 text-green-600"
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 20 20"
+                            fill="currentColor"
+                            aria-hidden="true">
+                            <path
+                              fill-rule="evenodd"
+                              d="M5.293 9.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L11 7.414V15a1 1 0 11-2 0V7.414L6.707 9.707a1 1 0 01-1.414 0z"
+                              clip-rule="evenodd"
+                            />
+                          </svg>
+                          <span className="sr-only">Increased by</span>
+                          5%
+                        </div>
                       </div>
+                    </div>
                   </div>
                   <div className="flex items-center space-x-5 w-full mt-4 justify-between sm:w-auto sm:mt-0">
-                      <div className="flex items-center space-x-4">
-                          <a className="text-sm text-blue-tl" href="#">Edit</a>
-                          <a className="text-sm text-gray-500" href="#">Delete</a>
-                      </div>
-                      <button type="button"
-                          className={`${enabled ? 'bg-blue-tl' :'bg-gray-200'} ml-4 relative inline-flex flex-shrink-0 h-6 w-11 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500`}
-                          role="switch"
-                          aria-checked="true"
-                        aria-labelledby="privacy-option-1-label" aria-describedby="privacy-option-1-description"
-                      >
-                          <span
-                            aria-hidden="true"
-                            className={`${enabled?'translate-x-5':'translate-x-0'} inline-block h-5 w-5 rounded-full bg-white shadow transform ring-0 transition ease-in-out duration-200`}>
-
-                          </span>
-                      </button>
+                    <div className="flex items-center space-x-4">
+                      <a className="text-sm text-blue-tl" href="#">
+                        Edit
+                      </a>
+                      <a className="text-sm text-gray-500" href="#">
+                        Delete
+                      </a>
+                    </div>
+                    <button
+                      type="button"
+                      className={`${
+                        enabled ? "bg-blue-tl" : "bg-gray-200"
+                      } ml-4 relative inline-flex flex-shrink-0 h-6 w-11 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500`}
+                      role="switch"
+                      aria-checked="true"
+                      aria-labelledby="privacy-option-1-label"
+                      aria-describedby="privacy-option-1-description">
+                      <span
+                        aria-hidden="true"
+                        className={`${
+                          enabled ? "translate-x-5" : "translate-x-0"
+                        } inline-block h-5 w-5 rounded-full bg-white shadow transform ring-0 transition ease-in-out duration-200`}></span>
+                    </button>
                   </div>
-              </li>
+                </li>
+              );
+            })}
           </ul>
         </div>
       </div>
@@ -144,67 +170,75 @@ const GeneralSettings = () => {
       </div>
     </>
   );
-
 };
 
-const TeamsSettings = ( ) => {
-  const {currentView,setCurrentView} = useView();
-  const {addTeam,onSave,settings} = useSettings();
+const TeamsSettings = () => {
+  const { currentView, setCurrentView } = useView();
+  const { addTeam, onSave, settings } = useSettings();
   const teams = useMemo(() => {
-    return settings && settings.hasOwnProperty('teams') ? settings.teams:[];
+    return settings && settings.hasOwnProperty("teams") ? settings.teams : [];
   }, [settings]);
 
-  if( 'teams/new' === currentView ) {
-    return <Teams.Add onSave={(newTeam) => {
-      addTeam(newTeam);
-      onSave();
-      setCurrentView('teams');
-    }} />
+  if ("teams/new" === currentView) {
+    return (
+      <Teams.Add
+        onSave={(newTeam) => {
+          addTeam(newTeam);
+          onSave();
+          setCurrentView("teams");
+        }}
+      />
+    );
   }
   if (!teams.length) {
-    return  <Teams.Empty onClick={() => {
-      setCurrentView('teams/new');
-    }} />;
+    return (
+      <Teams.Empty
+        onClick={() => {
+          setCurrentView("teams/new");
+        }}
+      />
+    );
   }
-  return <TeamsList  />
-
-}
-
-
+  return <TeamsList />;
+};
 
 /**
  * TrustedLogin Settings screen
  */
 export default function () {
   const { currentView } = useView();
-  const {settings} = useSettings();
+  const { settings } = useSettings();
   const teams = useMemo(() => {
-    return settings && settings.hasOwnProperty('teams') ? settings.teams:[];
+    return settings && settings.hasOwnProperty("teams") ? settings.teams : [];
   }, [settings]);
 
-
-  if( 'teams/new' === currentView ) {
-    return <Teams.Add />
+  if ("teams/new" === currentView) {
+    return <Teams.Add />;
   }
   if (!teams.length) {
-    return  <Teams.Empty />;
+    return <Teams.Empty />;
   }
 
   switch (currentView) {
     case "onboarding":
       return <OnboardingLayout />;
     case "teams/add":
-      return <Teams.Add />
+      return <Teams.Add />;
     case "teams":
       if (!teams.length) {
-        return  <Teams.Empty />;
+        return <Teams.Empty />;
       }
     default:
       //Show primary UI if has onboarded
       return (
         <Layout>
           <TopBar status={"Connected"} />
-          {'string' === typeof currentView && currentView.startsWith('teams') ? <TeamsSettings/> : <GeneralSettings />}
+          {"string" === typeof currentView &&
+          currentView.startsWith("teams") ? (
+            <TeamsSettings />
+          ) : (
+            <GeneralSettings />
+          )}
         </Layout>
       );
   }

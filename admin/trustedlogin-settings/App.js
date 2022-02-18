@@ -4,14 +4,7 @@ import TrustedLoginSettings from "../components/TrustedLoginSettings";
 import ViewProvider from "../hooks/useView";
 import SettingsProvider from "../hooks/useSettings";
 
-
-
-
-
-export default function App({
-  getSettings,
-  updateSettings
-}) {
+export default function App({ getSettings, updateSettings }) {
   const [notice, setNotice] = useState(() => {
     return {
       text: "",
@@ -25,11 +18,12 @@ export default function App({
       defaultView={"teams"}
       //defaultView={!settings.hasOnboarded ? 'onboarding': 'settings'}
     >
-      <SettingsProvider api={{
-        getSettings,
-        updateSettings
-      }}>
-        <TrustedLoginSettings  />
+      <SettingsProvider
+        api={{
+          getSettings,
+          updateSettings,
+        }}>
+        <TrustedLoginSettings />
       </SettingsProvider>
     </ViewProvider>
   );

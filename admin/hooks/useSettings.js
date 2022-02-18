@@ -1,4 +1,4 @@
-import { createContext, useContext, useState,useMemo,useEffect } from "react";
+import { createContext, useContext, useState, useMemo, useEffect } from "react";
 
 const defaultSettings = {
   isConnected: false,
@@ -19,24 +19,17 @@ const emptyTeam = {
 };
 const SettingsContext = createContext(defaultSettings);
 
-
-
-
 /**
  * This hook handles setting state.
  */
 export const useSettings = () => {
   //@todo bring back notice state and setNotice
   const setNotice = () => {};
-  const {
-    settings,
-    setSettings,
-    api
-   } = useContext(SettingsContext);
+  const { settings, setSettings, api } = useContext(SettingsContext);
   /**
    * Add a team to settings
    */
-  const addTeam = (team,save = false) => {
+  const addTeam = (team, save = false) => {
     team = Object.assign(emptyTeam, team);
     const teams = [
       ...settings.teams,
@@ -47,21 +40,20 @@ export const useSettings = () => {
     ];
 
     //Save
-    api.updateSettings({teams})
-      .then(({ teams }) => {
-        //Update team (new teams should get new fields server-side)
-        setSettings({ ...settings, teams });
-      });
-
+    api.updateSettings({ teams }).then(({ teams }) => {
+      //Update team (new teams should get new fields server-side)
+      setSettings({ ...settings, teams });
+    });
   };
   /**
    * Remove a team.
    */
   const removeTeam = (id) => {
-    api.updateSettings({
-      ...settings,
-      teams: settings.teams.filter((team) => team.id !== id),
-    })
+    api
+      .updateSettings({
+        ...settings,
+        teams: settings.teams.filter((team) => team.id !== id),
+      })
       .then(({ teams }) => {
         setSettings({ ...settings, teams });
         setNotice({
@@ -97,7 +89,8 @@ export const useSettings = () => {
 
   ///Handles save
   const onSave = () => {
-    api.updateSettings({ teams: settings.teams })
+    api
+      .updateSettings({ teams: settings.teams })
       .then(({ teams }) => {
         setSettings({ ...settings, teams });
         setNotice({
@@ -122,10 +115,7 @@ export const useSettings = () => {
   };
 };
 
-export default function SettingsProvider({
-  api,
-  children
-}) {
+export default function SettingsProvider({ api, children }) {
   const [settings, setSettings] = useState(defaultSettings);
   //Get the saved settings
   useEffect(() => {
@@ -139,11 +129,12 @@ export default function SettingsProvider({
   }, [api]);
 
   return (
-    <SettingsContext.Provider value={{
-      settings,
-      setSettings,
-      api
-    }}>
+    <SettingsContext.Provider
+      value={{
+        settings,
+        setSettings,
+        api,
+      }}>
       {children}
     </SettingsContext.Provider>
   );
