@@ -20,7 +20,7 @@ class SettingsApiTest extends \WP_UnitTestCase
 		$data = [
 			'account_id'       => '6',
 			'private_key'      => '7',
-			'api_key'       	=> '8',
+			'public_key'       	=> '8',
 
 
 			'helpdesk_settings' => [
@@ -32,8 +32,8 @@ class SettingsApiTest extends \WP_UnitTestCase
 		);
 		//Do defaults get overridden when possible?
 		$this->assertSame(
-			$data['api_key'],
-			$setting->toArray()['api_key']
+			$data['public_key'],
+			$setting->toArray()['public_key']
 		);
 		//Do default values get set when needed?
 		$this->assertSame(
@@ -53,19 +53,19 @@ class SettingsApiTest extends \WP_UnitTestCase
 			[
 				'account_id'       => '16',
 				'private_key'      => '17',
-				'api_key'       	=> '18',
+				'public_key'       	=> '18',
 			]
 		);
 		$data = [
 			'account_id'       => '6',
 			'private_key'      => '7',
-			'api_key'       	=> '8',
+			'public_key'       	=> '8',
 		];
 		$setting = $setting->reset($data);
 		//Do defaults get overridden when possible?
 		$this->assertSame(
-			$data['api_key'],
-			$setting->toArray()['api_key']
+			$data['public_key'],
+			$setting->toArray()['public_key']
 		);
 		//Do default values get set when needed?
 		$this->assertSame(
@@ -83,7 +83,7 @@ class SettingsApiTest extends \WP_UnitTestCase
 		$data = [
 			'account_id'       => '6',
 			'private_key'      => '7',
-			'api_key'       	=> '8',
+			'public_key'       	=> '8',
 		];
 		$setting = new TeamSettings(
 			$data
@@ -108,7 +108,7 @@ class SettingsApiTest extends \WP_UnitTestCase
 		$data = [
 			'account_id'       => '6',
 			'private_key'      => '7',
-			'api_key'       	=> '8',
+			'public_key'       	=> '8',
 		];
 		$setting = new TeamSettings(
 			$data
@@ -126,7 +126,7 @@ class SettingsApiTest extends \WP_UnitTestCase
 		$data = [
 			'account_id'       => '6',
 			'private_key'      => '7',
-			'api_key'       	=> '8',
+			'public_key'       	=> '8',
 		];
 		$setting = new TeamSettings(
 			$data
@@ -146,12 +146,12 @@ class SettingsApiTest extends \WP_UnitTestCase
 			[
 				'account_id'       => '16',
 				'private_key'      => '17',
-				'api_key'       	=> '18',
+				'public_key'       	=> '18',
 			],
 			[
 				'account_id'       => '26',
 				'private_key'      => '27',
-				'api_key'       	=> '28',
+				'public_key'       	=> '28',
 			]
 		];
 		$settings = new SettingsApi($data);
@@ -175,12 +175,12 @@ class SettingsApiTest extends \WP_UnitTestCase
 			[
 				'account_id'       => '216',
 				'private_key'      => '217',
-				'api_key'       	=> '218',
+				'public_key'       	=> '218',
 			],
 			[
 				'account_id'       => '26',
 				'private_key'      => '227',
-				'api_key'       	=> '228',
+				'public_key'       	=> '228',
 			]
 		];
 		$settings = new SettingsApi($data);
@@ -209,12 +209,12 @@ class SettingsApiTest extends \WP_UnitTestCase
 			[
 				'account_id'       => '216',
 				'private_key'      => '217',
-				'api_key'       	=> '218',
+				'public_key'       	=> '218',
 			],
 			[
 				'account_id'       => '26',
 				'private_key'      => '227',
-				'api_key'       	=> '228',
+				'public_key'       	=> '228',
 			]
 		];
 		$settings = new SettingsApi($data);
@@ -238,7 +238,7 @@ class SettingsApiTest extends \WP_UnitTestCase
 			[
 				'account_id'       => $accountId,
 				'private_key'      => 'a217',
-				'api_key'       	=> 'a218',
+				'public_key'       	=> 'a218',
 				'helpdesk_settings' => [
 					'helpscout' => $helpscout_data
 				]
@@ -246,7 +246,7 @@ class SettingsApiTest extends \WP_UnitTestCase
 			[
 				'account_id'       => 'b26',
 				'private_key'      => 'b227',
-				'api_key'       	=> 'b228',
+				'public_key'       	=> 'b228',
 			]
 		];
 
@@ -281,7 +281,7 @@ class SettingsApiTest extends \WP_UnitTestCase
 			[
 				'account_id'       => $accountId,
 				'private_key'      => 'b227',
-				'api_key'       	=> 'b228',
+				'public_key'       	=> 'b228',
 				'helpdesk' => 'helpscout',
 				'helpdesk_settings' => [
 					'helpscout' => $helpscout_data
@@ -290,7 +290,7 @@ class SettingsApiTest extends \WP_UnitTestCase
 			[
 				'account_id'       => $accountId2,
 				'private_key'      => 'aab227',
-				'api_key'       	=> 'ab228',
+				'public_key'       	=> 'ab228',
 
 			]
 		];
@@ -361,12 +361,12 @@ class SettingsApiTest extends \WP_UnitTestCase
 			[
 				'account_id'       => '216',
 				'private_key'      => '217',
-				'api_key'       	=> '218',
+				'public_key'       	=> '218',
 			],
 			[
 				'account_id'       => '126',
 				'private_key'      => '227',
-				'api_key'       	=> '228',
+				'public_key'       	=> '228',
 			]
 		];
 		$settings = new SettingsApi($data);
@@ -394,19 +394,19 @@ class SettingsApiTest extends \WP_UnitTestCase
 			[
 				'account_id'       => '2216',
 				'private_key'      => 'a217',
-				'api_key'       	=> 'a218',
+				'public_key'       	=> 'a218',
 			],
 			[
 				'account_id'       => '126',
 				'private_key'      => 'b227',
-				'api_key'       	=> 'b228',
+				'public_key'       	=> 'b228',
 			]
 		];
 		$settings = new SettingsApi($data);
 		$setting = new TeamSettings([
 			'account_id'       => '1126',
 			'private_key'      => 'pkt',
-			'api_key'       	=> 'ab228',
+			'public_key'       	=> 'ab228',
 		]);
 
 		$settings->addSetting(

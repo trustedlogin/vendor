@@ -41,7 +41,7 @@ class TeamSettings
 		$this->defaults  = [
 			'account_id'       => '',
 			'private_key'      => '',
-			'api_key'       => '',
+			'public_key'       => '',
 			'helpdesk'         => 'helpscout',
 			'approved_roles'   => [ 'administrator' ],
 			'debug_enabled'    => 'on',

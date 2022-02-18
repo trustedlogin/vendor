@@ -19,6 +19,7 @@ export default function App({
       visible: false,
     };
   });
+
   return (
     <ViewProvider
       defaultView={"teams"}

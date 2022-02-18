@@ -106,7 +106,7 @@ class Plugin
 		}
 		return new ApiHandler([
 			'private_key' => $team->get('private_key'),
-			'api_key'  => $team->get('api_key'),
+			'public_key'  => $team->get('public_key'),
 			'debug_mode'  => $team->get('debug_enabled'),
 			'type'        => 'saas',
 			'api_url' => $apiUrl

@@ -34,7 +34,7 @@ class ApiHandler
 	/**
 	 * @var string (Optional) The TrustedLogin API Key used in generating the X-TL-TOKEN header.
 	 */
-	private $api_key;
+	private $public_key;
 
 	/**
 	 * @var bool Whether an Auth token is required.
@@ -67,7 +67,7 @@ class ApiHandler
 		$this->apiSender = $apiSender;
 		$defaults = [
 			'private_key' => null,
-			'api_key'  => null,
+			'public_key'  => null,
 			'debug_mode'  => false,
 			'type'        => 'saas',
 			'api_url' => 'https://app.trustedlogin.com/api/v1/',
@@ -116,15 +116,15 @@ class ApiHandler
 	public function getXTlToken()
 	{
 
-		if (! $this->api_key) {
-			return new WP_Error('missing_api_key');
+		if (! $this->public_key) {
+			return new WP_Error('missing_public_key');
 		}
 
 		if (! $this->private_key) {
 			return new WP_Error('missing_private_key');
 		}
 
-		return hash('sha256', $this->api_key . $this->private_key);
+		return hash('sha256', $this->public_key . $this->private_key);
 	}
 
 	/**
@@ -134,7 +134,7 @@ class ApiHandler
 	 */
 	public function getApiKey()
 	{
-		return $this->api_key;
+		return $this->public_key;
 	}
 
 	/**

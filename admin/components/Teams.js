@@ -1,6 +1,6 @@
 import { useSettings } from "../hooks/useSettings";
 import { useView } from "../hooks/useView";
-
+import { useRef } from "react";
 const InputField = ({
   id,
   name,
@@ -76,14 +76,28 @@ const Teams = {
   Add: () => {
     const {addTeam,onSave} = useSettings();
     const {setCurrentView} = useView();
-    const handleSave = () => {
-      addTeam(newTeam);
-      onSave();
+    const formRef = useRef();
+    const handleSave = (e) => {
+      e.preventDefault();
+      let team = {};
+      const data = new FormData(formRef.current);
+      for (let [key, value] of data) {
+        team[key] = value;
+      }
+      if( team.hasOwnProperty("approved_roles") ){
+          team.approved_roles = [team.approved_roles];
+      }else{
+        team.approved_roles = [];
+      }
+
+
+      addTeam(team,true);
       setCurrentView('teams');
     }
+    const preventEvent = (e) => e.preventEventDefault();
     return(
     <>
-      <div className="flex px-5 pt-20 sm:px-10">
+      <form className="flex px-5 pt-20 sm:px-10" ref={formRef} onSave={preventEvent}>
         <div className="flex flex-col w-full max-w-4xl mx-auto p-8 bg-white rounded-lg shadow sm:p-14 sm:pb-8">
           <svg
             className="mx-auto"
@@ -124,8 +138,8 @@ const Teams = {
             <div className="flex flex-col space-y-6 sm:flex-1">
               <InputField
                   type="text"
-                  name="account-id"
-                  id="account-id"
+                  name="account_id"
+                  id="account_id"
                   label="Account ID"
                   icon={(
                     <svg
@@ -146,8 +160,8 @@ const Teams = {
               />
               <InputField
                 type="text"
-                name="public-key"
-                id="public-key"
+                name="public_key"
+                id="public_key"
                 label={'Public Key'}
                 icon={(<svg
                   width="16"
@@ -167,8 +181,8 @@ const Teams = {
 
               <InputField
                 type="text"
-                name="private-key"
-                id="private-key"
+                name="private_key"
+                id="private_key"
                 label={'Private Key'}
                 icon={(<svg
                   width="16"
@@ -188,34 +202,38 @@ const Teams = {
             </div>
             <div className="flex flex-col space-y-6 sm:flex-1">
               <SelectField
-                id="support-roles"
-                name="support-roles"
-                label={'What Role Provides Support?'}
+                id="approved_roles"
+                name="approved_roles"
+                label={'What Roles Provide Support?'}
               >
                 <option>Select Roles</option>
-                <option>Administrator</option>
-                <option>Editor</option>
-                <option>Contributor</option>
+                <option value={'administrator'}>Administrator</option>
+                <option value={'editor'}>Editor</option>
+                <option value={'contributor'}>Contributor</option>
               </SelectField>
               <SelectField
-                 id="help-desks"
-                 name="help-desks"
-                label={'Help Desk'}
+                  id="help-desks"
+                  name="help-desks"
+                  label={'Help Desk'}
               >
                 <option>Select a Help Desk</option>
-                <option>Help Scout</option>
-                <option>Zendesk</option>
+                <option value={'helpscout'}>Help Scout</option>
+                <option value={'zendesk'}>Zendesk</option>
               </SelectField>
             </div>
           </div>
           <div className="pt-8 mt-4 border-t">
             <div className="flex justify-end">
               <button
+                onClick={() => {
+                  setCurrentView('teams')
+                }}
                 type="button"
                 className="bg-white py-2 px-4 border border-gray-300 rounded-lg text-sm font-medium text-gray-900 hover:bg-gray-50 focus:outline-none focus:ring-2 ring-offset-2 focus:ring-sky-500">
                 Cancel
               </button>
               <button
+                onClick={handleSave}
                 type="submit"
                 className="ml-3 inline-flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-lg text-white bg-blue-tl hover:bg-indigo-700 focus:outline-none focus:ring-2 ring-offset-2 focus:ring-sky-500">
                 Create Team
@@ -223,7 +241,7 @@ const Teams = {
             </div>
           </div>
         </div>
-      </div>
+      </form>
     </>
   )},
   Empty: () => {

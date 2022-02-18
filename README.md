@@ -149,11 +149,10 @@ There is a special phpunit container for running WordPress tests, with WordPress
 
 - Enter container
     - `docker-compose run phpunit`
-- Composer install
-    - `composer install`
-- Test
-    - `composer test:wordpress`
-
+    - Test
+        - `composer test:wordpress`
+- Run tests once
+  - `docker-compose run phpunit phpunit --config=phpunit-integration.xml`
 ### ngrok
 
 The WordPress site will also be on the internets at [https://trustedlogin.ngrok.io/](https://trustedlogin.ngrok.io/). This requires setting the variable `NGROK_AUTH_TOKEN` in the .env file.

@@ -26,7 +26,7 @@
     },
     "scripts": {
         "test": "composer test:wordpress",
-        "test:wordpress": "phpunit --config=phpunit-integration.xml",
+        "test:wordpress": "`phpunit --config=phpunit-integration.xml`",
         "sniffs": "vendor/bin/ecs check",
         "fixes": "vendor/bin/ecs check --fix"
     }

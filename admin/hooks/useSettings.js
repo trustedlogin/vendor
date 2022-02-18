@@ -9,26 +9,25 @@ const defaultSettings = {
     callback: "",
   },
 };
+
+const emptyTeam = {
+  account_id: "",
+  private_key: "",
+  public_key: "",
+  helpdesk: "",
+  approved_roles: [],
+};
 const SettingsContext = createContext(defaultSettings);
 
-/**
- * Add team to collection
- */
-const addEmptyTeam = (teams) => {
-  return [
-    ...teams,
-    {
-      id: teams.length + 1,
-      account_id: "",
-      private_key: "",
-      api_key: "",
-      helpdesk: "",
-      approved_roles: [],
-    },
-  ];
-};
 
+
+
+/**
+ * This hook handles setting state.
+ */
 export const useSettings = () => {
+  //@todo bring back notice state and setNotice
+  const setNotice = () => {};
   const {
     settings,
     setSettings,
@@ -37,11 +36,23 @@ export const useSettings = () => {
   /**
    * Add a team to settings
    */
-  const addTeam = () => {
-    setSettings({
-      ...settings,
-      teams: addEmptyTeam(settings.teams),
-    });
+  const addTeam = (team,save = false) => {
+    team = Object.assign(emptyTeam, team);
+    const teams = [
+      ...settings.teams,
+      {
+        id: settings.teams.length + 1,
+        ...team,
+      },
+    ];
+
+    //Save
+    api.updateSettings({teams})
+      .then(({ teams }) => {
+        //Update team (new teams should get new fields server-side)
+        setSettings({ ...settings, teams });
+      });
+
   };
   /**
    * Remove a team.
@@ -85,8 +96,7 @@ export const useSettings = () => {
   }, [settings.teams]);
 
   ///Handles save
-  const onSave = (e) => {
-    e.preventDefault();
+  const onSave = () => {
     api.updateSettings({ teams: settings.teams })
       .then(({ teams }) => {
         setSettings({ ...settings, teams });
