@@ -1,12 +1,13 @@
 import { SecondaryButton } from ".";
 import { HorizontalLogo } from "./TrustedLoginLogo";
 import { useState } from "react";
+import { useView } from "../hooks/useView";
 export const TopBar = ({ status }) => {
   const [isStatusOpen, setIsStatusOpen] = useState(false);
   const [isHelpMenuOpen, setIsHelpMenuOpen] = useState(false);
   const toggleStatus = () => setIsStatusOpen(!isStatusOpen);
   const toggleHelpMenu = () => setIsHelpMenuOpen(!isHelpMenuOpen);
-
+  const {setCurrentView} = useView();
   //Removed sm:-left-24 from popover
   return (
     <>
@@ -121,11 +122,15 @@ export const TopBar = ({ status }) => {
                   <p className="py-2 text-gray-500 text-sm">
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit.
                   </p>
-                  <a
+                  <button
+                    onClick={() => {
+                      setIsStatusOpen(false);
+                      setCurrentView('settings')
+                    }}
                     className="inline-block mt-2 text-sm text-blue-tl"
-                    href="#">
+                  >
                     View Settings
-                  </a>
+                  </button>
                 </div>
               </div>
               <div className="mb-8 inline-flex items-center">
