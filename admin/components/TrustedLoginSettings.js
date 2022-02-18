@@ -120,10 +120,13 @@ const TeamsSettings = ( ) => {
  * TrustedLogin Settings screen
  */
 export default function () {
-  const { currentView,settings } = useView();
+  const { currentView } = useView();
+  const {settings} = useSettings();
   const teams = useMemo(() => {
     return settings && settings.hasOwnProperty('teams') ? settings.teams:[];
   }, [settings]);
+
+  console.log(currentView);
 
   if( 'teams/new' === currentView ) {
     return <Teams.Add />
