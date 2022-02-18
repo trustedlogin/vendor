@@ -149,7 +149,7 @@ const GeneralSettings = () => {
 
 const TeamsSettings = ( ) => {
   const {currentView,setCurrentView} = useView();
-  const {addTeam,onSave} = useSettings();
+  const {addTeam,onSave,settings} = useSettings();
   const teams = useMemo(() => {
     return settings && settings.hasOwnProperty('teams') ? settings.teams:[];
   }, [settings]);
@@ -199,13 +199,12 @@ export default function () {
       if (!teams.length) {
         return  <Teams.Empty />;
       }
-      return <TeamsList />;
     default:
       //Show primary UI if has onboarded
       return (
         <Layout>
           <TopBar status={"Connected"} />
-          {string === typeof currentView && currentView.startsWith('teams') ? <TeamsSettings/> : <GeneralSettings />}
+          {'string' === typeof currentView && currentView.startsWith('teams') ? <TeamsSettings/> : <GeneralSettings />}
         </Layout>
       );
   }
