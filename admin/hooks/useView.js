@@ -11,12 +11,12 @@ export default function ViewProvider({ children, defaultView }) {
   //Which view to show
   const [currentView, setCurrentView] = useState(defaultView);
   //The ID of team to show in view
-  const [currentTeam, setCurrentTeam] = useState(null);
+  const [currentTeam, setCurrentTeam] = useState(false);
 
   //Unset current team when changing view to not show team details
   useEffect(() => {
     if (!["teams/edit"].includes(currentView)) {
-      setCurrentTeam(null);
+      setCurrentTeam(false);
     }
   }, [currentView]);
   return (
