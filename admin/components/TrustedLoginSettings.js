@@ -65,12 +65,7 @@ export default function () {
     return settings && settings.hasOwnProperty("teams") ? settings.teams : [];
   }, [settings]);
 
-  if ("teams/new" === currentView) {
-    return <Teams.Add />;
-  }
-  if (!teams.length) {
-    return <Teams.Empty />;
-  }
+
 
   switch (currentView) {
     case "onboarding":
@@ -81,6 +76,7 @@ export default function () {
       if (!teams.length) {
         return <Teams.Empty />;
       }
+
     default:
       //Show primary UI if has onboarded
       return (
