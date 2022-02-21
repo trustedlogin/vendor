@@ -39,6 +39,10 @@ export const useSettings = () => {
       },
     ];
 
+    if( ! save ){
+      setSettings({...settings, teams});
+      return;
+    }
     //Save
     api.updateSettings({ teams }).then(({ teams }) => {
       //Update team (new teams should get new fields server-side)
@@ -103,7 +107,7 @@ export const useSettings = () => {
     return settings.teams.length > 0;
   }, [settings.teams]);
 
-  ///Handles save
+  ///Save all settings
   const onSave = () => {
     api
       .updateSettings({ teams: settings.teams })
