@@ -82,6 +82,20 @@ export const useSettings = () => {
     });
   };
 
+  /**
+   * Check if there is a team in settings with the given account_id
+   */
+  const hasTeam = (account_id) => {
+    return -1 !== settings.teams.findIndex((team) => team.account_id === account_id);
+  }
+
+  /**
+   * Get a team from settings settings with the given account_id
+   */
+  const getTeam = (account_id) => {
+    return settings.teams.find((team) => team.account_id === account_id);
+  }
+
   //Disables/enables save button
   const canSave = useMemo(() => {
     return settings.teams.length > 0;
@@ -112,6 +126,8 @@ export const useSettings = () => {
     setTeam,
     onSave,
     canSave,
+    getTeam,
+    hasTeam
   };
 };
 
