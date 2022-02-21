@@ -37,26 +37,7 @@ const TeamsSettings = () => {
     return settings && settings.hasOwnProperty("teams") ? settings.teams : [];
   }, [settings]);
 
-  if ("teams/new" === currentView) {
-    return (
-      <AddTeam
-        onSave={(newTeam) => {
-          addTeam(newTeam);
-          onSave();
-          setCurrentView("teams");
-        }}
-      />
-    );
-  }
-  if (!teams.length) {
-    return (
-      <CreateFirstTeam
-        onClick={() => {
-          setCurrentView("teams/new");
-        }}
-      />
-    );
-  }
+
   return <TeamsList />;
 };
 
@@ -64,8 +45,8 @@ const TeamsSettings = () => {
  * TrustedLogin Settings screen
  */
 export default function () {
-  const { currentView } = useView();
-  const { settings } = useSettings();
+  const { currentView,setCurrentView } = useView();
+  const { settings,addTeam } = useSettings();
   const teams = useMemo(() => {
     return settings && settings.hasOwnProperty("teams") ? settings.teams : [];
   }, [settings]);
@@ -73,14 +54,26 @@ export default function () {
   if (currentView.startsWith("teams/edit/")) {
     return <div>Edit Team</div>;
   }
+
+
   switch (currentView) {
     case "onboarding":
       return <OnboardingLayout />;
-    case "teams/add":
-      return <AddTeam />;
+    case "teams/new":
+      return <AddTeam
+      onSave={(newTeam) => {
+        addTeam(newTeam);
+        onSave();
+        setCurrentView("teams");
+      }}
+    />
     case "teams":
       if (!teams.length) {
-        return <CreateFirstTeam />;
+        return <CreateFirstTeam
+        onClick={() => {
+          setCurrentView("teams/new");
+        }}
+      />
       }
 
     default:
