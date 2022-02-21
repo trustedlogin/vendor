@@ -31,26 +31,34 @@ const GeneralSettings = () => {
 };
 
 const TeamsSettings = () => {
-  const { currentView, setCurrentView,currentTeam } = useView();
-  const { setTeam, settings,getTeam } = useSettings();
+  const { currentView, setCurrentView, currentTeam } = useView();
+  const { setTeam, settings, getTeam } = useSettings();
 
   const team = useMemo(() => {
-    if( currentTeam ){
-
+    if (currentTeam) {
       return getTeam(currentTeam);
     }
     return null;
-  },[getTeam,currentTeam]);
+  }, [getTeam, currentTeam]);
 
-
-  if( 'teams/edit' === currentView ){
-    return <EditTeam team={team} onClickSave={(updateTeam) => {
-        setTeam({
-          ...updateTeam,
-          id: team.hasOwnProperty('id') ? team.id : settings.team.length + 1
-        },true);
-        setCurrentView('teams');
-    }}/>
+  if ("teams/edit" === currentView) {
+    return (
+      <EditTeam
+        team={team}
+        onClickSave={(updateTeam) => {
+          setTeam(
+            {
+              ...updateTeam,
+              id: team.hasOwnProperty("id")
+                ? team.id
+                : settings.team.length + 1,
+            },
+            true
+          );
+          setCurrentView("teams");
+        }}
+      />
+    );
   }
 
   return <TeamsList />;
@@ -60,32 +68,34 @@ const TeamsSettings = () => {
  * TrustedLogin Settings screen
  */
 export default function () {
-  const { currentView,setCurrentView } = useView();
-  const { settings,addTeam } = useSettings();
+  const { currentView, setCurrentView } = useView();
+  const { settings, addTeam } = useSettings();
   const teams = useMemo(() => {
     return settings && settings.hasOwnProperty("teams") ? settings.teams : [];
   }, [settings]);
-
-
 
   switch (currentView) {
     case "onboarding":
       return <OnboardingLayout />;
     case "teams/new":
-      return <AddTeam
-      onSave={(newTeam) => {
-        addTeam(newTeam);
-        onSave();
-        setCurrentView("teams");
-      }}
-    />
+      return (
+        <AddTeam
+          onSave={(newTeam) => {
+            addTeam(newTeam);
+            onSave();
+            setCurrentView("teams");
+          }}
+        />
+      );
     case "teams":
       if (!teams.length) {
-        return <CreateFirstTeam
-        onClick={() => {
-          setCurrentView("teams/new");
-        }}
-      />
+        return (
+          <CreateFirstTeam
+            onClick={() => {
+              setCurrentView("teams/new");
+            }}
+          />
+        );
       }
 
     default:

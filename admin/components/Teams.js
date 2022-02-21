@@ -4,7 +4,11 @@ import { useRef, useMemo } from "react";
 import { PageHeader } from "../components/Layout";
 import { InputField, SelectField } from "./fields";
 
-export const EditTeam = ({ team = null, onClickSave,formTitle = 'Update Team' }) => {
+export const EditTeam = ({
+  team = null,
+  onClickSave,
+  formTitle = "Update Team",
+}) => {
   const { setCurrentView } = useView();
   const formRef = useRef();
 
@@ -55,9 +59,7 @@ export const EditTeam = ({ team = null, onClickSave,formTitle = 'Update Team' })
             />
           </svg>
           <div className="max-w-sm mx-auto mb-8 justify-center text-center">
-            <h2 className="mt-4 text-2xl text-gray-900">
-              {formTitle}
-            </h2>
+            <h2 className="mt-4 text-2xl text-gray-900">{formTitle}</h2>
             <p className="mt-2 mb-4 text-sm text-gray-500">
               Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed
               ornare tortor in nisl fermentum.
@@ -190,7 +192,7 @@ export const AddTeam = () => {
     addTeam(newTeam, true);
     setCurrentView("teams");
   };
-  return <EditTeam onClickSave={onClickSave} formTitle={'Add Team'}/>;
+  return <EditTeam onClickSave={onClickSave} formTitle={"Add Team"} />;
 };
 export const CreateFirstTeam = () => {
   const { setCurrentView } = useView();
@@ -262,7 +264,7 @@ export const TeamsList = () => {
   const teams = useMemo(() => {
     return settings.teams;
   }, [settings]);
-  const { currentView, setCurrentView,setCurrentTeam } = useView();
+  const { currentView, setCurrentView, setCurrentTeam } = useView();
   const enabled = true; //?
   return (
     <>

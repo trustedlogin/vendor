@@ -1,4 +1,4 @@
-import { createContext, useContext, useState,useEffect } from "react";
+import { createContext, useContext, useState, useEffect } from "react";
 
 const ViewContext = createContext();
 
@@ -15,9 +15,9 @@ export default function ViewProvider({ children, defaultView }) {
 
   //Unset current team when changing view to not show team details
   useEffect(() => {
-      if(! ['teams/edit'].includes(currentView)){
-        setCurrentTeam(null);
-      }
+    if (!["teams/edit"].includes(currentView)) {
+      setCurrentTeam(null);
+    }
   }, [currentView]);
   return (
     <ViewContext.Provider

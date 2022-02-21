@@ -39,8 +39,8 @@ export const useSettings = () => {
       },
     ];
 
-    if( ! save ){
-      setSettings({...settings, teams});
+    if (!save) {
+      setSettings({ ...settings, teams });
       return;
     }
     //Save
@@ -74,20 +74,20 @@ export const useSettings = () => {
   /**
    * Update one team in settings
    */
-  const setTeam = (team,save = false) => {
+  const setTeam = (team, save = false) => {
     const teams = settings.teams.map((t) => {
       if (t.id === team.id) {
         return team;
       }
       return t;
-    })
+    });
 
-    if( ! save ){
+    if (!save) {
       setSettings({
         ...settings,
         teams,
       });
-      return ;
+      return;
     }
 
     api
