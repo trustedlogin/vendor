@@ -6,7 +6,12 @@ import { DangerZone, DebugLogSettings } from "../components/Sections";
 import { OnboardingLayout } from "../components/Onboarding";
 import { useSettings } from "../hooks/useSettings";
 import { useMemo } from "react";
-import Teams, {TeamsList} from "../components/Teams";
+import {
+  AddTeam,
+  TeamsList,
+  EditTeam,
+  CreateFirstTeam,
+} from "../components/Teams";
 
 const GeneralSettings = () => {
   return (
@@ -34,7 +39,7 @@ const TeamsSettings = () => {
 
   if ("teams/new" === currentView) {
     return (
-      <Teams.Add
+      <AddTeam
         onSave={(newTeam) => {
           addTeam(newTeam);
           onSave();
@@ -45,7 +50,7 @@ const TeamsSettings = () => {
   }
   if (!teams.length) {
     return (
-      <Teams.Empty
+      <CreateFirstTeam
         onClick={() => {
           setCurrentView("teams/new");
         }}
@@ -65,16 +70,17 @@ export default function () {
     return settings && settings.hasOwnProperty("teams") ? settings.teams : [];
   }, [settings]);
 
-
-
+  if (currentView.startsWith("teams/edit/")) {
+    return <div>Edit Team</div>;
+  }
   switch (currentView) {
     case "onboarding":
       return <OnboardingLayout />;
     case "teams/add":
-      return <Teams.Add />;
+      return <AddTeam />;
     case "teams":
       if (!teams.length) {
-        return <Teams.Empty />;
+        return <CreateFirstTeam />;
       }
 
     default:
