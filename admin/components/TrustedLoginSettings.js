@@ -31,12 +31,27 @@ const GeneralSettings = () => {
 };
 
 const TeamsSettings = () => {
-  const { currentView, setCurrentView } = useView();
-  const { addTeam, onSave, settings } = useSettings();
-  const teams = useMemo(() => {
-    return settings && settings.hasOwnProperty("teams") ? settings.teams : [];
-  }, [settings]);
+  const { currentView, setCurrentView,currentTeam } = useView();
+  const { setTeam, settings,getTeam } = useSettings();
 
+  const team = useMemo(() => {
+    if( currentTeam ){
+
+      return getTeam(currentTeam);
+    }
+    return null;
+  },[getTeam,currentTeam]);
+
+
+  if( 'teams/edit' === currentView ){
+    return <EditTeam team={team} onClickSave={(updateTeam) => {
+        setTeam({
+          ...updateTeam,
+          id: team.hasOwnProperty('id') ? team.id : settings.team.length + 1
+        },true);
+        setCurrentView('teams');
+    }}/>
+  }
 
   return <TeamsList />;
 };
@@ -51,9 +66,6 @@ export default function () {
     return settings && settings.hasOwnProperty("teams") ? settings.teams : [];
   }, [settings]);
 
-  if (currentView.startsWith("teams/edit/")) {
-    return <div>Edit Team</div>;
-  }
 
 
   switch (currentView) {

@@ -74,16 +74,38 @@ export const useSettings = () => {
   /**
    * Update one team in settings
    */
-  const setTeam = (team) => {
-    setSettings({
-      ...settings,
-      teams: settings.teams.map((t) => {
-        if (t.id === team.id) {
-          return team;
-        }
-        return t;
-      }),
-    });
+  const setTeam = (team,save = false) => {
+    const teams = settings.teams.map((t) => {
+      if (t.id === team.id) {
+        return team;
+      }
+      return t;
+    })
+
+    if( ! save ){
+      setSettings({
+        ...settings,
+        teams,
+      });
+      return ;
+    }
+
+    api
+      .updateSettings({
+        ...settings,
+        teams,
+      })
+      .then(({ teams }) => {
+        setSettings({ ...settings, teams });
+        setNotice({
+          text: "Team Saved",
+          type: "sucess",
+          visible: true,
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   /**

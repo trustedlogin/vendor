@@ -2,81 +2,32 @@ import { useSettings } from "../hooks/useSettings";
 import { useView } from "../hooks/useView";
 import { useRef, useMemo } from "react";
 import { PageHeader } from "../components/Layout";
+import { InputField, SelectField } from "./fields";
 
-const InputField = ({
-  id,
-  name,
-  label,
-  //Pass <svg> for inset icon
-  icon = null,
-  type = "text",
-  defaultValue = null,
-}) => {
-  return (
-    <div>
-      <label htmlFor={id} className="block text-sm font-medium text-gray-700">
-        {label}
-      </label>
-      <div className="mt-2 relative rounded-lg">
-        <input
-          type={type}
-          name={name}
-          id={id}
-          defaultValue={defaultValue}
-          className="block w-full pl-3 pr-10 py-2.5 sm:text-sm border border-gray-300 rounded-lg focus:outline-none focus:border-sky-500 focus:ring-1 ring-offset-2 focus:ring-sky-500"
-        />
-        {icon ? (
-          <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
-            <svg
-              width="16"
-              height="16"
-              viewBox="0 0 16 16"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg">
-              <path
-                d="M6.06004 6.00004C6.21678 5.55449 6.52614 5.17878 6.93334 4.93946C7.34055 4.70015 7.8193 4.61267 8.28483 4.69252C8.75035 4.77236 9.17259 5.01439 9.47676 5.37573C9.78093 5.73706 9.94741 6.19439 9.94671 6.66671C9.94671 8.00004 7.94671 8.66671 7.94671 8.66671M8.00004 11.3334H8.00671M14.6667 8.00004C14.6667 11.6819 11.6819 14.6667 8.00004 14.6667C4.31814 14.6667 1.33337 11.6819 1.33337 8.00004C1.33337 4.31814 4.31814 1.33337 8.00004 1.33337C11.6819 1.33337 14.6667 4.31814 14.6667 8.00004Z"
-                stroke="#98A2B3"
-                stroke-width="1.33333"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-            </svg>
-          </div>
-        ) : null}
-      </div>
-    </div>
-  );
-};
-
-const SelectField = ({ id, name, label, children }) => {
-  return (
-    <div className="">
-      <label htmlFor={id} className="block text-sm font-medium text-gray-700">
-        {label}
-      </label>
-      <div className="mt-2">
-        <select
-          id={id}
-          name={name}
-          className="bg-white block w-full pl-3 pr-8 py-2.5 sm:text-sm border border-gray-300 rounded-lg focus:outline-none focus:border-sky-500 focus:ring-1 ring-offset-2 focus:ring-sky-500">
-          {children}
-        </select>
-      </div>
-    </div>
-  );
-};
-
-const EditTeam = ({ team = null, handleSave }) => {
+export const EditTeam = ({ team = null, onClickSave,formTitle = 'Update Team' }) => {
   const { setCurrentView } = useView();
   const formRef = useRef();
 
-  const preventEvent = (e) => e.preventEventDefault();
+  const handleSave = (e) => {
+    e.preventDefault();
+    let team = {};
+    const data = new FormData(formRef.current);
+    for (let [key, value] of data) {
+      team[key] = value;
+    }
+    if (team.hasOwnProperty("approved_roles")) {
+      team.approved_roles = [team.approved_roles];
+    } else {
+      team.approved_roles = [];
+    }
+    onClickSave(team);
+  };
   return (
     <>
       <form
         className="flex px-5 pt-20 sm:px-10"
         ref={formRef}
-        onSave={preventEvent}>
+        onSave={handleSave}>
         <div className="flex flex-col w-full max-w-4xl mx-auto p-8 bg-white rounded-lg shadow sm:p-14 sm:pb-8">
           <svg
             className="mx-auto"
@@ -104,7 +55,9 @@ const EditTeam = ({ team = null, handleSave }) => {
             />
           </svg>
           <div className="max-w-sm mx-auto mb-8 justify-center text-center">
-            <h2 className="mt-4 text-2xl text-gray-900">Add Team</h2>
+            <h2 className="mt-4 text-2xl text-gray-900">
+              {formTitle}
+            </h2>
             <p className="mt-2 mb-4 text-sm text-gray-500">
               Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed
               ornare tortor in nisl fermentum.
@@ -231,26 +184,13 @@ const EditTeam = ({ team = null, handleSave }) => {
 };
 
 export const AddTeam = () => {
-  const { addTeam, onSave } = useSettings();
+  const { addTeam } = useSettings();
   const { setCurrentView } = useView();
-  const formRef = useRef();
-  const handleSave = (e) => {
-    e.preventDefault();
-    let team = {};
-    const data = new FormData(formRef.current);
-    for (let [key, value] of data) {
-      team[key] = value;
-    }
-    if (team.hasOwnProperty("approved_roles")) {
-      team.approved_roles = [team.approved_roles];
-    } else {
-      team.approved_roles = [];
-    }
-
-    addTeam(team, true);
+  const onClickSave = (newTeam) => {
+    addTeam(newTeam, true);
     setCurrentView("teams");
   };
-  return <EditTeam handleSave={handleSave} />;
+  return <EditTeam onClickSave={onClickSave} formTitle={'Add Team'}/>;
 };
 export const CreateFirstTeam = () => {
   const { setCurrentView } = useView();
@@ -322,7 +262,7 @@ export const TeamsList = () => {
   const teams = useMemo(() => {
     return settings.teams;
   }, [settings]);
-  const { currentView, setCurrentView } = useView();
+  const { currentView, setCurrentView,setCurrentTeam } = useView();
   const enabled = true; //?
   return (
     <>
@@ -434,7 +374,10 @@ export const TeamsList = () => {
                   <div className="flex items-center space-x-5 w-full mt-4 justify-between sm:w-auto sm:mt-0">
                     <div className="flex items-center space-x-4">
                       <button
-                        onClick={() => setCurrentView(`teams/edit/${team.id}`)}
+                        onClick={() => {
+                          setCurrentView(`teams/edit`);
+                          setCurrentTeam(team.account_id);
+                        }}
                         className="text-sm text-blue-tl">
                         Edit
                       </button>

@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useState,useEffect } from "react";
 
 const ViewContext = createContext();
 
@@ -8,10 +8,25 @@ export const useView = () => {
 };
 
 export default function ViewProvider({ children, defaultView }) {
+  //Which view to show
   const [currentView, setCurrentView] = useState(defaultView);
+  //The ID of team to show in view
+  const [currentTeam, setCurrentTeam] = useState(null);
 
+  //Unset current team when changing view to not show team details
+  useEffect(() => {
+      if(! ['teams/edit'].includes(currentView)){
+        setCurrentTeam(null);
+      }
+  }, [currentView]);
   return (
-    <ViewContext.Provider value={{ currentView, setCurrentView }}>
+    <ViewContext.Provider
+      value={{
+        currentView,
+        setCurrentView,
+        currentTeam,
+        setCurrentTeam,
+      }}>
       {children}
     </ViewContext.Provider>
   );
