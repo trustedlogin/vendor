@@ -98,7 +98,7 @@ class SettingsApi
 		/**
 		 * Fires after settings are saved.
 		 */
-		do_action( 'trustedlogin_vendor_settings_saved' );
+		do_action( 'trustedlogin_vendor_settings_saved', self::count() );
 		return $this;
 	}
 

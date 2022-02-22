@@ -36,9 +36,8 @@ class Onboarding {
      *
      * @uses "trustedlogin_vendor_settings_saved" action
      */
-    public static function settingsSaved(){
-        if( ! self::hasOnboarded()
-            && SettingsApi::fromSaved()->count() > 0 )
+    public static function settingsSaved(int $count){
+        if( ! self::hasOnboarded())
         {
             self::setHasOnboarded();
         }
