@@ -1,7 +1,7 @@
 import { useMemo, useState } from "react";
 import { useSettings } from "../../hooks/useSettings";
 import { useView } from "../../hooks/useView";
-import { SubmitAndCanelButtons } from "../Buttons";
+import { PrimaryButton, SubmitAndCanelButtons } from "../Buttons";
 import { CenteredLayout, PageHeader } from "../Layout";
 
 /**
@@ -14,8 +14,7 @@ const TeamsList = () => {
   const [isDeleting, setIsDeleting] = useState(false);
   const [teamDeleting, setTeamDeleting] = useState(null);
   const { setCurrentView, setCurrentTeam } = useView();
-
-  const teams = settings.teams;
+  const teams = useMemo(() => settings.teams, [settings]);
   const enabled = true; //?
 
   /**
@@ -97,27 +96,29 @@ const TeamsList = () => {
                     />
                   </div>
                 </div>
-                <button
+                <PrimaryButton
                   onClick={() => setCurrentView("teams/new")}
-                  type="button"
-                  class="inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-lg text-white focus:outline-none focus:ring-2 ring-offset-2 focus:ring-sky-500">
-                  <svg
-                    class="mr-1"
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24">
-                    <g fill="none">
-                      <path
-                        d="M12 6v6m0 0v6m0-6h6m-6 0H6"
-                        stroke="#FFFFFF"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"></path>
-                    </g>
-                  </svg>
-                  Add Team
-                </button>
+                 >
+                   <>
+                    <svg
+                      class="mr-1"
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24">
+                      <g fill="none">
+                        <path
+                          d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+                          stroke="#FFFFFF"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"></path>
+                      </g>
+                    </svg>
+                      Add Team
+                   </>
+
+                </PrimaryButton>
               </>
             )}
           />
