@@ -69,13 +69,13 @@ const TeamsList = () => {
             Button={() => (
               <>
                 <div>
-                  <label for="search" className="sr-only">
+                  <label htmlFor="search" className="sr-only">
                     Search
                   </label>
-                  <div class="relative h-full">
-                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  <div className="relative h-full">
+                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                       <svg
-                        class="h-5 w-5 text-gray-400"
+                        className="h-5 w-5 text-gray-400"
                         xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 0 20 20"
                         fill="currentColor"
@@ -90,18 +90,16 @@ const TeamsList = () => {
                     <input
                       id="search"
                       name="search"
-                      class="block w-full h-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg leading-5 bg-white placeholder-gray-500 focus:outline-none focus:ring-2 ring-offset-2 focus:ring-sky-500 sm:text-sm sm:py-2"
+                      className="block w-full h-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg leading-5 bg-white placeholder-gray-500 focus:outline-none focus:ring-2 ring-offset-2 focus:ring-sky-500 sm:text-sm sm:py-2"
                       placeholder="Search..."
                       type="search"
                     />
                   </div>
                 </div>
-                <PrimaryButton
-                  onClick={() => setCurrentView("teams/new")}
-                 >
-                   <>
+                <PrimaryButton onClick={() => setCurrentView("teams/new")}>
+                  <>
                     <svg
-                      class="mr-1"
+                      className="mr-1"
                       xmlns="http://www.w3.org/2000/svg"
                       width="24"
                       height="24"
@@ -110,14 +108,13 @@ const TeamsList = () => {
                         <path
                           d="M12 6v6m0 0v6m0-6h6m-6 0H6"
                           stroke="#FFFFFF"
-                          stroke-width="2"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"></path>
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"></path>
                       </g>
                     </svg>
-                      Add Team
-                   </>
-
+                    Add Team
+                  </>
                 </PrimaryButton>
               </>
             )}

@@ -29,16 +29,16 @@ export const TopBar = ({ status }) => {
               <path
                 d="M3.125 8.33336V3.75C3.125 3.58424 3.19085 3.42527 3.30806 3.30806C3.42527 3.19085 3.58424 3.125 3.75 3.125H16.25C16.4158 3.125 16.5747 3.19085 16.6919 3.30806C16.8092 3.42527 16.875 3.58424 16.875 3.75V8.33336C16.875 14.897 11.3042 17.0716 10.1919 17.4404C10.0675 17.4832 9.93246 17.4832 9.80812 17.4404C8.69578 17.0716 3.125 14.897 3.125 8.33336Z"
                 stroke="#119A27"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
               />
               <path
                 d="M13.4375 7.5L8.85414 11.875L6.5625 9.6875"
                 stroke="#119A27"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
               />
             </svg>
             <span className="hidden sm:inline-flex">
@@ -56,9 +56,9 @@ export const TopBar = ({ status }) => {
                 d="M1 1L5 5L9 1"
                 stroke="#1D2327"
                 stroke-opacity="0.5"
-                stroke-width="1.5"
-                stroke-linecap="round"
-                stroke-linejoin="round"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
               />
             </svg>
           </button>
@@ -146,9 +146,9 @@ export const TopBar = ({ status }) => {
                   <path
                     d="M1.16663 7.00008H12.8333M12.8333 7.00008L6.99996 1.16675M12.8333 7.00008L6.99996 12.8334"
                     stroke="#00AADD"
-                    stroke-width="1.67"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
+                    strokeWidth="1.67"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
                   />
                 </svg>
               </div>

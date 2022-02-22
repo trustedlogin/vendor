@@ -79,9 +79,9 @@ const Main = {
             <path
               d="M1.16663 7.00008H12.8333M12.8333 7.00008L6.99996 1.16675M12.8333 7.00008L6.99996 12.8334"
               stroke="#00AADD"
-              stroke-width="1.67"
-              stroke-linecap="round"
-              stroke-linejoin="round"
+              strokeWidth="1.67"
+              strokeLinecap="round"
+              strokeLinejoin="round"
             />
           </svg>
         </div>

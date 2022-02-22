@@ -29,7 +29,7 @@ const StepOne = () => {
         <div className="flex flex-1 flex-col space-y-6">
           <div>
             <label
-              for="account-id"
+              htmlFor="account-id"
               className="block text-sm font-medium text-gray-700">
               Account ID
             </label>
@@ -51,9 +51,9 @@ const StepOne = () => {
                   <path
                     d="M6.06004 6.00004C6.21678 5.55449 6.52614 5.17878 6.93334 4.93946C7.34055 4.70015 7.8193 4.61267 8.28483 4.69252C8.75035 4.77236 9.17259 5.01439 9.47676 5.37573C9.78093 5.73706 9.94741 6.19439 9.94671 6.66671C9.94671 8.00004 7.94671 8.66671 7.94671 8.66671M8.00004 11.3334H8.00671M14.6667 8.00004C14.6667 11.6819 11.6819 14.6667 8.00004 14.6667C4.31814 14.6667 1.33337 11.6819 1.33337 8.00004C1.33337 4.31814 4.31814 1.33337 8.00004 1.33337C11.6819 1.33337 14.6667 4.31814 14.6667 8.00004Z"
                     stroke="#98A2B3"
-                    stroke-width="1.33333"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
+                    strokeWidth="1.33333"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
                   />
                 </svg>
               </div>
@@ -61,7 +61,7 @@ const StepOne = () => {
           </div>
           <div>
             <label
-              for="public_key"
+              htmlFor="public_key"
               className="block text-sm font-medium text-gray-700">
               Public Key
             </label>
@@ -83,9 +83,9 @@ const StepOne = () => {
                   <path
                     d="M6.06004 6.00004C6.21678 5.55449 6.52614 5.17878 6.93334 4.93946C7.34055 4.70015 7.8193 4.61267 8.28483 4.69252C8.75035 4.77236 9.17259 5.01439 9.47676 5.37573C9.78093 5.73706 9.94741 6.19439 9.94671 6.66671C9.94671 8.00004 7.94671 8.66671 7.94671 8.66671M8.00004 11.3334H8.00671M14.6667 8.00004C14.6667 11.6819 11.6819 14.6667 8.00004 14.6667C4.31814 14.6667 1.33337 11.6819 1.33337 8.00004C1.33337 4.31814 4.31814 1.33337 8.00004 1.33337C11.6819 1.33337 14.6667 4.31814 14.6667 8.00004Z"
                     stroke="#98A2B3"
-                    stroke-width="1.33333"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
+                    strokeWidth="1.33333"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
                   />
                 </svg>
               </div>
@@ -180,7 +180,7 @@ const Icon = ({ step }) => {
     case 2:
       return (
         <svg
-          class="mx-auto"
+          className="mx-auto"
           width="56"
           height="56"
           viewBox="0 0 56 56"
@@ -198,7 +198,7 @@ const Icon = ({ step }) => {
             clip-rule="evenodd"
             d="M28 26C26.9391 26 25.9217 25.5786 25.1716 24.8284C24.4214 24.0783 24 23.0609 24 22C24 20.9391 24.4214 19.9217 25.1716 19.1716C25.9217 18.4214 26.9391 18 28 18C29.0609 18 30.0783 18.4214 30.8284 19.1716C31.5786 19.9217 32 20.9391 32 22C32 23.0609 31.5786 24.0783 30.8284 24.8284C30.0783 25.5786 29.0609 26 28 26ZM22 36C20.9391 36 19.9217 35.5786 19.1716 34.8284C18.4214 34.0783 18 33.0609 18 32C18 30.9391 18.4214 29.9217 19.1716 29.1716C19.9217 28.4214 20.9391 28 22 28C23.0609 28 24.0783 28.4214 24.8284 29.1716C25.5786 29.9217 26 30.9391 26 32C26 33.0609 25.5786 34.0783 24.8284 34.8284C24.0783 35.5786 23.0609 36 22 36V36ZM34 36C32.9391 36 31.9217 35.5786 31.1716 34.8284C30.4214 34.0783 30 33.0609 30 32C30 30.9391 30.4214 29.9217 31.1716 29.1716C31.9217 28.4214 32.9391 28 34 28C35.0609 28 36.0783 28.4214 36.8284 29.1716C37.5786 29.9217 38 30.9391 38 32C38 33.0609 37.5786 34.0783 36.8284 34.8284C36.0783 35.5786 35.0609 36 34 36Z"
             stroke="white"
-            stroke-width="2"></path>
+            strokeWidth="2"></path>
           <rect
             x="4"
             y="4"
@@ -206,7 +206,7 @@ const Icon = ({ step }) => {
             height="48"
             rx="24"
             stroke="#CDEFF9"
-            stroke-width="8"></rect>
+            strokeWidth="8"></rect>
         </svg>
       );
     case 1:
@@ -224,9 +224,9 @@ const Icon = ({ step }) => {
             <path
               d="M28 31V33V31ZM22 37H34C34.5304 37 35.0391 36.7893 35.4142 36.4142C35.7893 36.0391 36 35.5304 36 35V29C36 28.4696 35.7893 27.9609 35.4142 27.5858C35.0391 27.2107 34.5304 27 34 27H22C21.4696 27 20.9609 27.2107 20.5858 27.5858C20.2107 27.9609 20 28.4696 20 29V35C20 35.5304 20.2107 36.0391 20.5858 36.4142C20.9609 36.7893 21.4696 37 22 37ZM32 27V23C32 21.9391 31.5786 20.9217 30.8284 20.1716C30.0783 19.4214 29.0609 19 28 19C26.9391 19 25.9217 19.4214 25.1716 20.1716C24.4214 20.9217 24 21.9391 24 23V27H32Z"
               stroke="white"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
             />
             <rect
               x="4"
@@ -235,7 +235,7 @@ const Icon = ({ step }) => {
               height="48"
               rx="24"
               stroke="#CDEFF9"
-              stroke-width="8"
+              strokeWidth="8"
             />
           </svg>
         </>
@@ -277,7 +277,12 @@ export const OnboardingLayout = ({
   //Set false to hide navigation to other steps.
   singleStepMode = true,
 }) => {
+  //Remove some of the WordPress elements in admin
   useEffect(() => {
+    //Bail early if we do not have WordPress elements to remove.
+    if (null == document.getElementById("adminmenumain")) {
+      return;
+    }
     document.getElementById("adminmenumain").remove();
     document.getElementById("wpfooter").remove();
     document.getElementById("wpcontent").style.marginLeft = "0px";
@@ -344,9 +349,9 @@ export const OnboardingLayout = ({
                         <path
                           d="M1.16663 7.00008H12.8333M12.8333 7.00008L6.99996 1.16675M12.8333 7.00008L6.99996 12.8334"
                           stroke="#00AADD"
-                          stroke-width="1.67"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
+                          strokeWidth="1.67"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
                         />
                       </svg>
                     </div>
