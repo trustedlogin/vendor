@@ -41,18 +41,24 @@ export const useSettings = () => {
   /**
    * Add a team to settings
    */
-  const addTeam = (team, save = false) => {
+  const addTeam = (team, save = false,callback = null) => {
     team = Object.assign(emptyTeam, { ...team, id: settings.teams.length + 1 });
     const teams = [...settings.teams, team];
 
     if (!save) {
       setSettings({ ...settings, teams });
+      if(callback){
+        callback(team);
+      }
       return;
     }
     //Save
     api.updateSettings({ teams }).then(({ teams }) => {
       //Update team (new teams should get new fields server-side)
       _updateTeams(teams);
+      if(callback){
+        callback(team);
+      }
     });
   };
 

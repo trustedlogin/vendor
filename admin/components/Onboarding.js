@@ -6,6 +6,8 @@ import Main from "./onboarding/Main";
 import Aside from "./onboarding/Aside";
 import teamFields from "./teams/teamFields";
 import collectTeam from "./teams/collectTeam";
+import { useSettings } from "../hooks/useSettings";
+import { useView } from "../hooks/useView";
 
 //Display Step one
 const StepOne = () => {
@@ -108,11 +110,13 @@ const StepOne = () => {
 };
 
 const StepTwo = () => {
+  const { addTeam } = useSettings();
+  const {setCurrentView} = useView();
   const formRef = useRef(null);
   const handleSave = (e) => {
     e.preventDefault();
     let team = collectTeam(formRef.current);
-    console.log(team);
+    addTeam(team,true, () => setCurrentView('teams'));
   };
 
   return (
