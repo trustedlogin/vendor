@@ -202,4 +202,13 @@ const Layout = ({ children }) => {
   return <div className="h-full overflow-hidden">{children}</div>;
 };
 
+export const CenteredLayout = ({ children }) => {
+  return (
+    <div className="flex px-5 pt-12 sm:px-10 sm:pt-32">
+      <div className="flex flex-col justify-center text-center w-full max-w-lg mx-auto p-8 bg-white rounded-lg shadow sm:p-14">
+        {children}
+      </div>
+    </div>
+  );
+};
 export default Layout;

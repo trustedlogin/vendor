@@ -41,13 +41,13 @@ export const useSettings = () => {
   /**
    * Add a team to settings
    */
-  const addTeam = (team, save = false,callback = null) => {
+  const addTeam = (team, save = false, callback = null) => {
     team = Object.assign(emptyTeam, { ...team, id: settings.teams.length + 1 });
     const teams = [...settings.teams, team];
 
     if (!save) {
       setSettings({ ...settings, teams });
-      if(callback){
+      if (callback) {
         callback(team);
       }
       return;
@@ -56,7 +56,7 @@ export const useSettings = () => {
     api.updateSettings({ teams }).then(({ teams }) => {
       //Update team (new teams should get new fields server-side)
       _updateTeams(teams);
-      if(callback){
+      if (callback) {
         callback(team);
       }
     });
@@ -65,19 +65,25 @@ export const useSettings = () => {
   /**
    * Remove a team.
    */
-  const removeTeam = (id) => {
+  const removeTeam = (id, callback = null) => {
+    const teams = settings.teams.filter((team) => team.id !== id);
+    console.log(teams);
     api
       .updateSettings({
         ...settings,
         teams: settings.teams.filter((team) => team.id !== id),
       })
       .then(({ teams }) => {
+        console.log({ teams });
         _updateTeams(teams);
         setNotice({
           text: "Team deleted",
           type: "sucess",
           visible: true,
         });
+        if (callback) {
+          callback();
+        }
       })
       .catch((err) => {
         console.log(err);

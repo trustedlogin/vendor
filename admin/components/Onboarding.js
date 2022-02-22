@@ -1,4 +1,4 @@
-import { useEffect,useRef } from "react";
+import { useEffect, useRef } from "react";
 import Layout from "./Layout";
 import { HorizontalLogo } from "./TrustedLoginLogo";
 import { InputField, SelectField, Label } from "./onboarding/fields";
@@ -111,12 +111,12 @@ const StepOne = () => {
 
 const StepTwo = () => {
   const { addTeam } = useSettings();
-  const {setCurrentView} = useView();
+  const { setCurrentView } = useView();
   const formRef = useRef(null);
   const handleSave = (e) => {
     e.preventDefault();
     let team = collectTeam(formRef.current);
-    addTeam(team,true, () => setCurrentView('teams'));
+    addTeam(team, true, () => setCurrentView("teams"));
   };
 
   return (
@@ -134,8 +134,7 @@ const StepTwo = () => {
       <form
         ref={formRef}
         className="flex flex-1 flex-col space-y-6"
-        onSubmit={handleSave}
-      >
+        onSubmit={handleSave}>
         <InputField
           id={teamFields.account_id.id}
           label={teamFields.account_id.label}
@@ -143,15 +142,14 @@ const StepTwo = () => {
         <InputField
           id={teamFields.public_key.id}
           label={teamFields.public_key.label}
-         />
+        />
         <InputField
           id={teamFields.private_key.id}
           label={teamFields.private_key.label}
         />
         <SelectField
           id={teamFields.approved_roles.id}
-          label={teamFields.approved_roles.label}
-        >
+          label={teamFields.approved_roles.label}>
           <option>Select Roles</option>
           <option>Administrator</option>
           <option>Editor</option>
@@ -159,8 +157,7 @@ const StepTwo = () => {
         </SelectField>
         <SelectField
           id={teamFields.helpdesk.id}
-          label={teamFields.helpdesk.label}
-        >
+          label={teamFields.helpdesk.label}>
           <option>Select a Help Desk</option>
           <option value={"helpscout"}>Help Scout</option>
           <option value={"zendesk"}>Zendesk</option>

@@ -1,7 +1,8 @@
 import { useMemo } from "react";
 import { useSettings } from "../../hooks/useSettings";
 import { useView } from "../../hooks/useView";
-import { EditTeam } from "../Teams";
+import EditTeam from "../teams/EditTeam";
+
 import TeamsList from "./TeamsList";
 
 const TeamsSettings = () => {

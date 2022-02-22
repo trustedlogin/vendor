@@ -15,7 +15,7 @@ add_action('init', function () {
         );
         wp_localize_script($handle,'tlVendor', [
             //roles =>[],
-            'onboarding' => '0',
+            'onboarding' => 'COMPLETE',
             'accesKeyActions' => trustedlogin_vendor()->getAccessKeyActions(),
         ]);
         wp_register_style(

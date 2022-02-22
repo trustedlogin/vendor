@@ -4,7 +4,8 @@ import Layout, { TopBar } from "../components/Layout";
 import { OnboardingLayout } from "../components/Onboarding";
 import { useSettings } from "../hooks/useSettings";
 import { useMemo } from "react";
-import { AddTeam, CreateFirstTeam } from "../components/Teams";
+import NoTeams from "./teams/NoTeams";
+import AddTeam from "./teams/AddTeam";
 import TeamsSettings from "../components/teams/TeamsSettings";
 import GeneralSettings from "./GeneralSettings";
 
@@ -35,7 +36,7 @@ export default function () {
     case "teams":
       if (!teams.length) {
         return (
-          <CreateFirstTeam
+          <NoTeams
             onClick={() => {
               setCurrentView("teams/new");
             }}
