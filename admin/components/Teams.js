@@ -152,8 +152,8 @@ export const EditTeam = ({
                 <option value={"contributor"}>Contributor</option>
               </SelectField>
               <SelectField
-                id="help-desks"
-                name="help-desks"
+                id="help_desks"
+                name="help_desks"
                 label={"Help Desk"}>
                 <option>Select a Help Desk</option>
                 <option value={"helpscout"}>Help Scout</option>

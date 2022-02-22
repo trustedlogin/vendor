@@ -20,7 +20,8 @@ export default function () {
 
   switch (currentView) {
     case "onboarding":
-      return <OnboardingLayout />;
+      //For now, only show step 2
+      return <OnboardingLayout step={2} singleStepMode={true} />;
     case "teams/new":
       return (
         <AddTeam

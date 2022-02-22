@@ -1,6 +1,7 @@
-import { useEffect, useCallback } from "react";
+import { useEffect } from "react";
 import Layout from "./Layout";
 import { HorizontalLogo } from "./TrustedLoginLogo";
+import { InputField, SelectField, Label } from "./onboarding/fields";
 
 const Aside = {
   CurrentStep: ({ title, subTitle }) => (
@@ -57,8 +58,8 @@ const Main = {
       </a>
     </li>
   ),
-  //List item link to future step
-  FutureStep: ({ step }) => (
+  //List item link to other step
+  OtherStep: ({ step }) => (
     <li>
       <a
         href="#"
@@ -74,14 +75,77 @@ const Main = {
       <div className="h-full">{children}</div>
     </div>
   ),
+  Dots: ({ step }) => {
+    switch (step) {
+      case 3:
+        return (
+          <>
+            <Main.OtherStep step={1} />
+            <Main.OtherStep step={2} />
+            <Main.CurrentStep step={3} />
+          </>
+        );
+      case 2:
+        return (
+          <>
+            <Main.OtherStep step={1} />
+            <Main.CurrentStep step={2} />
+            <Main.OtherStep step={3} />
+          </>
+        );
+      default:
+      case 1:
+        return (
+          <>
+            <Main.OtherStep step={1} />
+            <Main.OtherStep step={2} />
+            <Main.CurrentStep step={3} />
+          </>
+        );
+    }
+  },
+  StepBottom: ({ step, singleStepMode = true }) => {
+    return (
+      <>
+        {!singleStepMode ? (
+          <nav
+            className="flex items-center justify-center"
+            aria-label="Progress">
+            <ol role="list" className="flex items-center space-x-3 mt-2">
+              <Main.Dots step={step} />
+            </ol>
+          </nav>
+        ) : null}
+        <div className="inline-flex pt-12 items-center justify-center sm:hidden">
+          <a className="text-sm text-blue-tl" href="#">
+            Need Help? View our Documentation
+          </a>
+          <svg
+            className="ml-3"
+            width="14"
+            height="14"
+            viewBox="0 0 14 14"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg">
+            <path
+              d="M1.16663 7.00008H12.8333M12.8333 7.00008L6.99996 1.16675M12.8333 7.00008L6.99996 12.8334"
+              stroke="#00AADD"
+              stroke-width="1.67"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+        </div>
+      </>
+    );
+  },
 };
 
 //Display Step one
 const StepOne = () => {
   return (
-    <Main.Step>
-      <div className="flex flex-col pt-12 w-full max-w-sm mx-auto">
-        <Icon step={1} />
+    <>
+      <>
         <div className="max-w-sm mx-auto mb-8 justify-center text-center">
           <h2 className="mt-4 text-2xl text-gray-900">
             Link your TrustedLogin account
@@ -129,15 +193,15 @@ const StepOne = () => {
           </div>
           <div>
             <label
-              for="api-key"
+              for="public_key"
               className="block text-sm font-medium text-gray-700">
-              API Key
+              Public Key
             </label>
             <div className="mt-2 relative rounded-lg">
               <input
                 type="text"
-                name="api-key"
-                id="api-key"
+                name="public_key"
+                id="public_key"
                 className="w-full pl-3 pr-10 py-2.5 sm:text-sm border border-gray-300 rounded-lg focus:outline-none focus:border-sky-500 focus:ring-1 ring-offset-2 focus:ring-sky-500"
                 placeholder=""
               />
@@ -171,43 +235,86 @@ const StepOne = () => {
               Skip
             </button>
           </div>
-          <nav
-            className="flex items-center justify-center"
-            aria-label="Progress">
-            <ol role="list" className="flex items-center space-x-3 mt-2">
-              <Main.CurrentStep step={1} />
-              <Main.FutureStep step={1} />
-              <Main.FutureStep step={2} />
-            </ol>
-          </nav>
-          <div className="inline-flex pt-12 items-center justify-center sm:hidden">
-            <a className="text-sm text-blue-tl" href="#">
-              Need Help? View our Documentation
-            </a>
-            <svg
-              className="ml-3"
-              width="14"
-              height="14"
-              viewBox="0 0 14 14"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg">
-              <path
-                d="M1.16663 7.00008H12.8333M12.8333 7.00008L6.99996 1.16675M12.8333 7.00008L6.99996 12.8334"
-                stroke="#00AADD"
-                stroke-width="1.67"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-            </svg>
-          </div>
+        </div>
+      </>
+    </>
+  );
+};
+
+const StepTwo = () => {
+  return (
+    <>
+      <div className="max-w-sm mx-auto mb-8 justify-center text-center">
+        <h2 className="mt-4 text-2xl text-gray-900">Create your first team</h2>
+        <p className="mt-2 mb-4 text-sm text-gray-500">
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ornare
+          tortor in nisl fermentum.
+        </p>
+        <a className="text-blue-tl text-sm" href="#">
+          Where can I find this info?
+        </a>
+      </div>
+      <div className="flex flex-1 flex-col space-y-6">
+        <InputField type="text" id="account_id" label={"Account ID"} />
+        <InputField type="text" id="public_key" label={"Public Key"} />
+        <InputField type="text" id="private_key" label={"Private Key"} />
+        <SelectField label={"What Roles Provide Support?"} id="approved_roles">
+          <option>Select Roles</option>
+          <option>Administrator</option>
+          <option>Editor</option>
+          <option>Contributor</option>
+        </SelectField>
+        <SelectField label={"Select a Help Desk"} id="help_desks">
+          <option>Select a Help Desk</option>
+          <option value={"helpscout"}>Help Scout</option>
+          <option value={"zendesk"}>Zendesk</option>
+        </SelectField>
+        <div className="pt-2">
+          <button
+            type="button"
+            className="w-full inline-flex justify-center rounded-lg border border-transparent px-4 py-2.5 bg-blue-tl text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 ring-offset-2 focus:ring-sky-500 sm:col-start-2 sm:text-sm">
+            Continue
+          </button>
         </div>
       </div>
-    </Main.Step>
+    </>
   );
 };
 
 const Icon = ({ step }) => {
   switch (step) {
+    case 2:
+      return (
+        <svg
+          class="mx-auto"
+          width="56"
+          height="56"
+          viewBox="0 0 56 56"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg">
+          <rect
+            x="4"
+            y="4"
+            width="48"
+            height="48"
+            rx="24"
+            fill="#00AADD"></rect>
+          <path
+            fill-rule="evenodd"
+            clip-rule="evenodd"
+            d="M28 26C26.9391 26 25.9217 25.5786 25.1716 24.8284C24.4214 24.0783 24 23.0609 24 22C24 20.9391 24.4214 19.9217 25.1716 19.1716C25.9217 18.4214 26.9391 18 28 18C29.0609 18 30.0783 18.4214 30.8284 19.1716C31.5786 19.9217 32 20.9391 32 22C32 23.0609 31.5786 24.0783 30.8284 24.8284C30.0783 25.5786 29.0609 26 28 26ZM22 36C20.9391 36 19.9217 35.5786 19.1716 34.8284C18.4214 34.0783 18 33.0609 18 32C18 30.9391 18.4214 29.9217 19.1716 29.1716C19.9217 28.4214 20.9391 28 22 28C23.0609 28 24.0783 28.4214 24.8284 29.1716C25.5786 29.9217 26 30.9391 26 32C26 33.0609 25.5786 34.0783 24.8284 34.8284C24.0783 35.5786 23.0609 36 22 36V36ZM34 36C32.9391 36 31.9217 35.5786 31.1716 34.8284C30.4214 34.0783 30 33.0609 30 32C30 30.9391 30.4214 29.9217 31.1716 29.1716C31.9217 28.4214 32.9391 28 34 28C35.0609 28 36.0783 28.4214 36.8284 29.1716C37.5786 29.9217 38 30.9391 38 32C38 33.0609 37.5786 34.0783 36.8284 34.8284C36.0783 35.5786 35.0609 36 34 36Z"
+            stroke="white"
+            stroke-width="2"></path>
+          <rect
+            x="4"
+            y="4"
+            width="48"
+            height="48"
+            rx="24"
+            stroke="#CDEFF9"
+            stroke-width="8"></rect>
+        </svg>
+      );
     case 1:
     default:
       return (
@@ -243,10 +350,39 @@ const Icon = ({ step }) => {
 };
 
 /**
+ * Displays current step in Onboarding layout.
+ */
+const Steps = ({ step, singleStepMode = true }) => {
+  const Inside = () => {
+    switch (step) {
+      case 1:
+        return <StepOne />;
+      case 2:
+      default:
+        return <StepTwo />;
+    }
+  };
+  return (
+    <Main.Step>
+      <div className="flex flex-col pt-12 w-full max-w-sm mx-auto">
+        <Icon step={step} />
+        <Inside />
+      </div>
+      <Main.StepBottom step={step} singleStepMode={singleStepMode} />
+    </Main.Step>
+  );
+};
+
+/**
  *
  * I removed .absolute from design to make it appear on the screen
  */
-export const OnboardingLayout = ({ currentStep, children }) => {
+export const OnboardingLayout = ({
+  //Which step to display
+  currentStep = 2,
+  //Set false to hide navigation to other steps.
+  singleStepMode = true,
+}) => {
   useEffect(() => {
     document.getElementById("adminmenumain").remove();
     document.getElementById("wpfooter").remove();
@@ -262,7 +398,10 @@ export const OnboardingLayout = ({ currentStep, children }) => {
               <div
                 id={"trustedlogin-onboarding-main"}
                 className="flex-1 relative z-0 overflow-y-auto focus:outline-none md:order-last">
-                <StepOne />
+                <Steps
+                  currentStep={currentStep}
+                  singleStepMode={singleStepMode}
+                />
               </div>
               <aside
                 className="hidden relative bg-gray-tl md:order-first md:flex md:flex-col flex-shrink-0 min-w-[26rem] overflow-y-auto"
@@ -273,7 +412,10 @@ export const OnboardingLayout = ({ currentStep, children }) => {
                       <div>
                         <HorizontalLogo />
                       </div>
-                      <div>
+                      <div
+                        style={{
+                          visibility: singleStepMode ? "hidden" : "inherit",
+                        }}>
                         <nav aria-label="Progress">
                           <ol role="list" className="overflow-hidden">
                             <Aside.CurrentStep
