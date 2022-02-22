@@ -1,6 +1,7 @@
 <?php
 //Register assets for TrustedLogin Settings
 
+use TrustedLogin\Vendor\Status\Onboarding;
 
 add_action('init', function () {
     $handle = 'trustedlogin-settings';
@@ -15,7 +16,7 @@ add_action('init', function () {
         );
         wp_localize_script($handle,'tlVendor', [
             //roles =>[],
-            'onboarding' => 'COMPLETE',
+            'onboarding' => Onboarding::hasOnboarded(),
             'accesKeyActions' => trustedlogin_vendor()->getAccessKeyActions(),
         ]);
         wp_register_style(

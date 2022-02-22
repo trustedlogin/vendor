@@ -298,7 +298,9 @@ class SettingsApiTest extends \WP_UnitTestCase
 		$settings = new SettingsApi($data);
 
 		$settings->save();
-
+		$this->assertNotEmpty(
+			did_action('trustedlogin_vendor_settings_saved')
+		);
 		$settings = SettingsApi::fromSaved();
 
 		$setting1 = $settings->getByAccountId($accountId);
@@ -431,5 +433,28 @@ class SettingsApiTest extends \WP_UnitTestCase
 				'1126'
 			)->get(( 'private_key'))
 		);
+	}
+
+	/**
+	 * @covers SettingsApi::addSetting()
+	 * @covers SettingsApi::count()
+	 */
+	public function testCount(){
+		$data = [
+			[
+				'account_id'       => '2216',
+				'private_key'      => 'a217',
+				'public_key'       	=> 'a218',
+			],
+			[
+				'account_id'       => '126',
+				'private_key'      => 'b227',
+				'public_key'       	=> 'b228',
+			]
+		];
+		$settings = new SettingsApi([]);
+		$this->assertSame(0, $settings->count());
+		$settings = new SettingsApi($data);
+		$this->assertSame(2, $settings->count());
 	}
 }

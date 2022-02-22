@@ -49,6 +49,9 @@ if( file_exists( $path . 'vendor/autoload.php' ) ){
 	add_action( 'rest_api_init', [$plugin, 'restApiInit']);
     //Handle access key login if requests.
 	add_action( 'template_redirect',[new \TrustedLogin\Vendor\MaybeRedirect, 'handle']);
+	add_action('trustedlogin_vendor_settings_saved',[
+		\TrustedLogin\Vendor\Status\Onboarding::class, 'settingsSaved']
+	 );
 }else{
 	throw new \Exception('Autoloader not found.');
 }
