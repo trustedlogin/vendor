@@ -1,8 +1,11 @@
 import { useSettings } from "../hooks/useSettings";
 import { useView } from "../hooks/useView";
-import { useRef, useMemo } from "react";
-import { PageHeader } from "../components/Layout";
+import { useRef } from "react";
 import { InputField, SelectField } from "./fields";
+import teamFields from "./teams/teamFields";
+
+
+
 
 export const EditTeam = ({
   team = null,
@@ -72,9 +75,9 @@ export const EditTeam = ({
             <div className="flex flex-col space-y-6 sm:flex-1">
               <InputField
                 type="text"
-                name="account_id"
-                id="account_id"
-                label="Account ID"
+                name={teamFields.account_id.id}
+                id={teamFields.account_id.id}
+                label={teamFields.account_id.label}
                 defaultValue={team?.account_id}
                 icon={
                   <svg
@@ -95,9 +98,9 @@ export const EditTeam = ({
               />
               <InputField
                 type="text"
-                name="public_key"
-                id="public_key"
-                label={"Public Key"}
+                name={teamFields.public_key.id}
+                id={teamFields.public_key.id}
+                label={teamFields.public_key.label}
                 defaultValue={team?.public_key}
                 icon={
                   <svg
@@ -119,9 +122,9 @@ export const EditTeam = ({
 
               <InputField
                 type="text"
-                name="private_key"
-                id="private_key"
-                label={"Private Key"}
+                name={teamFields.private_key.id}
+                id={teamFields.private_key.id}
+                label={teamFields.private_key.label}
                 defaultValue={team?.private_key}
                 icon={
                   <svg
@@ -143,18 +146,21 @@ export const EditTeam = ({
             </div>
             <div className="flex flex-col space-y-6 sm:flex-1">
               <SelectField
-                id="approved_roles"
-                name="approved_roles"
-                label={"What Roles Provide Support?"}>
+                name={teamFields.approved_roles.id}
+                id={teamFields.approved_roles.id}
+                label={teamFields.approved_roles.label}
+                defaultValue={team?.approved_roles}
+              >
                 <option>Select Roles</option>
                 <option value={"administrator"}>Administrator</option>
                 <option value={"editor"}>Editor</option>
                 <option value={"contributor"}>Contributor</option>
               </SelectField>
               <SelectField
-                id="help_desks"
-                name="help_desks"
-                label={"Help Desk"}>
+                name={teamFields.helpdesk.id}
+                id={teamFields.helpdesk.id}
+                label={teamFields.helpdesk.label}
+              >
                 <option>Select a Help Desk</option>
                 <option value={"helpscout"}>Help Scout</option>
                 <option value={"zendesk"}>Zendesk</option>

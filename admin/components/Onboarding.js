@@ -4,6 +4,7 @@ import { HorizontalLogo } from "./TrustedLoginLogo";
 import { InputField, SelectField, Label } from "./onboarding/fields";
 import Main from "./onboarding/Main";
 import Aside from "./onboarding/Aside";
+import teamFields from "./teams/teamFields";
 
 //Display Step one
 const StepOne = () => {
@@ -119,16 +120,31 @@ const StepTwo = () => {
         </a>
       </div>
       <div className="flex flex-1 flex-col space-y-6">
-        <InputField type="text" id="account_id" label={"Account ID"} />
-        <InputField type="text" id="public_key" label={"Public Key"} />
-        <InputField type="text" id="private_key" label={"Private Key"} />
-        <SelectField label={"What Roles Provide Support?"} id="approved_roles">
+        <InputField
+          id={teamFields.account_id.id}
+          label={teamFields.account_id.label}
+        />
+        <InputField
+          id={teamFields.public_key.id}
+          label={teamFields.public_key.label}
+         />
+        <InputField
+          id={teamFields.private_key.id}
+          label={teamFields.private_key.label}
+        />
+        <SelectField
+          id={teamFields.approved_roles.id}
+          label={teamFields.approved_roles.label}
+        >
           <option>Select Roles</option>
           <option>Administrator</option>
           <option>Editor</option>
           <option>Contributor</option>
         </SelectField>
-        <SelectField label={"Select a Help Desk"} id="help_desks">
+        <SelectField
+          id={teamFields.helpdesk.id}
+          label={teamFields.helpdesk.label}
+        >
           <option>Select a Help Desk</option>
           <option value={"helpscout"}>Help Scout</option>
           <option value={"zendesk"}>Zendesk</option>
