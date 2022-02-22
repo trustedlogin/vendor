@@ -1,10 +1,11 @@
-import { useEffect } from "react";
+import { useEffect,useRef } from "react";
 import Layout from "./Layout";
 import { HorizontalLogo } from "./TrustedLoginLogo";
 import { InputField, SelectField, Label } from "./onboarding/fields";
 import Main from "./onboarding/Main";
 import Aside from "./onboarding/Aside";
 import teamFields from "./teams/teamFields";
+import collectTeam from "./teams/collectTeam";
 
 //Display Step one
 const StepOne = () => {
@@ -107,6 +108,13 @@ const StepOne = () => {
 };
 
 const StepTwo = () => {
+  const formRef = useRef(null);
+  const handleSave = (e) => {
+    e.preventDefault();
+    let team = collectTeam(formRef.current);
+    console.log(team);
+  };
+
   return (
     <>
       <div className="max-w-sm mx-auto mb-8 justify-center text-center">
@@ -119,7 +127,11 @@ const StepTwo = () => {
           Where can I find this info?
         </a>
       </div>
-      <div className="flex flex-1 flex-col space-y-6">
+      <form
+        ref={formRef}
+        className="flex flex-1 flex-col space-y-6"
+        onSubmit={handleSave}
+      >
         <InputField
           id={teamFields.account_id.id}
           label={teamFields.account_id.label}
@@ -151,12 +163,13 @@ const StepTwo = () => {
         </SelectField>
         <div className="pt-2">
           <button
+            onClick={handleSave}
             type="button"
             className="w-full inline-flex justify-center rounded-lg border border-transparent px-4 py-2.5 bg-blue-tl text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 ring-offset-2 focus:ring-sky-500 sm:col-start-2 sm:text-sm">
             Continue
           </button>
         </div>
-      </div>
+      </form>
     </>
   );
 };

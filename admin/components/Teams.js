@@ -3,6 +3,7 @@ import { useView } from "../hooks/useView";
 import { useRef } from "react";
 import { InputField, SelectField } from "./fields";
 import teamFields from "./teams/teamFields";
+import collectTeam from "./teams/collectTeam";
 
 
 
@@ -17,16 +18,7 @@ export const EditTeam = ({
 
   const handleSave = (e) => {
     e.preventDefault();
-    let team = {};
-    const data = new FormData(formRef.current);
-    for (let [key, value] of data) {
-      team[key] = value;
-    }
-    if (team.hasOwnProperty("approved_roles")) {
-      team.approved_roles = [team.approved_roles];
-    } else {
-      team.approved_roles = [];
-    }
+    let team = collectTeam(formRef.current);
     onClickSave(team);
   };
   return (
