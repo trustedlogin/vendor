@@ -1,4 +1,5 @@
 import { createContext, useContext, useState, useEffect } from "react";
+import { useSettings } from "./useSettings";
 
 const ViewContext = createContext();
 
@@ -7,9 +8,14 @@ export const useView = () => {
   return context;
 };
 
-export default function ViewProvider({ children, defaultView }) {
+export default function ViewProvider({ children }) {
+  const { hasOnboarded } = useSettings();
+
   //Which view to show
-  const [currentView, setCurrentView] = useState(defaultView);
+  const [currentView, setCurrentView] = useState(() => {
+    return hasOnboarded ? "teams" : "onboarding";
+  });
+
   //The ID of team to show in view
   const [currentTeam, setCurrentTeam] = useState(false);
 

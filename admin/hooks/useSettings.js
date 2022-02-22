@@ -25,7 +25,8 @@ const SettingsContext = createContext(defaultSettings);
 export const useSettings = () => {
   //@todo bring back notice state and setNotice
   const setNotice = () => {};
-  const { settings, setSettings, api } = useContext(SettingsContext);
+  const { settings, setSettings, api, hasOnboarded } =
+    useContext(SettingsContext);
 
   const _updateTeams = (teams) => {
     teams = teams.map((t, i) => {
@@ -162,10 +163,11 @@ export const useSettings = () => {
     canSave,
     getTeam,
     hasTeam,
+    hasOnboarded,
   };
 };
 
-export default function SettingsProvider({ api, children }) {
+export default function SettingsProvider({ api, hasOnboarded, children }) {
   const [settings, setSettings] = useState(defaultSettings);
   //Get the saved settings
   useEffect(() => {
@@ -176,13 +178,14 @@ export default function SettingsProvider({ api, children }) {
         helpscout,
       });
     });
-  }, [api]);
+  }, [api, setSettings]);
 
   return (
     <SettingsContext.Provider
       value={{
         settings,
         setSettings,
+        hasOnboarded,
         api,
       }}>
       {children}

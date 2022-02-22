@@ -1,10 +1,10 @@
 import { __ } from "@wordpress/i18n";
-import { useMemo, useState, useEffect } from "react";
+import { useState, Fragment } from "react";
 import TrustedLoginSettings from "../components/TrustedLoginSettings";
 import ViewProvider from "../hooks/useView";
 import SettingsProvider from "../hooks/useSettings";
 
-export default function App({ getSettings, updateSettings }) {
+export default function App({ getSettings, updateSettings, hasOnboarded }) {
   const [notice, setNotice] = useState(() => {
     return {
       text: "",
@@ -14,17 +14,17 @@ export default function App({ getSettings, updateSettings }) {
   });
 
   return (
-    <ViewProvider
-      defaultView={"teams"}
-      //defaultView={!settings.hasOnboarded ? 'onboarding': 'settings'}
-    >
+    <Fragment>
       <SettingsProvider
+        hasOnboarded={hasOnboarded}
         api={{
           getSettings,
           updateSettings,
         }}>
-        <TrustedLoginSettings />
+        <ViewProvider>
+          <TrustedLoginSettings />
+        </ViewProvider>
       </SettingsProvider>
-    </ViewProvider>
+    </Fragment>
   );
 }
