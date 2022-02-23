@@ -11,7 +11,7 @@
 - Install php dependencies
     - `composer install`
 - Create env file
-    - `cp .env-example .env`
+    - `cp .env.example .env`
     - You will need to ask Josh and/ or Zack for values for `NGROK_WP_URL`, `NGROK_USERS`,`TL_VENDOR_ENCRYTPTION_KEY` and `NGROK_AUTH_TOKEN`.
 - Setup site using `wp.js` script.
 ### wp.js
@@ -47,6 +47,7 @@ The `wp.js` script uses docker compose.
     - `yarn build:js`
 - Start JS watcher and CSS watcher in parallel
     - `yarn start`
+    - This is busted, open two tabs, `yarn start:css`, `yarn start:js`
 - Start JS watcher only
     - `yarn start:js`
 - Test changed files
@@ -149,10 +150,11 @@ There is a special phpunit container for running WordPress tests, with WordPress
 
 - Enter container
     - `docker-compose run phpunit`
-    - Test
-        - `composer test:wordpress`
+- Test
+    - `composer test:wordpress`
 - Run tests once
   - `docker-compose run phpunit phpunit --config=phpunit-integration.xml`
+
 ### ngrok
 
 The WordPress site will also be on the internets at [https://trustedlogin.ngrok.io/](https://trustedlogin.ngrok.io/). This requires setting the variable `NGROK_AUTH_TOKEN` in the .env file.
