@@ -21,7 +21,6 @@ class MaybeRedirect
 	 */
 	public function handle()
 	{
-
 		if ( isset($_REQUEST[ AccessKeyLogin::REDIRECT_ENDPOINT ])) {
 			if( isset($_REQUEST['action']) && Webhook::WEBHOOK_ACTION == $_REQUEST['action']){
 				$provider = $_REQUEST[Factory::PROVIDER_KEY];
@@ -60,8 +59,5 @@ class MaybeRedirect
 			);
 			exit;
 		}
-
-
-
 	}
 }
