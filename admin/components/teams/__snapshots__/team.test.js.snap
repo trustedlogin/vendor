@@ -650,11 +650,6 @@ exports[`NoTeams Renders & Matches snapshot 1`] = `
       >
         Create your first team
       </h2>
-      <p
-        class="mt-2 mb-8 text-sm text-gray-500"
-      >
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ornare tortor in nisl fermentum.
-      </p>
       <button
         class="inline-flex items-center justify-center px-4 py-2 border border-transparent shadow-sm font-medium rounded-lg text-white bg-blue-tl focus:outline-none focus:ring-2 ring-offset-2 focus:ring-sky-500 sm:text-sm"
         type="button"

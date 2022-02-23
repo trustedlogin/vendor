@@ -42,12 +42,17 @@ const TeamsList = () => {
     setTeamDeleting(teamId);
   }
 
+  function goToAccesKey(teamId) {
+    setCurrentTeam(teamId);
+    setCurrentView("teams/access_key");
+  }
+
   return (
     <>
       {isDeleting ? (
         <CenteredLayout>
           <>
-            <div className="max-w-sm mx-auto mb-8 justify-center text-center">
+            <div classNCenteredLayoutame="max-w-sm mx-auto mb-8 justify-center text-center">
               <h2 className="mt-4 text-2xl text-gray-900">Are You Sure?</h2>
               <p className="mt-2 mb-4 text-sm text-gray-500">
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed
@@ -127,9 +132,11 @@ const TeamsList = () => {
                     key={team.id}
                     className="py-5 flex flex-col items-center justify-between sm:py-8 sm:flex-row">
                     <div className="flex w-full items-center space-x-5 sm:w-auto">
-                      <div className="flex-shrink-0 flex items-center justify-center h-12 w-12 bg-purple-600 text-white text-sm font-medium rounded-lg">
+                      <button
+                        onClick={() => goToAccesKey(team.id)}
+                        className="flex-shrink-0 flex items-center justify-center h-12 w-12 bg-purple-600 text-white text-sm font-medium rounded-lg">
                         TN
-                      </div>
+                      </button>
                       <div className="flex flex-row space-x-16 items-center w-full justify-between sm:justify-start">
                         <div className="flex flex-col max-w-[10rem] sm:max-w-[8rem] md:max-w-none">
                           <p

@@ -4,7 +4,7 @@ import { useView } from "../../hooks/useView";
 import EditTeam from "../teams/EditTeam";
 
 import TeamsList from "./TeamsList";
-
+import AccessKeyForm from "../AccessKeyForm";
 const TeamsSettings = () => {
   const { currentView, setCurrentView, currentTeam } = useView();
   const { setTeam, settings, getTeam } = useSettings();
@@ -34,6 +34,13 @@ const TeamsSettings = () => {
         }}
       />
     );
+  }
+
+  if ("teams/access_key" === currentView) {
+    if (team) {
+      return <AccessKeyForm initialAccountId={team.account_id} />;
+    }
+    return <div>No team:(</div>;
   }
 
   return <TeamsList />;

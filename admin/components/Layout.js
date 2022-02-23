@@ -202,10 +202,26 @@ const Layout = ({ children }) => {
   return <div className="h-full overflow-hidden">{children}</div>;
 };
 
-export const CenteredLayout = ({ children }) => {
+export const CenteredLayout = ({
+  children,
+  Icon = null,
+  title = null,
+  subTitle = null,
+}) => {
   return (
     <div className="flex px-5 pt-12 sm:px-10 sm:pt-32">
       <div className="flex flex-col justify-center text-center w-full max-w-lg mx-auto p-8 bg-white rounded-lg shadow sm:p-14">
+        {Icon ? <Icon /> : null}
+
+        {title ? (
+          <h2 className="mt-4 text-2xl text-gray-900">{title}</h2>
+        ) : null}
+        {subTitle ? (
+          <p className="mt-2 mb-8 text-sm text-gray-500">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ornare
+            tortor in nisl fermentum.
+          </p>
+        ) : null}
         {children}
       </div>
     </div>

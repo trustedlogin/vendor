@@ -1,10 +1,17 @@
 import { useMemo, useState, useEffect } from "react";
 import { __ } from "@wordpress/i18n";
 import { FormTable, Input, Select, Form, BigButton } from "./index";
+import { useSettings } from "../hooks/useSettings";
 
-const AccessKeyForm = ({ initialAccountId, teams }) => {
+const AccessKeyForm = ({ initialAccountId }) => {
   const [accountId, setAccountId] = useState(initialAccountId);
   const [accessKey, setAccessKey] = useState("");
+  const { settings } = useSettings();
+
+  const teams = useMemo(() => {
+    return settings && settings.hasOwnProperty("teams") ? settings.teams : [];
+  }, [settings]);
+
   const teamsOption = useMemo(() => {
     if (!teams) {
       return [];
