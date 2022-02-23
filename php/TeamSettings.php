@@ -49,6 +49,7 @@ class TeamSettings
 			'connected' => false,
 			'status' => false,
 			'name' => '',
+			'conntected' => false,
 			self::HELPDESK_SETTINGS => [
 
 			]

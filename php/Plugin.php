@@ -96,6 +96,8 @@ class Plugin
 	 * @param string $accountId Account ID, which must be saved in settings, to get handler for.
 	 * @param string $apiUrl Optional. Url for TrustedLogin API.
 	 * @param null|TeamSettings $team Optional. TeamSettings  to use.
+	 *
+	 * @return ApiHandler
 	 */
 	public function getApiHandler($accountId, $apiUrl = '', $team = null )
 	{
@@ -112,6 +114,24 @@ class Plugin
 			'type'        => 'saas',
 			'api_url' => $apiUrl
 		], $this->apiSender );
+	}
+
+	/**
+	 * Verify team credentials
+	 *
+	 * @return bool
+	 */
+	public function verifyAccount(TeamSettings $team){
+		$handler = new ApiHandler([
+			'private_key' => $team->get('private_key'),
+			'public_key'  => $team->get('public_key'),
+			'debug_mode'  => $team->get('debug_enabled'),
+			'type'        => 'saas',
+			'api_url' => TRUSTEDLOGIN_API_URL
+		], $this->apiSender );
+		return ! is_wp_error($handler->verify(
+			$team->get('account_id'),
+		));
 	}
 
 	public function getApiUrl()

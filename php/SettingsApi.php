@@ -3,11 +3,11 @@
 
 namespace TrustedLogin\Vendor;
 
-
+use TrustedLogin\Vendor\Status\IsTeamConnected;
 use TrustedLogin\Vendor\Webhooks\Helpscout;
 
 /**
- * Responsible for all read/write of settings plugin uses.
+ * Responsible for all read/write of settings plugin uses for teams.
  *
  * Encryption class doesn't follow this rule BTW, but you should.
  */
@@ -89,10 +89,14 @@ class SettingsApi
 
 			}
 			$data[] = $_setting;
-
-
-
 		}
+
+		foreach ($this->team_settings as $i => $setting) {
+			if( ! IsTeamConnected::needToCheck( $setting ) ){
+				$this->team_settings[$i] = IsTeamConnected::check( $setting );
+			}
+		}
+
 		update_option(self::TEAM_SETTING_NAME, json_encode($data));
 
 		/**
