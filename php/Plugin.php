@@ -60,6 +60,15 @@ class Plugin
 	}
 
 	/**
+	 * Get the settings API object
+	 *
+	 * @return SettingsApi
+	 */
+	public function getSettings(){
+		return $this->settings;
+	}
+
+	/**
 	 * Get the encryption API
 	 *
 	 * @return Encryption

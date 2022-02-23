@@ -2,6 +2,7 @@
 //Register assets for TrustedLogin Settings
 
 use TrustedLogin\Vendor\Status\Onboarding;
+use TrustedLogin\Vendor\Reset;
 
 add_action('init', function () {
     $handle = 'trustedlogin-settings';
@@ -15,6 +16,7 @@ add_action('init', function () {
             $assets['version']
         );
         wp_localize_script($handle,'tlVendor', [
+            'resetAction' => esc_url_raw(Reset::actionUrl()),
             'roles' =>[
                 'administrator' => 'Administrator',
                 'editor' => 'Editor',
