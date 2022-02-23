@@ -15,7 +15,10 @@ add_action('init', function () {
             $assets['version']
         );
         wp_localize_script($handle,'tlVendor', [
-            //roles =>[],
+            'roles' =>[
+                'administrator' => 'Administrator',
+                'editor' => 'Editor',
+            ],
             'onboarding' => Onboarding::hasOnboarded() ? 'COMPLETE' : '0',
             'accesKeyActions' => trustedlogin_vendor()->getAccessKeyActions(),
         ]);

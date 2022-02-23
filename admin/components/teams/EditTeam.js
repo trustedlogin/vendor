@@ -1,14 +1,14 @@
 import { useView } from "../../hooks/useView";
 import { useRef } from "react";
-import { InputField, SelectField } from "./fields";
+import { InputField, SelectField, SelectFieldArea } from "./fields";
 import teamFields from "./teamFields";
 import collectTeam from "./collectTeam";
 import { SubmitAndCanelButtons } from "../Buttons";
+import RoleMultiSelect from "../RoleMultiSelect";
 
 const EditTeam = ({ team = null, onClickSave, formTitle = "Update Team" }) => {
   const { setCurrentView } = useView();
   const formRef = useRef();
-
   const handleSave = (e) => {
     e.preventDefault();
     let team = collectTeam(formRef.current);
@@ -130,16 +130,15 @@ const EditTeam = ({ team = null, onClickSave, formTitle = "Update Team" }) => {
               />
             </div>
             <div className="flex flex-col space-y-6 sm:flex-1">
-              <SelectField
-                name={teamFields.approved_roles.id}
+              <SelectFieldArea
                 id={teamFields.approved_roles.id}
-                label={teamFields.approved_roles.label}
-                defaultValue={team?.approved_roles}>
-                <option>Select Roles</option>
-                <option value={"administrator"}>Administrator</option>
-                <option value={"editor"}>Editor</option>
-                <option value={"contributor"}>Contributor</option>
-              </SelectField>
+                label={teamFields.approved_roles.label}>
+                <RoleMultiSelect
+                  approvedRoles={team?.approved_roles || []}
+                  id={teamFields.approved_roles.id}
+                />
+              </SelectFieldArea>
+
               <SelectField
                 name={teamFields.helpdesk.id}
                 id={teamFields.helpdesk.id}

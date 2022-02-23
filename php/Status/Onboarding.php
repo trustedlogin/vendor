@@ -3,7 +3,6 @@
 
 namespace TrustedLogin\Vendor\Status;
 
-use TrustedLogin\Vendor\SettingsApi;
 
 /**
  * Track onboarding status
@@ -14,6 +13,12 @@ class Onboarding {
 	 */
 	const ONBOARDED = 'trustedlogin_has_onboarded';
 
+    /**
+     * Reset status of unboarding
+     */
+    public static function reset(){
+        delete_option(self::ONBOARDED);
+    }
     /**
      * Check if we have already unboarded
      * @return bool

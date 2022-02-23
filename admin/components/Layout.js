@@ -1,4 +1,4 @@
-import { SecondaryButton } from ".";
+import { SecondaryButton } from "./Buttons";
 import { HorizontalLogo } from "./TrustedLoginLogo";
 import { useState } from "react";
 import { useView } from "../hooks/useView";

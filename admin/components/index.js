@@ -1,45 +1,5 @@
 import { useMemo } from "react";
 
-const Button = ({ onClick, id, children, isExpanded, hasPopup, className }) => (
-  <button
-    id={id}
-    onClick={(e) => {
-      e.preventDefault();
-      onClick();
-    }}
-    type="button"
-    className={className}
-    aria-expanded={isExpanded}
-    aria-haspopup={hasPopup}>
-    {children}
-  </button>
-);
-
-Button.defaultProps = {
-  isExpanded: false,
-  hasPopup: true,
-  onClick: () => {},
-};
-
-export const SecondaryButton = ({
-  onClick,
-  id,
-  children,
-  isExpanded,
-  hasPopup,
-}) => {
-  return (
-    <Button
-      id={id}
-      onClick={onClick}
-      type="button"
-      className="bg-white border border-gray-300 rounded-lg px-4 py-2 inline-flex items-center justify-center text-sm font-medium text-gray-900 hover:bg-gray-50 focus:outline-none focus:ring-2 ring-offset-2 focus:ring-sky-500"
-      isExpanded={isExpanded}
-      hasPopup={hasPopup}>
-      {children}
-    </Button>
-  );
-};
 export const DangerButton = ({
   onClick,
   id,

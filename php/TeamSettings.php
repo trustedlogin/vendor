@@ -8,6 +8,8 @@
 
 namespace TrustedLogin\Vendor;
 
+use TrustedLogin\Vendor\Status\IsTeamConnected;
+
 /**
  * Object-representation of one Team's settings.
  */
@@ -46,7 +48,7 @@ class TeamSettings
 			'approved_roles'   => [ 'administrator' ],
 			'debug_enabled'    => 'on',
 			'enable_audit_log' => 'on',
-			'connected' => false,
+			IsTeamConnected::KEY => false,
 			'status' => false,
 			'name' => '',
 			'conntected' => false,

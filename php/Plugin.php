@@ -4,6 +4,7 @@ namespace TrustedLogin\Vendor;
 
 use TrustedLogin\Vendor\Contracts\SendsApiRequests as ApiSend;
 use TrustedLogin\Vendor\SettingsApi;
+use TrustedLogin\Vendor\Status\Onboarding;
 use TrustedLogin\Vendor\TeamSettings;
 class Plugin
 {
@@ -36,7 +37,9 @@ class Plugin
 		$this->auditLog = new AuditLog();
 		$this->apiSender = new \TrustedLogin\Vendor\ApiSend();
 		$this->settings = SettingsApi::fromSaved();
+
 		//$this->settings->reset()->save();
+		//\TrustedLogin\Vendor\Status\Onboarding::reset();
 	}
 
 

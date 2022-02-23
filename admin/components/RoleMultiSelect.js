@@ -1,11 +1,10 @@
 import Multiselect from "multiselect-react-dropdown";
 import { useMemo } from "react";
-import { FieldTr } from "./index";
 
 /**
  * MutliSelect component for WordPress Roles
  */
-const RoleMultiSelect = ({ approvedRoles, help, label, onChange }) => {
+const RoleMultiSelect = ({ approvedRoles = [], id }) => {
   const rolesOptions = useMemo(() => {
     let tl = window.tlVendor || {};
     let roles =
@@ -17,13 +16,14 @@ const RoleMultiSelect = ({ approvedRoles, help, label, onChange }) => {
           };
     return Object.keys(roles).map((role) => {
       return {
-        name: roles[role],
         id: role,
+        name: roles[role],
       };
     });
   }, [window.tlVendor]);
+
   function handleChange(selectedList) {
-    onChange(selectedList.map((item) => item.id));
+    //onChange(selectedList.map((item) => item.id));
   }
 
   const currentValues = approvedRoles.map((value) => {
@@ -31,15 +31,16 @@ const RoleMultiSelect = ({ approvedRoles, help, label, onChange }) => {
   });
 
   return (
-    <FieldTr label={label} help={help} name={"approvedRoles"}>
+    <>
       <Multiselect
+        id={id}
         options={rolesOptions} // Options to display in the dropdown
         selectedValues={currentValues || {}} // Preselected value to persist in dropdown
         onSelect={handleChange} // Function will trigger on select event
         onRemove={handleChange} // Function will trigger on remove event
         displayValue="name" // Property name to display in the dropdown options
       />
-    </FieldTr>
+    </>
   );
 };
 

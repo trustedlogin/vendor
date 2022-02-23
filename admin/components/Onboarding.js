@@ -1,13 +1,18 @@
 import { useEffect, useRef } from "react";
 import Layout from "./Layout";
 import { HorizontalLogo } from "./TrustedLoginLogo";
-import { InputField, SelectField, Label } from "./onboarding/fields";
+import {
+  InputField,
+  SelectField,
+  OnboardingSelectFieldArea,
+} from "./onboarding/fields";
 import Main from "./onboarding/Main";
 import Aside from "./onboarding/Aside";
 import teamFields from "./teams/teamFields";
 import collectTeam from "./teams/collectTeam";
 import { useSettings } from "../hooks/useSettings";
 import { useView } from "../hooks/useView";
+import RoleMultiSelect from "./RoleMultiSelect";
 
 //Display Step one
 const StepOne = () => {
@@ -147,14 +152,15 @@ const StepTwo = () => {
           id={teamFields.private_key.id}
           label={teamFields.private_key.label}
         />
-        <SelectField
+        <OnboardingSelectFieldArea
           id={teamFields.approved_roles.id}
           label={teamFields.approved_roles.label}>
-          <option>Select Roles</option>
-          <option>Administrator</option>
-          <option>Editor</option>
-          <option>Contributor</option>
-        </SelectField>
+          <RoleMultiSelect
+            approvedRoles={[]}
+            id={teamFields.approved_roles.id}
+          />
+        </OnboardingSelectFieldArea>
+
         <SelectField
           id={teamFields.helpdesk.id}
           label={teamFields.helpdesk.label}>

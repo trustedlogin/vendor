@@ -197,30 +197,49 @@ exports[`AddTeam Renders & Matches snapshot 1`] = `
             <div
               class="mt-2"
             >
-              <select
-                class="bg-white block w-full pl-3 pr-8 py-2.5 sm:text-sm border border-gray-300 rounded-lg focus:outline-none focus:border-sky-500 focus:ring-1 ring-offset-2 focus:ring-sky-500"
+              <div
+                class="multiselect-container multiSelectContainer "
                 id="approved_roles"
-                name="approved_roles"
               >
-                <option>
-                  Select Roles
-                </option>
-                <option
-                  value="administrator"
+                <div
+                  class="search-wrapper searchWrapper "
                 >
-                  Administrator
-                </option>
-                <option
-                  value="editor"
+                  <input
+                    autocomplete="off"
+                    class="searchBox"
+                    id="approved_roles_input"
+                    placeholder="Select"
+                    type="text"
+                    value=""
+                  />
+                </div>
+                <div
+                  class="optionListContainer displayNone"
                 >
-                  Editor
-                </option>
-                <option
-                  value="contributor"
-                >
-                  Contributor
-                </option>
-              </select>
+                  <ul
+                    class="optionContainer"
+                  >
+                    <li
+                      class="
+              highlightOption highlight 
+              false 
+              false option
+            "
+                    >
+                      Administrator
+                    </li>
+                    <li
+                      class="
+               
+              false 
+              false option
+            "
+                    >
+                      Editor
+                    </li>
+                  </ul>
+                </div>
+              </div>
             </div>
           </div>
           <div
@@ -480,30 +499,49 @@ exports[`EditTeam Renders & Matches snapshot 1`] = `
             <div
               class="mt-2"
             >
-              <select
-                class="bg-white block w-full pl-3 pr-8 py-2.5 sm:text-sm border border-gray-300 rounded-lg focus:outline-none focus:border-sky-500 focus:ring-1 ring-offset-2 focus:ring-sky-500"
+              <div
+                class="multiselect-container multiSelectContainer "
                 id="approved_roles"
-                name="approved_roles"
               >
-                <option>
-                  Select Roles
-                </option>
-                <option
-                  value="administrator"
+                <div
+                  class="search-wrapper searchWrapper "
                 >
-                  Administrator
-                </option>
-                <option
-                  value="editor"
+                  <input
+                    autocomplete="off"
+                    class="searchBox"
+                    id="approved_roles_input"
+                    placeholder="Select"
+                    type="text"
+                    value=""
+                  />
+                </div>
+                <div
+                  class="optionListContainer displayNone"
                 >
-                  Editor
-                </option>
-                <option
-                  value="contributor"
-                >
-                  Contributor
-                </option>
-              </select>
+                  <ul
+                    class="optionContainer"
+                  >
+                    <li
+                      class="
+              highlightOption highlight 
+              false 
+              false option
+            "
+                    >
+                      Administrator
+                    </li>
+                    <li
+                      class="
+               
+              false 
+              false option
+            "
+                    >
+                      Editor
+                    </li>
+                  </ul>
+                </div>
+              </div>
             </div>
           </div>
           <div
