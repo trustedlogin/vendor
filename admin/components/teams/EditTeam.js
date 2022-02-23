@@ -19,7 +19,7 @@ const EditTeam = ({ team = null, onClickSave, formTitle = "Update Team" }) => {
       <form
         className="flex px-5 pt-20 sm:px-10"
         ref={formRef}
-        onSave={handleSave}>
+        onSubmit={handleSave}>
         <div className="flex flex-col w-full max-w-4xl mx-auto p-8 bg-white rounded-lg shadow sm:p-14 sm:pb-8">
           <svg
             className="mx-auto"

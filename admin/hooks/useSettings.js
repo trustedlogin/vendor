@@ -67,7 +67,6 @@ export const useSettings = () => {
    */
   const removeTeam = (id, callback = null) => {
     const teams = settings.teams.filter((team) => team.id !== id);
-    console.log(teams);
     api
       .updateSettings({
         ...settings,
@@ -179,18 +178,31 @@ export const useSettings = () => {
   };
 };
 
-export default function SettingsProvider({ api, hasOnboarded, children }) {
-  const [settings, setSettings] = useState(defaultSettings);
+export default function SettingsProvider({
+  api,
+  hasOnboarded,
+  children,
+  initialTeams = null,
+}) {
+  const [settings, setSettings] = useState(() => {
+    if (null !== initialTeams) {
+      return { ...defaultSettings, teams: initialTeams };
+    } else {
+      return defaultSettings;
+    }
+  });
   //Get the saved settings
   useEffect(() => {
-    api.getSettings().then(({ teams, helpscout }) => {
-      setSettings({
-        ...settings,
-        teams,
-        helpscout,
+    if (null == initialTeams) {
+      api.getSettings().then(({ teams, helpscout }) => {
+        setSettings({
+          ...settings,
+          teams,
+          helpscout,
+        });
       });
-    });
-  }, [api, setSettings]);
+    }
+  }, [api, setSettings, initialTeams]);
 
   return (
     <SettingsContext.Provider
