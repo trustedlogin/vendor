@@ -19,6 +19,7 @@ export default function () {
     return settings && settings.hasOwnProperty("teams") ? settings.teams : [];
   }, [settings]);
 
+  //The non-default views here are those withOUT a TopBar
   switch (currentView) {
     case "onboarding":
       //For now, only show step 2
@@ -45,7 +46,7 @@ export default function () {
       }
 
     default:
-      //Show primary UI if has onboarded
+      //Show primary UI with TopBar if has onboarded
       return (
         <Layout>
           <TopBar status={"Connected"} />
