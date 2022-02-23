@@ -41,15 +41,22 @@ The `wp.js` script uses docker compose.
 
 ## Working With JavaScript
 
-- Build JavaScript for production
+- Build JavaScript and CSS for production
     - `yarn build`
-- Start JS watcher for development
+- Build JavaScript for production
+    - `yarn build:js`
+- Start JS watcher and CSS watcher in parallel
     - `yarn start`
+    - This is busted, open two tabs, `yarn start:css`, `yarn start:js`
+- Start JS watcher only
+    - `yarn start:js`
 - Test changed files
     - `yarn test --watch`
 - Test all files once
     - `yarn test`
     - `yarn test --ci`
+- Lint JS
+    - `yarn lint`
 ## Working With CSS
 
 - Build CSS for production
@@ -143,11 +150,10 @@ There is a special phpunit container for running WordPress tests, with WordPress
 
 - Enter container
     - `docker-compose run phpunit`
-- Composer install
-    - `composer install`
 - Test
     - `composer test:wordpress`
-
+- Run tests once
+  - `docker-compose run phpunit phpunit --config=phpunit-integration.xml`
 ### ngrok
 
 The WordPress site will also be on the internets at [https://trustedlogin.ngrok.io/](https://trustedlogin.ngrok.io/). This requires setting the variable `NGROK_AUTH_TOKEN` in the .env file.
