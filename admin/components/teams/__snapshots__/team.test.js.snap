@@ -78,7 +78,7 @@ exports[`AddTeam Renders & Matches snapshot 1`] = `
               class="mt-2 relative rounded-lg"
             >
               <input
-                class="block w-full pl-3 pr-10 py-2.5 sm:text-sm border border-gray-300 rounded-lg focus:outline-none focus:border-sky-500 focus:ring-1 ring-offset-2 focus:ring-sky-500"
+                class="block w-full pl-4 pr-10 py-2.5 sm:text-sm border border-gray-300 rounded-lg focus:outline-none focus:border-sky-500 focus:ring-1 ring-offset-2 focus:ring-sky-500"
                 id="account_id"
                 name="account_id"
                 type="text"
@@ -116,7 +116,7 @@ exports[`AddTeam Renders & Matches snapshot 1`] = `
               class="mt-2 relative rounded-lg"
             >
               <input
-                class="block w-full pl-3 pr-10 py-2.5 sm:text-sm border border-gray-300 rounded-lg focus:outline-none focus:border-sky-500 focus:ring-1 ring-offset-2 focus:ring-sky-500"
+                class="block w-full pl-4 pr-10 py-2.5 sm:text-sm border border-gray-300 rounded-lg focus:outline-none focus:border-sky-500 focus:ring-1 ring-offset-2 focus:ring-sky-500"
                 id="public_key"
                 name="public_key"
                 type="text"
@@ -154,7 +154,7 @@ exports[`AddTeam Renders & Matches snapshot 1`] = `
               class="mt-2 relative rounded-lg"
             >
               <input
-                class="block w-full pl-3 pr-10 py-2.5 sm:text-sm border border-gray-300 rounded-lg focus:outline-none focus:border-sky-500 focus:ring-1 ring-offset-2 focus:ring-sky-500"
+                class="block w-full pl-4 pr-10 py-2.5 sm:text-sm border border-gray-300 rounded-lg focus:outline-none focus:border-sky-500 focus:ring-1 ring-offset-2 focus:ring-sky-500"
                 id="private_key"
                 name="private_key"
                 type="text"
@@ -380,7 +380,7 @@ exports[`EditTeam Renders & Matches snapshot 1`] = `
               class="mt-2 relative rounded-lg"
             >
               <input
-                class="block w-full pl-3 pr-10 py-2.5 sm:text-sm border border-gray-300 rounded-lg focus:outline-none focus:border-sky-500 focus:ring-1 ring-offset-2 focus:ring-sky-500"
+                class="block w-full pl-4 pr-10 py-2.5 sm:text-sm border border-gray-300 rounded-lg focus:outline-none focus:border-sky-500 focus:ring-1 ring-offset-2 focus:ring-sky-500"
                 id="account_id"
                 name="account_id"
                 type="text"
@@ -418,7 +418,7 @@ exports[`EditTeam Renders & Matches snapshot 1`] = `
               class="mt-2 relative rounded-lg"
             >
               <input
-                class="block w-full pl-3 pr-10 py-2.5 sm:text-sm border border-gray-300 rounded-lg focus:outline-none focus:border-sky-500 focus:ring-1 ring-offset-2 focus:ring-sky-500"
+                class="block w-full pl-4 pr-10 py-2.5 sm:text-sm border border-gray-300 rounded-lg focus:outline-none focus:border-sky-500 focus:ring-1 ring-offset-2 focus:ring-sky-500"
                 id="public_key"
                 name="public_key"
                 type="text"
@@ -456,7 +456,7 @@ exports[`EditTeam Renders & Matches snapshot 1`] = `
               class="mt-2 relative rounded-lg"
             >
               <input
-                class="block w-full pl-3 pr-10 py-2.5 sm:text-sm border border-gray-300 rounded-lg focus:outline-none focus:border-sky-500 focus:ring-1 ring-offset-2 focus:ring-sky-500"
+                class="block w-full pl-4 pr-10 py-2.5 sm:text-sm border border-gray-300 rounded-lg focus:outline-none focus:border-sky-500 focus:ring-1 ring-offset-2 focus:ring-sky-500"
                 id="private_key"
                 name="private_key"
                 type="text"

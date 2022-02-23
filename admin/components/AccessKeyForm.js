@@ -28,6 +28,9 @@ const AccessKeyForm = ({ initialAccountId }) => {
 
   //This the form  action, where to redirect to.
   const action = useMemo(() => {
+    if (!window || !window.tlVendor || !window.tlVendor.accesKeyActions) {
+      return null;
+    }
     const actions = window.tlVendor.accesKeyActions;
     return actions.hasOwnProperty(accountId) ? actions[accountId] : null;
   }, [teams, accountId]);
@@ -35,6 +38,14 @@ const AccessKeyForm = ({ initialAccountId }) => {
   useEffect(() => {
     setAccountId(initialAccountId);
   }, [initialAccountId, setAccountId]);
+
+  //On submit, do redirect.
+  function submitHandler(e) {
+    e.preventDefault();
+    const redirect = `${action}&ak=${accessKey}`;
+    alert(redirect); //alert so we see it first.
+    window.location = redirect; //Will this be blocked by the browser?
+  }
 
   if (!action) {
     return null;
@@ -61,12 +72,7 @@ const AccessKeyForm = ({ initialAccountId }) => {
         <form
           method={"GET"}
           action={action}
-          onSubmit={(e) => {
-            e.preventDefault();
-            const redirect = `${action}&ak=${accessKey}`;
-            alert(redirect);
-            window.location = redirect;
-          }}
+          onSubmit={submitHandler}
           className="flex flex-col py-6 space-y-6 justify-center">
           <input type="hidden" name="account_id" value={accountId} />
           <div className="relative rounded-lg">
@@ -97,6 +103,7 @@ const AccessKeyForm = ({ initialAccountId }) => {
             </div>
           </div>
           <button
+            onClick={submitHandler}
             type="submit"
             className="inline-flex justify-center p-4 border border-transparent text-md font-medium rounded-lg text-white bg-blue-tl hover:bg-indigo-700 focus:outline-none focus:ring-2 ring-offset-2 focus:ring-sky-500">
             Log in
