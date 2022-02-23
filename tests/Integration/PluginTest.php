@@ -45,7 +45,7 @@ class PluginTest extends TestCase
 			[
 				'account_id'       => '6a',
 				'private_key'      => '7',
-				'api_key'       	=> '8',
+				'public_key'       	=> '8',
 			]
 		);
 		\TrustedLogin\Vendor\SettingsApi::fromSaved()
@@ -63,7 +63,7 @@ class PluginTest extends TestCase
 			$handler->getApiUrl()
 		);
 		$this->assertNotEmpty($handler->getXTlToken());
-		$this->assertSame($setting->get('api_key'), $handler->getApiKey());
+		$this->assertSame($setting->get('public_key'), $handler->getApiKey());
 	}
 
 	/**
@@ -102,7 +102,7 @@ class PluginTest extends TestCase
 			[
 				'account_id'       => '6a',
 				'private_key'      => '7',
-				'api_key'       	=> '8',
+				'public_key'       	=> '8',
 			]
 		);
 		\TrustedLogin\Vendor\SettingsApi::fromSaved()

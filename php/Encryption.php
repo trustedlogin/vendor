@@ -39,6 +39,14 @@ class Encryption
 	}
 
 	/**
+	 * Delete the keys
+	 *
+	 * @return void
+	 */
+	public function deleteKeys(){
+		delete_option($this->key_option_name);
+	}
+	/**
 	 * Returns the existing/saved key set.
 	 *
 	 * @since 0.8.0

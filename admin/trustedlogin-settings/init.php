@@ -1,6 +1,8 @@
 <?php
 //Register assets for TrustedLogin Settings
 
+use TrustedLogin\Vendor\Status\Onboarding;
+use TrustedLogin\Vendor\Reset;
 
 add_action('init', function () {
     $handle = 'trustedlogin-settings';
@@ -14,15 +16,22 @@ add_action('init', function () {
             $assets['version']
         );
         wp_localize_script($handle,'tlVendor', [
-            //roles =>[],
+            'resetAction' => esc_url_raw(Reset::actionUrl()),
+            'roles' =>[
+                'administrator' => 'Administrator',
+                'editor' => 'Editor',
+            ],
+            'onboarding' => Onboarding::hasOnboarded() ? 'COMPLETE' : '0',
             'accesKeyActions' => trustedlogin_vendor()->getAccessKeyActions(),
         ]);
         wp_register_style(
             $handle,
             plugins_url("/trustedlogin-dist.css", dirname(__FILE__, 1)),
             [],
-            $assets['version']
+            md5_file(dirname(__FILE__, 2)."/trustedlogin-dist.css"),
         );
+
+
     }
 
 });

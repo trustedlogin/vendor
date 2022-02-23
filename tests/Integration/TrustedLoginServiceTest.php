@@ -22,12 +22,12 @@ class TrustedLoginServiceTests extends \WP_UnitTestCase
 			[
 				'account_id'       => self::ACCOUNT_ID,
 				'private_key'      => 'a217',
-				'api_key'       	=> 'a218',
+				'public_key'       	=> 'a218',
 			],
 			[
 				'account_id'       => '1226',
 				'private_key'      => 'b227',
-				'api_key'       	=> 'b228',
+				'public_key'       	=> 'b228',
 			]
 		]);
 
