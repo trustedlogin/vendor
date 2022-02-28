@@ -1,4 +1,5 @@
-import { useEffect, useRef } from "react";
+import { __ } from "@wordpress/i18n";
+import { useRef } from "react";
 import Layout from "./Layout";
 import { HorizontalLogo } from "./TrustedLoginLogo";
 import {
@@ -21,14 +22,13 @@ const StepOne = () => {
       <>
         <div className="max-w-sm mx-auto mb-8 justify-center text-center">
           <h2 className="mt-4 text-2xl text-gray-900">
-            Link your TrustedLogin account
+            {__("Link your TrustedLogin account", "trustedlogin-vendor")}
           </h2>
           <p className="mt-2 mb-4 text-sm text-gray-500">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ornare
-            tortor in nisl fermentum.
+            {__("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ornare tortor in nisl fermentum.", "trustedlogin-vendor")}
           </p>
           <a className="text-blue-tl text-sm" href="#">
-            Where can I find this info?
+            {__("Where can I find this info?", "trustedlogin-vendor")}
           </a>
         </div>
         <div className="flex flex-1 flex-col space-y-6">
@@ -36,7 +36,7 @@ const StepOne = () => {
             <label
               htmlFor="account-id"
               className="block text-sm font-medium text-gray-700">
-              Account ID
+              {__("Account ID", "trustedlogin-vendor")}
             </label>
             <div className="mt-2 relative rounded-lg">
               <input
@@ -52,7 +52,7 @@ const StepOne = () => {
             <label
               htmlFor="public_key"
               className="block text-sm font-medium text-gray-700">
-              Public Key
+              {__("Public Key", "trustedlogin-vendor")}
             </label>
             <div className="mt-2 relative rounded-lg">
               <input
@@ -95,9 +95,9 @@ const StepTwo = () => {
   return (
     <>
       <div className="max-w-sm mx-auto mb-8 justify-center text-center">
-        <h2 className="mt-4 text-2xl text-gray-900">Create your first team</h2>
+        <h2 className="mt-4 text-2xl text-gray-900">{__("Create your first team", "trustedlogin-vendor")}</h2>
         <p className="mt-2 mb-4 text-sm text-gray-500">
-          {__("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ornare tortor in nisl fermentum.")}
+          {__("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ornare tortor in nisl fermentum.", "trustedlogin-vendor")}
         </p>
         <a className="text-blue-tl text-sm" href="#">
           {__("Where can I find this info?", "trustedlogin-vendor")}
@@ -131,7 +131,7 @@ const StepTwo = () => {
         <SelectField
           id={teamFields.helpdesk.id}
           label={teamFields.helpdesk.label}>
-          <option>Select a Help Desk</option>
+          <option>{__("Select a Help Desk", "trustedlogin-vendor")}</option>
           <option value={"helpscout"}>Help Scout</option>
           <option value={"zendesk"}>Zendesk</option>
         </SelectField>
@@ -285,7 +285,7 @@ export const OnboardingLayout = ({
                               subTitle={__("Vitae sed mi luctus laoreet.", "trustedlogin-vendor")}
                             />
                             <Aside.FutureStep
-                              title={"Create Team"}
+                              title={__("Create Team","trustedlogin-vendor")}
                               subTitle={
                                 "Cursus semper viverra facilisis et et some more."
                               }

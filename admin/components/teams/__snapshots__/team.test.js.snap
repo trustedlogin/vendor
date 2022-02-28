@@ -192,7 +192,7 @@ exports[`AddTeam Renders & Matches snapshot 1`] = `
               class="block text-sm font-medium text-gray-700"
               for="helpdesk"
             >
-              Helpdesk
+              Help Desk
             </label>
             <div
               class="mt-2"
@@ -437,7 +437,7 @@ exports[`EditTeam Renders & Matches snapshot 1`] = `
               class="block text-sm font-medium text-gray-700"
               for="helpdesk"
             >
-              Helpdesk
+              Help Desk
             </label>
             <div
               class="mt-2"
