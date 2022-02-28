@@ -47,10 +47,15 @@ add_action('init', function () {
     if( $hasOnboarded ){
          //Add settings submenu page
          new MenuPage(
-            MenuPage::SLUG_TEAM_SETTINGS,
+            MenuPage::SLUG_SETTINGS,
             __('Settings', 'trustedlogin-vendor')
         );
 
+        //Add access key submenu page
+        new MenuPage(
+            MenuPage::SLUG_TEAMS,
+            __('Teams', 'trustedlogin-vendor')
+        );
 
         //Add helpdesks submenu page
         new MenuPage(

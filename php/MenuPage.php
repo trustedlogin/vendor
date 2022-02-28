@@ -13,11 +13,11 @@ class MenuPage {
 
     const SLUG_ACCESS_KEY = 'trustedlogin_access_key_login';
 
-    const SLUG_TEAM_SETTINGS = 'trustedlogin_team_settings';
+    const SLUG_TEAMS = 'trustedlogin-teams';
 
-    const SLUG_SETTINGS = 'trustedlogin_settings';
+    const SLUG_SETTINGS = 'trustedlogin-settings';
 
-    const SLUG_HELPDESKS = 'trustedlogin_settings';
+    const SLUG_HELPDESKS = 'trustedlogin-helpdesks';
 
     const ASSET_HANDLE = 'trustedlogin-settings';
 
