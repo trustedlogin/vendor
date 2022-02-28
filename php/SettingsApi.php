@@ -98,11 +98,18 @@ class SettingsApi
 		}
 
 		update_option(self::TEAM_SETTING_NAME, json_encode($data));
+		$count = self::count();
 
 		/**
 		 * Fires after settings are saved.
 		 */
-		do_action( 'trustedlogin_vendor_settings_saved', self::count() );
+		do_action( 'trustedlogin_vendor_settings_saved', $count );
+
+		//When saving settings, maybe mark onboarding complete
+		if( $count ){
+			\TrustedLogin\Vendor\Status\Onboarding::setHasOnboarded();
+		}
+
 		return $this;
 	}
 

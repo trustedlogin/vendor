@@ -64,6 +64,7 @@ class MenuPage {
                 [$this, 'renderPage'],
             );
         }else{
+            //Top level page
             add_menu_page(
                 $name,
                 $name,

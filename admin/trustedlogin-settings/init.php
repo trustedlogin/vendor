@@ -6,6 +6,7 @@ use TrustedLogin\Vendor\Reset;
 use TrustedLogin\Vendor\MenuPage;
 
 add_action('init', function () {
+    $hasOnboarded = Onboarding::hasOnboarded();
     /**
      * Register assets
      */
@@ -25,7 +26,7 @@ add_action('init', function () {
                 'administrator' => 'Administrator',
                 'editor' => 'Editor',
             ],
-            'onboarding' => Onboarding::hasOnboarded() ? 'COMPLETE' : '0',
+            'onboarding' => $hasOnboarded ? 'COMPLETE' : '0',
             'accesKeyActions' => trustedlogin_vendor()->getAccessKeyActions(),
         ]);
         wp_register_style(
@@ -43,25 +44,30 @@ add_action('init', function () {
         //Do not pass args, would make it a child page.
     );
 
-
-    //Add helpdesks submenu page
-    new MenuPage(
-        MenuPage::SLUG_HELPDESKS,
-        __('HelpDesks', 'trustedlogin-vendor')
-    );
-
-    return;
-    //Add access key submenu page
-    new MenuPage(
-        MenuPage::SLUG_ACCESS_KEY,
-        __('Access Key Login', 'trustedlogin-vendor')
-    );
+    if( $hasOnboarded ){
+         //Add settings submenu page
+         new MenuPage(
+            MenuPage::SLUG_TEAM_SETTINGS,
+            __('Settings', 'trustedlogin-vendor')
+        );
 
 
-    //Add settings submenu page
-    new MenuPage(
-        MenuPage::SLUG_SETTINGS,
-        __('Settings', 'trustedlogin-vendor')
-    );
-    return;
+        //Add helpdesks submenu page
+        new MenuPage(
+            MenuPage::SLUG_HELPDESKS,
+            __('HelpDesks', 'trustedlogin-vendor')
+        );
+
+        //Add access key submenu page
+        new MenuPage(
+            MenuPage::SLUG_ACCESS_KEY,
+            __('Access Key Login', 'trustedlogin-vendor')
+        );
+    }
+
+
+
+
+
+
 });

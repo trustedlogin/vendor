@@ -4,10 +4,12 @@ namespace TrustedLogin\Vendor;
 
 use TrustedLogin\Vendor\Contracts\SendsApiRequests as ApiSend;
 use TrustedLogin\Vendor\SettingsApi;
-use TrustedLogin\Vendor\Status\Onboarding;
+use TrustedLogin\Vendor\Traits\Logger;
 use TrustedLogin\Vendor\TeamSettings;
+
 class Plugin
 {
+	use Logger;
 	/**
 	 * @var Encryption
 	 */

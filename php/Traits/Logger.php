@@ -7,6 +7,9 @@ use DateTime;
 trait Logger
 {
 
+    /**
+     * Use trustedlogin_vendor()->log( 'message', __METHOD__ );
+     */
 	public function log( $message,$method, $logLevel = 'info' , $context = [] )
 	{
 		$context = (array) $context;
