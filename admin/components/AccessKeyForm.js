@@ -59,14 +59,13 @@ const AccessKeyForm = ({ initialAccountId }) => {
         </div>
         <div className="max-w-sm mx-auto mb-8 justify-center text-center">
           <h2 className="mt-4 text-2xl text-gray-900">
-            Log in with Access Key
+            {__("Log In Using Access Key", "trustedlogin-vendor")}
           </h2>
           <p className="mt-2 mb-4 text-sm text-gray-500">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ornare
-            tortor in nisl fermentum.
+
           </p>
           <a className="text-blue-tl text-sm" href="#">
-            Where can I find this info?
+            {__("Where can I find this info?", "trustedlogin-vendor")}
           </a>
         </div>
         <form
@@ -83,14 +82,14 @@ const AccessKeyForm = ({ initialAccountId }) => {
               name="access_key"
               id="access_key"
               className="block w-full pl-4 pr-10 py-4 sm:text-md border border-gray-300 rounded-lg focus:outline-none focus:border-sky-500 focus:ring-1 ring-offset-2 focus:ring-sky-500"
-              placeholder="Access Key"
+              placeholder={__("Paste key received from customer", "trustedlogin-vendor")}
             />
           </div>
           <button
             onClick={submitHandler}
             type="submit"
             className="inline-flex justify-center p-4 border border-transparent text-md font-medium rounded-lg text-white bg-blue-tl hover:bg-indigo-700 focus:outline-none focus:ring-2 ring-offset-2 focus:ring-sky-500">
-            Log in
+            {__("Log In", "trustedlogin-vendor")}
           </button>
         </form>
       </div>
@@ -99,12 +98,12 @@ const AccessKeyForm = ({ initialAccountId }) => {
 
   return (
     <CenteredLayout
-      title={"Login With Access Key"}
+      title={__("Login With Access Key", "trustedlogin-vendor")}
       subTitle={
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ornare tortor in nisl fermentum."
+        __("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ornare tortor in nisl fermentum.", "trustedlogin-vendor")
       }>
       <a class="text-blue-tl text-sm" href="#">
-        Where can I find this info?
+        {__("Where can I find this info?", "trustedlogin-vendor")}
       </a>
       <form
         method={"GET"}
@@ -121,13 +120,13 @@ const AccessKeyForm = ({ initialAccountId }) => {
             name="access-key"
             id="access-key"
             class="block w-full pl-4 pr-10 py-4 sm:text-md border border-gray-300 rounded-lg focus:outline-none focus:border-sky-500 focus:ring-1 ring-offset-2 focus:ring-sky-500"
-            placeholder="Access Key"
+            placeholder={__("Access Key", "trustedlogin-vendor")}
           />
         </div>
         <button
           type="submit"
           class="inline-flex justify-center p-4 border border-transparent text-md font-medium rounded-lg text-white bg-blue-tl hover:bg-indigo-700 focus:outline-none focus:ring-2 ring-offset-2 focus:ring-sky-500">
-          Log in
+          {__("Log In", "trustedlogin-vendor")}
         </button>
       </form>
     </CenteredLayout>
@@ -142,17 +141,17 @@ const AccessKeyForm = ({ initialAccountId }) => {
         alert(redirect);
         window.location = redirect;
       }}>
-      <FormTable title={"Log Into Site Using Access Key"}>
+      <FormTable title={__("Log Into Site Using Access Key", "trustedlogin-vendor")}>
         <>
           <Input
-            label={__("Access Key")}
+            label={__("Access Key", "trustedlogin-vendor")}
             name="access_key"
             value={accessKey}
             onChange={(value) => setAccessKey(value)}
           />
           {!initialAccountId ? (
             <Select
-              label={__("Account ID")}
+              label={__("Account ID", "trustedlogin-vendor")}
               value={accountId}
               onChange={(value) => setAccountId(value)}
               name="account_id"
@@ -163,7 +162,7 @@ const AccessKeyForm = ({ initialAccountId }) => {
           )}
         </>
         <BigButton type="submit" variant={"primary"}>
-          {__("Login")}
+          {__("Login", "trustedlogin-vendor")}
         </BigButton>
       </FormTable>
     </Form>

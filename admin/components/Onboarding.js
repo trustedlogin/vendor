@@ -68,12 +68,12 @@ const StepOne = () => {
             <button
               type="button"
               className="w-full inline-flex justify-center rounded-lg border border-transparent px-4 py-2.5 bg-blue-tl text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 ring-offset-2 focus:ring-sky-500 sm:col-start-2 sm:text-sm">
-              Continue
+              {__("Continue", "trustedlogin-vendor")}
             </button>
             <button
               type="button"
               className="mt-3 w-full inline-flex justify-center rounded-lg border border-gray-300 px-4 py-2.5 bg-white text-base font-medium text-gray-900 hover:bg-gray-50 focus:outline-none focus:ring-2 ring-offset-2 focus:ring-sky-500 sm:mt-0 sm:col-start-1 sm:text-sm">
-              Skip
+              {__("Skip", "trustedlogin-vendor")}
             </button>
           </div>
         </div>
@@ -97,11 +97,10 @@ const StepTwo = () => {
       <div className="max-w-sm mx-auto mb-8 justify-center text-center">
         <h2 className="mt-4 text-2xl text-gray-900">Create your first team</h2>
         <p className="mt-2 mb-4 text-sm text-gray-500">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ornare
-          tortor in nisl fermentum.
+          {__("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ornare tortor in nisl fermentum.")}
         </p>
         <a className="text-blue-tl text-sm" href="#">
-          Where can I find this info?
+          {__("Where can I find this info?", "trustedlogin-vendor")}
         </a>
       </div>
       <form
@@ -141,7 +140,7 @@ const StepTwo = () => {
             onClick={handleSave}
             type="button"
             className="w-full inline-flex justify-center rounded-lg border border-transparent px-4 py-2.5 bg-blue-tl text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 ring-offset-2 focus:ring-sky-500 sm:col-start-2 sm:text-sm">
-            Continue
+            {__("Continue", "trustedlogin-vendor")}
           </button>
         </div>
       </form>
@@ -282,8 +281,8 @@ export const OnboardingLayout = ({
                         <nav aria-label="Progress">
                           <ol role="list" className="overflow-hidden">
                             <Aside.CurrentStep
-                              title={"Link your account"}
-                              subTitle={"Vitae sed mi luctus laoreet."}
+                              title={__("Link your account", "trustedlogin-vendor")}
+                              subTitle={__("Vitae sed mi luctus laoreet.", "trustedlogin-vendor")}
                             />
                             <Aside.FutureStep
                               title={"Create Team"}
@@ -292,8 +291,8 @@ export const OnboardingLayout = ({
                               }
                             />
                             <Aside.FutureStep
-                              title={"Configure Help Desk"}
-                              subTitle={"Penatibus eu quis ante."}
+                              title={__("Configure Help Desk", "trustedlogin-vendor")}
+                              subTitle={__("Penatibus eu quis ante.", "trustedlogin-vendor")}
                             />
                           </ol>
                         </nav>
@@ -301,7 +300,7 @@ export const OnboardingLayout = ({
                     </div>
                     <div className="inline-flex items-center justify-center">
                       <a className="text-sm text-blue-tl" href="#">
-                        Need Help? View our Documentation
+                        {__("Need Help? View our Documentation", "trustedlogin-vendor")}
                       </a>
                       <svg
                         className="ml-3"
