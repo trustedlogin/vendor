@@ -58,14 +58,18 @@ class MenuPage {
     public function shouldEnqueueAssets($page){
 
         if ("toplevel_page_" . MenuPage::ASSET_HANDLE == $page) {
+
             return true;
         }
 
-        if( in_array($page, [
+
+        if( in_array(
+            str_replace( 'trustedlogin-settings_page_', '', $page), [
             self::SLUG_TEAMS,
             self::SLUG_HELPDESKS,
             self::SLUG_SETTINGS,
             self::SLUG_ACCESS_KEY,
+            self::PARENT_MENU_SLUG,
         ])){
             return true;
         }
@@ -105,7 +109,7 @@ class MenuPage {
      */
     public function enqueueAssets($hook){
         //@todo make this work with submenu pages.
-        if ($this->shouldEnqueueAssets($hook)) {
+        if (!$this->shouldEnqueueAssets($hook)) {
             return;
         }
         wp_enqueue_script(MenuPage::ASSET_HANDLE);
