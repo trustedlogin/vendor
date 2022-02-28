@@ -174,7 +174,7 @@ const TeamsList = () => {
                       </div>
                     </div>
                     <div className="flex items-center space-x-5 w-full mt-4 justify-between sm:w-auto sm:mt-0">
-                      <div className="flex items-center space-x-4">
+                      <div className="flex items-center space-x-8">
                         <button
                           onClick={() => {
                             setCurrentView("teams/edit");
