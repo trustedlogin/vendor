@@ -56,21 +56,24 @@ class MenuPage {
         $name = $this->name ?? __('TrustedLogin Settings', 'trustedlogin-vendor');
         if( $this->childSlug ){
             add_submenu_page(
+                self::PARENT_MENU_SLUG,
+                $name,
+                $name,
+                'manage_options',
                 $this->childSlug,
+                [$this, 'renderPage'],
+            );
+        }else{
+            add_menu_page(
+                $name,
+                $name,
                 'manage_options',
                 self::PARENT_MENU_SLUG,
                 [$this, 'renderPage'],
                 'dashicons-admin-generic',
             );
         }
-        add_menu_page(
-            $name,
-            $name,
-            'manage_options',
-            self::PARENT_MENU_SLUG,
-            [$this, 'renderPage'],
-            'dashicons-admin-generic',
-        );
+
 
 
     }

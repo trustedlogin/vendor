@@ -42,19 +42,26 @@ add_action('init', function () {
     new MenuPage(
         //Do not pass args, would make it a child page.
     );
-    //Add settings submenu page
-    new MenuPage(
-        MenuPage::SLUG_SETTINGS,
-        __('Settings', 'trustedlogin-vendor')
-    );
+
+
     //Add helpdesks submenu page
     new MenuPage(
         MenuPage::SLUG_HELPDESKS,
         __('HelpDesks', 'trustedlogin-vendor')
     );
+
+    return;
     //Add access key submenu page
     new MenuPage(
         MenuPage::SLUG_ACCESS_KEY,
         __('Access Key Login', 'trustedlogin-vendor')
     );
+
+
+    //Add settings submenu page
+    new MenuPage(
+        MenuPage::SLUG_SETTINGS,
+        __('Settings', 'trustedlogin-vendor')
+    );
+    return;
 });
