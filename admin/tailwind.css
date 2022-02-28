@@ -56,16 +56,20 @@ body .bg-blue-tl:hover {
 }
 
 /** Push topbar over**/
-#wpbody-content {
-  margin-left: -20px;
-  padding-left: 0px;
-  margin-right: 0px;
-  padding-right: 0px;
+.auto-fold #wpcontent,
+#wpcontent {
+  padding-left: 0;
+}
+
+/** When in responsive mode and the sidebar is open, remove margin between menu and #wpcontent. **/
+.wp-responsive-open #trustedlogin-settings {
+  margin-left: -18px;
 }
 
 /** Style Horizontal Logo **/
 .trustedlogin-horizontal-logo {
-  width: 150px;
+  width: 100%;
+  max-width: 300px;
   height: auto;
 }
 
