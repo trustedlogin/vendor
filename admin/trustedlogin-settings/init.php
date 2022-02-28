@@ -22,7 +22,7 @@ add_action('init', function () {
                 'editor' => 'Editor',
             ],
             'onboarding' => Onboarding::hasOnboarded() ? 'COMPLETE' : '0',
-            'accesKeyActions' => trustedlogin_vendor()->getAccessKeyActions(),
+            'accessKeyActions' => trustedlogin_vendor()->getAccessKeyActions(),
         ]);
         wp_register_style(
             $handle,

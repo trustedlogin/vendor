@@ -28,10 +28,10 @@ const AccessKeyForm = ({ initialAccountId }) => {
 
   //This the form  action, where to redirect to.
   const action = useMemo(() => {
-    if (!window || !window.tlVendor || !window.tlVendor.accesKeyActions) {
+    if (!window || !window.tlVendor || !window.tlVendor.accessKeyActions) {
       return null;
     }
-    const actions = window.tlVendor.accesKeyActions;
+    const actions = window.tlVendor.accessKeyActions;
     return actions.hasOwnProperty(accountId) ? actions[accountId] : null;
   }, [teams, accountId]);
 
