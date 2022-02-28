@@ -44,29 +44,44 @@ add_action('init', function () {
         //Do not pass args, would make it a child page.
     );
 
+
     if( $hasOnboarded ){
          //Add settings submenu page
          new MenuPage(
             MenuPage::SLUG_SETTINGS,
-            __('Settings', 'trustedlogin-vendor')
+            __('Settings', 'trustedlogin-vendor'),
+            'settings',
         );
 
         //Add access key submenu page
         new MenuPage(
             MenuPage::SLUG_TEAMS,
-            __('Teams', 'trustedlogin-vendor')
+            __('Teams', 'trustedlogin-vendor'),
+            'teams',
+
         );
 
         //Add helpdesks submenu page
         new MenuPage(
             MenuPage::SLUG_HELPDESKS,
-            __('HelpDesks', 'trustedlogin-vendor')
+            __('HelpDesks', 'trustedlogin-vendor'),
+            'helpdesks',
+
         );
 
         //Add access key submenu page
         new MenuPage(
             MenuPage::SLUG_ACCESS_KEY,
-            __('Access Key Login', 'trustedlogin-vendor')
+            __('Access Key Login', 'trustedlogin-vendor'),
+            'teams/access_key',
+            'teams/access_key',
+        );
+    }else{
+        //Add onboarding submenu page
+        new MenuPage(
+            MenuPage::SLUG_SETTINGS,
+            __('Onboarding', 'trustedlogin-vendor'),
+            'onboarding',
         );
     }
 
