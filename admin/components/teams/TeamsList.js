@@ -180,12 +180,12 @@ const TeamsList = () => {
                             setCurrentView("teams/edit");
                             setCurrentTeam(team.id);
                           }}
-                          className="text-sm text-blue-tl">
+                          className="text-sm text-blue-tl hover:text-navy-tl p-2">
                           Edit
                         </button>
                         <button
                           onClick={() => startDelete(team.id)}
-                          className="text-sm text-gray-500">
+                          className="text-sm text-red-500 hover:text-red-800 p-2">
                           Delete
                         </button>
                       </div>

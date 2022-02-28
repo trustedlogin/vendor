@@ -18,6 +18,11 @@ body .bg-blue-tl-200 {
 body .text-blue-tl {
   color: #00aadd;
 }
+body .text-navy-tl,
+body .hover\:text-navy-tl:hover {
+  color: #233b6b;
+}
+
 body .border-blue-tl {
   border-color: #00aadd;
 }
