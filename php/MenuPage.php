@@ -53,7 +53,7 @@ class MenuPage {
      * @uses "admin_menu"
      */
     public function addMenuPage(){
-        $name = $this->name ?? __('TrustedLogin Settings', 'trustedlogin-vendor');
+        $name = $this->childName ?? __('TrustedLogin Settings', 'trustedlogin-vendor');
         if( $this->childSlug ){
             add_submenu_page(
                 self::PARENT_MENU_SLUG,
