@@ -51,10 +51,12 @@ if( file_exists( $path . 'vendor/autoload.php' ) ){
 	add_action( 'template_redirect',[\TrustedLogin\Vendor\MaybeRedirect::class, 'handle']);
 	//Handle the "Reset All" button in UI
 	add_action( 'admin_init',[\TrustedLogin\Vendor\MaybeRedirect::class, 'adminInit']);
-
+	//When saving settings, maybe mark onboarding complete
 	add_action('trustedlogin_vendor_settings_saved',[
 		\TrustedLogin\Vendor\Status\Onboarding::class, 'settingsSaved']
-	 );
+	);
+	//Register error handler
+	ErrorHandler::register();
 }else{
 	throw new \Exception('Autoloader not found.');
 }
