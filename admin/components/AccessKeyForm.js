@@ -28,10 +28,10 @@ const AccessKeyForm = ({ initialAccountId }) => {
 
   //This the form  action, where to redirect to.
   const action = useMemo(() => {
-    if (!window || !window.tlVendor || !window.tlVendor.accesKeyActions) {
+    if (!window || !window.tlVendor || !window.tlVendor.accessKeyActions) {
       return null;
     }
-    const actions = window.tlVendor.accesKeyActions;
+    const actions = window.tlVendor.accessKeyActions;
     return actions.hasOwnProperty(accountId) ? actions[accountId] : null;
   }, [teams, accountId]);
 
@@ -59,14 +59,13 @@ const AccessKeyForm = ({ initialAccountId }) => {
         </div>
         <div className="max-w-sm mx-auto mb-8 justify-center text-center">
           <h2 className="mt-4 text-2xl text-gray-900">
-            Log in with Access Key
+            {__("Log In Using Access Key", "trustedlogin-vendor")}
           </h2>
           <p className="mt-2 mb-4 text-sm text-gray-500">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ornare
-            tortor in nisl fermentum.
+
           </p>
           <a className="text-blue-tl text-sm" href="#">
-            Where can I find this info?
+            {__("Where can I find this info?", "trustedlogin-vendor")}
           </a>
         </div>
         <form
@@ -83,30 +82,14 @@ const AccessKeyForm = ({ initialAccountId }) => {
               name="access_key"
               id="access_key"
               className="block w-full pl-4 pr-10 py-4 sm:text-md border border-gray-300 rounded-lg focus:outline-none focus:border-sky-500 focus:ring-1 ring-offset-2 focus:ring-sky-500"
-              placeholder="Access Key"
+              placeholder={__("Paste key received from customer", "trustedlogin-vendor")}
             />
-            <div className="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none">
-              <svg
-                width="20"
-                height="20"
-                viewBox="0 0 16 16"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg">
-                <path
-                  d="M6.06004 6.00004C6.21678 5.55449 6.52614 5.17878 6.93334 4.93946C7.34055 4.70015 7.8193 4.61267 8.28483 4.69252C8.75035 4.77236 9.17259 5.01439 9.47676 5.37573C9.78093 5.73706 9.94741 6.19439 9.94671 6.66671C9.94671 8.00004 7.94671 8.66671 7.94671 8.66671M8.00004 11.3334H8.00671M14.6667 8.00004C14.6667 11.6819 11.6819 14.6667 8.00004 14.6667C4.31814 14.6667 1.33337 11.6819 1.33337 8.00004C1.33337 4.31814 4.31814 1.33337 8.00004 1.33337C11.6819 1.33337 14.6667 4.31814 14.6667 8.00004Z"
-                  stroke="#98A2B3"
-                  stroke-width="1.33333"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
-              </svg>
-            </div>
           </div>
           <button
             onClick={submitHandler}
             type="submit"
             className="inline-flex justify-center p-4 border border-transparent text-md font-medium rounded-lg text-white bg-blue-tl hover:bg-indigo-700 focus:outline-none focus:ring-2 ring-offset-2 focus:ring-sky-500">
-            Log in
+            {__("Log In", "trustedlogin-vendor")}
           </button>
         </form>
       </div>
@@ -115,12 +98,12 @@ const AccessKeyForm = ({ initialAccountId }) => {
 
   return (
     <CenteredLayout
-      title={"Login With Access Key"}
+      title={__("Login With Access Key", "trustedlogin-vendor")}
       subTitle={
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ornare tortor in nisl fermentum."
+        __("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ornare tortor in nisl fermentum.", "trustedlogin-vendor")
       }>
       <a class="text-blue-tl text-sm" href="#">
-        Where can I find this info?
+        {__("Where can I find this info?", "trustedlogin-vendor")}
       </a>
       <form
         method={"GET"}
@@ -137,29 +120,13 @@ const AccessKeyForm = ({ initialAccountId }) => {
             name="access-key"
             id="access-key"
             class="block w-full pl-4 pr-10 py-4 sm:text-md border border-gray-300 rounded-lg focus:outline-none focus:border-sky-500 focus:ring-1 ring-offset-2 focus:ring-sky-500"
-            placeholder="Access Key"
+            placeholder={__("Access Key", "trustedlogin-vendor")}
           />
-          <div class="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none">
-            <svg
-              width="20"
-              height="20"
-              viewBox="0 0 16 16"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg">
-              <path
-                d="M6.06004 6.00004C6.21678 5.55449 6.52614 5.17878 6.93334 4.93946C7.34055 4.70015 7.8193 4.61267 8.28483 4.69252C8.75035 4.77236 9.17259 5.01439 9.47676 5.37573C9.78093 5.73706 9.94741 6.19439 9.94671 6.66671C9.94671 8.00004 7.94671 8.66671 7.94671 8.66671M8.00004 11.3334H8.00671M14.6667 8.00004C14.6667 11.6819 11.6819 14.6667 8.00004 14.6667C4.31814 14.6667 1.33337 11.6819 1.33337 8.00004C1.33337 4.31814 4.31814 1.33337 8.00004 1.33337C11.6819 1.33337 14.6667 4.31814 14.6667 8.00004Z"
-                stroke="#98A2B3"
-                stroke-width="1.33333"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-            </svg>
-          </div>
         </div>
         <button
           type="submit"
           class="inline-flex justify-center p-4 border border-transparent text-md font-medium rounded-lg text-white bg-blue-tl hover:bg-indigo-700 focus:outline-none focus:ring-2 ring-offset-2 focus:ring-sky-500">
-          Log in
+          {__("Log In", "trustedlogin-vendor")}
         </button>
       </form>
     </CenteredLayout>
@@ -174,17 +141,17 @@ const AccessKeyForm = ({ initialAccountId }) => {
         alert(redirect);
         window.location = redirect;
       }}>
-      <FormTable title={"Loging To Site Using Access Key"}>
+      <FormTable title={__("Log Into Site Using Access Key", "trustedlogin-vendor")}>
         <>
           <Input
-            label={__("Access Key")}
+            label={__("Access Key", "trustedlogin-vendor")}
             name="access_key"
             value={accessKey}
             onChange={(value) => setAccessKey(value)}
           />
           {!initialAccountId ? (
             <Select
-              label={__("Account ID")}
+              label={__("Account ID", "trustedlogin-vendor")}
               value={accountId}
               onChange={(value) => setAccountId(value)}
               name="account_id"
@@ -195,7 +162,7 @@ const AccessKeyForm = ({ initialAccountId }) => {
           )}
         </>
         <BigButton type="submit" variant={"primary"}>
-          {__("Login")}
+          {__("Login", "trustedlogin-vendor")}
         </BigButton>
       </FormTable>
     </Form>

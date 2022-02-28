@@ -1,16 +1,16 @@
+import { __ } from "@wordpress/i18n";
 import { useMemo, useState } from "react";
 import { DangerButton, ToggleSwitch } from ".";
 import SettingSection from "./SettingSection";
 
 export const DangerZone = () => {
-  //Need to impliment reset API endpoing
+  //Need to implement reset API endpoing
   //https://github.com/trustedlogin/vendor/issues/21
-  const onClick = () => alert("This does not work yet");
+  const onClick = () => alert( __("This does not work yet", "trustedlogin-vendor") );
   return (
     <>
       <SettingSection
-        title={"Danger zone"}
-        subTitle={"Lorem ipsum dolor sit amet, consectetur adipiscing elit."}>
+        title={__("Danger Zone", "trustedlogin-vendor") }>
         <div className="bg-white p-8 border border-red-700 rounded-lg">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-4">
@@ -32,13 +32,12 @@ export const DangerZone = () => {
                 <p
                   className="font-medium text-gray-900"
                   id="dangerzone-option-1-label">
-                  Reset encryption keys?
+                  {__("Reset encryption keys?", "trustedlogin-vendor")}
                 </p>
                 <p
                   className="text-sm text-gray-500"
                   id="dangerzone-option-1-description">
-                  If you reset the encryption keys, all previous authorized
-                  logins will be inaccessible.
+                  {__("If you reset the encryption keys, all previous authorized logins will be inaccessible.", "trustedlogin-vendor")}
                 </p>
               </div>
             </div>
@@ -56,8 +55,8 @@ export const DebugLogSettings = () => {
 
   return (
     <SettingSection
-      title={"Logging"}
-      subTitle={"Lorem ipsum dolor sit amet, consectetur adipiscing elit."}>
+      title={__("Logging", "trustedlogin-vendor")}
+      subTitle={__("Lorem ipsum dolor sit amet, consectetur adipiscing elit.", "trustedlogin-vendor")}>
       <ul role="list" className="divide-y divide-gray-200">
         <li className="py-8 flex items-center justify-between">
           <div className="flex items-center space-x-4">
@@ -150,12 +149,14 @@ export const DebugLogSettings = () => {
             </div>
             <div className="flex flex-col">
               <p className="font-medium text-gray-900" id="debug-option-label">
-                Debug Logging
+                {__("Debug Logging", "trustedlogin-vendor")}
               </p>
               <p
                 className="text-sm text-gray-500"
                 id="debug-option-description">
-                When enabled, logs will be saved to the
+                {__("When enabled, logs will be saved to the following directory:", "trustedlogin-vendor")}
+                <code>wp-content/uploads/trustedlogin-logs</code>
+                {/* TODO: Make this path live-updating */}
               </p>
             </div>
           </div>
@@ -203,13 +204,12 @@ export const DebugLogSettings = () => {
             </div>
             <div className="flex flex-col">
               <p className="font-medium text-gray-900" id="activity-log-label">
-                Activity Log
+                {__("Activity Log", "trustedlogin-vendor")}
               </p>
               <p
                 className="text-sm text-gray-500"
                 id="activity-log-description">
-                Activity Log shows a log of users attempting to log into
-                customer sites using access keys.
+                {__("Activity Log shows a log of users attempting to log into customer sites using Access Keys.", "trustedlogin-vendor")}
               </p>
             </div>
           </div>

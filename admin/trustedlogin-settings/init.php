@@ -22,12 +22,9 @@ add_action('init', function () {
         );
         wp_localize_script(MenuPage::ASSET_HANDLE,'tlVendor', [
             'resetAction' => esc_url_raw(Reset::actionUrl()),
-            'roles' =>[
-                'administrator' => 'Administrator',
-                'editor' => 'Editor',
-            ],
-            'onboarding' => $hasOnboarded ? 'COMPLETE' : '0',
-            'accesKeyActions' => trustedlogin_vendor()->getAccessKeyActions(),
+            'roles' => wp_roles()->get_names(),
+            'onboarding' => Onboarding::hasOnboarded() ? 'COMPLETE' : '0',
+            'accessKeyActions' => trustedlogin_vendor()->getAccessKeyActions(),
         ]);
         wp_register_style(
             MenuPage::ASSET_HANDLE,
