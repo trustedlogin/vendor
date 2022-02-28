@@ -50,6 +50,29 @@ class MenuPage {
     }
 
     /**
+     * Check if assets should be enuqueued.
+     *
+     * @param string
+     * @return bool
+     */
+    public function shouldEnqueueAssets($page){
+
+        if ("toplevel_page_" . MenuPage::ASSET_HANDLE == $page) {
+            return true;
+        }
+
+        if( in_array($page, [
+            self::SLUG_TEAMS,
+            self::SLUG_HELPDESKS,
+            self::SLUG_SETTINGS,
+            self::SLUG_ACCESS_KEY,
+        ])){
+            return true;
+        }
+        return false;
+    }
+
+    /**
      * @uses "admin_menu"
      */
     public function addMenuPage(){
@@ -75,8 +98,6 @@ class MenuPage {
             );
         }
 
-
-
     }
 
     /**
@@ -84,7 +105,7 @@ class MenuPage {
      */
     public function enqueueAssets($hook){
         //@todo make this work with submenu pages.
-        if ("toplevel_page_" . MenuPage::ASSET_HANDLE != $hook) {
+        if ($this->shouldEnqueueAssets($hook)) {
             return;
         }
         wp_enqueue_script(MenuPage::ASSET_HANDLE);
