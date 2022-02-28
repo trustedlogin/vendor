@@ -11,7 +11,7 @@ export const TopBar = ({ status }) => {
   //Removed sm:-left-24 from popover
   return (
     <>
-      <div className="bg-white flex flex-1 auto justify-between items-center px-5 py-8 shadow-lg sm:px-10">
+      <header className="bg-white flex flex-1 auto justify-between items-center px-5 py-8 shadow-lg sm:px-10">
         <div className="">
           <HorizontalLogo />
         </div>
@@ -78,7 +78,7 @@ export const TopBar = ({ status }) => {
             <span className="hidden sm:inline-flex">Need Help?</span>
           </button>
         </div>
-      </div>
+      </header>
       {isStatusOpen ? (
         <div
           id={"trustedlogin-status-popover"}
