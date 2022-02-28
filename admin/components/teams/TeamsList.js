@@ -174,36 +174,21 @@ const TeamsList = () => {
                       </div>
                     </div>
                     <div className="flex items-center space-x-5 w-full mt-4 justify-between sm:w-auto sm:mt-0">
-                      <div className="flex items-center space-x-4">
+                      <div className="flex items-center space-x-6">
                         <button
                           onClick={() => {
                             setCurrentView("teams/edit");
                             setCurrentTeam(team.id);
                           }}
-                          className="text-sm text-blue-tl">
+                          className="text-sm text-blue-tl hover:text-navy-tl p-2">
                           Edit
                         </button>
                         <button
                           onClick={() => startDelete(team.id)}
-                          className="text-sm text-gray-500">
+                          className="text-sm text-red-500 hover:text-red-800 p-2">
                           Delete
                         </button>
                       </div>
-                      <button
-                        type="button"
-                        className={`${
-                          enabled ? "bg-blue-tl" : "bg-gray-200"
-                        } ml-4 relative inline-flex flex-shrink-0 h-6 w-11 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500`}
-                        role="switch"
-                        aria-checked="true"
-                        aria-labelledby="privacy-option-1-label"
-                        aria-describedby="privacy-option-1-description">
-                        <span
-                          aria-hidden="true"
-                          className={`${
-                            enabled ? "translate-x-5" : "translate-x-0"
-                          } inline-block h-5 w-5 rounded-full bg-white shadow transform ring-0 transition ease-in-out duration-200`}></span>
-                      </button>
                     </div>
                   </li>
                 );

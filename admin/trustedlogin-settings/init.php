@@ -17,12 +17,9 @@ add_action('init', function () {
         );
         wp_localize_script($handle,'tlVendor', [
             'resetAction' => esc_url_raw(Reset::actionUrl()),
-            'roles' =>[
-                'administrator' => 'Administrator',
-                'editor' => 'Editor',
-            ],
+            'roles' => wp_roles()->get_names(),
             'onboarding' => Onboarding::hasOnboarded() ? 'COMPLETE' : '0',
-            'accesKeyActions' => trustedlogin_vendor()->getAccessKeyActions(),
+            'accessKeyActions' => trustedlogin_vendor()->getAccessKeyActions(),
         ]);
         wp_register_style(
             $handle,

@@ -1,22 +1,24 @@
+import { __ } from "@wordpress/i18n";
+
 const teamFields = {
   account_id: {
-    label: "Account ID",
+    label: __("Account ID", "trustedlogin-vendor"),
     id: "account_id",
   },
   private_key: {
-    label: "Private Key",
+    label: __("Private Key", "trustedlogin-vendor"),
     id: "private_key",
   },
   public_key: {
-    label: "Public Key",
+    label: __("Public Key", "trustedlogin-vendor"),
     id: "public_key",
   },
   helpdesk: {
-    label: "Helpdesk",
+    label: __("Help Desk", "trustedlogin-vendor"),
     id: "helpdesk",
   },
   approved_roles: {
-    label: "What Roles Provide Support?",
+    label: __("What Roles Provide Support?", "trustedlogin-vendor"),
     id: "approved_roles",
     type: "array",
   },
