@@ -2,8 +2,8 @@ import { useMemo, useState, useEffect } from "react";
 import { __ } from "@wordpress/i18n";
 import { useSettings } from "../hooks/useSettings";
 import { HorizontalLogo } from "./TrustedLoginLogo";
-
-const AccessKeyForm = ({ initialAccountId }) => {
+import {SelectField} from "./teams/fields";
+const AccessKeyForm = ({ initialAccountId = null }) => {
   const [accountId, setAccountId] = useState(initialAccountId);
   const [accessKey, setAccessKey] = useState("");
   const { settings } = useSettings();
@@ -41,14 +41,13 @@ const AccessKeyForm = ({ initialAccountId }) => {
 
   //On submit, do redirect.
   function submitHandler(e) {
+    if( ! action ) {
+      return;
+    }
     e.preventDefault();
     const redirect = `${action}&ak=${accessKey}`;
     alert(redirect); //alert so we see it first.
     window.location = redirect; //Will this be blocked by the browser?
-  }
-
-  if (!action) {
-    return null;
   }
 
   return (
@@ -73,7 +72,18 @@ const AccessKeyForm = ({ initialAccountId }) => {
           action={action}
           onSubmit={submitHandler}
           className="flex flex-col py-6 space-y-6 justify-center">
-          <input type="hidden" name="account_id" value={accountId} />
+            {initialAccountId ? (
+              <input type="hidden" name="account_id" value={accountId} />
+
+            ): (
+              <SelectField name="account_id" id="account_id" label={__("Account ID", "trustedlogin-vendor")}>
+                <>
+                  {teamsOption.map(({label,value}) => (
+                    <option key={value} value={value}>{label}</option>
+                  ))}
+                </>
+              </SelectField>
+            )}
           <div className="relative rounded-lg">
             <input
               value={accessKey}
@@ -96,77 +106,6 @@ const AccessKeyForm = ({ initialAccountId }) => {
     </div>
   );
 
-  return (
-    <CenteredLayout
-      title={__("Login With Access Key", "trustedlogin-vendor")}
-      subTitle={
-        __("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ornare tortor in nisl fermentum.", "trustedlogin-vendor")
-      }>
-      <a class="text-blue-tl text-sm" href="#">
-        {__("Where can I find this info?", "trustedlogin-vendor")}
-      </a>
-      <form
-        method={"GET"}
-        action={action}
-        onSubmit={(e) => {
-          e.preventDefault();
-          const redirect = `${action}&ak=${accessKey}`;
-          alert(redirect);
-          window.location = redirect;
-        }}>
-        <div className="relative rounded-lg">
-          <input
-            type="text"
-            name="access-key"
-            id="access-key"
-            class="block w-full pl-4 pr-10 py-4 sm:text-md border border-gray-300 rounded-lg focus:outline-none focus:border-sky-500 focus:ring-1 ring-offset-2 focus:ring-sky-500"
-            placeholder={__("Access Key", "trustedlogin-vendor")}
-          />
-        </div>
-        <button
-          type="submit"
-          class="inline-flex justify-center p-4 border border-transparent text-md font-medium rounded-lg text-white bg-blue-tl hover:bg-indigo-700 focus:outline-none focus:ring-2 ring-offset-2 focus:ring-sky-500">
-          {__("Log In", "trustedlogin-vendor")}
-        </button>
-      </form>
-    </CenteredLayout>
-  );
-  return (
-    <Form
-      method={"GET"}
-      action={action}
-      onSubmit={(e) => {
-        e.preventDefault();
-        const redirect = `${action}&ak=${accessKey}`;
-        alert(redirect);
-        window.location = redirect;
-      }}>
-      <FormTable title={__("Log Into Site Using Access Key", "trustedlogin-vendor")}>
-        <>
-          <Input
-            label={__("Access Key", "trustedlogin-vendor")}
-            name="access_key"
-            value={accessKey}
-            onChange={(value) => setAccessKey(value)}
-          />
-          {!initialAccountId ? (
-            <Select
-              label={__("Account ID", "trustedlogin-vendor")}
-              value={accountId}
-              onChange={(value) => setAccountId(value)}
-              name="account_id"
-              options={teamsOption}
-            />
-          ) : (
-            <input type="hidden" name="account_id" value={accountId} />
-          )}
-        </>
-        <BigButton type="submit" variant={"primary"}>
-          {__("Login", "trustedlogin-vendor")}
-        </BigButton>
-      </FormTable>
-    </Form>
-  );
 };
 
 export default AccessKeyForm;
