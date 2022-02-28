@@ -13,11 +13,12 @@ export default function ViewProvider({ children,initialView = null }) {
 
   //Which view to show
   const [currentView, setCurrentView] = useState(() => {
-    if( initialView ){
-      return initialView;
+    if( window.tlInitialView ){
+      return window.tlInitialView;
     }
     return hasOnboarded ? "teams" : "onboarding";
   });
+
 
   //The ID of team to show in view
   //This is used to set the team that is used by:

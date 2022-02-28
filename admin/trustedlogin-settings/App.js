@@ -4,10 +4,7 @@ import TrustedLoginSettings from "../components/TrustedLoginSettings";
 import ViewProvider from "../hooks/useView";
 import SettingsProvider from "../hooks/useSettings";
 
-let initialView = null;
-if( window && window.tlInitialView  ){
-  initialView = window.tlInitialView  ;
-}
+
 export default function App({ getSettings, updateSettings, hasOnboarded }) {
   const [notice, setNotice] = useState(() => {
     return {
@@ -26,7 +23,7 @@ export default function App({ getSettings, updateSettings, hasOnboarded }) {
           updateSettings,
         }}>
         <ViewProvider
-          initialView={initialView}
+
         >
           <TrustedLoginSettings />
         </ViewProvider>
