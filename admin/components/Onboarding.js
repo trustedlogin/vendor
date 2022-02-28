@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 import Layout from "./Layout";
 import { HorizontalLogo } from "./TrustedLoginLogo";
 import {
@@ -283,16 +283,7 @@ export const OnboardingLayout = ({
   //Set false to hide navigation to other steps.
   singleStepMode = true,
 }) => {
-  //Remove some of the WordPress elements in admin
-  useEffect(() => {
-    //Bail early if we do not have WordPress elements to remove.
-    if (null == document.getElementById("adminmenumain")) {
-      return;
-    }
-    document.getElementById("adminmenumain").remove();
-    document.getElementById("wpfooter").remove();
-    document.getElementById("wpcontent").style.marginLeft = "0px";
-  }, []);
+
 
   return (
     <>
