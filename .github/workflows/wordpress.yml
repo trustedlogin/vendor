@@ -1,9 +1,13 @@
 name: WordPress Tests
 
 # Run on push
-on: [push]
-# If files matching these patterns have changed
-paths:
+on:
+  push:
+    # any branch
+    branches:
+      - '*'
+      # If files matching these patterns have changed
+    paths:
       - 'composer.json'
       - '**.php'
       - readme.txt

@@ -4,6 +4,7 @@ import TrustedLoginSettings from "../components/TrustedLoginSettings";
 import ViewProvider from "../hooks/useView";
 import SettingsProvider from "../hooks/useSettings";
 
+
 export default function App({ getSettings, updateSettings, hasOnboarded }) {
   const [notice, setNotice] = useState(() => {
     return {
@@ -21,7 +22,9 @@ export default function App({ getSettings, updateSettings, hasOnboarded }) {
           getSettings,
           updateSettings,
         }}>
-        <ViewProvider>
+        <ViewProvider
+
+        >
           <TrustedLoginSettings />
         </ViewProvider>
       </SettingsProvider>

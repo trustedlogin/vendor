@@ -36,15 +36,4 @@ class Onboarding {
         update_option( self::ONBOARDED, 1 );
     }
 
-    /**
-     * Maybe update onboarding status on save of team settings
-     *
-     * @uses "trustedlogin_vendor_settings_saved" action
-     */
-    public static function settingsSaved(int $count){
-        if( ! self::hasOnboarded())
-        {
-            self::setHasOnboarded();
-        }
-    }
 }
