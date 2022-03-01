@@ -47,23 +47,21 @@ add_action('init', function () {
          new MenuPage(
             MenuPage::SLUG_SETTINGS,
             __('Settings', 'trustedlogin-vendor'),
-            'settings',
+            'settings'
         );
 
         //Add access key submenu page
         new MenuPage(
             MenuPage::SLUG_TEAMS,
             __('Teams', 'trustedlogin-vendor'),
-            'teams',
-
+            'teams'
         );
 
         //Add helpdesks submenu page
         new MenuPage(
             MenuPage::SLUG_HELPDESKS,
-            'helpdesks',
-
             __('Help Desks', 'trustedlogin-vendor'),
+            'helpdesks'
         );
 
         //Add access key submenu page
@@ -78,7 +76,7 @@ add_action('init', function () {
         new MenuPage(
             MenuPage::SLUG_SETTINGS,
             __('Onboarding', 'trustedlogin-vendor'),
-            'onboarding',
+            'onboarding'
         );
     }
 
