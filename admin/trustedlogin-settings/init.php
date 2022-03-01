@@ -61,7 +61,7 @@ add_action('init', function () {
         new MenuPage(
             MenuPage::SLUG_HELPDESKS,
             __('Help Desks', 'trustedlogin-vendor'),
-            'helpdesks'
+            'integratons'
         );
 
         //Add access key submenu page

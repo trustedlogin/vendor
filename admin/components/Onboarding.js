@@ -25,7 +25,10 @@ const StepOne = () => {
             {__("Link your TrustedLogin account", "trustedlogin-vendor")}
           </h2>
           <p className="mt-2 mb-4 text-sm text-gray-500">
-            {__("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ornare tortor in nisl fermentum.", "trustedlogin-vendor")}
+            {__(
+              "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ornare tortor in nisl fermentum.",
+              "trustedlogin-vendor"
+            )}
           </p>
           <a className="text-blue-tl text-sm" href="#">
             {__("Where can I find this info?", "trustedlogin-vendor")}
@@ -95,9 +98,14 @@ const StepTwo = () => {
   return (
     <>
       <div className="max-w-sm mx-auto mb-8 justify-center text-center">
-        <h2 className="mt-4 text-2xl text-gray-900">{__("Create your first team", "trustedlogin-vendor")}</h2>
+        <h2 className="mt-4 text-2xl text-gray-900">
+          {__("Create your first team", "trustedlogin-vendor")}
+        </h2>
         <p className="mt-2 mb-4 text-sm text-gray-500">
-          {__("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ornare tortor in nisl fermentum.", "trustedlogin-vendor")}
+          {__(
+            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ornare tortor in nisl fermentum.",
+            "trustedlogin-vendor"
+          )}
         </p>
         <a className="text-blue-tl text-sm" href="#">
           {__("Where can I find this info?", "trustedlogin-vendor")}
@@ -250,7 +258,6 @@ export const OnboardingLayout = ({
   //Set false to hide navigation to other steps.
   singleStepMode = true,
 }) => {
-
   return (
     <>
       <Layout>
@@ -281,18 +288,30 @@ export const OnboardingLayout = ({
                         <nav aria-label="Progress">
                           <ol role="list" className="overflow-hidden">
                             <Aside.CurrentStep
-                              title={__("Link your account", "trustedlogin-vendor")}
-                              subTitle={__("Vitae sed mi luctus laoreet.", "trustedlogin-vendor")}
+                              title={__(
+                                "Link your account",
+                                "trustedlogin-vendor"
+                              )}
+                              subTitle={__(
+                                "Vitae sed mi luctus laoreet.",
+                                "trustedlogin-vendor"
+                              )}
                             />
                             <Aside.FutureStep
-                              title={__("Create Team","trustedlogin-vendor")}
+                              title={__("Create Team", "trustedlogin-vendor")}
                               subTitle={
                                 "Cursus semper viverra facilisis et et some more."
                               }
                             />
                             <Aside.FutureStep
-                              title={__("Configure Help Desk", "trustedlogin-vendor")}
-                              subTitle={__("Penatibus eu quis ante.", "trustedlogin-vendor")}
+                              title={__(
+                                "Configure Help Desk",
+                                "trustedlogin-vendor"
+                              )}
+                              subTitle={__(
+                                "Penatibus eu quis ante.",
+                                "trustedlogin-vendor"
+                              )}
                             />
                           </ol>
                         </nav>
@@ -300,7 +319,10 @@ export const OnboardingLayout = ({
                     </div>
                     <div className="inline-flex items-center justify-center">
                       <a className="text-sm text-blue-tl" href="#">
-                        {__("Need Help? View our Documentation", "trustedlogin-vendor")}
+                        {__(
+                          "Need Help? View our Documentation",
+                          "trustedlogin-vendor"
+                        )}
                       </a>
                       <svg
                         className="ml-3"

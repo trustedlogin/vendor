@@ -8,6 +8,7 @@ import NoTeams from "./teams/NoTeams";
 import AddTeam from "./teams/AddTeam";
 import TeamsSettings from "../components/teams/TeamsSettings";
 import GeneralSettings from "./GeneralSettings";
+import IntegrationSettings from "./IntegrationSettings";
 
 /**
  * TrustedLogin Settings screen
@@ -54,7 +55,13 @@ export default function () {
           currentView.startsWith("teams") ? (
             <TeamsSettings />
           ) : (
-            <GeneralSettings />
+            <>
+              {"integratons" === currentView ? (
+                <IntegrationSettings />
+              ) : (
+                <GeneralSettings />
+              )}
+            </>
           )}
         </Layout>
       );

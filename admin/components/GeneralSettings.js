@@ -9,7 +9,10 @@ const GeneralSettings = () => {
       <div className="flex flex-col px-5 py-6 sm:px-10">
         <PageHeader
           title={__("Settings", "trustedlogin-vendor")}
-          subTitle={__("Manage your TrustedLogin settings", "trustedlogin-vendor")}
+          subTitle={__(
+            "Manage your TrustedLogin settings",
+            "trustedlogin-vendor"
+          )}
         />
         <div className="space-y-6">
           <DebugLogSettings />
