@@ -120,8 +120,8 @@ class MenuPage {
         //@todo better way to handle error.
         if( isset($_GET['error'])){
             wp_die( sanitize_text_field($_GET['error']));
-            exit;
-        };
+        }
+
         if( $this->initialView){
             printf(
                 '<script>window.tlInitialView = "%s"</script>',
