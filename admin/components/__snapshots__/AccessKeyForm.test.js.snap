@@ -122,7 +122,7 @@ exports[`Access Key Login Form renders and matches snapshot 1`] = `
       </div>
       <form
         class="flex flex-col py-6 space-y-6 justify-center"
-        method="GET"
+        method="POST"
       >
         <input
           name="account_id"
@@ -132,21 +132,32 @@ exports[`Access Key Login Form renders and matches snapshot 1`] = `
         <div
           class="relative rounded-lg"
         >
-          <input
-            class="block w-full pl-4 pr-10 py-4 sm:text-md border border-gray-300 rounded-lg focus:outline-none focus:border-sky-500 focus:ring-1 ring-offset-2 focus:ring-sky-500"
-            id="access_key"
-            name="access_key"
-            placeholder="Paste key received from customer"
-            type="text"
-            value=""
-          />
+          <div>
+            <label
+              class="block text-sm font-medium text-gray-700"
+              for="access_key"
+            >
+              Access Key
+            </label>
+            <div
+              class="mt-2 relative rounded-lg"
+            >
+              <input
+                class="block w-full pl-4 pr-10 py-4 sm:text-md border border-gray-300 rounded-lg focus:outline-none focus:border-sky-500 focus:ring-1 ring-offset-2 focus:ring-sky-500"
+                id="access_key"
+                name="access_key"
+                placeholder="Paste key received from customer"
+                type="text"
+                value=""
+              />
+            </div>
+          </div>
         </div>
-        <button
+        <input
           class="inline-flex justify-center p-4 border border-transparent text-md font-medium rounded-lg text-white bg-blue-tl hover:bg-indigo-700 focus:outline-none focus:ring-2 ring-offset-2 focus:ring-sky-500"
           type="submit"
-        >
-          Log In
-        </button>
+          value="Log In"
+        />
       </form>
     </div>
   </div>

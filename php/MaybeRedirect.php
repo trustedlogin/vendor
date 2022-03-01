@@ -58,7 +58,7 @@ class MaybeRedirect
 			if( isset($_REQUEST['action']) && Webhook::WEBHOOK_ACTION == $_REQUEST['action']){
 				$provider = $_REQUEST[Factory::PROVIDER_KEY];
 				if( ! in_array($provider, Factory::getProviders())){
-					$this->log( 'Unknown provider: ' . $provider,__METHOD__ );
+					//$this->log( 'Unknown provider: ' . $provider,__METHOD__ );
 					return;
 				}
 				$accountId = $_REQUEST[AccessKeyLogin::ACCOUNT_ID_INPUT_NAME];
