@@ -30,7 +30,7 @@ add_action('init', function () {
             MenuPage::ASSET_HANDLE,
             plugins_url("/trustedlogin-dist.css", dirname(__FILE__, 1)),
             [],
-            md5_file(dirname(__FILE__, 2)."/trustedlogin-dist.css"),
+            md5_file(dirname(__FILE__, 2)."/trustedlogin-dist.css")
         );
     }
 
