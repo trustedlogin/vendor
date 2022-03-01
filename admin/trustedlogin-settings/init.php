@@ -67,9 +67,8 @@ add_action('init', function () {
         //Add access key submenu page
         new MenuPage(
             MenuPage::SLUG_ACCESS_KEY,
-            'teams/access_key',
-            'teams/access_key',
             __('Access Key Log-In', 'trustedlogin-vendor'),
+            'teams/access_key'
         );
     }else{
         //Add onboarding submenu page
