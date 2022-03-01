@@ -61,17 +61,17 @@ add_action('init', function () {
         //Add helpdesks submenu page
         new MenuPage(
             MenuPage::SLUG_HELPDESKS,
-            __('HelpDesks', 'trustedlogin-vendor'),
             'helpdesks',
 
+            __('Help Desks', 'trustedlogin-vendor'),
         );
 
         //Add access key submenu page
         new MenuPage(
             MenuPage::SLUG_ACCESS_KEY,
-            __('Access Key Login', 'trustedlogin-vendor'),
             'teams/access_key',
             'teams/access_key',
+            __('Access Key Log-In', 'trustedlogin-vendor'),
         );
     }else{
         //Add onboarding submenu page
