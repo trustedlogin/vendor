@@ -53,8 +53,7 @@ if( file_exists( $path . 'vendor/autoload.php' ) ){
 	//Handle the "Reset All" button in UI
 	add_action( 'admin_init',[\TrustedLogin\Vendor\MaybeRedirect::class, 'adminInit']);
 
-	//Register error handler
-	//ErrorHandler::register();
+
 }else{
 	throw new \Exception('Autoloader not found.');
 }
