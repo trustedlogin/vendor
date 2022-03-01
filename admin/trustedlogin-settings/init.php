@@ -10,7 +10,7 @@ add_action('init', function () {
     /**
      * Register assets
      */
-    //This needs done once, not once per menu.
+    // This needs to be done once, not once per menu.
     if( file_exists(dirname(__FILE__, 3). "/build/admin-page-trustedlogin-settings.asset.php" ) ){
         $assets = include dirname(__FILE__, 3). "/build/admin-page-trustedlogin-settings.asset.php";
         $dependencies = $assets['dependencies'];
@@ -30,61 +30,53 @@ add_action('init', function () {
             MenuPage::ASSET_HANDLE,
             plugins_url("/trustedlogin-dist.css", dirname(__FILE__, 1)),
             [],
-            md5_file(dirname(__FILE__, 2)."/trustedlogin-dist.css"),
+            md5_file(dirname(__FILE__, 2)."/trustedlogin-dist.css")
         );
     }
-    /**
-     * Add (sub)menu pages
-     */
-    //Add main menu page
+
+    // Add main menu page
     new MenuPage(
         //Do not pass args, would make it a child page.
     );
 
-
+    /**
+     * Add (sub)menu pages
+     */
     if( $hasOnboarded ){
          //Add settings submenu page
          new MenuPage(
             MenuPage::SLUG_SETTINGS,
             __('Settings', 'trustedlogin-vendor'),
-            'settings',
+            'settings'
         );
 
         //Add access key submenu page
         new MenuPage(
             MenuPage::SLUG_TEAMS,
             __('Teams', 'trustedlogin-vendor'),
-            'teams',
-
+            'teams'
         );
 
         //Add helpdesks submenu page
         new MenuPage(
             MenuPage::SLUG_HELPDESKS,
-            __('HelpDesks', 'trustedlogin-vendor'),
-            'helpdesks',
-
+            __('Help Desks', 'trustedlogin-vendor'),
+            'helpdesks'
         );
 
         //Add access key submenu page
         new MenuPage(
             MenuPage::SLUG_ACCESS_KEY,
-            __('Access Key Login', 'trustedlogin-vendor'),
-            'teams/access_key',
-            'teams/access_key',
+            __('Access Key Log-In', 'trustedlogin-vendor'),
+            'teams/access_key'
         );
     }else{
         //Add onboarding submenu page
         new MenuPage(
             MenuPage::SLUG_SETTINGS,
             __('Onboarding', 'trustedlogin-vendor'),
-            'onboarding',
+            'onboarding'
         );
     }
-
-
-
-
-
 
 });

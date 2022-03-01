@@ -38,19 +38,19 @@ class MenuPage {
 
     /**
      * @param string|null $childSlug Optional slug for the child page. If null, parent page is created.
-     * @param string|null $name Optinal name for the menu page.
-     * @param string|null $intialView Optional, passed to ViewProvider's initalView prop.
+     * @param string|null $name Optional name for the menu page.
+     * @param string|null $initialView Optional, passed to ViewProvider's initialView prop.
      */
-    public function __construct( $childSlug = null, $name = null, $initalView = null ) {
+    public function __construct( $childSlug = null, $name = null, $initialView = null ) {
         $this->childSlug = $childSlug;
         $this->childName = $name;
-        $this->initialView = $initalView;
+        $this->initialView = $initialView;
         add_action('admin_menu', [$this, 'addMenuPage'],25);
         add_action( 'admin_enqueue_scripts',[$this,'enqueueAssets'] );
     }
 
     /**
-     * Check if assets should be enuqueued.
+     * Check if assets should be enqueued.
      *
      * @param string
      * @return bool
@@ -120,8 +120,8 @@ class MenuPage {
         //@todo better way to handle error.
         if( isset($_GET['error'])){
             wp_die( sanitize_text_field($_GET['error']));
-            exit;
-        };
+        }
+
         if( $this->initialView){
             printf(
                 '<script>window.tlInitialView = "%s"</script>',
