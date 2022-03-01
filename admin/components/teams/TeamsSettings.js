@@ -37,7 +37,7 @@ const TeamsSettings = () => {
   }
 
   if ("teams/access_key" === currentView) {
-    return <AccessKeyForm initialAccountId={team ? team.account_id : null} />;
+    return <AccessKeyForm initialAccountId={currentTeam} />;
   }
 
   return <TeamsList />;
