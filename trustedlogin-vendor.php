@@ -48,7 +48,6 @@ if( file_exists( $path . 'vendor/autoload.php' ) ){
 
     //Add REST API endpoints
 	add_action( 'rest_api_init', [$plugin, 'restApiInit']);
-	return;
     //Handle access key login if requests.
 	add_action( 'template_redirect',[\TrustedLogin\Vendor\MaybeRedirect::class, 'handle']);
 	//Handle the "Reset All" button in UI
