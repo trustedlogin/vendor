@@ -10,7 +10,7 @@ add_action('init', function () {
     /**
      * Register assets
      */
-    //This needs done once, not once per menu.
+    // This needs to be done once, not once per menu.
     if( file_exists(dirname(__FILE__, 3). "/build/admin-page-trustedlogin-settings.asset.php" ) ){
         $assets = include dirname(__FILE__, 3). "/build/admin-page-trustedlogin-settings.asset.php";
         $dependencies = $assets['dependencies'];
@@ -33,15 +33,15 @@ add_action('init', function () {
             md5_file(dirname(__FILE__, 2)."/trustedlogin-dist.css"),
         );
     }
-    /**
-     * Add (sub)menu pages
-     */
-    //Add main menu page
+
+    // Add main menu page
     new MenuPage(
         //Do not pass args, would make it a child page.
     );
 
-
+    /**
+     * Add (sub)menu pages
+     */
     if( $hasOnboarded ){
          //Add settings submenu page
          new MenuPage(
@@ -78,10 +78,5 @@ add_action('init', function () {
             'onboarding'
         );
     }
-
-
-
-
-
 
 });
