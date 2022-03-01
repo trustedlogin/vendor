@@ -32,8 +32,9 @@ class Reset {
             [
                 'action' => self::ACTION_NAME,
                 '_wpnonce' => wp_create_nonce(self::NONCE_ACTION),
+                'page' => MenuPage::PARENT_MENU_SLUG
             ],
-            admin_url( 'trustedlogin-settings')
+            admin_url( 'admin.php')
         );
     }
 }
