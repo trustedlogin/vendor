@@ -20,21 +20,42 @@ class SettingsApi
 	const TEAM_SETTING_NAME = 'trustedlogin_vendor_team_settings';
 
 	/**
-	 * @var TeamSettings[]
+	 * The name of the option we store team settings in.
 	 */
-	protected $team_settings = [];
+	const GLOBAL_SETTING_NAME = 'trustedlogin_vendor_settings';
 
 	/**
-	 * @param TeamSettings[]|array[] $team_data Collection of team data
+	 * @var TeamSettings[]
 	 */
-	public function __construct(array $team_data)
+	protected $teamSettings = [];
+
+	/**
+	 * @var []
+	 */
+	protected $globalSettings;
+
+	/**
+	 * @var []
+	 */
+	protected $globalSettingsDefaults = [
+		'helpdesks' => [
+			'helpscout' => false
+		],
+	];
+
+	/**
+	 * @param TeamSettings[]|array[] $teamData Collection of team data
+	 */
+	public function __construct(array $team_data,array $globaSlettings = [])
 	{
+
+		$this->setGlobalSettings($globaSlettings);
 		foreach ($team_data as $values) {
 			if (is_array($values)) {
 				$values = new TeamSettings($values);
 			}
 			if (is_a($values, TeamSettings::class)) {
-				$this->team_settings[] = $values;
+				$this->teamSettings[] = $values;
 			}
 		}
 	}
@@ -56,8 +77,13 @@ class SettingsApi
 				$data[] = $team;
 			}
 		}
+		$obj = new static($data);
+		$globals = get_option(self::GLOBAL_SETTING_NAME, []);
+		$obj->setGlobalSettings(
+			is_array($globals) ? $globals : []
+		 );
 
-		return new self($data);
+		return $obj;
 	}
 
 	/**
@@ -69,7 +95,7 @@ class SettingsApi
 	public function save()
 	{
 		$data = [];
-		foreach ($this->team_settings as $setting) {
+		foreach ($this->teamSettings as $setting) {
 			$_setting = $setting->toArray();
 			//If enabled a helpdesk...
 			if( ! empty( $setting->getHelpdesks() ) ) {
@@ -91,13 +117,14 @@ class SettingsApi
 			$data[] = $_setting;
 		}
 
-		foreach ($this->team_settings as $i => $setting) {
+		foreach ($this->teamSettings as $i => $setting) {
 			if( ! IsTeamConnected::needToCheck( $setting ) ){
-				$this->team_settings[$i] = IsTeamConnected::check( $setting );
+				$this->teamSettings[$i] = IsTeamConnected::check( $setting );
 			}
 		}
 
 		update_option(self::TEAM_SETTING_NAME, json_encode($data));
+		update_option(self::GLOBAL_SETTING_NAME, $this->getGlobalSettings());
 		$count = self::count();
 
 		/**
@@ -122,7 +149,7 @@ class SettingsApi
 	 */
 	public function getByAccountId($account_id)
 	{
-		foreach ($this->team_settings as $setting) {
+		foreach ($this->teamSettings as $setting) {
 			if (intval($account_id) === intval($setting->get('account_id'))) {
 				return $setting;
 			}
@@ -140,9 +167,9 @@ class SettingsApi
 	 */
 	public function updateByAccountId(TeamSettings $value)
 	{
-		foreach ($this->team_settings as $key => $setting) {
+		foreach ($this->teamSettings as $key => $setting) {
 			if ($value->get('account_id') == $setting->get('account_id')) {
-				$this->team_settings[$key] = $value;
+				$this->teamSettings[$key] = $value;
 				return $this;
 			}
 		}
@@ -157,7 +184,7 @@ class SettingsApi
 	 */
 	public function hasSetting($account_id)
 	{
-		foreach ($this->team_settings as $setting) {
+		foreach ($this->teamSettings as $setting) {
 			if ($account_id == $setting->get('account_id')) {
 				return true;
 			}
@@ -179,7 +206,7 @@ class SettingsApi
 			return $this;
 		}
 		//add it to collection
-		$this->team_settings[] = $setting;
+		$this->teamSettings[] = $setting;
 		return $this;
 	}
 
@@ -189,7 +216,7 @@ class SettingsApi
 	 * @return int
 	 */
 	public function count(){
-		return isset($this->team_settings) ? count($this->team_settings): 0;
+		return isset($this->teamSettings) ? count($this->teamSettings): 0;
 	}
 
 	/**
@@ -200,7 +227,7 @@ class SettingsApi
 	*/
 	public function reset()
 	{
-		$this->team_settings = [];
+		$this->teamSettings = [];
 		return $this;
 	}
 
@@ -227,7 +254,7 @@ class SettingsApi
 	 */
 	public function allTeams($as_array = false){
 		$data = [];
-		foreach ($this->team_settings as $setting) {
+		foreach ($this->teamSettings as $setting) {
 			if( $as_array ){
 				$data[] = $setting->toArray();
 			}else{
@@ -235,5 +262,22 @@ class SettingsApi
 			}
 		}
 		return $data;
+	}
+
+	/**
+	 * Get the global settings
+	 */
+	public function getGlobalSettings()
+	{
+		return $this->global_settings;
+	}
+
+	public function setGlobalSettings(array $globalSettings)
+	{
+		$this->global_settings = wp_parse_args(
+			$globalSettings,
+			$this->globalSettingsDefaults
+		);
+		return $this;
 	}
 }

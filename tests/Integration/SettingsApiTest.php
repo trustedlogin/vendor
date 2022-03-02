@@ -457,4 +457,34 @@ class SettingsApiTest extends \WP_UnitTestCase
 		$settings = new SettingsApi($data);
 		$this->assertSame(2, $settings->count());
 	}
+
+	/**
+	 * @covers SettingsApi::setGlobalSettings()
+	 * @covers SettingsApi::getGlobalSettings()
+	 * @covers SettingsApi::save()
+	 */
+	public function testGeneralSettings(){
+		$settings = new SettingsApi([]);
+
+		$settings->setGlobalSettings([
+			'key' => 'value'
+		]);
+		$expected = [
+			'helpdesks' => [
+				'helpscout' => false
+			],
+			'key' => 'value'
+		];
+		$this->assertSame(
+			$expected,
+			$settings->getGlobalSettings()
+		);
+		$settings->save();
+		$settings = SettingsApi::fromSaved();
+		$this->assertSame(
+			$expected,
+			$settings->getGlobalSettings()
+		);
+
+	}
 }
