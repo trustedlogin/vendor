@@ -13,7 +13,7 @@ import IntegrationSettings from "./IntegrationSettings";
 /**
  * TrustedLogin Settings screen
  */
-export default function () {
+export default function TrustedLoginSettings() {
   const { currentView, setCurrentView } = useView();
   const { settings, addTeam } = useSettings();
   const teams = useMemo(() => {

@@ -4,9 +4,8 @@ const defaultSettings = {
   isConnected: false,
   hasOnboarded: true,
   teams: [],
-  helpscout: {
-    secret: "",
-    callback: "",
+  integrations: {
+    helpscout: false,
   },
 };
 
