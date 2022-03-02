@@ -56,7 +56,7 @@ export default function () {
             <TeamsSettings />
           ) : (
             <>
-              {"integratons" === currentView ? (
+              {"integrations" === currentView ? (
                 <IntegrationSettings />
               ) : (
                 <GeneralSettings />
