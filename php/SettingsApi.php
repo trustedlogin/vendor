@@ -38,8 +38,10 @@ class SettingsApi
 	 * @var []
 	 */
 	protected $globalSettingsDefaults = [
-		'helpdesks' => [
-			'helpscout' => false
+		'integrations' => [
+			'helpscout' => [
+				'enabled' => false,
+			]
 		],
 	];
 
@@ -220,14 +222,18 @@ class SettingsApi
 	}
 
 	/**
-	* Reset all data
+	* Reset all teams and maybe global settings
 	*
+	* @param bool $resetGeneralSettings
 	* @since 0.10.0
 	* @return $this
 	*/
-	public function reset()
+	public function reset($resetGeneralSettings = false )
 	{
 		$this->teamSettings = [];
+		if( $resetGeneralSettings ){
+			$this->setGlobalSettings($this->globalSettingsDefaults);
+		}
 		return $this;
 	}
 
@@ -241,7 +247,8 @@ class SettingsApi
 	{
 
 		return [
-			'teams' => $this->allTeams(true)
+			'teams' => $this->allTeams(true),
+			'integrations' => isset($this->globalSettings['integrations']) ? $this->globalSettings['integrations'] : []
 		];
 	}
 

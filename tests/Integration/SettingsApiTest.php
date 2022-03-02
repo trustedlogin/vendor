@@ -462,6 +462,7 @@ class SettingsApiTest extends \WP_UnitTestCase
 	 * @covers SettingsApi::setGlobalSettings()
 	 * @covers SettingsApi::getGlobalSettings()
 	 * @covers SettingsApi::save()
+	 * @covers SettingsApi::toArray()
 	 */
 	public function testGeneralSettings(){
 		$settings = new SettingsApi([]);
@@ -470,8 +471,10 @@ class SettingsApiTest extends \WP_UnitTestCase
 			'key' => 'value'
 		]);
 		$expected = [
-			'helpdesks' => [
-				'helpscout' => false
+			'integrations' => [
+				'helpscout' => [
+					'enabled' => false,
+				]
 			],
 			'key' => 'value'
 		];
@@ -485,6 +488,44 @@ class SettingsApiTest extends \WP_UnitTestCase
 			$expected,
 			$settings->getGlobalSettings()
 		);
+		$this->assertArrayHasKey(
+			'integrations',
+			$settings->toArray()
+		);
 
+	}
+	/**
+	 * @covers SettingsApi::setGlobalSettings()
+	 * @covers SettingsApi::getGlobalSettings()
+	 * @covers SettingsApi::reset()
+	 */
+	public function testGeneralSettingsReset(){
+		$settings = new SettingsApi([]);
+
+		$settings->setGlobalSettings([
+			'key' => 'value'
+		]);
+		$expected = [
+			'integrations' => [
+				'helpscout' => [
+					'enabled' => false,
+				]
+			],
+			'key' => 'value'
+		];
+		$this->assertSame(
+			$expected,
+			$settings->getGlobalSettings()
+		);
+		$settings->reset();
+		$this->assertSame(
+			$expected,
+			$settings->getGlobalSettings()
+		);
+		$settings->reset(true);
+		$this->assertArrayNotHasKey(
+			'key',
+			$settings->getGlobalSettings()
+		);
 	}
 }
