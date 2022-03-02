@@ -1,8 +1,16 @@
-import { useMemo,Fragment } from "react";
+import { useMemo,Fragment,useEffect,useRef } from "react";
 import { __ } from "@wordpress/i18n";
 import { PageHeader } from "./Layout";
+import { useSettings } from "../hooks/useSettings";
 
-const Integration = ({ isEnabled, onToggle, Icon, name, description,id }) => {
+const Integration = ({ Icon, name, description,id }) => {
+
+  const {settings,setSettings} = useSettings();
+
+  const isEnabled = useMemo(() => {
+    return settings.integrations[id].enabled || false;
+  }, [settings.integrations]);
+
   const buttonClassName = useMemo(() => {
     let className = isEnabled ? "bg-blue-tl" : "bg-gray-200";
     return `${className} ml-4 relative inline-flex flex-shrink-0 h-6 w-11 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500`;
@@ -13,6 +21,20 @@ const Integration = ({ isEnabled, onToggle, Icon, name, description,id }) => {
     return `${className} translate-x-5 inline-block h-5 w-5 rounded-full bg-white shadow transform ring-0 transition ease-in-out duration-200`;
   }, [isEnabled]);
 
+
+  const onToggle = () => {
+    setSettings({
+      ...settings,
+      integrations: {
+        ...settings.integrations,
+        [id]: {
+          ...settings.integrations[id],
+          enabled:!settings.integrations[id].enabled,
+        }
+      }
+    });
+    onSaveIntegrationSettings();
+  };
 
   return (
     <li className="col-span-1 flex flex-col justify-between bg-white rounded-lg shadow divide-y divide-gray-200">
@@ -46,7 +68,8 @@ const Integration = ({ isEnabled, onToggle, Icon, name, description,id }) => {
 
 const IntegrationSettings = () => {
 
-  const onToggle = () => {}
+
+
   return (
     <div className="flex flex-col px-5 py-6 sm:px-10">
       <PageHeader title={"Integrations"} subTitle={"Manage Integrations"} />
@@ -57,7 +80,6 @@ const IntegrationSettings = () => {
           >
             <Fragment key="helpscout">
               <Integration
-                onToggle={onToggle}
                 id={"helpscout"}
                 isEnabled={true}
                 name={"Helpscout"}

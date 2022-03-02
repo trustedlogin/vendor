@@ -146,7 +146,7 @@ export const useSettings = () => {
     return settings.teams.length > 0;
   }, [settings.teams]);
 
-  ///Save all settings
+  ///Save all TEAM settings
   const onSave = () => {
     api
       .updateSettings({ teams: settings.teams })
@@ -154,6 +154,23 @@ export const useSettings = () => {
         _updateTeams(teams);
         setNotice({
           text: "Settings Saved",
+          type: "sucess",
+          visible: true,
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+   ///Save all INTEGRATIONS settings
+   const onSaveIntegrationSettings = async () => {
+    return await api
+      .updateSettings({ integrations: settings.integrations })
+      .then(({ integrations }) => {
+        console.log({ ...settings, integrations });
+        setNotice({
+          text: "Integrations Saved",
           type: "sucess",
           visible: true,
         });
@@ -174,6 +191,7 @@ export const useSettings = () => {
     getTeam,
     hasTeam,
     hasOnboarded,
+    onSaveIntegrationSettings
   };
 };
 

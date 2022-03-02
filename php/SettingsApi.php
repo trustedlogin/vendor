@@ -22,7 +22,7 @@ class SettingsApi
 	/**
 	 * The name of the option we store team settings in.
 	 */
-	const GLOBAL_SETTING_NAME = 'trustedlogin_vendor_settings';
+	const GLOBAL_SETTING_NAME = 'trustedlogin_vendor_global_settings';
 
 	/**
 	 * @var TeamSettings[]
@@ -80,10 +80,14 @@ class SettingsApi
 			}
 		}
 		$obj = new static($data);
-		$globals = get_option(self::GLOBAL_SETTING_NAME, []);
-		$obj->setGlobalSettings(
-			is_array($globals) ? $globals : []
-		 );
+		$globals = get_option(self::GLOBAL_SETTING_NAME, null);
+		if (! empty($globals)) {
+			$globals = (array)json_decode($globals);
+			$obj->setGlobalSettings(
+				is_array($globals) ? $globals : []
+			 );
+		}
+
 
 		return $obj;
 	}
@@ -126,7 +130,7 @@ class SettingsApi
 		}
 
 		update_option(self::TEAM_SETTING_NAME, json_encode($data));
-		update_option(self::GLOBAL_SETTING_NAME, $this->getGlobalSettings());
+		update_option(self::GLOBAL_SETTING_NAME,json_encode( $this->getGlobalSettings()));
 		$count = self::count();
 
 		/**
@@ -279,11 +283,26 @@ class SettingsApi
 		return $this->global_settings;
 	}
 
+	/**
+	 * Set the global settings
+	 *
+	 * Values will be merged with existin
+	 *
+	 * @param array $globalSettings
+	 * @return $this
+	 */
 	public function setGlobalSettings(array $globalSettings)
 	{
+		//When resetting from saved, deal with json_decode not being recursive for array conversion
+		if( isset($globalSettings['integrations'])&& is_object($globalSettings['integrations'])){
+			$globalSettings['integrations'] = (array)$globalSettings['integrations'];
+			foreach ($globalSettings['integrations'] as $i => $value) {
+				$globalSettings['integrations'][$i] = (array)$value;
+			}
+		}
 		$this->global_settings = wp_parse_args(
 			$globalSettings,
-			$this->globalSettingsDefaults
+			! empty($this->globalSettings)? $this->globalSettings : $this->globalSettingsDefaults
 		);
 		return $this;
 	}
