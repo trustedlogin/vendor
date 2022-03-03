@@ -6,6 +6,7 @@ export const testTeam = {
   public_key: "fsaffff",
   helpdesk: "HelpScout",
   approved_roles: [],
+  id: 0
 };
 const mockApi = {
   getSettings: async () => {
