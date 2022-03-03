@@ -219,14 +219,6 @@ export default function SettingsProvider({
           integrations,
         });
       });
-    } else {
-      api.getSettings().then(({ integrations }) => {
-        setSettings({
-          ...settings,
-          teams: initialTeams,
-          integrations,
-        });
-      });
     }
   }, [api, setSettings, initialTeams]);
 
