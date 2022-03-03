@@ -18,15 +18,15 @@ export const getSettings = async () => {
   return settings;
 };
 
-export const updateSettings = async ({ teams = null,integrations = null}) => {
+export const updateSettings = async ({ teams = null, integrations = null }) => {
   let data = {};
-  if( teams ){
+  if (teams) {
     data.teams = teams;
-  }else if( integrations ){
+  } else if (integrations) {
     data.integrations = integrations;
   }
   let r = await apiFetch({
-    path:data.integrations ? `${path}/global` : path,
+    path: data.integrations ? `${path}/global` : path,
     method: "POST",
     data,
   });

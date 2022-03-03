@@ -163,8 +163,8 @@ export const useSettings = () => {
       });
   };
 
-   ///Save all INTEGRATIONS settings
-   const onSaveIntegrationSettings = async ({integrations}) => {
+  ///Save all INTEGRATIONS settings
+  const onSaveIntegrationSettings = async ({ integrations }) => {
     return await api
       .updateSettings({ integrations: settings.integrations })
       .then(({ integrations }) => {
@@ -191,7 +191,7 @@ export const useSettings = () => {
     getTeam,
     hasTeam,
     hasOnboarded,
-    onSaveIntegrationSettings
+    onSaveIntegrationSettings,
   };
 };
 
@@ -219,8 +219,8 @@ export default function SettingsProvider({
           integrations,
         });
       });
-    }else{
-      api.getSettings().then(({  integrations }) => {
+    } else {
+      api.getSettings().then(({ integrations }) => {
         setSettings({
           ...settings,
           teams: initialTeams,
