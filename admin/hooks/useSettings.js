@@ -203,18 +203,21 @@ export default function SettingsProvider({
   hasOnboarded,
   children,
   initialTeams = null,
+  initialIntegrationSettings = null,
 }) {
   const [settings, setSettings] = useState(() => {
     if (null !== initialTeams) {
       return { ...defaultSettings, teams: initialTeams };
-    } else {
+    } else if(initialIntegrationSettings){
+      return { ...defaultSettings, integrations: initialIntegrationSettings };
+    }else {
       return defaultSettings;
     }
   });
 
   //Get the saved settings
   useEffect(() => {
-    if (null == initialTeams) {
+    if (null == initialTeams&& null==initialIntegrationSettings) {
       api.getSettings().then(({ teams, integrations }) => {
         setSettings({
           ...settings,
