@@ -6,7 +6,7 @@ export const testTeam = {
   public_key: "fsaffff",
   helpdesk: "HelpScout",
   approved_roles: [],
-  id: 0
+  id: 0,
 };
 const mockApi = {
   getSettings: async () => {
@@ -17,27 +17,23 @@ const mockApi = {
   updateSettings: async () => {},
 };
 
-
 /**
  * All providers in one.
  *
  * ONLY use for testing.
  */
 const TestProvider = ({
-    children,
-    api = mockApi,
-    hasOnboarded = true,
-    initialTeams = [testTeam],
+  children,
+  api = mockApi,
+  hasOnboarded = true,
+  initialTeams = [testTeam],
 }) => (
-    <SettingsProvider
-        api={api}
-        hasOnboarded={hasOnboarded}
-        initialTeams={initialTeams}
-    >
-      <ViewProvider>
-          {children}
-      </ViewProvider>
-    </SettingsProvider>
-  );
+  <SettingsProvider
+    api={api}
+    hasOnboarded={hasOnboarded}
+    initialTeams={initialTeams}>
+    <ViewProvider>{children}</ViewProvider>
+  </SettingsProvider>
+);
 
-export default TestProvider
+export default TestProvider;

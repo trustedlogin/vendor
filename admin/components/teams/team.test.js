@@ -3,7 +3,7 @@ import { render, act } from "@testing-library/react";
 
 import NoTeams from "./NoTeams";
 import EditTeam from "./EditTeam";
-import Provider,{testTeam} from "../TestProvider";
+import Provider, { testTeam } from "../TestProvider";
 const team = testTeam;
 describe("AddTeam", () => {
   it("Renders & Matches snapshot", () => {

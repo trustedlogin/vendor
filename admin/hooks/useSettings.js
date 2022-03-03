@@ -164,12 +164,14 @@ export const useSettings = () => {
   };
 
   ///Save all INTEGRATIONS settings
-  const onSaveIntegrationSettings = async ({ integrations,updateState = false }) => {
-
+  const onSaveIntegrationSettings = async ({
+    integrations,
+    updateState = false,
+  }) => {
     return await api
       .updateSettings({ integrations })
       .then(({ integrations }) => {
-        if( updateState ){
+        if (updateState) {
           setSettings({ ...settings, integrations });
         }
         setNotice({
@@ -208,16 +210,16 @@ export default function SettingsProvider({
   const [settings, setSettings] = useState(() => {
     if (null !== initialTeams) {
       return { ...defaultSettings, teams: initialTeams };
-    } else if(initialIntegrationSettings){
+    } else if (initialIntegrationSettings) {
       return { ...defaultSettings, integrations: initialIntegrationSettings };
-    }else {
+    } else {
       return defaultSettings;
     }
   });
 
   //Get the saved settings
   useEffect(() => {
-    if (null == initialTeams&& null==initialIntegrationSettings) {
+    if (null == initialTeams && null == initialIntegrationSettings) {
       api.getSettings().then(({ teams, integrations }) => {
         setSettings({
           ...settings,
