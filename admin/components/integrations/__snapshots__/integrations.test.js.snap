@@ -1,5 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`ConfigureHelpscout renders and matches snapshot while closed 1`] = `<div />`;
+
+exports[`ConfigureHelpscout renders and matches snapshot while open 1`] = `<div />`;
+
 exports[`IntegrationHelpscout renders and matches snapshot 1`] = `
 <div>
   <li
@@ -17,7 +21,7 @@ exports[`IntegrationHelpscout renders and matches snapshot 1`] = `
           <div
             class="flex items-center"
           >
-            <div
+            <button
               class="flex-shrink-0"
             >
               <svg
@@ -34,7 +38,7 @@ exports[`IntegrationHelpscout renders and matches snapshot 1`] = `
                   fill-rule="evenodd"
                 />
               </svg>
-            </div>
+            </button>
             <div
               class="ml-5 w-0 flex-1"
               id="helpscout-label"

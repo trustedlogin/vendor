@@ -1,9 +1,9 @@
-import { useMemo,useState } from "react";
+import { useMemo, useState } from "react";
 import { __ } from "@wordpress/i18n";
 import { useSettings } from "../../hooks/useSettings";
-import ConfigureIntegration from "./ConfigureIntegration";
+import { ConfigureHelscout } from "./ConfigureIntegration";
 
-const Integration = ({ Icon, name, description, id,toggleOpenState }) => {
+const Integration = ({ Icon, name, description, id, toggleOpenState }) => {
   const { settings, setSettings, onSaveIntegrationSettings } = useSettings();
 
   const isEnabled = useMemo(() => {
@@ -82,11 +82,11 @@ const Integration = ({ Icon, name, description, id,toggleOpenState }) => {
 };
 
 export const IntegrationHelpscout = () => {
-  let [isOpen, setIsOpen] = useState(true)
+  let [isOpen, setIsOpen] = useState(true);
 
   return (
     <>
-      <ConfigureIntegration isOpen={isOpen} setIsOpen={setIsOpen} />
+      <ConfigureHelscout isOpen={isOpen} setIsOpen={setIsOpen} />
       <Integration
         toggleOpenState={() => setIsOpen(!isOpen)}
         id={"helpscout"}
@@ -113,6 +113,5 @@ export const IntegrationHelpscout = () => {
         )}
       />
     </>
-
   );
-}
+};

@@ -208,10 +208,19 @@ export default function SettingsProvider({
   initialIntegrationSettings = null,
 }) {
   const [settings, setSettings] = useState(() => {
-    if (null !== initialTeams) {
-      return { ...defaultSettings, teams: initialTeams };
-    } else if (initialIntegrationSettings) {
-      return { ...defaultSettings, integrations: initialIntegrationSettings };
+    //Load supplied intial state, if supplied,
+    //prevents API call.
+    //See: https://github.com/trustedlogin/vendor/issues/34
+    if (null !== initialTeams || null !== initialIntegrationSettings) {
+      let state = defaultSettings;
+      if (null !== initialTeams) {
+        state.teams = initialTeams;
+      }
+      if (null !== initialIntegrationSettings) {
+        state.integrations = initialIntegrationSettings;
+      }
+
+      return state;
     } else {
       return defaultSettings;
     }
@@ -219,15 +228,20 @@ export default function SettingsProvider({
 
   //Get the saved settings
   useEffect(() => {
-    if (null == initialTeams && null == initialIntegrationSettings) {
-      api.getSettings().then(({ teams, integrations }) => {
-        setSettings({
-          ...settings,
-          teams,
-          integrations,
-        });
-      });
+    //Do NOT get settings if any settings supplied.
+    //See: https://github.com/trustedlogin/vendor/issues/34
+    if (null !== initialTeams || null !== initialIntegrationSettings) {
+      return;
     }
+    //No intial settings?
+    // get settings from API
+    api.getSettings().then(({ teams, integrations }) => {
+      setSettings({
+        ...settings,
+        teams,
+        integrations,
+      });
+    });
   }, [api, setSettings, initialTeams]);
 
   return (
