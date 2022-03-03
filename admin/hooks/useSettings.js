@@ -164,11 +164,14 @@ export const useSettings = () => {
   };
 
   ///Save all INTEGRATIONS settings
-  const onSaveIntegrationSettings = async ({ integrations }) => {
+  const onSaveIntegrationSettings = async ({ integrations,updateState = false }) => {
+
     return await api
-      .updateSettings({ integrations: settings.integrations })
+      .updateSettings({ integrations })
       .then(({ integrations }) => {
-        console.log({ ...settings, integrations });
+        if( updateState ){
+          setSettings({ ...settings, integrations });
+        }
         setNotice({
           text: "Integrations Saved",
           type: "sucess",

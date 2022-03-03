@@ -20,6 +20,7 @@ import { useSettings } from "../hooks/useSettings";
     return `${className} translate-x-5 inline-block h-5 w-5 rounded-full bg-white shadow transform ring-0 transition ease-in-out duration-200`;
   }, [isEnabled]);
 
+  //When button is clicked:
   const onToggle = () => {
     let update = {
       ...settings,
@@ -32,8 +33,14 @@ import { useSettings } from "../hooks/useSettings";
       },
     };
 
+    //Update state first.
     setSettings(update);
-    onSaveIntegrationSettings({ integrations: update.integrations });
+    //Save it
+    onSaveIntegrationSettings(
+      //Send integrations only
+      { integrations: update.integrations },
+      false//Don't update state in .then()
+    );
   };
 
   return (
