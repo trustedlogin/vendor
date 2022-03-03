@@ -1,5 +1,5 @@
 import { __ } from "@wordpress/i18n";
-import { useState, Fragment } from "react";
+import { useState,StrictMode } from "react";
 import TrustedLoginSettings from "../components/TrustedLoginSettings";
 import ViewProvider from "../hooks/useView";
 import SettingsProvider from "../hooks/useSettings";
@@ -14,7 +14,7 @@ export default function App({ getSettings, updateSettings, hasOnboarded }) {
   });
 
   return (
-    <Fragment>
+    <StrictMode>
       <SettingsProvider
         hasOnboarded={hasOnboarded}
         api={{
@@ -25,6 +25,6 @@ export default function App({ getSettings, updateSettings, hasOnboarded }) {
           <TrustedLoginSettings />
         </ViewProvider>
       </SettingsProvider>
-    </Fragment>
+    </StrictMode>
   );
 }
