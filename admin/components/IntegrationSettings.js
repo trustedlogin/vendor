@@ -5,7 +5,7 @@ import { useSettings } from "../hooks/useSettings";
 
 const Integration = ({ Icon, name, description,id }) => {
 
-  const {settings,setSettings} = useSettings();
+  const {settings,setSettings,onSaveIntegrationSettings} = useSettings();
 
   const isEnabled = useMemo(() => {
     return settings.integrations[id].enabled || false;
@@ -23,7 +23,7 @@ const Integration = ({ Icon, name, description,id }) => {
 
 
   const onToggle = () => {
-    setSettings({
+    let update = {
       ...settings,
       integrations: {
         ...settings.integrations,
@@ -32,8 +32,9 @@ const Integration = ({ Icon, name, description,id }) => {
           enabled:!settings.integrations[id].enabled,
         }
       }
-    });
-    onSaveIntegrationSettings();
+    };
+    setSettings(update);
+    onSaveIntegrationSettings({integrations:update.integrations});
   };
 
   return (

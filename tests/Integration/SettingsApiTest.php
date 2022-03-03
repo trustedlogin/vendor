@@ -473,7 +473,7 @@ class SettingsApiTest extends \WP_UnitTestCase
 		$expected = [
 			'integrations' => [
 				'helpscout' => [
-					'enabled' => false,
+					'enabled' => true,
 				]
 			],
 			'key' => 'value'
@@ -492,6 +492,28 @@ class SettingsApiTest extends \WP_UnitTestCase
 			'integrations',
 			$settings->toArray()
 		);
+		$this->assertTrue(
+			$settings->getGlobalSettings()['integrations']['helpscout']['enabled']
+		);
+
+		$settings->setGlobalSettings(
+			[
+				'integrations' => [
+					'helpscout' => [
+						'enabled' => false,
+					]
+				],
+			]
+		);
+		$this->assertFalse(
+			$settings->getGlobalSettings()['integrations']['helpscout']['enabled']
+		);
+		$settings->save();
+		$settings = SettingsApi::fromSaved();
+		$this->assertFalse(
+			$settings->getGlobalSettings()['integrations']['helpscout']['enabled']
+		);
+
 
 	}
 	/**
@@ -508,7 +530,7 @@ class SettingsApiTest extends \WP_UnitTestCase
 		$expected = [
 			'integrations' => [
 				'helpscout' => [
-					'enabled' => false,
+					'enabled' => true,
 				]
 			],
 			'key' => 'value'

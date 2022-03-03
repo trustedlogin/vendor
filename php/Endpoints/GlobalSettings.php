@@ -32,15 +32,15 @@ class GlobalSettings extends Settings
 	 */
 	public function update(\WP_REST_Request $request)
 	{
-		$settings_api = SettingsApi::fromSaved();
+		$settingsApi = SettingsApi::fromSaved();
 		if( is_array($request->get_param('integrations',false)) ){
-			$settings_api->setGlobalSettings( $request->get_param('integrations') );
+			$settingsApi = $settingsApi->setGlobalSettings( [
+				'integrations' => $request->get_param('integrations')
+			] );
+			$settingsApi->save();
 		}
-		$settings_api->save();
 
-		return rest_ensure_response(
-			SettingsApi::fromSaved()->toArray()
-		);
+		return $this->createResponse($settingsApi);
 	}
 
 }

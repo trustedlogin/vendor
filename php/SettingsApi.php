@@ -22,7 +22,7 @@ class SettingsApi
 	/**
 	 * The name of the option we store team settings in.
 	 */
-	const GLOBAL_SETTING_NAME = 'trustedlogin_vendor_global_settings';
+	const GLOBAL_SETTING_NAME = 'trustedlogin_vendor_other_settings';
 
 	/**
 	 * @var TeamSettings[]
@@ -40,7 +40,7 @@ class SettingsApi
 	protected $globalSettingsDefaults = [
 		'integrations' => [
 			'helpscout' => [
-				'enabled' => false,
+				'enabled' => true,
 			]
 		],
 	];
@@ -83,8 +83,10 @@ class SettingsApi
 		$globals = get_option(self::GLOBAL_SETTING_NAME, null);
 		if (! empty($globals)) {
 			$globals = (array)json_decode($globals);
+
 			$obj->setGlobalSettings(
 				is_array($globals) ? $globals : []
+
 			 );
 		}
 
@@ -227,7 +229,7 @@ class SettingsApi
 
 	/**
 	* Reset all teams and maybe global settings
-	*
+
 	* @param bool $resetGeneralSettings
 	* @since 0.10.0
 	* @return $this
@@ -236,7 +238,7 @@ class SettingsApi
 	{
 		$this->teamSettings = [];
 		if( $resetGeneralSettings ){
-			$this->setGlobalSettings($this->globalSettingsDefaults);
+			$this->globalSettings = $this->globalSettingsDefaults;
 		}
 		return $this;
 	}
@@ -280,7 +282,7 @@ class SettingsApi
 	 */
 	public function getGlobalSettings()
 	{
-		return $this->global_settings;
+		return $this->globalSettings;
 	}
 
 	/**
@@ -293,6 +295,7 @@ class SettingsApi
 	 */
 	public function setGlobalSettings(array $globalSettings)
 	{
+
 		//When resetting from saved, deal with json_decode not being recursive for array conversion
 		if( isset($globalSettings['integrations'])&& is_object($globalSettings['integrations'])){
 			$globalSettings['integrations'] = (array)$globalSettings['integrations'];
@@ -300,7 +303,7 @@ class SettingsApi
 				$globalSettings['integrations'][$i] = (array)$value;
 			}
 		}
-		$this->global_settings = wp_parse_args(
+		$this->globalSettings = wp_parse_args(
 			$globalSettings,
 			! empty($this->globalSettings)? $this->globalSettings : $this->globalSettingsDefaults
 		);

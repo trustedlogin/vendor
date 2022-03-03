@@ -164,7 +164,7 @@ export const useSettings = () => {
   };
 
    ///Save all INTEGRATIONS settings
-   const onSaveIntegrationSettings = async () => {
+   const onSaveIntegrationSettings = async ({integrations}) => {
     return await api
       .updateSettings({ integrations: settings.integrations })
       .then(({ integrations }) => {
@@ -208,14 +208,23 @@ export default function SettingsProvider({
       return defaultSettings;
     }
   });
+
   //Get the saved settings
   useEffect(() => {
     if (null == initialTeams) {
-      api.getSettings().then(({ teams, helpscout }) => {
+      api.getSettings().then(({ teams, integrations }) => {
         setSettings({
           ...settings,
           teams,
-          helpscout,
+          integrations,
+        });
+      });
+    }else{
+      api.getSettings().then(({  integrations }) => {
+        setSettings({
+          ...settings,
+          teams: initialTeams,
+          integrations,
         });
       });
     }
