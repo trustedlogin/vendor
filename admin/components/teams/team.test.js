@@ -1,31 +1,10 @@
 import AddTeam from "./AddTeam";
 import { render, act } from "@testing-library/react";
-import ViewProvider from "../../hooks/useView";
-import SettingsProvider from "../../hooks/useSettings";
+
 import NoTeams from "./NoTeams";
 import EditTeam from "./EditTeam";
-const team = {
-  account_id: "1",
-  private_key: "asda",
-  public_key: "fsaffff",
-  helpdesk: "HelpScout",
-  approved_roles: [],
-};
-const api = {
-  getSettings: async () => {
-    return {
-      teams: [team],
-    };
-  },
-  updateSettings: async () => {},
-};
-
-const Provider = ({ children }) => (
-  <SettingsProvider api={api} hasOnboarded={true} initialTeams={[team]}>
-    <ViewProvider>{children}</ViewProvider>
-  </SettingsProvider>
-);
-
+import Provider,{testTeam} from "../TestProvider";
+const team = testTeam;
 describe("AddTeam", () => {
   it("Renders & Matches snapshot", () => {
     const { container } = render(<AddTeam />, { wrapper: Provider });
