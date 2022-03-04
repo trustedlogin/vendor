@@ -62,7 +62,7 @@ const AccessKeyForm = ({ initialAccountId = null }) => {
             method={"POST"}
             action={action}
             className="flex flex-col py-6 space-y-6 justify-center">
-            {initialAccountId ? (
+            {null !== initialAccountId ? (
               <input type="hidden" name="account_id" value={accountId} />
             ) : (
               <SelectFieldArea
