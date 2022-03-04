@@ -1,5 +1,3 @@
-import teamFields from "./teamFields";
-
 export default function collectTeam(formElement) {
   let team = {};
   const data = new FormData(formElement);

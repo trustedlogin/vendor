@@ -1,5 +1,5 @@
 import { useView } from "../../hooks/useView";
-import { useRef, useState } from "react";
+import { useRef, useState, useMemo } from "react";
 import { __ } from "@wordpress/i18n";
 
 import { InputField, SelectField, SelectFieldArea } from "./fields";
@@ -8,12 +8,14 @@ import collectTeam from "./collectTeam";
 import { SubmitAndCanelButtons } from "../Buttons";
 import RoleMultiSelect from "../RoleMultiSelect";
 import TitleDescriptionLink from "../TitleDescriptionLink";
+import { useSettings } from "../../hooks/useSettings";
 
 //HelpDesk select
-export const HelpDeskSelect = ({
-  defaultValue,
-  options = teamFields.helpdesk.options,
-}) => {
+export const HelpDeskSelect = ({ defaultValue, options = null }) => {
+  const { getEnabledHelpDeskOptions } = useSettings();
+  const helpDeskOptions = useMemo(() => {
+    return options ? options : getEnabledHelpDeskOptions();
+  }, [options, getEnabledHelpDeskOptions]);
   return (
     <SelectField
       name={teamFields.helpdesk.id}
@@ -23,7 +25,7 @@ export const HelpDeskSelect = ({
         defaultValue ? defaultValue : teamFields.helpdesk.defaultValue
       }>
       <option>{__("Select a Help Desk", "trustedlogin-vendor")}</option>
-      {options.map((option) => (
+      {helpDeskOptions.map((option) => (
         <option key={option.value} value={option.value}>
           {option.label}
         </option>
@@ -112,7 +114,11 @@ const EditTeam = ({ team = null, onClickSave, formTitle = "Update Team" }) => {
                   id={teamFields.approved_roles.id}
                 />
               </SelectFieldArea>
-              <HelpDeskSelect />
+              <HelpDeskSelect
+                defaultValue={
+                  team ? team.help : teamFields.helpdesk.defaultValue
+                }
+              />
             </div>
           </div>
           <SubmitAndCanelButtons

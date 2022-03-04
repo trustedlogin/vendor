@@ -1,4 +1,5 @@
 import { createContext, useContext, useState, useMemo, useEffect } from "react";
+import teamFields from "../components/teams/teamFields";
 
 const defaultSettings = {
   isConnected: false,
@@ -147,6 +148,19 @@ export const useSettings = () => {
     return settings.teams.length > 0;
   }, [settings.teams]);
 
+  const getEnabledHelpDeskOptions = () => {
+    let options = [];
+    Object.keys(settings.integrations).forEach((helpdesk) => {
+      let helpdeskOption = teamFields.helpdesk.options.find(
+        (h) => helpdesk === h.value
+      );
+      if (helpdeskOption && helpdeskOption.enabled) {
+        options.push(helpdeskOption);
+      }
+    });
+    return options;
+  };
+
   ///Save all TEAM settings
   const onSave = () => {
     api
@@ -198,6 +212,7 @@ export const useSettings = () => {
     hasTeam,
     hasOnboarded,
     onSaveIntegrationSettings,
+    getEnabledHelpDeskOptions,
   };
 };
 

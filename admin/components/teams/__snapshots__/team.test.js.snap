@@ -206,12 +206,6 @@ ornare tortor in nisl fermentum.
                 <option>
                   Select a Help Desk
                 </option>
-                <option
-                  selected=""
-                  value="helpscout"
-                >
-                  Helpscout
-                </option>
               </select>
             </div>
           </div>
@@ -448,12 +442,6 @@ ornare tortor in nisl fermentum.
                 <option>
                   Select a Help Desk
                 </option>
-                <option
-                  selected=""
-                  value="helpscout"
-                >
-                  Helpscout
-                </option>
               </select>
             </div>
           </div>
@@ -505,12 +493,6 @@ exports[`HelpDeskSelect Renders & Matches snapshot 1`] = `
       >
         <option>
           Select a Help Desk
-        </option>
-        <option
-          selected=""
-          value="helpscout"
-        >
-          Helpscout
         </option>
       </select>
     </div>
