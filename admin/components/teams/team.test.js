@@ -4,11 +4,23 @@ import { render, act, fireEvent } from "@testing-library/react";
 import NoTeams from "./NoTeams";
 import EditTeam, { HelpDeskSelect } from "./EditTeam";
 import TeamsList from "./TeamsList";
-import Provider, { testTeam } from "../TestProvider";
+import TestProvider, { testTeam } from "../TestProvider";
 import teamFields from "./teamFields";
 import { useRef } from "react";
 import collectTeam from "./collectTeam";
 const team = testTeam;
+
+const Provider = (props) => (
+  <TestProvider
+    {...props}
+    initialIntegrationSettings={{
+      helpscout: {
+        enabled: true,
+      },
+    }}
+  />
+);
+
 describe("AddTeam", () => {
   it("Renders & Matches snapshot", () => {
     const { container } = render(<AddTeam />, { wrapper: Provider });

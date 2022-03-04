@@ -151,11 +151,14 @@ export const useSettings = () => {
   const getEnabledHelpDeskOptions = () => {
     let options = [];
     Object.keys(settings.integrations).forEach((helpdesk) => {
-      let helpdeskOption = teamFields.helpdesk.options.find(
-        (h) => helpdesk === h.value
-      );
-      if (helpdeskOption && helpdeskOption.enabled) {
-        options.push(helpdeskOption);
+      const setting = settings.integrations[helpdesk];
+      if (setting && true == setting.enabled) {
+        if (settings.integrations[helpdesk]) {
+          let helpdeskOption = teamFields.helpdesk.options.find(
+            (h) => helpdesk === h.value
+          );
+          options.push(helpdeskOption);
+        }
       }
     });
     return options;

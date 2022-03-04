@@ -24,12 +24,18 @@ export const HelpDeskSelect = ({ defaultValue, options = null }) => {
       defaultValue={
         defaultValue ? defaultValue : teamFields.helpdesk.defaultValue
       }>
-      <option>{__("Select a Help Desk", "trustedlogin-vendor")}</option>
-      {helpDeskOptions.map((option) => (
-        <option key={option.value} value={option.value}>
-          {option.label}
-        </option>
-      ))}
+      {helpDeskOptions.length ? (
+        <>
+          <option>{__("Select a Help Desk", "trustedlogin-vendor")}</option>
+          {helpDeskOptions.map((option) => (
+            <option key={option.value} value={option.value}>
+              {option.label}
+            </option>
+          ))}
+        </>
+      ) : (
+        <option>{__("No Helpdesks Active", "trustedlogin-vendor")}</option>
+      )}
     </SelectField>
   );
 };

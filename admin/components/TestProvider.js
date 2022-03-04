@@ -34,11 +34,13 @@ const TestProvider = ({
   api = mockApi,
   hasOnboarded = true,
   initialTeams = [testTeam],
+  initialIntegrationSettings = null,
 }) => (
   <SettingsProvider
     api={api}
     hasOnboarded={hasOnboarded}
-    initialTeams={initialTeams}>
+    initialTeams={initialTeams}
+    initialIntegrationSettings={initialIntegrationSettings}>
     <ViewProvider>{children}</ViewProvider>
   </SettingsProvider>
 );
