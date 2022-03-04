@@ -14,26 +14,16 @@ import collectTeam from "./teams/collectTeam";
 import { useSettings } from "../hooks/useSettings";
 import { useView } from "../hooks/useView";
 import RoleMultiSelect from "./RoleMultiSelect";
+import TitleDescriptionLink from "./TitleDescriptionLink";
 
 //Display Step one
 const StepOne = () => {
   return (
     <>
       <>
-        <div className="max-w-sm mx-auto mb-8 justify-center text-center">
-          <h2 className="mt-4 text-2xl text-gray-900">
-            {__("Link your TrustedLogin account", "trustedlogin-vendor")}
-          </h2>
-          <p className="mt-2 mb-4 text-sm text-gray-500">
-            {__(
-              "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ornare tortor in nisl fermentum.",
-              "trustedlogin-vendor"
-            )}
-          </p>
-          <a className="text-blue-tl text-sm" href="#">
-            {__("Where can I find this info?", "trustedlogin-vendor")}
-          </a>
-        </div>
+        <TitleDescriptionLink
+          title={__("Link your TrustedLogin account", "trustedlogin-vendor")}
+        />
         <div className="flex flex-1 flex-col space-y-6">
           <div>
             <label

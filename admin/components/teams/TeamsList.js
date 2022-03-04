@@ -3,6 +3,7 @@ import { useSettings } from "../../hooks/useSettings";
 import { useView } from "../../hooks/useView";
 import { PrimaryButton, SubmitAndCanelButtons } from "../Buttons";
 import { CenteredLayout, PageHeader } from "../Layout";
+import TitleDescriptionLink from "../TitleDescriptionLink";
 
 /**
  * Show list of teams
@@ -52,13 +53,8 @@ const TeamsList = () => {
       {isDeleting ? (
         <CenteredLayout>
           <>
-            <div classNCenteredLayoutame="max-w-sm mx-auto mb-8 justify-center text-center">
-              <h2 className="mt-4 text-2xl text-gray-900">Are You Sure?</h2>
-              <p className="mt-2 mb-4 text-sm text-gray-500">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed
-                ornare tortor in nisl fermentum.
-              </p>
-            </div>
+            <TitleDescriptionLink title={__("Are You Sure?")} />
+
             <SubmitAndCanelButtons
               onSubmit={completeDelete}
               submitText={"Delete Team"}

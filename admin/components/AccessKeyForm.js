@@ -3,6 +3,7 @@ import { __ } from "@wordpress/i18n";
 import { useSettings } from "../hooks/useSettings";
 import { HorizontalLogo } from "./TrustedLoginLogo";
 import { SelectFieldArea, InputFieldArea } from "./teams/fields";
+import TitleDescriptionLink from "./TitleDescriptionLink";
 
 const AccessKeyForm = ({ initialAccountId = null }) => {
   const [accessKey, setAccessKey] = useState("");
@@ -54,15 +55,9 @@ const AccessKeyForm = ({ initialAccountId = null }) => {
           <div className="w-full p-8 text-center">
             <HorizontalLogo />
           </div>
-          <div className="max-w-sm mx-auto mb-8 justify-center text-center">
-            <h2 className="mt-4 text-2xl text-gray-900">
-              {__("Log In Using Access Key", "trustedlogin-vendor")}
-            </h2>
-            <p className="mt-2 mb-4 text-sm text-gray-500"></p>
-            <a className="text-blue-tl text-sm" href="#">
-              {__("Where can I find this info?", "trustedlogin-vendor")}
-            </a>
-          </div>
+          <TitleDescriptionLink
+            title={__("Log In Using Access Key", "trustedlogin-vendor")}
+          />
           <form
             method={"POST"}
             action={action}
