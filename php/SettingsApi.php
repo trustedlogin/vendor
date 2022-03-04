@@ -115,10 +115,7 @@ class SettingsApi
 					if( isset( $_setting[TeamSettings::HELPDESK_SETTINGS][$helpdesk])){
 						continue;
 					}
-					$_setting[TeamSettings::HELPDESK_SETTINGS][$helpdesk] = [
-						'secret' => AccessKeyLogin::makeSecret( $account_id ),
-						'callback' => Helpscout::actionUrl( $account_id,$helpdesk )
-					];
+					$_setting[TeamSettings::HELPDESK_SETTINGS][$helpdesk] = $this->newHelpdeskSettings($account_id,$helpdesk);
 				}
 
 			}
@@ -308,5 +305,32 @@ class SettingsApi
 			! empty($this->globalSettings)? $this->globalSettings : $this->globalSettingsDefaults
 		);
 		return $this;
+	}
+
+	/**
+	 * Reset Helpdesk settings for one account
+	 *
+	 * @param string $accountId
+	 * @param string $helpdesk
+	 * @return TeamSettings
+	 */
+	public function resetHelpdeskSettings($accountId,$helpdesk){
+		$team = $this->getByAccountId($accountId);
+		$settings = $this->newHelpdeskSettings($accountId,$helpdesk);
+		$team->set(TeamSettings::HELPDESK_SETTINGS,
+			array_merge(
+				$team->get(TeamSettings::HELPDESK_SETTINGS, []),
+				[ $helpdesk => $settings ]
+			)
+		);
+		$this->save();
+		return $this;
+	}
+
+	protected function newHelpdeskSettings($accountId,$helpdesk){
+		return [
+			'secret' => AccessKeyLogin::makeSecret( $accountId ),
+			'callback' => Helpscout::actionUrl( $accountId,$helpdesk )
+		];
 	}
 }

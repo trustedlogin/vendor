@@ -27,7 +27,7 @@ abstract class Endpoint
 	 *
 	 * @param bool $editable Defaults to true. If false, the endpoint will not be updateable.
 	 */
-	public function register($editable = true)
+	public function register($editable = true,$readable = true)
 	{
 
 		if ($editable) {
@@ -42,17 +42,18 @@ abstract class Endpoint
 				]
 			);
 		}
-
-		register_rest_route(
-			self::NAMESPACE,
-			$this->route(),
-			[
-				'methods'             => \WP_REST_Server::READABLE,
-				'callback'            => [ $this, 'get' ],
-				'permission_callback' => [$this, 'authorize'],
-				'args' => $this->getArgs(),
-			]
-		);
+		if( $readable ){
+			register_rest_route(
+				self::NAMESPACE,
+				$this->route(),
+				[
+					'methods'             => \WP_REST_Server::READABLE,
+					'callback'            => [ $this, 'get' ],
+					'permission_callback' => [$this, 'authorize'],
+					'args' => $this->getArgs(),
+				]
+			);
+		}
 	}
 
 	/**

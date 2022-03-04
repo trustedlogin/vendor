@@ -29,14 +29,22 @@ export const useSettings = () => {
   const { settings, setSettings, api, hasOnboarded } =
     useContext(SettingsContext);
 
-  const _updateTeams = (teams) => {
+  const _updateTeams = (teams, integrations = null) => {
     teams = teams.map((t, i) => {
       return {
         id: i + 1,
         ...t,
       };
     });
-    setSettings({ ...settings, teams });
+    if (integrations) {
+      setSettings({
+        ...settings,
+        teams,
+        integrations,
+      });
+    } else {
+      setSettings({ ...settings, teams });
+    }
   };
 
   /**
@@ -203,6 +211,14 @@ export const useSettings = () => {
       });
   };
 
+  const resetTeamIntegration = async (accountId, integration) => {
+    return await api
+      .resetTeamIntegrations(accountId, integration)
+      .then(({ teams, integrations }) => {
+        _updateTeams(teams, integrations);
+      });
+  };
+
   return {
     settings,
     setSettings,
@@ -216,6 +232,7 @@ export const useSettings = () => {
     hasOnboarded,
     onSaveIntegrationSettings,
     getEnabledHelpDeskOptions,
+    resetTeamIntegration,
   };
 };
 

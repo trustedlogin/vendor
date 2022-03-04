@@ -1,6 +1,7 @@
 import { useRef, useMemo } from "react";
 import { Dialog } from "@headlessui/react";
 import { __ } from "@wordpress/i18n";
+import { useSettings } from "../../hooks/useSettings";
 export const HelpscoutLogo = () => (
   <svg
     width="36"
@@ -17,6 +18,7 @@ export const HelpscoutLogo = () => (
 );
 
 export const HelpscoutTeamDetails = ({ team }) => {
+  const { resetTeamIntegration } = useSettings();
   const secret = useMemo(() => {
     if (!team || !team.hasOwnProperty("helpdesk")) {
       return null;
@@ -64,6 +66,9 @@ export const HelpscoutTeamDetails = ({ team }) => {
             Secret Key
           </label>
           <button
+            onClick={() => {
+              resetTeamIntegration(team.account_id, "helpscout");
+            }}
             className="flex items-center font-medium text-sm text-red-700"
             title="Warning: will issue new key and cannot be undone">
             <svg

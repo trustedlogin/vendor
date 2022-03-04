@@ -33,7 +33,17 @@ export const updateSettings = async ({ teams = null, integrations = null }) => {
   return r;
 };
 
+export const resetTeamIntegrations = async (accountId, integration) => {
+  let r = await apiFetch({
+    path: `${path}/team/reset`,
+    method: "POST",
+    data: { integration, accountId },
+  });
+  return r;
+};
+
 export default {
   updateSettings,
   getSettings,
+  resetTeamIntegrations,
 };

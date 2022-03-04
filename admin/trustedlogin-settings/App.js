@@ -7,6 +7,7 @@ import SettingsProvider from "../hooks/useSettings";
 export default function App({
   getSettings,
   updateSettings,
+  resetTeamIntegrations,
   hasOnboarded,
   initialTeams = null,
   initialIntegrationSettings = null,
@@ -28,6 +29,7 @@ export default function App({
         api={{
           getSettings,
           updateSettings,
+          resetTeamIntegrations,
         }}>
         <ViewProvider>
           <TrustedLoginSettings />
