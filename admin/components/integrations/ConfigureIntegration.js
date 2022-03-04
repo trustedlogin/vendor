@@ -37,6 +37,23 @@ export const HelpscoutTeamDetails = ({ team }) => {
       return null;
     }
   }, [team]);
+
+  //https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Interact_with_the_clipboard
+  function copyToClipboard(value) {
+    navigator.permissions.query({ name: "clipboard-write" }).then((result) => {
+      if (result.state == "granted" || result.state == "prompt") {
+        navigator.clipboard.writeText(value).then(
+          function () {
+            /* clipboard successfully set */
+          },
+          function () {
+            /* clipboard write failed */
+          }
+        );
+      }
+    });
+  }
+
   return (
     <div className="flex flex-1 flex-col space-y-6">
       <div>
@@ -76,6 +93,7 @@ export const HelpscoutTeamDetails = ({ team }) => {
             disabled={true}
           />
           <button
+            onClick={() => copyToClipboard(secret)}
             className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-600 hover:text-sky-500"
             title="Copy secret key"
             data-form-type="action,search">
@@ -111,6 +129,7 @@ export const HelpscoutTeamDetails = ({ team }) => {
             disabled={true}
           />
           <button
+            onClick={() => copyToClipboard(callback)}
             className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-600 hover:text-sky-500"
             title="Copy callback URL"
             data-form-type="action,search">
