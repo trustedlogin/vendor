@@ -71,7 +71,9 @@ exports[`AddTeam Renders & Matches snapshot 1`] = `
             <label
               class="block text-sm font-medium text-gray-700"
               for="account_id"
-            />
+            >
+              Account ID
+            </label>
             <div
               class="mt-2 relative rounded-lg"
             >
@@ -88,7 +90,9 @@ exports[`AddTeam Renders & Matches snapshot 1`] = `
             <label
               class="block text-sm font-medium text-gray-700"
               for="public_key"
-            />
+            >
+              Public Key
+            </label>
             <div
               class="mt-2 relative rounded-lg"
             >
@@ -105,7 +109,9 @@ exports[`AddTeam Renders & Matches snapshot 1`] = `
             <label
               class="block text-sm font-medium text-gray-700"
               for="private_key"
-            />
+            >
+              Private Key
+            </label>
             <div
               class="mt-2 relative rounded-lg"
             >
@@ -310,7 +316,9 @@ exports[`EditTeam Renders & Matches snapshot 1`] = `
             <label
               class="block text-sm font-medium text-gray-700"
               for="account_id"
-            />
+            >
+              Account ID
+            </label>
             <div
               class="mt-2 relative rounded-lg"
             >
@@ -327,7 +335,9 @@ exports[`EditTeam Renders & Matches snapshot 1`] = `
             <label
               class="block text-sm font-medium text-gray-700"
               for="public_key"
-            />
+            >
+              Public Key
+            </label>
             <div
               class="mt-2 relative rounded-lg"
             >
@@ -344,7 +354,9 @@ exports[`EditTeam Renders & Matches snapshot 1`] = `
             <label
               class="block text-sm font-medium text-gray-700"
               for="private_key"
-            />
+            >
+              Private Key
+            </label>
             <div
               class="mt-2 relative rounded-lg"
             >

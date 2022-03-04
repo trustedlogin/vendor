@@ -25,7 +25,7 @@ export const InputField = ({
   defaultValue = null,
 }) => {
   return (
-    <InputFieldArea name={name} id={id}>
+    <InputFieldArea name={name} id={id} label={label}>
       <input
         type={type}
         name={name}
