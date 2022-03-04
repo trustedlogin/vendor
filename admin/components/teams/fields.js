@@ -37,12 +37,13 @@ export const InputField = ({
   );
 };
 
-export const SelectField = ({ id, name, label, children }) => {
+export const SelectField = ({ id, name, label, children, defaultValue }) => {
   return (
     <SelectFieldArea label={label} id={id}>
       <select
         id={id}
         name={name}
+        defaultValue={defaultValue}
         className="bg-white block w-full pl-3 pr-8 py-2.5 sm:text-sm border border-gray-300 rounded-lg focus:outline-none focus:border-sky-500 focus:ring-1 ring-offset-2 focus:ring-sky-500">
         {children}
       </select>

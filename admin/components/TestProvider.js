@@ -4,8 +4,15 @@ export const testTeam = {
   account_id: "1",
   private_key: "asda",
   public_key: "fsaffff",
-  helpdesk: "HelpScout",
+  helpdesk: "helpscout",
   approved_roles: [],
+  helpdesk_settings: {
+    helpscout: {
+      secret: "9594aef90fce5450",
+      callback:
+        "https://trustedlogin.ngrok.io/?trustedlogin=1&action=trusted_login_webhook&provider=helpscout&ak_account_id=asdsad&_tl_ak_nonce=f8bb651568",
+    },
+  },
   id: 0,
 };
 const mockApi = {

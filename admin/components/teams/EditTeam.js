@@ -8,6 +8,23 @@ import collectTeam from "./collectTeam";
 import { SubmitAndCanelButtons } from "../Buttons";
 import RoleMultiSelect from "../RoleMultiSelect";
 import TitleDescriptionLink from "../TitleDescriptionLink";
+
+export const HelpDeskSelect = ({ defaultValue }) => {
+  return (
+    <SelectField
+      name={teamFields.helpdesk.id}
+      id={teamFields.helpdesk.id}
+      label={teamFields.helpdesk.label}
+      defaultValue={
+        defaultValue ? defaultValue : teamFields.helpdesk.defaultValue
+      }>
+      <option>{__("Select a Help Desk", "trustedlogin-vendor")}</option>
+      <option value={"helpscout"}>Help Scout</option>
+      <option value={"zendesk"}>Zendesk</option>
+    </SelectField>
+  );
+};
+
 const EditTeam = ({ team = null, onClickSave, formTitle = "Update Team" }) => {
   const { setCurrentView } = useView();
   const formRef = useRef();
@@ -83,14 +100,7 @@ const EditTeam = ({ team = null, onClickSave, formTitle = "Update Team" }) => {
                   id={teamFields.approved_roles.id}
                 />
               </SelectFieldArea>
-              <SelectField
-                name={teamFields.helpdesk.id}
-                id={teamFields.helpdesk.id}
-                label={teamFields.helpdesk.label}>
-                <option>Select a Help Desk</option>
-                <option value={"helpscout"}>Help Scout</option>
-                <option value={"zendesk"}>Zendesk</option>
-              </SelectField>
+              <HelpDeskSelect />
             </div>
           </div>
           <SubmitAndCanelButtons

@@ -207,6 +207,7 @@ ornare tortor in nisl fermentum.
                   Select a Help Desk
                 </option>
                 <option
+                  selected=""
                   value="helpscout"
                 >
                   Help Scout
@@ -453,6 +454,7 @@ ornare tortor in nisl fermentum.
                   Select a Help Desk
                 </option>
                 <option
+                  selected=""
                   value="helpscout"
                 >
                   Help Scout
@@ -489,6 +491,45 @@ ornare tortor in nisl fermentum.
       </div>
     </div>
   </form>
+</div>
+`;
+
+exports[`HelpDeskSelect Renders & Matches snapshot 1`] = `
+<div>
+  <div
+    class=""
+  >
+    <label
+      class="block text-sm font-medium text-gray-700"
+      for="helpdesk"
+    >
+      Help Desk
+    </label>
+    <div
+      class="mt-2"
+    >
+      <select
+        class="bg-white block w-full pl-3 pr-8 py-2.5 sm:text-sm border border-gray-300 rounded-lg focus:outline-none focus:border-sky-500 focus:ring-1 ring-offset-2 focus:ring-sky-500"
+        id="helpdesk"
+        name="helpdesk"
+      >
+        <option>
+          Select a Help Desk
+        </option>
+        <option
+          selected=""
+          value="helpscout"
+        >
+          Help Scout
+        </option>
+        <option
+          value="zendesk"
+        >
+          Zendesk
+        </option>
+      </select>
+    </div>
+  </div>
 </div>
 `;
 

@@ -15,6 +15,7 @@ const emptyTeam = {
   public_key: "",
   helpdesk: "",
   approved_roles: [],
+  helpdesk_settings: [],
 };
 const SettingsContext = createContext(defaultSettings);
 
