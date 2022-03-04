@@ -210,12 +210,7 @@ ornare tortor in nisl fermentum.
                   selected=""
                   value="helpscout"
                 >
-                  Help Scout
-                </option>
-                <option
-                  value="zendesk"
-                >
-                  Zendesk
+                  Helpscout
                 </option>
               </select>
             </div>
@@ -457,12 +452,7 @@ ornare tortor in nisl fermentum.
                   selected=""
                   value="helpscout"
                 >
-                  Help Scout
-                </option>
-                <option
-                  value="zendesk"
-                >
-                  Zendesk
+                  Helpscout
                 </option>
               </select>
             </div>
@@ -520,12 +510,7 @@ exports[`HelpDeskSelect Renders & Matches snapshot 1`] = `
           selected=""
           value="helpscout"
         >
-          Help Scout
-        </option>
-        <option
-          value="zendesk"
-        >
-          Zendesk
+          Helpscout
         </option>
       </select>
     </div>

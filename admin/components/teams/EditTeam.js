@@ -9,7 +9,10 @@ import { SubmitAndCanelButtons } from "../Buttons";
 import RoleMultiSelect from "../RoleMultiSelect";
 import TitleDescriptionLink from "../TitleDescriptionLink";
 
-export const HelpDeskSelect = ({ defaultValue }) => {
+export const HelpDeskSelect = ({
+  defaultValue,
+  options = teamFields.helpdesk.options,
+}) => {
   return (
     <SelectField
       name={teamFields.helpdesk.id}
@@ -19,8 +22,11 @@ export const HelpDeskSelect = ({ defaultValue }) => {
         defaultValue ? defaultValue : teamFields.helpdesk.defaultValue
       }>
       <option>{__("Select a Help Desk", "trustedlogin-vendor")}</option>
-      <option value={"helpscout"}>Help Scout</option>
-      <option value={"zendesk"}>Zendesk</option>
+      {options.map((option) => (
+        <option key={option.value} value={option.value}>
+          {option.label}
+        </option>
+      ))}
     </SelectField>
   );
 };

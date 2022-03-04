@@ -17,6 +17,9 @@ const teamFields = {
     label: __("Help Desk", "trustedlogin-vendor"),
     id: "helpdesk",
     defaultValue: "helpscout",
+    options: [
+      { value: "helpscout", label: __("Helpscout", "trustedlogin-vendor") },
+    ],
   },
   approved_roles: {
     label: __("What Roles Provide Support?", "trustedlogin-vendor"),
