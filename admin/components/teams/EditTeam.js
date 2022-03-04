@@ -1,5 +1,5 @@
 import { useView } from "../../hooks/useView";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { __ } from "@wordpress/i18n";
 
 import { InputField, SelectField, SelectFieldArea } from "./fields";
@@ -9,6 +9,7 @@ import { SubmitAndCanelButtons } from "../Buttons";
 import RoleMultiSelect from "../RoleMultiSelect";
 import TitleDescriptionLink from "../TitleDescriptionLink";
 
+//HelpDesk select
 export const HelpDeskSelect = ({
   defaultValue,
   options = teamFields.helpdesk.options,
@@ -31,12 +32,16 @@ export const HelpDeskSelect = ({
   );
 };
 
+//Edit or create team
 const EditTeam = ({ team = null, onClickSave, formTitle = "Update Team" }) => {
   const { setCurrentView } = useView();
   const formRef = useRef();
+  //useState for approved_roles, beacuse that works.
+  const [approved_roles, set_approved_roles] = useState(team?.approved_roles);
   const handleSave = (e) => {
     e.preventDefault();
     let team = collectTeam(formRef.current);
+    team.approved_roles = approved_roles;
     onClickSave(team);
   };
   return (
@@ -102,6 +107,7 @@ const EditTeam = ({ team = null, onClickSave, formTitle = "Update Team" }) => {
                 id={teamFields.approved_roles.id}
                 label={teamFields.approved_roles.label}>
                 <RoleMultiSelect
+                  onChange={(roles) => set_approved_roles(roles)}
                   approvedRoles={team?.approved_roles || []}
                   id={teamFields.approved_roles.id}
                 />

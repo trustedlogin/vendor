@@ -30,6 +30,38 @@ describe("EditTeam", () => {
     });
     expect(container).toMatchSnapshot();
   });
+  it("Changes values and collectTeams has those value", () => {
+    const onClickSave = jest.fn();
+    const Test = () => {
+      return <EditTeam team={team} onClickSave={onClickSave} />;
+    };
+    const { getByLabelText, container } = render(<Test />, {
+      wrapper: Provider,
+    });
+    act(() => {
+      fireEvent.change(getByLabelText(teamFields.account_id.label), {
+        target: { value: "account3" },
+      });
+      fireEvent.change(getByLabelText(teamFields.private_key.label), {
+        target: { value: "secret" },
+      });
+      fireEvent.change(getByLabelText(teamFields.public_key.label), {
+        target: { value: "public" },
+      });
+      return;
+      fireEvent.change(getByLabelText(teamFields.approved_roles.label), {
+        target: { value: "administrator" },
+      });
+    });
+    act(() => {
+      fireEvent.submit(container.getElementsByTagName("form")[0]);
+    });
+    expect(onClickSave).toBeCalledTimes(1);
+    const lastCall = onClickSave.mock.calls[0][0];
+    expect(lastCall[teamFields.account_id.id]).toEqual("account3");
+    expect(lastCall[teamFields.public_key.id]).toEqual("public");
+    expect(lastCall[teamFields.private_key.id]).toEqual("secret");
+  });
 });
 describe("TeamsList", () => {
   it("Renders & Matches snapshot", () => {
@@ -118,7 +150,6 @@ describe("HelpDeskSelect", () => {
     });
     expect(fn).toBeCalledTimes(1);
     expect(fn).toBeCalledWith({
-      [teamFields.approved_roles.id]: [],
       [teamFields.helpdesk.id]: "zendesk",
     });
   });

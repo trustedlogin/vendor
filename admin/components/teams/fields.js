@@ -1,8 +1,10 @@
 import React from "react";
 
-export const SelectFieldArea = ({ id, label, children }) => (
+export const SelectFieldArea = ({ id, label, children, htmlFor }) => (
   <div className="">
-    <label htmlFor={id} className="block text-sm font-medium text-gray-700">
+    <label
+      htmlFor={htmlFor ? htmlFor : id}
+      className="block text-sm font-medium text-gray-700">
       {label}
     </label>
     <div className="mt-2">{children}</div>
