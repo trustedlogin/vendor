@@ -1,7 +1,6 @@
 import { useMemo, useState } from "react";
 import { __ } from "@wordpress/i18n";
 import { useSettings } from "../../hooks/useSettings";
-import { ConfigureHelscout } from "./ConfigureIntegration";
 
 const Integration = ({ Icon, name, description, id, toggleOpenState }) => {
   const { settings, setSettings, onSaveIntegrationSettings } = useSettings();
@@ -86,7 +85,6 @@ export const IntegrationHelpscout = () => {
 
   return (
     <>
-      <ConfigureHelscout isOpen={isOpen} setIsOpen={setIsOpen} />
       <Integration
         toggleOpenState={() => setIsOpen(!isOpen)}
         id={"helpscout"}

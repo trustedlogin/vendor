@@ -1,7 +1,8 @@
-import { useMemo, useState } from "react";
+import { useMemo, useState, Fragment } from "react";
 import { useSettings } from "../../hooks/useSettings";
 import { useView } from "../../hooks/useView";
 import { PrimaryButton, SubmitAndCanelButtons } from "../Buttons";
+import { ConfigureHelscout } from "../integrations/ConfigureIntegration";
 import { CenteredLayout, PageHeader } from "../Layout";
 import TitleDescriptionLink from "../TitleDescriptionLink";
 
@@ -12,11 +13,16 @@ import TitleDescriptionLink from "../TitleDescriptionLink";
  */
 const TeamsList = () => {
   const { settings, removeTeam } = useSettings();
+  //Has user clicked delete, but not confirmed?
   const [isDeleting, setIsDeleting] = useState(false);
+  //Track team to delete, if confirmed.
   const [teamDeleting, setTeamDeleting] = useState(null);
   const { setCurrentView, setCurrentTeam } = useView();
   const teams = useMemo(() => settings.teams, [settings]);
-  const enabled = true; //?
+  const [modalTeam, setModalTeam] = useState(null);
+  const shouldShowConfigureButton = (team) => {
+    return team.helpdesk && team.helpdesk.includes("helpscout");
+  };
 
   /**
    * Cancel delete process
@@ -50,6 +56,19 @@ const TeamsList = () => {
 
   return (
     <>
+      <>
+        {teams.map((team) => (
+          <Fragment key={team.id}>
+            <ConfigureHelscout
+              isOpen={modalTeam === team.id}
+              setIsOpen={() => {
+                setModalTeam(null);
+              }}
+              team={team}
+            />
+          </Fragment>
+        ))}
+      </>
       {isDeleting ? (
         <CenteredLayout>
           <>
@@ -171,6 +190,16 @@ const TeamsList = () => {
                     </div>
                     <div className="flex items-center space-x-5 w-full mt-4 justify-between sm:w-auto sm:mt-0">
                       <div className="flex items-center space-x-6">
+                        {shouldShowConfigureButton(team) ? (
+                          <button
+                            onClick={() => {
+                              setModalTeam(team.id);
+                            }}
+                            className="text-sm text-blue-tl hover:text-navy-tl p-2">
+                            Configure
+                          </button>
+                        ) : null}
+
                         <button
                           onClick={() => {
                             setCurrentView("teams/edit");

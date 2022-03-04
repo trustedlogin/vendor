@@ -17,6 +17,26 @@ export const HelpscoutLogo = () => (
 );
 
 export const HelpscoutTeamDetails = ({ team }) => {
+  const secret = useMemo(() => {
+    if (!team || !team.hasOwnProperty("helpdesk")) {
+      return null;
+    }
+    if (-1 != team.helpdesk.findIndex((helpdesk) => "helpscout" === helpdesk)) {
+      return team.helpdesk_settings["helpscout"].secret;
+    } else {
+      return null;
+    }
+  }, [team]);
+  const callback = useMemo(() => {
+    if (!team || !team.hasOwnProperty("helpdesk")) {
+      return null;
+    }
+    if (-1 != team.helpdesk.findIndex((helpdesk) => "helpscout" === helpdesk)) {
+      return team.helpdesk_settings["helpscout"].callback;
+    } else {
+      return null;
+    }
+  }, [team]);
   return (
     <div className="flex flex-1 flex-col space-y-6">
       <div>
@@ -52,9 +72,7 @@ export const HelpscoutTeamDetails = ({ team }) => {
             name="secret_key"
             id="secret_key"
             className="block w-full pl-3 pr-10 py-2.5 sm:text-sm border border-gray-300 rounded-lg focus:outline-none focus:border-sky-500 focus:ring-1 ring-offset-2 focus:ring-sky-500 disabled:bg-slate-50 disabled:text-slate-500"
-            defaultValue={
-              team ? team.secret_key : "1gwgb2348utb71g2e8123r87b348tb182e"
-            }
+            defaultValue={secret}
             disabled={true}
           />
           <button
@@ -89,9 +107,7 @@ export const HelpscoutTeamDetails = ({ team }) => {
             name="callback_url"
             id="callback_url"
             className="block w-full pl-3 pr-10 py-2.5 sm:text-sm border border-gray-300 rounded-lg focus:outline-none focus:border-sky-500 focus:ring-1 ring-offset-2 focus:ring-sky-500 disabled:bg-slate-50 disabled:text-slate-500"
-            placeholder={
-              team ? team.callback_url : "https://example.com/callback"
-            }
+            defaultValue={callback}
             disabled={true}
           />
           <button
@@ -117,7 +133,7 @@ export const HelpscoutTeamDetails = ({ team }) => {
     </div>
   );
 };
-export function ConfigureHelscout({ isOpen, setIsOpen }) {
+export function ConfigureHelscout({ isOpen, setIsOpen, team }) {
   let title = useMemo(() => __("Configure Help Scout"), []);
   return (
     <ConfigureIntegration
@@ -133,7 +149,7 @@ export function ConfigureHelscout({ isOpen, setIsOpen }) {
       goLink={"#"}
       goLinkText={__("Configure in Help Scout", "trustedlogin-vendor")}>
       <>
-        <HelpscoutTeamDetails />
+        <HelpscoutTeamDetails team={team} />
       </>
     </ConfigureIntegration>
   );

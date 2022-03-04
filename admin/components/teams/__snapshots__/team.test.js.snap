@@ -769,6 +769,11 @@ exports[`TeamsList Renders & Matches snapshot 1`] = `
               <button
                 class="text-sm text-blue-tl hover:text-navy-tl p-2"
               >
+                Configure
+              </button>
+              <button
+                class="text-sm text-blue-tl hover:text-navy-tl p-2"
+              >
                 Edit
               </button>
               <button
