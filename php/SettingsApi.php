@@ -275,9 +275,24 @@ class SettingsApi
 		return $data;
 	}
 
+	/**
+	 * Get the settings, as used by API and UI
+	 *
+	 * @return array
+	 */
 	public function toResponseData(){
+		$data = $this->toArray();
+		$teams = $data['teams'] ?? [];
+
+		foreach ($teams as $i => $team) {
+
+			$teams[$i][IsTeamConnected::KEY] = IsTeamConnected::valueToBoolean(
+				isset($team[IsTeamConnected::KEY]) ? $team[IsTeamConnected::KEY] : null
+			);
+		}
+		$data['teams'] = $teams;
 		return array_merge(
-			$this->toArray(),
+			$data,
 			[
 				'integrations' => $this->getIntegrationSettings(),
 			]
