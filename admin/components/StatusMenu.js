@@ -117,7 +117,7 @@ export const StatusMenuButton = ({ toggleStatus }) => {
   //All teams connected!
   if (teamsConnected === totalTeams) {
     return (
-      <button
+      <Popover.Button
         onClick={toggleStatus}
         className="inline-flex items-center pl-2.5 pr-3 h-10 border border-gray-300 text-sm leading-4 rounded-lg text-gray-500 bg-white :outline-none ring-4 ring-blue-100">
         <svg
@@ -157,7 +157,7 @@ export const StatusMenuButton = ({ toggleStatus }) => {
             strokeLinejoin="round"
           />
         </svg>
-      </button>
+      </Popover.Button>
     );
   }
 
@@ -214,9 +214,7 @@ const StatusMenu = ({ toggleStatus, isStatusOpen }) => {
   };
   return (
     <Popover className="relative">
-      <Popover.Button>
-        <StatusMenuButton toggleStatus={toggleStatus} />
-      </Popover.Button>
+      <StatusMenuButton toggleStatus={toggleStatus} />
       {isStatusOpen ? (
         <Popover.Panel
           static
