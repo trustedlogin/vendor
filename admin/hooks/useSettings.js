@@ -1,12 +1,12 @@
 import { createContext, useContext, useState, useMemo, useEffect } from "react";
+import teamFields from "../components/teams/teamFields";
 
 const defaultSettings = {
   isConnected: false,
   hasOnboarded: true,
   teams: [],
-  helpscout: {
-    secret: "",
-    callback: "",
+  integrations: {
+    helpscout: false,
   },
 };
 
@@ -16,6 +16,7 @@ const emptyTeam = {
   public_key: "",
   helpdesk: "",
   approved_roles: [],
+  helpdesk_settings: [],
 };
 const SettingsContext = createContext(defaultSettings);
 
@@ -28,14 +29,22 @@ export const useSettings = () => {
   const { settings, setSettings, api, hasOnboarded } =
     useContext(SettingsContext);
 
-  const _updateTeams = (teams) => {
+  const _updateTeams = (teams, integrations = null) => {
     teams = teams.map((t, i) => {
       return {
         id: i + 1,
         ...t,
       };
     });
-    setSettings({ ...settings, teams });
+    if (integrations) {
+      setSettings({
+        ...settings,
+        teams,
+        integrations,
+      });
+    } else {
+      setSettings({ ...settings, teams });
+    }
   };
 
   /**
@@ -147,7 +156,23 @@ export const useSettings = () => {
     return settings.teams.length > 0;
   }, [settings.teams]);
 
-  ///Save all settings
+  const getEnabledHelpDeskOptions = () => {
+    let options = [];
+    Object.keys(settings.integrations).forEach((helpdesk) => {
+      const setting = settings.integrations[helpdesk];
+      if (setting && true == setting.enabled) {
+        if (settings.integrations[helpdesk]) {
+          let helpdeskOption = teamFields.helpdesk.options.find(
+            (h) => helpdesk === h.value
+          );
+          options.push(helpdeskOption);
+        }
+      }
+    });
+    return options;
+  };
+
+  ///Save all TEAM settings
   const onSave = () => {
     api
       .updateSettings({ teams: settings.teams })
@@ -164,6 +189,36 @@ export const useSettings = () => {
       });
   };
 
+  ///Save all INTEGRATIONS settings
+  const onSaveIntegrationSettings = async ({
+    integrations,
+    updateState = false,
+  }) => {
+    return await api
+      .updateSettings({ integrations })
+      .then(({ integrations }) => {
+        if (updateState) {
+          setSettings({ ...settings, integrations });
+        }
+        setNotice({
+          text: "Integrations Saved",
+          type: "sucess",
+          visible: true,
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const resetTeamIntegration = async (accountId, integration) => {
+    return await api
+      .resetTeamIntegrations(accountId, integration)
+      .then(({ teams, integrations }) => {
+        _updateTeams(teams, integrations);
+      });
+  };
+
   return {
     settings,
     setSettings,
@@ -175,6 +230,9 @@ export const useSettings = () => {
     getTeam,
     hasTeam,
     hasOnboarded,
+    onSaveIntegrationSettings,
+    getEnabledHelpDeskOptions,
+    resetTeamIntegration,
   };
 };
 
@@ -183,25 +241,43 @@ export default function SettingsProvider({
   hasOnboarded,
   children,
   initialTeams = null,
+  initialIntegrationSettings = null,
 }) {
   const [settings, setSettings] = useState(() => {
-    if (null !== initialTeams) {
-      return { ...defaultSettings, teams: initialTeams };
+    //Load supplied intial state, if supplied,
+    //prevents API call.
+    //See: https://github.com/trustedlogin/vendor/issues/34
+    if (null !== initialTeams || null !== initialIntegrationSettings) {
+      let state = defaultSettings;
+      if (null !== initialTeams) {
+        state.teams = initialTeams;
+      }
+      if (null !== initialIntegrationSettings) {
+        state.integrations = initialIntegrationSettings;
+      }
+
+      return state;
     } else {
       return defaultSettings;
     }
   });
+
   //Get the saved settings
   useEffect(() => {
-    if (null == initialTeams) {
-      api.getSettings().then(({ teams, helpscout }) => {
-        setSettings({
-          ...settings,
-          teams,
-          helpscout,
-        });
-      });
+    //Do NOT get settings if any settings supplied.
+    //See: https://github.com/trustedlogin/vendor/issues/34
+    if (null !== initialTeams || null !== initialIntegrationSettings) {
+      return;
     }
+    //No intial settings?
+    // get settings from API
+    api.getSettings().then(({ teams, integrations }) => {
+      setSettings({
+        ...settings,
+        teams,
+        integrations,
+      });
+    });
   }, [api, setSettings, initialTeams]);
 
   return (

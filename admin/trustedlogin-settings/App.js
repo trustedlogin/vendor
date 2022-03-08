@@ -1,11 +1,17 @@
 import { __ } from "@wordpress/i18n";
-import { useState, Fragment } from "react";
+import { useState, StrictMode } from "react";
 import TrustedLoginSettings from "../components/TrustedLoginSettings";
 import ViewProvider from "../hooks/useView";
 import SettingsProvider from "../hooks/useSettings";
 
-
-export default function App({ getSettings, updateSettings, hasOnboarded }) {
+export default function App({
+  getSettings,
+  updateSettings,
+  resetTeamIntegrations,
+  hasOnboarded,
+  initialTeams = null,
+  initialIntegrationSettings = null,
+}) {
   const [notice, setNotice] = useState(() => {
     return {
       text: "",
@@ -15,19 +21,20 @@ export default function App({ getSettings, updateSettings, hasOnboarded }) {
   });
 
   return (
-    <Fragment>
+    <StrictMode>
       <SettingsProvider
         hasOnboarded={hasOnboarded}
+        initialTeams={initialTeams}
+        initialIntegrationSettings={initialIntegrationSettings}
         api={{
           getSettings,
           updateSettings,
+          resetTeamIntegrations,
         }}>
-        <ViewProvider
-
-        >
+        <ViewProvider>
           <TrustedLoginSettings />
         </ViewProvider>
       </SettingsProvider>
-    </Fragment>
+    </StrictMode>
   );
 }

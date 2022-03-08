@@ -1,42 +1,52 @@
 import React from "react";
-import ReactDOM from "react-dom";
 import App from "./App";
+import { testTeam } from "../components/TestProvider";
+import { render, act } from "@testing-library/react";
 it("renders without crashing with onboarding", () => {
-  const div = document.createElement("div");
-  const getSettings = async () => {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve({ teams: [] });
-      }, 1000);
-    });
+  let getSettings = jest.fn();
+  let updateSettings = jest.fn();
+  const api = {
+    getSettings: async () => {
+      getSettings();
+      return new Promise((resolve) => {
+        resolve();
+      });
+    },
+    updateSettings,
   };
-  ReactDOM.render(
+  render(
     <App
-      getSettings={getSettings}
-      updateSettings={jest.fn()}
+      getSettings={api.getSettings}
+      updateSettings={api.updateSettings}
       hasOnboarded={true}
-    />,
-    div
+      initialTeams={[testTeam]}
+    />
   );
-  ReactDOM.unmountComponentAtNode(div);
+  expect(getSettings).not.toHaveBeenCalled();
+  expect(updateSettings).not.toHaveBeenCalled();
 });
 
 it("renders without crashing with teams UI", () => {
-  const div = document.createElement("div");
-  const getSettings = async () => {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve({ teams: [] });
-      }, 1000);
-    });
+  let getSettings = jest.fn();
+  let updateSettings = jest.fn();
+  const api = {
+    getSettings: async () => {
+      getSettings();
+      return new Promise((resolve) => {
+        resolve();
+      });
+    },
+    updateSettings,
   };
-  ReactDOM.render(
+
+  render(
     <App
-      getSettings={getSettings}
-      updateSettings={jest.fn()}
+      getSettings={api.getSettings}
+      updateSettings={api.updateSettings}
       hasOnboarded={false}
-    />,
-    div
+      initialTeams={[testTeam]}
+    />
   );
-  ReactDOM.unmountComponentAtNode(div);
+  expect(getSettings).not.toHaveBeenCalled();
+  expect(updateSettings).not.toHaveBeenCalled();
 });

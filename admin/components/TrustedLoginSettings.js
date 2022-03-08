@@ -8,11 +8,12 @@ import NoTeams from "./teams/NoTeams";
 import AddTeam from "./teams/AddTeam";
 import TeamsSettings from "../components/teams/TeamsSettings";
 import GeneralSettings from "./GeneralSettings";
+import IntegrationSettings from "./IntegrationSettings";
 
 /**
  * TrustedLogin Settings screen
  */
-export default function () {
+export default function TrustedLoginSettings() {
   const { currentView, setCurrentView } = useView();
   const { settings, addTeam } = useSettings();
   const teams = useMemo(() => {
@@ -54,7 +55,13 @@ export default function () {
           currentView.startsWith("teams") ? (
             <TeamsSettings />
           ) : (
-            <GeneralSettings />
+            <>
+              {"integrations" === currentView ? (
+                <IntegrationSettings />
+              ) : (
+                <GeneralSettings />
+              )}
+            </>
           )}
         </Layout>
       );

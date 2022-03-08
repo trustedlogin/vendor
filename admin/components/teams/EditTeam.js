@@ -1,17 +1,55 @@
 import { useView } from "../../hooks/useView";
-import { useRef } from "react";
+import { useRef, useState, useMemo } from "react";
+import { __ } from "@wordpress/i18n";
+
 import { InputField, SelectField, SelectFieldArea } from "./fields";
 import teamFields from "./teamFields";
 import collectTeam from "./collectTeam";
 import { SubmitAndCanelButtons } from "../Buttons";
 import RoleMultiSelect from "../RoleMultiSelect";
+import TitleDescriptionLink from "../TitleDescriptionLink";
+import { useSettings } from "../../hooks/useSettings";
 
+//HelpDesk select
+export const HelpDeskSelect = ({ defaultValue, options = null }) => {
+  const { getEnabledHelpDeskOptions } = useSettings();
+  const helpDeskOptions = useMemo(() => {
+    return options ? options : getEnabledHelpDeskOptions();
+  }, [options, getEnabledHelpDeskOptions]);
+  return (
+    <SelectField
+      name={teamFields.helpdesk.id}
+      id={teamFields.helpdesk.id}
+      label={teamFields.helpdesk.label}
+      defaultValue={
+        defaultValue ? defaultValue : teamFields.helpdesk.defaultValue
+      }>
+      {helpDeskOptions.length ? (
+        <>
+          <option>{__("Select a Help Desk", "trustedlogin-vendor")}</option>
+          {helpDeskOptions.map((option) => (
+            <option key={option.value} value={option.value}>
+              {option.label}
+            </option>
+          ))}
+        </>
+      ) : (
+        <option>{__("No Helpdesks Active", "trustedlogin-vendor")}</option>
+      )}
+    </SelectField>
+  );
+};
+
+//Edit or create team
 const EditTeam = ({ team = null, onClickSave, formTitle = "Update Team" }) => {
   const { setCurrentView } = useView();
   const formRef = useRef();
+  //useState for approved_roles, beacuse that works.
+  const [approved_roles, set_approved_roles] = useState(team?.approved_roles);
   const handleSave = (e) => {
     e.preventDefault();
     let team = collectTeam(formRef.current);
+    team.approved_roles = approved_roles;
     onClickSave(team);
   };
   return (
@@ -46,16 +84,8 @@ const EditTeam = ({ team = null, onClickSave, formTitle = "Update Team" }) => {
               strokeWidth="8"
             />
           </svg>
-          <div className="max-w-sm mx-auto mb-8 justify-center text-center">
-            <h2 className="mt-4 text-2xl text-gray-900">{formTitle}</h2>
-            <p className="mt-2 mb-4 text-sm text-gray-500">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed
-              ornare tortor in nisl fermentum.
-            </p>
-            <a className="text-blue-tl text-sm" href="#">
-              Where can I find this info?
-            </a>
-          </div>
+          <TitleDescriptionLink title={formTitle} />
+
           <div className="flex flex-col py-6 space-y-6 sm:space-y-0 sm:space-x-12 sm:flex-row">
             <div className="flex flex-col space-y-6 sm:flex-1">
               <InputField
@@ -85,18 +115,16 @@ const EditTeam = ({ team = null, onClickSave, formTitle = "Update Team" }) => {
                 id={teamFields.approved_roles.id}
                 label={teamFields.approved_roles.label}>
                 <RoleMultiSelect
+                  onChange={(roles) => set_approved_roles(roles)}
                   approvedRoles={team?.approved_roles || []}
                   id={teamFields.approved_roles.id}
                 />
               </SelectFieldArea>
-              <SelectField
-                name={teamFields.helpdesk.id}
-                id={teamFields.helpdesk.id}
-                label={teamFields.helpdesk.label}>
-                <option>Select a Help Desk</option>
-                <option value={"helpscout"}>Help Scout</option>
-                <option value={"zendesk"}>Zendesk</option>
-              </SelectField>
+              <HelpDeskSelect
+                defaultValue={
+                  team ? team.help : teamFields.helpdesk.defaultValue
+                }
+              />
             </div>
           </div>
           <SubmitAndCanelButtons

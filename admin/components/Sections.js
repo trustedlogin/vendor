@@ -6,11 +6,11 @@ import SettingSection from "./SettingSection";
 export const DangerZone = () => {
   //Need to implement reset API endpoing
   //https://github.com/trustedlogin/vendor/issues/21
-  const onClick = () => alert( __("This does not work yet", "trustedlogin-vendor") );
+  const onClick = () =>
+    alert(__("This does not work yet", "trustedlogin-vendor"));
   return (
     <>
-      <SettingSection
-        title={__("Danger Zone", "trustedlogin-vendor") }>
+      <SettingSection title={__("Danger Zone", "trustedlogin-vendor")}>
         <div className="bg-white p-8 border border-red-700 rounded-lg">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-4">
@@ -37,7 +37,10 @@ export const DangerZone = () => {
                 <p
                   className="text-sm text-gray-500"
                   id="dangerzone-option-1-description">
-                  {__("If you reset the encryption keys, all previous authorized logins will be inaccessible.", "trustedlogin-vendor")}
+                  {__(
+                    "If you reset the encryption keys, all previous authorized logins will be inaccessible.",
+                    "trustedlogin-vendor"
+                  )}
                 </p>
               </div>
             </div>
@@ -56,7 +59,10 @@ export const DebugLogSettings = () => {
   return (
     <SettingSection
       title={__("Logging", "trustedlogin-vendor")}
-      subTitle={__("Lorem ipsum dolor sit amet, consectetur adipiscing elit.", "trustedlogin-vendor")}>
+      subTitle={__(
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+        "trustedlogin-vendor"
+      )}>
       <ul role="list" className="divide-y divide-gray-200">
         <li className="py-8 flex items-center justify-between">
           <div className="flex items-center space-x-4">
@@ -154,7 +160,10 @@ export const DebugLogSettings = () => {
               <p
                 className="text-sm text-gray-500"
                 id="debug-option-description">
-                {__("When enabled, logs will be saved to the following directory:", "trustedlogin-vendor")}
+                {__(
+                  "When enabled, logs will be saved to the following directory:",
+                  "trustedlogin-vendor"
+                )}
                 <code>wp-content/uploads/trustedlogin-logs</code>
                 {/* TODO: Make this path live-updating */}
               </p>
@@ -209,7 +218,10 @@ export const DebugLogSettings = () => {
               <p
                 className="text-sm text-gray-500"
                 id="activity-log-description">
-                {__("Activity Log shows a log of users attempting to log into customer sites using Access Keys.", "trustedlogin-vendor")}
+                {__(
+                  "Activity Log shows a log of users attempting to log into customer sites using Access Keys.",
+                  "trustedlogin-vendor"
+                )}
               </p>
             </div>
           </div>

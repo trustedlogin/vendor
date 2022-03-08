@@ -4,7 +4,7 @@ import { useMemo } from "react";
 /**
  * MutliSelect component for WordPress Roles
  */
-const RoleMultiSelect = ({ approvedRoles = [], id }) => {
+const RoleMultiSelect = ({ approvedRoles = [], id, onChange }) => {
   const rolesOptions = useMemo(() => {
     let tl = window.tlVendor || {};
     let roles =
@@ -23,7 +23,7 @@ const RoleMultiSelect = ({ approvedRoles = [], id }) => {
   }, [window.tlVendor]);
 
   function handleChange(selectedList) {
-    //onChange(selectedList.map((item) => item.id));
+    onChange ? onChange(selectedList.map((item) => item.id)) : null;
   }
 
   const currentValues = approvedRoles.map((value) => {

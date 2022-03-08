@@ -33,8 +33,8 @@ class Settings extends Endpoint
 	 */
 	public function get(\WP_REST_Request $request)
 	{
-		return rest_ensure_response(
-			SettingsApi::fromSaved()->toArray()
+		return $this->createResponse(
+			SettingsApi::fromSaved()
 		);
 	}
 
@@ -66,9 +66,9 @@ class Settings extends Endpoint
 		}
 
 		$settings_api->save();
-		return rest_ensure_response(
+		return $this->createResponse(
 			//Get from saved so generated secret/ url is returned
-			SettingsApi::fromSaved()->toArray()
+			SettingsApi::fromSaved()
 		);
 	}
 
@@ -96,6 +96,17 @@ class Settings extends Endpoint
 		}
 
 		return ! is_wp_error($r);
+	}
+
+	protected function createResponse(SettingsApi $settingsApi){
+		return rest_ensure_response(
+			array_merge(
+				$settingsApi->toArray(),
+				[
+					'integrations' => $settingsApi->getGlobalSettings()['integrations']
+				]
+			)
+		);
 	}
 
 

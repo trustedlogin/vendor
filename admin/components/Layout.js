@@ -55,7 +55,7 @@ export const TopBar = ({ status }) => {
               <path
                 d="M1 1L5 5L9 1"
                 stroke="#1D2327"
-                stroke-opacity="0.5"
+                strokeOpacity="0.5"
                 strokeWidth="1.5"
                 strokeLinecap="round"
                 strokeLinejoin="round"

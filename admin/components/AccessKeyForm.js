@@ -2,11 +2,12 @@ import { useMemo, useState, useEffect } from "react";
 import { __ } from "@wordpress/i18n";
 import { useSettings } from "../hooks/useSettings";
 import { HorizontalLogo } from "./TrustedLoginLogo";
-import {SelectFieldArea,InputFieldArea} from "./teams/fields";
+import { SelectFieldArea, InputFieldArea } from "./teams/fields";
+import TitleDescriptionLink from "./TitleDescriptionLink";
 
-const AccessKeyForm = ({initialAccountId = null}) => {
+const AccessKeyForm = ({ initialAccountId = null }) => {
   const [accessKey, setAccessKey] = useState("");
-  const { settings} = useSettings();
+  const { settings } = useSettings();
 
   //Get teams from settings.
   const teams = useMemo(() => {
@@ -14,7 +15,6 @@ const AccessKeyForm = ({initialAccountId = null}) => {
   }, [settings]);
 
   const [accountId, setAccountId] = useState(initialAccountId);
-
 
   //Get all teams as options
   const teamsOption = useMemo(() => {
@@ -36,91 +36,84 @@ const AccessKeyForm = ({initialAccountId = null}) => {
     }
     const actions = window.tlVendor.accessKeyActions;
     let action = actions.hasOwnProperty(accountId) ? actions[accountId] : null;
-    if(accessKey ){
+    if (accessKey) {
       action = `${action}&ak=${accessKey}`;
     }
     return action;
-  }, [teams, accountId,accessKey,window.tlVendor]);
+  }, [teams, accountId, accessKey, window.tlVendor]);
 
   useEffect(() => {
-    if( teams.length == 1 ){
+    if (teams.length == 1) {
       setAccountId(teams[0].account_id);
     }
   }, [teams, setAccountId]);
 
   return (
     <>
-    <div className="min-h-full flex flex-col justify-center py-12 sm:px-6 lg:px-8">
-      <div className="mx-auto bg-white rounded-lg px-8 py-3 text-left overflow-hidden shadow-xl transform transition-all sm:max-w-lg sm:w-full sm:px-14 sm:py-8">
-        <div className="w-full p-8 text-center">
-          <HorizontalLogo />
-        </div>
-        <div className="max-w-sm mx-auto mb-8 justify-center text-center">
-          <h2 className="mt-4 text-2xl text-gray-900">
-            {__("Log In Using Access Key", "trustedlogin-vendor")}
-          </h2>
-          <p className="mt-2 mb-4 text-sm text-gray-500">
-
-          </p>
-          <a className="text-blue-tl text-sm" href="#">
-            {__("Where can I find this info?", "trustedlogin-vendor")}
-          </a>
-        </div>
-        <form
-          method={"POST"}
-          action={action}
-          className="flex flex-col py-6 space-y-6 justify-center">
-            {initialAccountId ? (
+      <div className="min-h-full flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+        <div className="mx-auto bg-white rounded-lg px-8 py-3 text-left overflow-hidden shadow-xl transform transition-all sm:max-w-lg sm:w-full sm:px-14 sm:py-8">
+          <div className="w-full p-8 text-center">
+            <HorizontalLogo />
+          </div>
+          <TitleDescriptionLink
+            title={__("Log In Using Access Key", "trustedlogin-vendor")}
+          />
+          <form
+            method={"POST"}
+            action={action}
+            className="flex flex-col py-6 space-y-6 justify-center">
+            {null !== initialAccountId ? (
               <input type="hidden" name="account_id" value={accountId} />
-
-            ): (
+            ) : (
               <SelectFieldArea
                 name="account_id"
                 id="account_id"
                 label={__("Account ID", "trustedlogin-vendor")}
                 value={accountId}
-                onChange={(e) => setAccountId(e.target.value)}
-              >
+                onChange={(e) => setAccountId(e.target.value)}>
                 <>
-                  <select  name="account_id"
+                  <select
+                    name="account_id"
                     id="account_id"
-                    className="bg-white block w-full pl-3 pr-8 py-2.5 sm:text-sm border border-gray-300 rounded-lg focus:outline-none focus:border-sky-500 focus:ring-1 ring-offset-2 focus:ring-sky-500"
-                  >
-                    {teamsOption.map(({label,value}) => (
-                      <option key={value} value={value}>{label}</option>
+                    className="bg-white block w-full pl-3 pr-8 py-2.5 sm:text-sm border border-gray-300 rounded-lg focus:outline-none focus:border-sky-500 focus:ring-1 ring-offset-2 focus:ring-sky-500">
+                    {teamsOption.map(({ label, value }) => (
+                      <option key={value} value={value}>
+                        {label}
+                      </option>
                     ))}
                   </select>
                 </>
               </SelectFieldArea>
             )}
-          <div className="relative rounded-lg">
-            <InputFieldArea
-              name="access_key"
-              id="access_key"
-              label={__("Access Key", "trustedlogin-vendor")}
-            >
-               <input
+            <div className="relative rounded-lg">
+              <InputFieldArea
+                name="access_key"
+                id="access_key"
+                label={__("Access Key", "trustedlogin-vendor")}>
+                <input
                   value={accessKey}
                   onChange={(e) => setAccessKey(e.target.value)}
                   type="text"
                   name="access_key"
                   id="access_key"
                   className="block w-full pl-4 pr-10 py-4 sm:text-md border border-gray-300 rounded-lg focus:outline-none focus:border-sky-500 focus:ring-1 ring-offset-2 focus:ring-sky-500"
-                  placeholder={__("Paste key received from customer", "trustedlogin-vendor")}
+                  placeholder={__(
+                    "Paste key received from customer",
+                    "trustedlogin-vendor"
+                  )}
                 />
               </InputFieldArea>
-          </div>
-          <input
-            type="submit"
-            className="inline-flex justify-center p-4 border border-transparent text-md font-medium rounded-lg text-white bg-blue-tl hover:bg-indigo-700 focus:outline-none focus:ring-2 ring-offset-2 focus:ring-sky-500"
-            value={__("Log In", "trustedlogin-vendor")}
-          />
-        </form>
+            </div>
+            <input
+              type="submit"
+              className="inline-flex justify-center p-4 border border-transparent text-md font-medium rounded-lg text-white bg-blue-tl hover:bg-indigo-700 focus:outline-none focus:ring-2 ring-offset-2 focus:ring-sky-500"
+              value={__("Log In", "trustedlogin-vendor")}
+            />
+          </form>
+        </div>
       </div>
-    </div>
     </>
   );
-
 };
 
 export default AccessKeyForm;

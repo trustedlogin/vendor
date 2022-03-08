@@ -55,6 +55,10 @@ class Plugin
 	{
 		(new \TrustedLogin\Vendor\Endpoints\Settings())
 			->register(true);
+		(new \TrustedLogin\Vendor\Endpoints\GlobalSettings())
+			->register(true);
+		(new \TrustedLogin\Vendor\Endpoints\ResetTeam())
+			->register(true,false);
 		(new \TrustedLogin\Vendor\Endpoints\PublicKey())
 			->register(false);
 		(new \TrustedLogin\Vendor\Endpoints\SignatureKey())

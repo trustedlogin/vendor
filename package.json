@@ -26,6 +26,7 @@
     "prettier": "2.5.1"
   },
   "dependencies": {
+    "@headlessui/react": "^1.5.0",
     "@imaginary-machines/wp-admin-components": "^0.3.2",
     "@tailwindcss/forms": "^0.4.0",
     "@wordpress/element": "^3",

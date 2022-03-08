@@ -457,4 +457,97 @@ class SettingsApiTest extends \WP_UnitTestCase
 		$settings = new SettingsApi($data);
 		$this->assertSame(2, $settings->count());
 	}
+
+	/**
+	 * @covers SettingsApi::setGlobalSettings()
+	 * @covers SettingsApi::getGlobalSettings()
+	 * @covers SettingsApi::save()
+	 * @covers SettingsApi::toArray()
+	 */
+	public function testGeneralSettings(){
+		$settings = new SettingsApi([]);
+
+		$settings->setGlobalSettings([
+			'key' => 'value'
+		]);
+		$expected = [
+			'integrations' => [
+				'helpscout' => [
+					'enabled' => true,
+				]
+			],
+			'key' => 'value'
+		];
+		$this->assertSame(
+			$expected,
+			$settings->getGlobalSettings()
+		);
+		$settings->save();
+		$settings = SettingsApi::fromSaved();
+		$this->assertSame(
+			$expected,
+			$settings->getGlobalSettings()
+		);
+		$this->assertArrayHasKey(
+			'integrations',
+			$settings->toArray()
+		);
+		$this->assertTrue(
+			$settings->getGlobalSettings()['integrations']['helpscout']['enabled']
+		);
+
+		$settings->setGlobalSettings(
+			[
+				'integrations' => [
+					'helpscout' => [
+						'enabled' => false,
+					]
+				],
+			]
+		);
+		$this->assertFalse(
+			$settings->getGlobalSettings()['integrations']['helpscout']['enabled']
+		);
+		$settings->save();
+		$settings = SettingsApi::fromSaved();
+		$this->assertFalse(
+			$settings->getGlobalSettings()['integrations']['helpscout']['enabled']
+		);
+
+
+	}
+	/**
+	 * @covers SettingsApi::setGlobalSettings()
+	 * @covers SettingsApi::getGlobalSettings()
+	 * @covers SettingsApi::reset()
+	 */
+	public function testGeneralSettingsReset(){
+		$settings = new SettingsApi([]);
+
+		$settings->setGlobalSettings([
+			'key' => 'value'
+		]);
+		$expected = [
+			'integrations' => [
+				'helpscout' => [
+					'enabled' => true,
+				]
+			],
+			'key' => 'value'
+		];
+		$this->assertSame(
+			$expected,
+			$settings->getGlobalSettings()
+		);
+		$settings->reset();
+		$this->assertSame(
+			$expected,
+			$settings->getGlobalSettings()
+		);
+		$settings->reset(true);
+		$this->assertArrayNotHasKey(
+			'key',
+			$settings->getGlobalSettings()
+		);
+	}
 }
