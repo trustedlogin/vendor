@@ -27,12 +27,7 @@ add_action('init', function () {
             'roles' => wp_roles()->get_names(),
             'onboarding' => Onboarding::hasOnboarded() ? 'COMPLETE' : '0',
             'accessKeyActions' => trustedlogin_vendor()->getAccessKeyActions(),
-            'settings' => array_merge(
-				$settingsApi->toArray(),
-				[
-					'integrations' => $settingsApi->getGlobalSettings()['integrations']
-				]
-			)
+            'settings' => $settingsApi->toResponseData(),
         ]);
         wp_register_style(
             MenuPage::ASSET_HANDLE,

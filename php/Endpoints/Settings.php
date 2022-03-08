@@ -100,12 +100,7 @@ class Settings extends Endpoint
 
 	protected function createResponse(SettingsApi $settingsApi){
 		return rest_ensure_response(
-			array_merge(
-				$settingsApi->toArray(),
-				[
-					'integrations' => $settingsApi->getGlobalSettings()['integrations']
-				]
-			)
+			$settingsApi->toResponseData()
 		);
 	}
 

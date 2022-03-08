@@ -251,9 +251,10 @@ class SettingsApi
 
 		return [
 			'teams' => $this->allTeams(true),
-			'integrations' => isset($this->globalSettings['integrations']) ? $this->globalSettings['integrations'] : []
+			'integrations' => $this->getIntegrationSettings(),
 		];
 	}
+
 
 	/**
 	 * Get all Teams as an array
@@ -273,6 +274,27 @@ class SettingsApi
 		}
 		return $data;
 	}
+
+	public function toResponseData(){
+		return array_merge(
+			$this->toArray(),
+			[
+				'integrations' => $this->getIntegrationSettings(),
+			]
+		);
+	}
+
+	/**
+	 * Get integration settings
+	 *
+	 * @since 0.10.0
+	 * @return array
+	 */
+	public function getIntegrationSettings(){
+		$settings = isset($this->globalSettings['integrations']) ? $this->globalSettings['integrations'] : [];
+		return $settings;
+	}
+
 
 	/**
 	 * Get the global settings

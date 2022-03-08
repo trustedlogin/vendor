@@ -463,6 +463,7 @@ class SettingsApiTest extends \WP_UnitTestCase
 	 * @covers SettingsApi::getGlobalSettings()
 	 * @covers SettingsApi::save()
 	 * @covers SettingsApi::toArray()
+	 * @covers SettingsApi::getIntegrationSettings()
 	 */
 	public function testGeneralSettings(){
 		$settings = new SettingsApi([]);
@@ -495,6 +496,9 @@ class SettingsApiTest extends \WP_UnitTestCase
 		$this->assertTrue(
 			$settings->getGlobalSettings()['integrations']['helpscout']['enabled']
 		);
+		$this->assertTrue(
+			$settings->getIntegrationSettings()['helpscout']['enabled']
+		);
 
 		$settings->setGlobalSettings(
 			[
@@ -508,14 +512,19 @@ class SettingsApiTest extends \WP_UnitTestCase
 		$this->assertFalse(
 			$settings->getGlobalSettings()['integrations']['helpscout']['enabled']
 		);
+		$this->assertFalse(
+			$settings->getIntegrationSettings()['helpscout']['enabled']		);
 		$settings->save();
 		$settings = SettingsApi::fromSaved();
 		$this->assertFalse(
 			$settings->getGlobalSettings()['integrations']['helpscout']['enabled']
 		);
-
-
+		$this->assertFalse(
+			$settings->getIntegrationSettings()['helpscout']['enabled']
+		);
 	}
+
+
 	/**
 	 * @covers SettingsApi::setGlobalSettings()
 	 * @covers SettingsApi::getGlobalSettings()
