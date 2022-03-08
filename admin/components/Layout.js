@@ -2,6 +2,7 @@ import { SecondaryButton } from "./Buttons";
 import { HorizontalLogo } from "./TrustedLoginLogo";
 import { useState, useMemo } from "react";
 import { useView } from "../hooks/useView";
+import {StatusMenuButton } from './StatusMenu';
 export const TopBar = ({ status }) => {
   const [isStatusOpen, setIsStatusOpen] = useState(false);
   const [isHelpMenuOpen, setIsHelpMenuOpen] = useState(false);
@@ -16,52 +17,9 @@ export const TopBar = ({ status }) => {
           <HorizontalLogo />
         </div>
         <div className="relative flex items-center space-x-2">
-          <button
-            onClick={toggleStatus}
-            className="inline-flex items-center pl-2.5 pr-3 h-10 border border-gray-300 text-sm leading-4 rounded-lg text-gray-500 bg-white focus:outline-none focus:ring-2 ring-offset-2 focus:ring-sky-500">
-            <svg
-              className="text-green-700 sm:mr-2"
-              width="20"
-              height="20"
-              viewBox="0 0 20 20"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg">
-              <path
-                d="M3.125 8.33336V3.75C3.125 3.58424 3.19085 3.42527 3.30806 3.30806C3.42527 3.19085 3.58424 3.125 3.75 3.125H16.25C16.4158 3.125 16.5747 3.19085 16.6919 3.30806C16.8092 3.42527 16.875 3.58424 16.875 3.75V8.33336C16.875 14.897 11.3042 17.0716 10.1919 17.4404C10.0675 17.4832 9.93246 17.4832 9.80812 17.4404C8.69578 17.0716 3.125 14.897 3.125 8.33336Z"
-                stroke="#119A27"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-              <path
-                d="M13.4375 7.5L8.85414 11.875L6.5625 9.6875"
-                stroke="#119A27"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-            <span className="hidden sm:inline-flex">
-              Status:
-              <span className="mx-1 text-gray-900 font-medium">{status}</span>
-            </span>
-            <svg
-              className="hidden sm:inline-flex ml-3"
-              width="10"
-              height="6"
-              viewBox="0 0 10 6"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg">
-              <path
-                d="M1 1L5 5L9 1"
-                stroke="#1D2327"
-                strokeOpacity="0.5"
-                strokeWidth="1.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-          </button>
+          <StatusMenuButton
+            toggleStatus={toggleStatus}
+          />
           <button className="inline-flex items-center px-3.5 h-10 border border-gray-300 text-sm leading-4 font-medium rounded-lg text-gray-900 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 ring-offset-2 focus:ring-sky-500">
             <svg
               className="-ml-0.5 h-4 w-4 sm:mr-2"
