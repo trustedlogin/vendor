@@ -2,7 +2,7 @@ import { SecondaryButton } from "./Buttons";
 import { HorizontalLogo } from "./TrustedLoginLogo";
 import { useState, useMemo } from "react";
 import { useView } from "../hooks/useView";
-import StatusMenu,{StatusMenuButton } from './StatusMenu';
+import StatusMenu, { StatusMenuButton } from "./StatusMenu";
 export const TopBar = ({ status }) => {
   const [isStatusOpen, setIsStatusOpen] = useState(false);
   const [isHelpMenuOpen, setIsHelpMenuOpen] = useState(false);
@@ -17,9 +17,7 @@ export const TopBar = ({ status }) => {
           <HorizontalLogo />
         </div>
         <div className="relative flex items-center space-x-2">
-          <StatusMenuButton
-            toggleStatus={toggleStatus}
-          />
+          <StatusMenu toggleStatus={toggleStatus} />
           <button className="inline-flex items-center px-3.5 h-10 border border-gray-300 text-sm leading-4 font-medium rounded-lg text-gray-900 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 ring-offset-2 focus:ring-sky-500">
             <svg
               className="-ml-0.5 h-4 w-4 sm:mr-2"
@@ -37,11 +35,6 @@ export const TopBar = ({ status }) => {
           </button>
         </div>
       </header>
-      {isStatusOpen ? (
-        <StatusMenu
-          toggleStatus={toggleStatus}
-        />
-      ) : null}
     </>
   );
 };
