@@ -4,6 +4,7 @@
 use TrustedLogin\Vendor\Status\Onboarding;
 use TrustedLogin\Vendor\Reset;
 use TrustedLogin\Vendor\MenuPage;
+use TrustedLogin\Vendor\SettingsApi;
 
 add_action('init', function () {
     $hasOnboarded = Onboarding::hasOnboarded();
@@ -20,11 +21,18 @@ add_action('init', function () {
             $dependencies,
             $assets['version']
         );
+        $settingsApi = SettingsApi::fromSaved();
         wp_localize_script(MenuPage::ASSET_HANDLE,'tlVendor', [
             'resetAction' => esc_url_raw(Reset::actionUrl()),
             'roles' => wp_roles()->get_names(),
             'onboarding' => Onboarding::hasOnboarded() ? 'COMPLETE' : '0',
             'accessKeyActions' => trustedlogin_vendor()->getAccessKeyActions(),
+            'settings' => array_merge(
+				$settingsApi->toArray(),
+				[
+					'integrations' => $settingsApi->getGlobalSettings()['integrations']
+				]
+			)
         ]);
         wp_register_style(
             MenuPage::ASSET_HANDLE,
