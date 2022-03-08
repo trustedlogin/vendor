@@ -46,8 +46,8 @@ services:
         define( 'WP_DEBUG_LOG', 'wp-content/plugins/trustedlogin-vendor/wpdebug.log' );
         define( 'WP_DEBUG_DISPLAY', true );
         /* ngrok wp urls overrides */
-        define('WP_SITEURL', 'https://trustedlogin.ngrok.io/');
-        define('WP_HOME', 'https://trustedlogin.ngrok.io/' );
+        define('WP_SITEURL', 'http://localhost:8200');
+        define('WP_HOME', 'http://localhost:8200' );
   ## Database for WordPress site
   wpdb:
     image: mariadb:10.5.8
