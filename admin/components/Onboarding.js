@@ -108,14 +108,17 @@ const StepTwo = () => {
         <InputField
           id={teamFields.account_id.id}
           label={teamFields.account_id.label}
+          required={true}
         />
         <InputField
           id={teamFields.public_key.id}
           label={teamFields.public_key.label}
+          required={true}
         />
         <InputField
           id={teamFields.private_key.id}
           label={teamFields.private_key.label}
+          required={true}
         />
         <OnboardingSelectFieldArea
           id={teamFields.approved_roles.id}
