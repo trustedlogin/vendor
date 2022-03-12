@@ -506,7 +506,7 @@ class SettingsApiTest extends \WP_UnitTestCase
 	 * @covers SettingsApi::getIntegrationSettings()
 	 * @covers IsIntegrationActive::check()
 	 */
-	public function testIsIntegrationEnbabled(){
+	public function testIsIntegrationEnabled(){
 		$settings = new SettingsApi([]);
 		$this->assertTrue(
 			IsIntegrationActive::check( 'helpscout')
