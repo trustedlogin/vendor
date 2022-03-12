@@ -46,8 +46,18 @@ const EditTeam = ({ team = null, onClickSave, formTitle = "Update Team" }) => {
   const formRef = useRef();
   //useState for approved_roles, beacuse that works.
   const [approved_roles, set_approved_roles] = useState(team?.approved_roles);
+
+  //When form is submitted, collect the data and pass it to onClickSave
   const handleSave = (e) => {
+    //Check if form input is valid
+    if( ! formRef.current.checkValidity() ){
+      //If not, return, allowing browser's native validation errors to show
+      return;
+    }
+    //Now, prevent default form submission.
+    //Can not do this before checkValidity, because that will prevent the browser's native validation errors from showing.
     e.preventDefault();
+    //Collect the data and save it
     let team = collectTeam(formRef.current);
     team.approved_roles = approved_roles;
     onClickSave(team);
@@ -94,6 +104,7 @@ const EditTeam = ({ team = null, onClickSave, formTitle = "Update Team" }) => {
                 id={teamFields.account_id.id}
                 label={teamFields.account_id.label}
                 defaultValue={team?.account_id}
+                required={true}
               />
               <InputField
                 type="text"
@@ -101,6 +112,7 @@ const EditTeam = ({ team = null, onClickSave, formTitle = "Update Team" }) => {
                 id={teamFields.public_key.id}
                 label={teamFields.public_key.label}
                 defaultValue={team?.public_key}
+                required={true}
               />
               <InputField
                 type="text"
@@ -108,6 +120,7 @@ const EditTeam = ({ team = null, onClickSave, formTitle = "Update Team" }) => {
                 id={teamFields.private_key.id}
                 label={teamFields.private_key.label}
                 defaultValue={team?.private_key}
+                required={true}
               />
             </div>
             <div className="flex flex-col space-y-6 sm:flex-1">
