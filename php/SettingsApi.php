@@ -251,9 +251,10 @@ class SettingsApi
 
 		return [
 			'teams' => $this->allTeams(true),
-			'integrations' => isset($this->globalSettings['integrations']) ? $this->globalSettings['integrations'] : []
+			'integrations' => $this->getIntegrationSettings(),
 		];
 	}
+
 
 	/**
 	 * Get all Teams as an array
@@ -273,6 +274,42 @@ class SettingsApi
 		}
 		return $data;
 	}
+
+	/**
+	 * Get the settings, as used by API and UI
+	 *
+	 * @return array
+	 */
+	public function toResponseData(){
+		$data = $this->toArray();
+		$teams = $data['teams'] ?? [];
+
+		foreach ($teams as $i => $team) {
+
+			$teams[$i][IsTeamConnected::KEY] = IsTeamConnected::valueToBoolean(
+				isset($team[IsTeamConnected::KEY]) ? $team[IsTeamConnected::KEY] : null
+			);
+		}
+		$data['teams'] = $teams;
+		return array_merge(
+			$data,
+			[
+				'integrations' => $this->getIntegrationSettings(),
+			]
+		);
+	}
+
+	/**
+	 * Get integration settings
+	 *
+	 * @since 0.10.0
+	 * @return array
+	 */
+	public function getIntegrationSettings(){
+		$settings = isset($this->globalSettings['integrations']) ? $this->globalSettings['integrations'] : [];
+		return $settings;
+	}
+
 
 	/**
 	 * Get the global settings

@@ -2,6 +2,7 @@ import { SecondaryButton } from "./Buttons";
 import { HorizontalLogo } from "./TrustedLoginLogo";
 import { useState, useMemo } from "react";
 import { useView } from "../hooks/useView";
+import StatusMenu, { StatusMenuButton } from "./StatusMenu";
 export const TopBar = ({ status }) => {
   const [isStatusOpen, setIsStatusOpen] = useState(false);
   const [isHelpMenuOpen, setIsHelpMenuOpen] = useState(false);
@@ -16,52 +17,7 @@ export const TopBar = ({ status }) => {
           <HorizontalLogo />
         </div>
         <div className="relative flex items-center space-x-2">
-          <button
-            onClick={toggleStatus}
-            className="inline-flex items-center pl-2.5 pr-3 h-10 border border-gray-300 text-sm leading-4 rounded-lg text-gray-500 bg-white focus:outline-none focus:ring-2 ring-offset-2 focus:ring-sky-500">
-            <svg
-              className="text-green-700 sm:mr-2"
-              width="20"
-              height="20"
-              viewBox="0 0 20 20"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg">
-              <path
-                d="M3.125 8.33336V3.75C3.125 3.58424 3.19085 3.42527 3.30806 3.30806C3.42527 3.19085 3.58424 3.125 3.75 3.125H16.25C16.4158 3.125 16.5747 3.19085 16.6919 3.30806C16.8092 3.42527 16.875 3.58424 16.875 3.75V8.33336C16.875 14.897 11.3042 17.0716 10.1919 17.4404C10.0675 17.4832 9.93246 17.4832 9.80812 17.4404C8.69578 17.0716 3.125 14.897 3.125 8.33336Z"
-                stroke="#119A27"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-              <path
-                d="M13.4375 7.5L8.85414 11.875L6.5625 9.6875"
-                stroke="#119A27"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-            <span className="hidden sm:inline-flex">
-              Status:
-              <span className="mx-1 text-gray-900 font-medium">{status}</span>
-            </span>
-            <svg
-              className="hidden sm:inline-flex ml-3"
-              width="10"
-              height="6"
-              viewBox="0 0 10 6"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg">
-              <path
-                d="M1 1L5 5L9 1"
-                stroke="#1D2327"
-                strokeOpacity="0.5"
-                strokeWidth="1.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-          </button>
+          <StatusMenu toggleStatus={toggleStatus} isStatusOpen={isStatusOpen} />
           <button className="inline-flex items-center px-3.5 h-10 border border-gray-300 text-sm leading-4 font-medium rounded-lg text-gray-900 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 ring-offset-2 focus:ring-sky-500">
             <svg
               className="-ml-0.5 h-4 w-4 sm:mr-2"
@@ -79,83 +35,6 @@ export const TopBar = ({ status }) => {
           </button>
         </div>
       </header>
-      {isStatusOpen ? (
-        <div
-          id={"trustedlogin-status-popover"}
-          className="absolute z-10 top-0 -right-52 -translate-x-1/2 transform translate-y-10 mt-3 px-2 w-[32rem]  sm:w-screen sm:max-w-xl">
-          <div className="rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 overflow-hidden">
-            <div className="relative bg-white px-8 pb-6 space-y-8">
-              <div className="flex py-6 border-b items-center justify-between">
-                <div className="flex items-center space-x-3">
-                  <div className="flex-shrink-0">
-                    <img
-                      className="h-10 w-10 rounded-full"
-                      src="https://images.unsplash.com/photo-1550525811-e5869dd03032?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                      alt=""
-                    />
-                  </div>
-                  <div>
-                    <h2 className="leading-tight text-lg text-gray-900">
-                      Mary Smith
-                    </h2>
-                    <p className="text-sm text-gray-500">
-                      mary.smith@example.com
-                    </p>
-                  </div>
-                </div>
-                <button className="inline-flex items-center px-2.5 py-1.5 h-7 rounded-full text-xs font-medium border text-gray-900 focus:outline-none focus:ring-2 ring-offset-2 focus:ring-sky-500">
-                  <svg
-                    className="-ml-0.5 mr-1.5 h-2 w-2 text-green-600"
-                    fill="currentColor"
-                    viewBox="0 0 8 8">
-                    <circle cx="4" cy="4" r="3" />
-                  </svg>
-                  <span className="border-r pr-2 mr-2 leading-none">
-                    Connected
-                  </span>
-                </button>
-              </div>
-              <div className="flex space-x-8">
-                <div className="h-32 w-48 bg-gray-200 rounded-lg"></div>
-                <div className="flex flex-col items-start justify-center">
-                  <h4 className="text-gray-900">Account Settings</h4>
-                  <p className="py-2 text-gray-500 text-sm">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                  </p>
-                  <button
-                    onClick={() => {
-                      setIsStatusOpen(false);
-                      setCurrentView("settings");
-                    }}
-                    className="inline-block mt-2 text-sm text-blue-tl">
-                    View Settings
-                  </button>
-                </div>
-              </div>
-              <div className="mb-8 inline-flex items-center">
-                <a className="text-sm text-blue-tl" href="#">
-                  Need help? View our Documentation
-                </a>
-                <svg
-                  className="ml-3"
-                  width="14"
-                  height="14"
-                  viewBox="0 0 14 14"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg">
-                  <path
-                    d="M1.16663 7.00008H12.8333M12.8333 7.00008L6.99996 1.16675M12.8333 7.00008L6.99996 12.8334"
-                    stroke="#00AADD"
-                    strokeWidth="1.67"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-              </div>
-            </div>
-          </div>
-        </div>
-      ) : null}
     </>
   );
 };

@@ -10,6 +10,7 @@ const TeamsSettings = () => {
   const { setTeam, settings, getTeam } = useSettings();
 
   const team = useMemo(() => {
+    //Often 0 === currenTeam, since first team saved has id O.
     if (false !== currentTeam) {
       return getTeam(currentTeam);
     }

@@ -3,6 +3,9 @@ namespace TrustedLogin\Vendor\Tests;
 
 use TrustedLogin\Vendor\Endpoint;
 use TrustedLogin\Vendor\SettingsApi;
+use TrustedLogin\Vendor\Status\IsIntegrationActive;
+use TrustedLogin\Vendor\Status\IsIntegrationEnabled;
+use TrustedLogin\Vendor\Status\IsTeamConnected;
 use TrustedLogin\Vendor\TeamSettings;
 
 /**
@@ -459,10 +462,75 @@ class SettingsApiTest extends \WP_UnitTestCase
 	}
 
 	/**
+	 * @covers SettingsApi::toResponseData()
+	 * @covers SettingsApi::count()
+	 * @group a
+	 */
+	public function testToResponseData(){
+		$data = [
+			[
+				'account_id'       => '11',
+				'private_key'      => 'a217',
+				'public_key'       	=> 'a218',
+				'connected' => IsTeamConnected::VALUE_CHECKED_NOT_CONNECTED,
+			],
+			[
+				'account_id'       => '22',
+				'private_key'      => 'b227',
+				'public_key'       	=> 'b228',
+				'connected' => IsTeamConnected::VALUE_CHECKED_IS_CONNECTED
+			],
+			[
+				'account_id'       => '33',
+				'private_key'      => 'b227',
+				'public_key'       	=> 'b228',
+				'connected' => IsTeamConnected::VALUE_NOT_CHECKED
+			]
+		];
+		$settings = new SettingsApi($data);
+		$rData = $settings->toResponseData();
+		$this->assertFalse(
+			$rData['teams'][0]['connected']
+		);
+		$this->assertTrue(
+			$rData['teams'][1]['connected']
+		);
+		$this->assertFalse(
+			$rData['teams'][2]['connected']
+		);
+	}
+
+	/**
+	 * @covers SettingsApi::setGlobalSettings()
+	 * @covers SettingsApi::getGlobalSettings()
+	 * @covers SettingsApi::getIntegrationSettings()
+	 * @covers IsIntegrationActive::check()
+	 */
+	public function testIsIntegrationEnbabled(){
+		$settings = new SettingsApi([]);
+		$this->assertTrue(
+			IsIntegrationActive::check( 'helpscout')
+		);
+		$settings->setGlobalSettings([
+			'integrations' => [
+				'helpscout' => [
+					'enabled' => false,
+				]
+			],
+		]);
+		$settings->save();
+		$this->assertTrue(
+			IsIntegrationActive::check( 'helpscout')
+		);
+
+	}
+
+	/**
 	 * @covers SettingsApi::setGlobalSettings()
 	 * @covers SettingsApi::getGlobalSettings()
 	 * @covers SettingsApi::save()
 	 * @covers SettingsApi::toArray()
+	 * @covers SettingsApi::getIntegrationSettings()
 	 */
 	public function testGeneralSettings(){
 		$settings = new SettingsApi([]);
@@ -495,6 +563,9 @@ class SettingsApiTest extends \WP_UnitTestCase
 		$this->assertTrue(
 			$settings->getGlobalSettings()['integrations']['helpscout']['enabled']
 		);
+		$this->assertTrue(
+			$settings->getIntegrationSettings()['helpscout']['enabled']
+		);
 
 		$settings->setGlobalSettings(
 			[
@@ -508,14 +579,19 @@ class SettingsApiTest extends \WP_UnitTestCase
 		$this->assertFalse(
 			$settings->getGlobalSettings()['integrations']['helpscout']['enabled']
 		);
+		$this->assertFalse(
+			$settings->getIntegrationSettings()['helpscout']['enabled']		);
 		$settings->save();
 		$settings = SettingsApi::fromSaved();
 		$this->assertFalse(
 			$settings->getGlobalSettings()['integrations']['helpscout']['enabled']
 		);
-
-
+		$this->assertFalse(
+			$settings->getIntegrationSettings()['helpscout']['enabled']
+		);
 	}
+
+
 	/**
 	 * @covers SettingsApi::setGlobalSettings()
 	 * @covers SettingsApi::getGlobalSettings()
