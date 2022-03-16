@@ -81,18 +81,17 @@ const StepTwo = () => {
   const formRef = useRef(null);
   const handleSave = (e) => {
     //Check if form input is valid
-    if( ! formRef.current.checkValidity() ){
+    if (!formRef.current.checkValidity()) {
       //Highlight invalid fields
-      let inputs = formRef.current.querySelectorAll('input');
-      if( inputs.length > 0 ){
-          inputs.forEach(element => {
-            if( element.checkValidity() ){
-              element.classList.remove('border-red-800');
-            }else{
-              element.classList.add('border-red-800');
-            }
-          });
-
+      let inputs = formRef.current.querySelectorAll("input");
+      if (inputs.length > 0) {
+        inputs.forEach((element) => {
+          if (element.checkValidity()) {
+            element.classList.remove("border-red-800");
+          } else {
+            element.classList.add("border-red-800");
+          }
+        });
       }
       //Return allowing browser's native validation errors to show
       return;

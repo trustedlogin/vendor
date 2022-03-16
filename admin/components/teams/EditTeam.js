@@ -50,7 +50,7 @@ const EditTeam = ({ team = null, onClickSave, formTitle = "Update Team" }) => {
   //When form is submitted, collect the data and pass it to onClickSave
   const handleSave = (e) => {
     //Check if form input is valid
-    if( ! formRef.current.checkValidity() ){
+    if (!formRef.current.checkValidity()) {
       //If not, return, allowing browser's native validation errors to show
       return;
     }
@@ -96,7 +96,7 @@ const EditTeam = ({ team = null, onClickSave, formTitle = "Update Team" }) => {
           </svg>
           <TitleDescriptionLink
             title={formTitle}
-            link={'https://app.trustedlogin.com/settings#/teams'}
+            link={"https://app.trustedlogin.com/settings#/teams"}
           />
 
           <div className="flex flex-col py-6 space-y-6 sm:space-y-0 sm:space-x-12 sm:flex-row">

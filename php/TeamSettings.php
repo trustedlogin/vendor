@@ -51,7 +51,6 @@ class TeamSettings
 			IsTeamConnected::KEY => false,
 			'status' => false,
 			'name' => '',
-			'conntected' => false,
 			self::HELPDESK_SETTINGS => [
 
 			]

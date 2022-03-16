@@ -9,8 +9,7 @@ const AddTeam = () => {
     addTeam(newTeam, true);
     setCurrentView("teams");
   };
-  return <EditTeam onClickSave={onClickSave}
-    formTitle={"Add Team"} />;
+  return <EditTeam onClickSave={onClickSave} formTitle={"Add Team"} />;
 };
 
 export default AddTeam;

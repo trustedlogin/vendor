@@ -5,7 +5,7 @@ import { PrimaryButton, SubmitAndCanelButtons } from "../Buttons";
 import { ConfigureHelscout } from "../integrations/ConfigureIntegration";
 import { CenteredLayout, PageHeader } from "../Layout";
 import TitleDescriptionLink from "../TitleDescriptionLink";
-import {__} from '@wordpress/i18n';
+import { __ } from "@wordpress/i18n";
 /**
  * Show list of teams
  *
@@ -150,14 +150,14 @@ const TeamsList = () => {
                       <button
                         onClick={() => goToAccessKey(team.id)}
                         className="flex-shrink-0 flex items-center justify-center h-12 w-12 bg-purple-600 text-white text-sm font-medium rounded-lg">
-                        TN
+                        {team.name ? team.name.substring(0, 2) : "TL"}
                       </button>
                       <div className="flex flex-row space-x-16 items-center w-full justify-between sm:justify-start">
                         <div className="flex flex-col max-w-[10rem] sm:max-w-[8rem] md:max-w-none">
                           <p
                             className="text-lg font-medium text-gray-900 leading-tight min-w-[6rem]"
                             id="team-option-1-label">
-                            {team.account_id}
+                            {team.name ? team.name : team.account_id}
                           </p>
                           <p
                             className="text-sm text-gray-500"

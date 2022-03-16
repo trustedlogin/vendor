@@ -24,7 +24,13 @@ export const SelectField = ({ id, label, children }) => {
   );
 };
 
-export const InputField = ({ id, label, defaultValue = "", type = "text",required = false }) => (
+export const InputField = ({
+  id,
+  label,
+  defaultValue = "",
+  type = "text",
+  required = false,
+}) => (
   <div>
     <Label id={id}>{label}</Label>
     <div className="mt-2 relative rounded-lg">
