@@ -165,27 +165,6 @@ const TeamsList = () => {
                             {team.account_id}
                           </p>
                         </div>
-                        <div className="flex items-center justify-self-end">
-                          <p className="text-sm mr-4 sm:w-18">
-                            148 <span className="text-gray-500">logins</span>
-                          </p>
-                          <div className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-green-100 text-green-600">
-                            <svg
-                              className="-ml-1 mr-0.5 flex-shrink-0 self-center h-4 w-4 text-green-600"
-                              xmlns="http://www.w3.org/2000/svg"
-                              viewBox="0 0 20 20"
-                              fill="currentColor"
-                              aria-hidden="true">
-                              <path
-                                fillRule="evenodd"
-                                d="M5.293 9.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L11 7.414V15a1 1 0 11-2 0V7.414L6.707 9.707a1 1 0 01-1.414 0z"
-                                clipRule="evenodd"
-                              />
-                            </svg>
-                            <span className="sr-only">Increased by</span>
-                            5%
-                          </div>
-                        </div>
                       </div>
                     </div>
                     <div className="flex items-center space-x-5 w-full mt-4 justify-between sm:w-auto sm:mt-0">
