@@ -5,7 +5,7 @@ import { PrimaryButton, SubmitAndCanelButtons } from "../Buttons";
 import { ConfigureHelscout } from "../integrations/ConfigureIntegration";
 import { CenteredLayout, PageHeader } from "../Layout";
 import TitleDescriptionLink from "../TitleDescriptionLink";
-
+import {__} from '@wordpress/i18n';
 /**
  * Show list of teams
  *
