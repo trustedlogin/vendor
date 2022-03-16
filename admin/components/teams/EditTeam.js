@@ -94,7 +94,10 @@ const EditTeam = ({ team = null, onClickSave, formTitle = "Update Team" }) => {
               strokeWidth="8"
             />
           </svg>
-          <TitleDescriptionLink title={formTitle} />
+          <TitleDescriptionLink
+            title={formTitle}
+            link={'https://app.trustedlogin.com/settings#/teams'}
+          />
 
           <div className="flex flex-col py-6 space-y-6 sm:space-y-0 sm:space-x-12 sm:flex-row">
             <div className="flex flex-col space-y-6 sm:flex-1">
