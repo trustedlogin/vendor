@@ -2,7 +2,7 @@ import Multiselect from "multiselect-react-dropdown";
 import { useMemo } from "react";
 
 /**
- * MutliSelect component for WordPress Roles
+ * MultiSelect component for WordPress Roles
  */
 const RoleMultiSelect = ({ approvedRoles = [], id, onChange }) => {
   const rolesOptions = useMemo(() => {

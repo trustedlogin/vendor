@@ -1,6 +1,7 @@
 <?php
 namespace TrustedLogin\Vendor;
 
+use TrustedLogin\Vendor\Status\IsIntegrationActive;
 use TrustedLogin\Vendor\Traits\Logger;
 use TrustedLogin\Vendor\Traits\VerifyUser;
 use TrustedLogin\Vendor\Webhooks\Factory;
@@ -59,6 +60,10 @@ class MaybeRedirect
 				$provider = $_REQUEST[Factory::PROVIDER_KEY];
 				if( ! in_array($provider, Factory::getProviders())){
 					//$this->log( 'Unknown provider: ' . $provider,__METHOD__ );
+					return;
+				}
+				if( ! IsIntegrationActive::check($provider)){
+					//$this->log( 'Integration not active: ' . $provider,__METHOD__ );
 					return;
 				}
 				$accountId = $_REQUEST[AccessKeyLogin::ACCOUNT_ID_INPUT_NAME];

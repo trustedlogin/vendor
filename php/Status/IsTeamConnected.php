@@ -40,4 +40,11 @@ class IsTeamConnected {
     public static function needToCheck(TeamSettings $team) {
         return static::VALUE_NOT_CHECKED == $team->get(static::KEY);
     }
+
+    /**
+     * Convert value of key to string
+     */
+    public static function valueToBoolean(string $value){
+        return static::VALUE_CHECKED_IS_CONNECTED === $value;
+    }
 }

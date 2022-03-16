@@ -49,7 +49,7 @@ const TeamsList = () => {
     setTeamDeleting(teamId);
   }
 
-  function goToAccesKey(teamId) {
+  function goToAccessKey(teamId) {
     setCurrentTeam(teamId);
     setCurrentView("teams/access_key");
   }
@@ -148,7 +148,7 @@ const TeamsList = () => {
                     className="py-5 flex flex-col items-center justify-between sm:py-8 sm:flex-row">
                     <div className="flex w-full items-center space-x-5 sm:w-auto">
                       <button
-                        onClick={() => goToAccesKey(team.id)}
+                        onClick={() => goToAccessKey(team.id)}
                         className="flex-shrink-0 flex items-center justify-center h-12 w-12 bg-purple-600 text-white text-sm font-medium rounded-lg">
                         TN
                       </button>

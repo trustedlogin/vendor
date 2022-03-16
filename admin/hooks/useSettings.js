@@ -86,7 +86,7 @@ export const useSettings = () => {
         _updateTeams(teams);
         setNotice({
           text: "Team deleted",
-          type: "sucess",
+          type: "success",
           visible: true,
         });
         if (callback) {

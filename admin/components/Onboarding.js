@@ -80,7 +80,27 @@ const StepTwo = () => {
   const { setCurrentView } = useView();
   const formRef = useRef(null);
   const handleSave = (e) => {
+    //Check if form input is valid
+    if( ! formRef.current.checkValidity() ){
+      //Highlight invalid fields
+      let inputs = formRef.current.querySelectorAll('input');
+      if( inputs.length > 0 ){
+          inputs.forEach(element => {
+            if( element.checkValidity() ){
+              element.classList.remove('border-red-800');
+            }else{
+              element.classList.add('border-red-800');
+            }
+          });
+
+      }
+      //Return allowing browser's native validation errors to show
+      return;
+    }
+    //Now, prevent default form submission.
+    //Can not do this before checkValidity, because that will prevent the browser's native validation errors from showing.
     e.preventDefault();
+    //Collect the data and save it
     let team = collectTeam(formRef.current);
     addTeam(team, true, () => setCurrentView("teams"));
   };
@@ -108,14 +128,17 @@ const StepTwo = () => {
         <InputField
           id={teamFields.account_id.id}
           label={teamFields.account_id.label}
+          required={true}
         />
         <InputField
           id={teamFields.public_key.id}
           label={teamFields.public_key.label}
+          required={true}
         />
         <InputField
           id={teamFields.private_key.id}
           label={teamFields.private_key.label}
+          required={true}
         />
         <OnboardingSelectFieldArea
           id={teamFields.approved_roles.id}
