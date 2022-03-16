@@ -24,7 +24,7 @@ const AccessKeyForm = ({ initialAccountId = null }) => {
     return teams.map((t) => {
       return {
         label: t.account_id,
-        value: t.account_id,
+        value: t.name ? t.name : t.account_id,
       };
     });
   }, [teams]);
