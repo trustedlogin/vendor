@@ -12,6 +12,8 @@ class IsTeamConnected {
 
     const KEY = 'connected';
 
+    const STATUS_KEY = 'status';
+
     const VALUE_NOT_CHECKED = 'not_checked';
 
     const VALUE_CHECKED_NOT_CONNECTED = 'checked_not_connected';
@@ -20,25 +22,55 @@ class IsTeamConnected {
 
     /**
      * Check if we were able to verify the team's connection
+     *
+     * This is not as good as \Endpoints\Settings::verifyAccountId()
      */
     public static function check(TeamSettings $team){
         $check = \trustedlogin_vendor()
             ->verifyAccount($team);
 
         if( $check){
-            $team->set(static::KEY, static::VALUE_CHECKED_NOT_CONNECTED);
+            $team = static::setConnected($team);
         }else{
-            $team->set(static::KEY, static::VALUE_CHECKED_IS_CONNECTED);
+            $team = static::setNotConnected($team);
         }
         return $team;
 
     }
 
     /**
+     * Set the team as connected
+     *
+     * @param TeamSettings $team
+     * @return TeamSettings
+     */
+    public static function setConnected(TeamSettings $team){
+        $team->set(static::KEY, static::VALUE_CHECKED_IS_CONNECTED);
+        return $team;
+    }
+
+    /**
+     * Set the team as not connected
+     *
+     * @param TeamSettings $team
+     * @return TeamSettings
+     */
+    public static function setNotConnected(TeamSettings $team){
+        $team->set(static::KEY, static::VALUE_CHECKED_NOT_CONNECTED);
+        return $team;
+    }
+
+    /**
      * Check if we need to verify the team's connection
      */
     public static function needToCheck(TeamSettings $team) {
-        return static::VALUE_NOT_CHECKED == $team->get(static::KEY);
+        return in_array(
+            $team->get(static::KEY,null),
+            [
+                static::VALUE_NOT_CHECKED,
+                null,
+            ]
+        );
     }
 
     /**

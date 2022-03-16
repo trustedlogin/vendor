@@ -70,7 +70,7 @@ function trustedlogin_vendor_deactivate() {
 /**
  * Accesor for main plugin container
  *
- * @return TrustedLogin\Vendor\Plugin;
+ * @return \TrustedLogin\Vendor\Plugin;
  */
 function trustedlogin_vendor(){
 	/** @var \TrustedLogin\Vendor\Plugin */

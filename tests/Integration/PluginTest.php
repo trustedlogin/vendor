@@ -118,4 +118,14 @@ class PluginTest extends TestCase
 		$handler->call('/a', [], 'GET');
 		$this->assertSame('GET', $sender->method);
 	}
+
+	public function testVerifyAccount(){
+		$data = [
+				"id"=> 8,
+				"name"=> "Josh Team",
+				"status"=> "active"
+
+		];
+
+	}
 }

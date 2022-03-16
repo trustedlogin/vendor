@@ -2,6 +2,7 @@
 namespace TrustedLogin\Vendor\Endpoints;
 
 use TrustedLogin\Vendor\SettingsApi;
+use TrustedLogin\Vendor\Status\IsTeamConnected;
 use TrustedLogin\Vendor\TeamSettings;
 
 class Settings extends Endpoint
@@ -72,7 +73,16 @@ class Settings extends Endpoint
 		);
 	}
 
+	/**
+	 * Verify that the account id is valid
+	 *
+	 * @param TeamSettings $teamSetting
+	 * @return void
+	 */
 	public function verifyAccountId(TeamSettings $team){
+		if( ! IsTeamConnected::needToCheck($team) ){
+			return;
+		}
 		$r = \trustedlogin_vendor()->getApiHandler(
 			$team->get('account_id'),
 			'',
@@ -81,18 +91,15 @@ class Settings extends Endpoint
 			$team->get('account_id')
 		);
 		if( ! is_wp_error($r) ){
-			$team->set(
-				'connected',
-				true
-			);
-			$team->set( 'status', $r->status );
+			$team = IsTeamConnected::setConnected($team);
+			$team->set( IsTeamConnected::STATUS_KEY, $r->status );
 			$team->set( 'name', $r->name );
 		}else{
 			$team->set(
-				'connected',
+				IsTeamConnected::KEY,
 				false
 			);
-			$team->set( 'status', 'error' );
+			$team->set( IsTeamConnected::STATUS_KEY, 'error' );
 		}
 
 		return ! is_wp_error($r);

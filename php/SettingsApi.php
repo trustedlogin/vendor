@@ -122,12 +122,6 @@ class SettingsApi
 			$data[] = $_setting;
 		}
 
-		foreach ($this->teamSettings as $i => $setting) {
-			if( ! IsTeamConnected::needToCheck( $setting ) ){
-				$this->teamSettings[$i] = IsTeamConnected::check( $setting );
-			}
-		}
-
 		update_option(self::TEAM_SETTING_NAME, json_encode($data));
 		update_option(self::GLOBAL_SETTING_NAME,json_encode( $this->getGlobalSettings()));
 		$count = self::count();
