@@ -118,7 +118,8 @@ ornare tortor in nisl fermentum.
         </p>
         <a
           class="text-blue-tl text-sm"
-          href="#"
+          href="https://app.trustedlogin.com/settings"
+          target="_blank"
         >
           Where can I find this info?
         </a>
