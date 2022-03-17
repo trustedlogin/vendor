@@ -112,10 +112,32 @@ class MenuPage {
         if (!$this->shouldEnqueueAssets($hook)) {
             return;
         }
+        //Remove admin notices added correctly
+        //see: https://github.com/trustedlogin/vendor/issues/35
+        remove_all_actions('admin_notices');
+        remove_all_actions('all_admin_notices');
+        //Enqueue assets
         wp_enqueue_script(MenuPage::ASSET_HANDLE);
         wp_enqueue_style(MenuPage::ASSET_HANDLE);
     }
 
+    /**
+     *
+     */
+    protected function removeAdminNotices(){
+        add_action('in_admin_header', function () {
+            if (!$is_my_admin_page) return;
+            remove_all_actions('admin_notices');
+            remove_all_actions('all_admin_notices');
+            add_action('admin_notices', function () {
+              echo 'My notice';
+            });
+          }, 1000);
+    }
+
+    /**
+     * Render callback for admin page
+     */
     public function renderPage(){
         //@todo better way to handle error.
         if( isset($_GET['error'])){
