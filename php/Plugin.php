@@ -63,6 +63,8 @@ class Plugin
 			->register(false);
 		(new \TrustedLogin\Vendor\Endpoints\SignatureKey())
 			->register(false);
+		(new \TrustedLogin\Vendor\Endpoints\ResetEncryption())
+			->register(true, false);
 	}
 
 	/**
