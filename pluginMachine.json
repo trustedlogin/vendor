@@ -4,8 +4,7 @@
   "buildId": 64,
   "entryPoints": {
     "adminPages": [
-      "trusted-login-settings",
-      "trusted-login-access"
+      "trusted-login-settings"
     ],
     "blocks": []
   },
@@ -16,8 +15,7 @@
     "vendor",
     "build",
     "inc",
-    "admin/trusted-login-settings/init.php",
-    "admin/trusted-login-access/init.php"
+    "admin/trusted-login-settings/init.php"
   ],
   "buildSteps": {
     "dev": [
