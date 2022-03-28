@@ -24,6 +24,8 @@ It is important that you use the `wp.js` script to setup the local dev site, whi
         - Installs WordPress
         - Creates admin users, as specified in `NGROK_USERS` env variable
         - Activates plugin
+- Build plugin for release and ZIP
+    - `node wp.js --zip`
 - Activate Plugin
     - `node wp.js --activate`
 - Reset WordPress

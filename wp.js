@@ -114,6 +114,14 @@ const e2eTest = async ({browser}) => {
 if(  process.argv.length >= 3 ){
     const arg3 = process.argv.length >= 4 ? process.argv[3] : null;
     switch(process.argv[2]){
+        case 'zip':
+            runCommand("npx plugin-machine build")
+                .catch(exitError)
+                .then(() => {
+                    runCommand("npx plugin-machine zip")
+                    .catch(exitError).then(exitSuccess)
+                });
+            break;
         case 'kill':
             runCommand("docker kill $(docker ps -q)")
             .then(exitSuccess).catch(exitError);
