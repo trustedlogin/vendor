@@ -20,13 +20,13 @@
   "buildSteps": {
     "dev": [
       "composer install",
-      "yarn",
-      "yarn start"
+      "npm install",
+      "npm run start"
     ],
     "prod": [
       "composer install --no-dev",
-      "yarn",
-      "yarn build"
+      "npm install",
+      "npm run build"
     ]
   }
 }

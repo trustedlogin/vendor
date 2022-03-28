@@ -7,13 +7,14 @@
 - Git clone:
     - `git clone git@github.com:trustedlogin/vendor.git`
 - Install javascript dependencies
-    - `yarn`
+    - `npm install`
 - Install php dependencies
     - `composer install`
 - Create env file
     - `cp .env.example .env`
     - You will need to ask Josh and/ or Zack for values for `NGROK_WP_URL`, `NGROK_USERS`,`TL_VENDOR_ENCRYTPTION_KEY` and `NGROK_AUTH_TOKEN`.
 - Setup site using `wp.js` script.
+
 ### wp.js
 
 It is important that you use the `wp.js` script to setup the local dev site, which is served via ngork. The e2e tests assume that site is running and was setup using this script. This script should work with Node 14 or later. Josh developed it using Node 16.
@@ -42,27 +43,27 @@ The `wp.js` script uses docker compose.
 ## Working With JavaScript
 
 - Build JavaScript and CSS for production
-    - `yarn build`
+    - `npm run build`
 - Build JavaScript for production
-    - `yarn build:js`
+    - `npm run build:js`
 - Start JS watcher and CSS watcher in parallel
-    - `yarn start`
-    - This is busted, open two tabs, `yarn start:css`, `yarn start:js`
+    - `npm run start`
+    - This is busted, open two tabs, `npm run start:css`, `npm run start:js`
 - Start JS watcher only
-    - `yarn start:js`
+    - `npm run start:js`
 - Test changed files
-    - `yarn test --watch`
+    - `npm run test --watch`
 - Test all files once
-    - `yarn test`
-    - `yarn test --ci`
+    - `npm run test`
+    - `npm run test --ci`
 - Lint JS
-    - `yarn lint`
+    - `npm run lint`
 ## Working With CSS
 
 - Build CSS for production
-    - `yarn build:css`
+    - `npm run build:css`
 - Start CSS watcher for development
-    - `yarn start:css`
+    - `npm run start:css`
 
 ### Tailwind CSS
 
