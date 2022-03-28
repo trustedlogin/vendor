@@ -4,29 +4,27 @@
   "buildId": 64,
   "entryPoints": {
     "adminPages": [
-      "trusted-login-settings"
+      "trustedlogin-settings"
     ],
     "blocks": []
   },
   "buildIncludes": [
-    "trusted-login-vendor.php",
+    "trustedlogin-vendor.php",
     "readme.txt",
     "php",
     "vendor",
     "build",
     "inc",
-    "admin/trusted-login-settings/init.php"
+    "admin/trustedlogin-settings/init.php"
   ],
   "buildSteps": {
     "dev": [
       "composer install",
-      "npm install",
-      "npm run start"
+      "yarn",
+      "yarn start"
     ],
     "prod": [
-      "composer install --no-dev",
-      "npm install",
-      "npm run build"
+      "composer install --no-dev"
     ]
   }
 }
