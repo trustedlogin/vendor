@@ -7,9 +7,11 @@
 - Git clone:
     - `git clone git@github.com:trustedlogin/vendor.git`
 - Install javascript dependencies
-    - `npm install`
+    - `yarn`
 - Install php dependencies
     - `composer install`
+    - `docker run --rm -it --volume "$(pwd)":/app
+prooph/composer:7.4 install`
 - Create env file
     - `cp .env.example .env`
     - You will need to ask Josh and/ or Zack for values for `NGROK_WP_URL`, `NGROK_USERS`,`TL_VENDOR_ENCRYTPTION_KEY` and `NGROK_AUTH_TOKEN`.
@@ -45,27 +47,27 @@ The `wp.js` script uses docker compose.
 ## Working With JavaScript
 
 - Build JavaScript and CSS for production
-    - `npm run build`
+    - `yarn build`
 - Build JavaScript for production
-    - `npm run build:js`
+    - `yarn build:js`
 - Start JS watcher and CSS watcher in parallel
-    - `npm run start`
-    - This is busted, open two tabs, `npm run start:css`, `npm run start:js`
+    - `yarn start`
+    - This is busted, open two tabs, `yarn start:css`, `yarn start:js`
 - Start JS watcher only
-    - `npm run start:js`
+    - `yarn start:js`
 - Test changed files
-    - `npm run test --watch`
+    - `yarn test --watch`
 - Test all files once
-    - `npm run test`
-    - `npm run test --ci`
+    - `yarn test`
+    - `yarn test --ci`
 - Lint JS
-    - `npm run lint`
+    - `yarn lint`
 ## Working With CSS
 
 - Build CSS for production
-    - `npm run build:css`
+    - `yarn build:css`
 - Start CSS watcher for development
-    - `npm run start:css`
+    - `yarn start:css`
 
 ### Tailwind CSS
 
