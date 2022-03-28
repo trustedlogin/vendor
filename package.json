@@ -5,24 +5,25 @@
   "license": "GPL-2.0-or-later",
   "main": "build/index.js",
   "scripts": {
-    "test": "npm run test:unit",
+    "test": "yarn test:unit",
     "test:unit": "wp-scripts test-unit-js",
     "build:js": "wp-scripts build",
-    "build": "npm run build:js && npm run build:css",
-    "start": "npm run run-p start:js --watch start:css",
+    "build": "yarn build:js && yarn build:css",
+    "start": "yarn run-p start:js --watch start:css",
     "test:ci": "wp-scripts test-unit-js --ci",
     "format:js": "wp-scripts format-js",
     "lint:css": "wp-scripts lint-style",
     "lint:js": "prettier ./admin --write",
     "lint": "prettier ./admin --write",
     "start:js": "wp-scripts start",
-    "start:css": "npm run tailwindcss -i ./admin/tailwind.css -o ./admin/trustedlogin-dist.css --watch",
-    "build:css": "NODE_ENV=production TAILWIND_MODE=build npm run tailwindcss -i ./admin/tailwind.css -o ./admin/trustedlogin-dist.css"
+    "start:css": "yarn tailwindcss -i ./admin/tailwind.css -o ./admin/trustedlogin-dist.css --watch",
+    "build:css": "cross-env  NODE_ENV=production TAILWIND_MODE=build yarn tailwindcss -i ./admin/tailwind.css -o ./admin/trustedlogin-dist.css"
   },
   "devDependencies": {
     "@babel/core": "^7",
     "@testing-library/react": "^12",
     "@wordpress/scripts": "^16",
+    "cross-env": "^7.0.3",
     "prettier": "2.5.1"
   },
   "dependencies": {
