@@ -24,8 +24,8 @@ const log = (...args) => {
 /**
  * Exit with success code
  */
-const exitSuccess = () => {
-  log("All done!");
+const exitSuccess = (message = "Succesful") => {
+  log(message);
   //barrel roll
   shell.exit(0);
 };
@@ -33,8 +33,8 @@ const exitSuccess = () => {
 /**
  * Exit with error code
  */
-const exitError = (errorCode = 1) => {
-  log("Exitting With Error!");
+const exitError = (errorCode = 1, message = "Exitting With Error!") => {
+  log(message);
   shell.exit(errorCode);
 };
 
@@ -96,11 +96,17 @@ const createUsers = async () => {
   });
 };
 
+//Activate {slug} plugin
+//activatePlugin({ slug: "trustedlogin-vendor" })
+//activatePlugin({ slug: "akismet" })
 const activatePlugin = async ({ slug }) => {
   log("Activating plugin");
   await wp(`plugin activate ${slug}`);
 };
 
+//Run e22 test
+//e2eTest({ browser: "chrome" })
+//e2eTest({ browser: "firefox" })
 const e2eTest = async ({ browser }) => {
   if (!["chrome", "firefox"].includes(browser)) {
     throw Error("Invalid browser");
@@ -108,57 +114,69 @@ const e2eTest = async ({ browser }) => {
   await runCommand(`docker-compose run e2e-${browser}`);
 };
 
+//Build for prod and make zip
 const buildZip = async () => {
-  //Build CSS/ JS using host machine
-  await runCommand(`yarn build`);
+  return runCommand(`yarn build`) //Build CSS/ JS using host machine
+    .then(() => {
+      //This will run optimzed composer install in the docker container
+      runCommand(
+        `npx plugin-machine plugin build --token=anything-works-for-this`
+      ).then(() => {
+        //Make a zip of the right files
+        runCommand(
+          `npx plugin-machine plugin zip --token=anything-works-for-this`
+        );
+      });
+    })
+    .catch(exitError);
 };
 
-//Run sub-command?
-if (process.argv.length >= 3) {
-  const arg3 = process.argv.length >= 4 ? process.argv[3] : null;
-  switch (process.argv[2]) {
-    case "zip":
-      runCommand("npx plugin-machine plugin build")
-        .catch(exitError)
-        .then(() => {
-          runCommand("npx plugin-machine plugin zip")
-            .catch(exitError)
-            .then(exitSuccess);
-        });
-      break;
-      l;
-    case "kill":
-      runCommand("docker kill $(docker ps -q)")
-        .then(exitSuccess)
-        .catch(exitError);
-      break;
-    case "test":
-      e2eTest({ browser: arg3 ?? "chrome" })
-        .then(exitSuccess)
-        .catch(exitError);
-      break;
-    case "--activate":
-      activatePlugin({
-        slug: "trustedlogin-vendor",
-      })
-        .then(exitSuccess)
-        .catch(exitError);
-      break;
-    case "--reset":
-      resetWordPress().then(exitSuccess).catch(exitError);
-      break;
-    default:
-      break;
+/**
+ * This function is the CLI
+ *
+ * It is a function, so we can use await inside of it.
+ */
+async function main() {
+  //Run sub-command?
+  if (process.argv.length >= 3) {
+    const arg3 = process.argv.length >= 4 ? process.argv[3] : null;
+    switch (process.argv[2]) {
+      case "zip":
+        await buildZip().catch(exitError).then(exitSuccess("Zip file created"));
+        break;
+      case "kill":
+        runCommand("docker kill $(docker ps -q)")
+          .then(exitSuccess)
+          .catch(exitError);
+        break;
+      case "test":
+        e2eTest({ browser: arg3 ?? "chrome" })
+          .then(exitSuccess)
+          .catch(exitError);
+        break;
+      case "--activate":
+        activatePlugin({
+          slug: "trustedlogin-vendor",
+        })
+          .then(exitSuccess)
+          .catch(exitError);
+        break;
+      case "--reset":
+        resetWordPress().then(exitSuccess).catch(exitError);
+        break;
+      default:
+        break;
+    }
   }
-  exitSuccess();
+  //By default set everything else up
+  else {
+    install({ url: NGROK_WP_URL, title: "Trusted Login Vendor Test" })
+      .then(createUsers)
+      .then(() => {
+        log("Done");
+        log(NGROK_WP_URL);
+        //log(`Username`)
+      });
+  }
 }
-//By default set everything else up
-else {
-  install({ url: NGROK_WP_URL, title: "Trusted Login Vendor Test" })
-    .then(createUsers)
-    .then(() => {
-      log("Done");
-      log(NGROK_WP_URL);
-      //log(`Username`)
-    });
-}
+main();
