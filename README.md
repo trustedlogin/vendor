@@ -36,11 +36,10 @@ It is important that you use the `wp.js` script to setup the local dev site, whi
         - Drops the database tables.
 - Run e2e tests
     - With Chrome:
-        - `node wp.js test`
+        - `node wp.js test`node wp.js test
         - `node wp.js test chrome`
     - With Firefox:
-            - `node wp.js test`
-            - `node wp.js test firefox`
+        - `node wp.js test firefox`
 
 The `wp.js` script uses docker compose.
 
