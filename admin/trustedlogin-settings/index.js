@@ -1,7 +1,7 @@
 import React from "react";
 import { render } from "@wordpress/element";
 import App from "./App";
-import { getSettings, updateSettings, resetTeamIntegrations } from "../api";
+import api from "../api";
 const hasOnboarded = window.tlVendor.onboarding === "COMPLETE";
 let initialTeams = null;
 let initialIntegrationSettings = null;
@@ -22,9 +22,7 @@ window.addEventListener("load", function () {
   render(
     <App
       {...{
-        getSettings,
-        updateSettings,
-        resetTeamIntegrations,
+        ...api,
         hasOnboarded,
         initialTeams,
         initialIntegrationSettings,
