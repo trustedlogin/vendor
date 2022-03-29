@@ -8,6 +8,7 @@ export default function App({
   getSettings,
   updateSettings,
   resetTeamIntegrations,
+  resetEncryptionKeys,
   hasOnboarded,
   initialTeams = null,
   initialIntegrationSettings = null,
@@ -30,6 +31,7 @@ export default function App({
           getSettings,
           updateSettings,
           resetTeamIntegrations,
+          resetEncryptionKeys,
         }}>
         <ViewProvider>
           <TrustedLoginSettings />

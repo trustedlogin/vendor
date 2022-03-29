@@ -42,8 +42,17 @@ export const resetTeamIntegrations = async (accountId, integration) => {
   return r;
 };
 
+export const resetEncryptionKeys = async () => {
+  let r = await apiFetch({
+    path: `${path}/encryption/reset`,
+    method: "POST",
+  });
+  return r;
+};
+
 export default {
   updateSettings,
   getSettings,
   resetTeamIntegrations,
+  resetEncryptionKeys,
 };

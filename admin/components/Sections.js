@@ -1,55 +1,85 @@
 import { __ } from "@wordpress/i18n";
 import { useMemo, useState } from "react";
 import { DangerButton, ToggleSwitch } from ".";
+import { useSettings } from "../hooks/useSettings";
+import { CenteredLayout } from "./Layout";
 import SettingSection from "./SettingSection";
 
 export const DangerZone = () => {
-  //Need to implement reset API endpoing
-  //https://github.com/trustedlogin/vendor/issues/21
-  const onClick = () =>
-    alert(__("This does not work yet", "trustedlogin-vendor"));
+  const { api, setNotice } = useSettings();
+  const [isResetting, setIsResetting] = useState(false);
+  const onDelete = () =>
+    api
+      .resetEncryptionKeys()
+      .then(() => {
+        setNotice({
+          text: "Encryption Reset Succesfully",
+          type: "success",
+          visible: true,
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+        setNotice({
+          text: "Encryption Reset Failed",
+          type: "error",
+          visible: false,
+        });
+      });
+
   return (
     <>
-      <SettingSection title={__("Danger Zone", "trustedlogin-vendor")}>
-        <div className="bg-white p-8 border border-red-700 rounded-lg">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-4">
-              <div className="flex items-center justify-center h-12 w-12 bg-red-700 rounded-lg">
-                <svg
-                  className="text-white"
-                  width="22"
-                  height="12"
-                  viewBox="0 0 22 12"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg">
-                  <path
-                    d="M11.65 4C10.83 1.67 8.61 0 6 0C2.69 0 0 2.69 0 6C0 9.31 2.69 12 6 12C8.61 12 10.83 10.33 11.65 8H16V12H20V8H22V4H11.65ZM6 8C4.9 8 4 7.1 4 6C4 4.9 4.9 4 6 4C7.1 4 8 4.9 8 6C8 7.1 7.1 8 6 8Z"
-                    fill="currentColor"
-                  />
-                </svg>
+      {!isResetting ? (
+        <SettingSection title={__("Danger Zone", "trustedlogin-vendor")}>
+          <div className="bg-white p-8 border border-red-700 rounded-lg">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center space-x-4">
+                <div className="flex items-center justify-center h-12 w-12 bg-red-700 rounded-lg">
+                  <svg
+                    className="text-white"
+                    width="22"
+                    height="12"
+                    viewBox="0 0 22 12"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path
+                      d="M11.65 4C10.83 1.67 8.61 0 6 0C2.69 0 0 2.69 0 6C0 9.31 2.69 12 6 12C8.61 12 10.83 10.33 11.65 8H16V12H20V8H22V4H11.65ZM6 8C4.9 8 4 7.1 4 6C4 4.9 4.9 4 6 4C7.1 4 8 4.9 8 6C8 7.1 7.1 8 6 8Z"
+                      fill="currentColor"
+                    />
+                  </svg>
+                </div>
+                <div className="flex flex-col">
+                  <p
+                    className="font-medium text-gray-900"
+                    id="dangerzone-option-1-label">
+                    {__("Reset encryption keys?", "trustedlogin-vendor")}
+                  </p>
+                  <p
+                    className="text-sm text-gray-500"
+                    id="dangerzone-option-1-description">
+                    {__(
+                      "If you reset the encryption keys, all previous authorized logins will be inaccessible.",
+                      "trustedlogin-vendor"
+                    )}
+                  </p>
+                </div>
               </div>
-              <div className="flex flex-col">
-                <p
-                  className="font-medium text-gray-900"
-                  id="dangerzone-option-1-label">
-                  {__("Reset encryption keys?", "trustedlogin-vendor")}
-                </p>
-                <p
-                  className="text-sm text-gray-500"
-                  id="dangerzone-option-1-description">
-                  {__(
-                    "If you reset the encryption keys, all previous authorized logins will be inaccessible.",
-                    "trustedlogin-vendor"
-                  )}
-                </p>
-              </div>
+              <DangerButton onClick={onClick} id="sort-menu-button">
+                Reset Keys
+              </DangerButton>
             </div>
-            <DangerButton onClick={onClick} id="sort-menu-button">
-              Reset Keys
-            </DangerButton>
           </div>
-        </div>
-      </SettingSection>
+        </SettingSection>
+      ) : (
+        <CenteredLayout>
+          <TitleDescriptionLink title={__("Are You Sure?")} />
+          <SubmitAndCanelButtons
+            onSubmit={onDelete}
+            submitText={"Delete Team"}
+            onCancel={() => setIsResetting(false)}
+          />
+        </CenteredLayout>
+      )}
     </>
   );
 };
