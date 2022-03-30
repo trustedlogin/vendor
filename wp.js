@@ -120,11 +120,11 @@ const buildZip = async () => {
     .then(() => {
       //This will run optimzed composer install in the docker container
       runCommand(
-        `npx plugin-machine plugin build --token=anything-works-for-this`
+        `npx --yes plugin-machine plugin build --token=anything-works-for-this`
       ).then(() => {
         //Make a zip of the right files
         runCommand(
-          `npx plugin-machine plugin zip --token=anything-works-for-this`
+          `npx --yes plugin-machine plugin zip --token=anything-works-for-this`
         );
       });
     })
