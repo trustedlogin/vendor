@@ -4,6 +4,8 @@
 
 ## Installation
 
+Do not install in a directory that includes a space in the path, for example, one under "Local Sites". That will cause issues with wp.js.
+
 - Git clone:
     - `git clone git@github.com:trustedlogin/vendor.git`
 - Install javascript dependencies
@@ -29,7 +31,6 @@ It is important that you use the `wp.js` script to setup the local dev site, whi
 - Build plugin for release and ZIP
     - `yarn`
     - `node wp.js zip`
-    - See below for M1 Mac
 - Activate Plugin
     - `node wp.js --activate`
 - Reset WordPress
@@ -44,9 +45,6 @@ It is important that you use the `wp.js` script to setup the local dev site, whi
       - `node wp.js test firefox`
 
 The `wp.js` script uses docker compose.
-
-
-
 
 
 ## Working With JavaScript
