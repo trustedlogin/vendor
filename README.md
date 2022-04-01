@@ -28,7 +28,7 @@ It is important that you use the `wp.js` script to setup the local dev site, whi
         - Activates plugin
 - Build plugin for release and ZIP
     - `yarn`
-    - `node wp.js --zip`
+    - `node wp.js zip`
 - Activate Plugin
     - `node wp.js --activate`
 - Reset WordPress
