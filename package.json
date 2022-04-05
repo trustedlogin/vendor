@@ -17,12 +17,13 @@
     "lint": "prettier ./admin --write",
     "start:js": "wp-scripts start",
     "start:css": "yarn tailwindcss -i ./admin/tailwind.css -o ./admin/trustedlogin-dist.css --watch",
-    "build:css": "NODE_ENV=production TAILWIND_MODE=build yarn tailwindcss -i ./admin/tailwind.css -o ./admin/trustedlogin-dist.css"
+    "build:css": "cross-env  NODE_ENV=production TAILWIND_MODE=build yarn tailwindcss -i ./admin/tailwind.css -o ./admin/trustedlogin-dist.css"
   },
   "devDependencies": {
     "@babel/core": "^7",
     "@testing-library/react": "^12",
     "@wordpress/scripts": "^16",
+    "cross-env": "^7.0.3",
     "prettier": "2.5.1"
   },
   "dependencies": {
@@ -32,7 +33,7 @@
     "@wordpress/element": "^3",
     "@wordpress/i18n": "^4",
     "autoprefixer": "^10.4.2",
-    "dotenv": "^14.3.2",
+    "dotenv": "^16.0.0",
     "multiselect-react-dropdown": "^2.0.7",
     "postcss": "^8.4.5",
     "postcss-cli": "^9.1.0",

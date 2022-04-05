@@ -1,10 +1,30 @@
 {
-    "pluginId": 58,
-    "buildId": 64,
-    "entryPoints": {
-        "adminPages": [
-            "trustedlogin-settings"
-        ],
-        "blocks": []
-    }
+  "slug": "trustedlogin-vendor",
+  "pluginId": 58,
+  "buildId": 64,
+  "entryPoints": {
+    "adminPages": [
+      "trustedlogin-settings"
+    ],
+    "blocks": []
+  },
+  "buildIncludes": [
+    "trustedlogin-vendor.php",
+    "readme.txt",
+    "php",
+    "vendor",
+    "build",
+    "inc",
+    "admin/trustedlogin-settings/init.php"
+  ],
+  "buildSteps": {
+    "dev": [
+      "composer install",
+      "yarn",
+      "yarn start"
+    ],
+    "prod": [
+      "composer install --no-dev"
+    ]
+  }
 }

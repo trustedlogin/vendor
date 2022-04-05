@@ -4,16 +4,21 @@
 
 ## Installation
 
+Do not install in a directory that includes a space in the path, for example, one under "Local Sites". That will cause issues with wp.js.
+
 - Git clone:
     - `git clone git@github.com:trustedlogin/vendor.git`
 - Install javascript dependencies
     - `yarn`
 - Install php dependencies
     - `composer install`
+    - `docker run --rm -it --volume "$(pwd)":/app
+prooph/composer:7.4 install`
 - Create env file
     - `cp .env.example .env`
     - You will need to ask Josh and/ or Zack for values for `NGROK_WP_URL`, `NGROK_USERS`,`TL_VENDOR_ENCRYTPTION_KEY` and `NGROK_AUTH_TOKEN`.
 - Setup site using `wp.js` script.
+
 ### wp.js
 
 It is important that you use the `wp.js` script to setup the local dev site, which is served via ngork. The e2e tests assume that site is running and was setup using this script. This script should work with Node 14 or later. Josh developed it using Node 16.
@@ -23,18 +28,21 @@ It is important that you use the `wp.js` script to setup the local dev site, whi
         - Installs WordPress
         - Creates admin users, as specified in `NGROK_USERS` env variable
         - Activates plugin
+- Build plugin for release and ZIP
+    - `yarn`
+    - `node wp.js zip`
 - Activate Plugin
     - `node wp.js --activate`
 - Reset WordPress
     - `node wp.js ---reset`
         - Drops the database tables.
 - Run e2e tests
-    - With Chrome:
-        - `node wp.js test`
-        - `node wp.js test chrome`
-    - With Firefox:
-            - `node wp.js test`
-            - `node wp.js test firefox`
+  - Must run `npm install` in `/cypress` first.
+  - With Chrome:
+      - `node wp.js test`node wp.js test
+      - `node wp.js test chrome`
+  - With Firefox:
+      - `node wp.js test firefox`
 
 The `wp.js` script uses docker compose.
 
