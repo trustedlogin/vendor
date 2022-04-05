@@ -4,6 +4,8 @@
 
 ## Installation
 
+Do not install in a directory that includes a space in the path, for example, one under "Local Sites". That will cause issues with wp.js.
+
 - Git clone:
     - `git clone git@github.com:trustedlogin/vendor.git`
 - Install javascript dependencies
@@ -28,7 +30,7 @@ It is important that you use the `wp.js` script to setup the local dev site, whi
         - Activates plugin
 - Build plugin for release and ZIP
     - `yarn`
-    - `node wp.js --zip`
+    - `node wp.js zip`
 - Activate Plugin
     - `node wp.js --activate`
 - Reset WordPress
