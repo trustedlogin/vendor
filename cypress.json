@@ -1,4 +1,0 @@
-{
-  "pluginsFile": "cypress/support/plugins.js",
-  "supportFile": "cypress/support/index.js"
-}
