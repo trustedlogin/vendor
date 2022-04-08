@@ -20,7 +20,7 @@ jobs:
     strategy:
       matrix:
         php-version: [ "7.2", "7.4" ]
-        wordpress-version: [ latest ]
+        wp-version: [ latest ]
     steps:
 
       # Set up plugin
@@ -57,13 +57,14 @@ jobs:
         run: composer install --prefer-dist --no-progress
 
       # Run integration tests
-      - name: PHP Version
-        env:
-          WORDPRESS_VERSION: "5.8"
-          PHP_IMAGE_TAG: "7.2"
-        run: docker-compose run phpunit php --version
+      - name: Make envfile
+      uses: SpicyPizza/create-envfile@v1.3
+      with:
+        WORDPRESS_VERSION: ${{ matrix.wp-version }}
+        PHP_IMAGE_TAG: ${{ matrix.php-version }}
+        TL_VENDOR_ENCRYTPTION_KEY: ${{ secrets.TL_VENDOR_ENCRYTPTION_KEY }}
       - name: Tests
         env:
-          WORDPRESS_VERSION: "5.8"
-          PHP_IMAGE_TAG: "7.2"
+          WORDPRESS_VERSION: ${{ matrix.wp-version }}
+          PHP_IMAGE_TAG: ${{ matrix.php-version }}
         run: docker-compose run phpunit phpunit --config=./phpunit-integration.xml

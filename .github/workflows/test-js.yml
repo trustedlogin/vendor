@@ -1,6 +1,17 @@
 name: JavaScripts
 
-on: [push]
+# Run on push
+on:
+  push:
+    # any branch
+    branches:
+      - '*'
+      # If files matching these patterns have changed
+    paths:
+      - 'package.json'
+      - 'admin/**'
+      - readme.txt
+      - .github/workflows/tests-js.yml
 
 jobs:
   buildAndTest:
