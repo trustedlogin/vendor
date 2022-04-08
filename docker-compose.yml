@@ -108,38 +108,6 @@ services:
         MYSQL_ROOT_PASSWORD: examplepass
       image: mariadb:10.5.8
 
-  # End to End Testing (e2e) - cypress.io tests that run against the ngrok site.
-
-  ## Runs Cypress test using Chrome browser
-  e2e-chrome:
-    image: "cypress/included:4.1.0"
-    # container_name: cypress
-    # "cypress/included" images have entrypoint set to globally installed cypress
-    # so the command can simply add any arguments
-    command: "--browser chrome"
-    volumes:
-      - ./cypress:/cypress
-      - ./cypress.json:/cypress.json
-      - ./wp.js:/cypress/wp.js
-      - ./.env:/.env
-      - ./node_modules:/node_modules
-    depends_on:
-          - ngrok
-
-  ## Runs Cypress test using Firefox browser
-  e2e-firefox:
-    image: "cypress/included:4.1.0"
-    command: "--browser firefox --config video=false"
-    ### if you want to debug FF run, pass DEBUG variable like
-    #environment:
-    ##  - DEBUG=cypress:server:browsers:firefox-util,cypress:server:util:process_profiler
-    volumes:
-      - ./cypress:/cypress
-      - ./cypress.json:/cypress.json
-      - ./wp.js:/cypress/wp.js
-    depends_on:
-          - ngrok
-
 volumes:
   db_data: {}
   wordpress_data: {}
