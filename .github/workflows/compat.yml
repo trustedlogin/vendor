@@ -1,0 +1,40 @@
+name: Analysis
+
+on: [push]
+
+jobs:
+
+  ## Check PHP Compat
+  php_compat:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Setup PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: '7.3'
+
+    - name: Get Composer Cache Directory
+      id: get-composer-cache-dir # Instead of composer-cache
+      run: |
+        echo "::set-output name=dir::$(composer config cache-files-dir)"
+
+    - name: Cache Composer packages
+      id: composer-cache
+      uses: actions/cache@v2
+      with:
+        path: vendor
+        key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-php-
+
+    - name: Install dependencies
+      if: steps.composer-cache.outputs.cache-hit != 'true'
+      run: composer install --prefer-dist --no-progress
+
+    # see https://github.com/PHPCompatibility/PHPCompatibilityWP#how-to-use
+    - name: Test compat for PHP 7.0 or later
+      run: composer compat

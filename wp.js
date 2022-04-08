@@ -43,6 +43,16 @@ const exitError = (errorCode = 1, message = "Exitting With Error!") => {
  */
 const runCommand = async (command) => {
   return new Promise(async (resolve, reject) => {
+    //Use composer function for composer commands
+    if (command.startsWith("composer")) {
+      try {
+        await composer(command);
+        resolve();
+      } catch (error) {
+        reject(error);
+      }
+    }
+    //Pass all other commands to shell
     if (shell.exec(command).code !== 0) {
       reject();
     } else {
@@ -104,6 +114,19 @@ const activatePlugin = async ({ slug }) => {
   await wp(`plugin activate ${slug}`);
 };
 
+//Run a composer command in Docker container
+const composer = async (command) => {
+  if (command.startsWith("composer")) {
+    //remove "composer" from command
+    command = command.substring("composer".length);
+  }
+  //See: https://github.com/prooph/docker-files/tree/master/composer
+  //Removed -it flag to make it work.
+  command = `docker run --rm  --volume ${pluginDir}:/app prooph/composer:${phpVersion} ${command}`;
+  info(`Running composer command: ${command}`);
+  return runCommand(command);
+};
+
 //Run e22 test
 //e2eTest({ browser: "chrome" })
 //e2eTest({ browser: "firefox" })
@@ -163,6 +186,15 @@ async function main() {
         break;
       case "--reset":
         resetWordPress().then(exitSuccess).catch(exitError);
+        break;
+      case "compat":
+        runCommand(`composer compat`).then(exitSuccess).catch(exitError);
+        break;
+      case "sniffs":
+        runCommand(`composer sniffs`).then(exitSuccess).catch(exitError);
+        break;
+      case "fixes":
+        runCommand(`composer fixes`).then(exitSuccess).catch(exitError);
         break;
       default:
         break;
