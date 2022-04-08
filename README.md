@@ -6,6 +6,9 @@
 
 Do not install in a directory that includes a space in the path, for example, one under "Local Sites". That will cause issues with wp.js.
 
+IMPORTANT: You must use PHP 7.4 and composer 2.2+ when running composer. The wp.js script runs composer in Docker with the right versions.
+
+
 - Git clone:
     - `git clone git@github.com:trustedlogin/vendor.git`
 - Install javascript dependencies
