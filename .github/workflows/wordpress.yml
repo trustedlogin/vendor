@@ -19,8 +19,13 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        php-version: [ "7.2", "7.4" ]
-        wp-version: [ latest ]
+        # PHP Versions to test
+        php-version: [ "7.2", "7.3","7.4","8.0","8.1" ]
+        # WordPress versions to test
+        wp-version: [ "latest", "5.8","5.7" ]
+        # Allow all tests to run, even if one fails
+        ## https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idstrategyfail-fast
+        fail-fast: false
     steps:
 
       # Set up plugin
