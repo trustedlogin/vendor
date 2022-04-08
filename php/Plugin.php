@@ -150,7 +150,7 @@ class Plugin
 			'api_url' => TRUSTEDLOGIN_API_URL
 		], $this->apiSender );
 		return ! is_wp_error($handler->verify(
-			$team->get('account_id'),
+			$team->get('account_id')
 		));
 	}
 
@@ -184,7 +184,7 @@ class Plugin
 		foreach($this->settings->allTeams(false) as $team){
 			$url = AccessKeyLogin::url(
 				$team->get('account_id'),
-				'helpscout',
+				'helpscout'
 				//$team->getHelpdesks()[0]
 			);
 			$data[$team->get('account_id')] = $url;

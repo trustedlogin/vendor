@@ -88,7 +88,7 @@ class MenuPage {
                 $name,
                 'manage_options',
                 $this->childSlug,
-                [$this, 'renderPage'],
+                [$this, 'renderPage']
             );
         }else{
             //Top level page
@@ -98,7 +98,7 @@ class MenuPage {
                 'manage_options',
                 self::PARENT_MENU_SLUG,
                 [$this, 'renderPage'],
-                'dashicons-admin-generic',
+                'dashicons-admin-generic'
             );
         }
 
