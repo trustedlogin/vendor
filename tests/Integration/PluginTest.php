@@ -19,7 +19,7 @@ class PluginTest extends TestCase
 	{
 
 		$this->assertNotEmpty(
-			trustedlogin_vendor()->getPublicKey(),
+			trustedlogin_vendor()->getPublicKey()
 		);
 	}
 
@@ -30,7 +30,7 @@ class PluginTest extends TestCase
 	{
 
 		$this->assertNotEmpty(
-			trustedlogin_vendor()->getSignatureKey(),
+			trustedlogin_vendor()->getSignatureKey()
 		);
 	}
 
@@ -73,12 +73,12 @@ class PluginTest extends TestCase
 	{
 		$this->assertSame(
 			trustedlogin_vendor()->getEncryption(),
-			trustedlogin_vendor()->getEncryption(),
+			trustedlogin_vendor()->getEncryption()
 		);
 
 		$this->assertSame(
 			trustedlogin_vendor()->getEncryption()->getPublicKey(),
-			trustedlogin_vendor()->getEncryption()->getPublicKey(),
+			trustedlogin_vendor()->getEncryption()->getPublicKey()
 		);
 	}
 

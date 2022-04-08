@@ -92,11 +92,11 @@ services:
     ## Wait to start until the database server for testing is ready.
     depends_on:
       - testwpdb
-
     environment:
       DATABASE_PASSWORD: examplepass
       DATABASE_HOST: testwpdb
-    image: futureys/phpunit-wordpress-plugin
+
+    image: josh412/wp-phpunit:php-${PHP_IMAGE_TAG-7.4}-wp-${WORDPRESS_VERSION-latest}
     stdin_open: true
     tty: true
     volumes:

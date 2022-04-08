@@ -163,7 +163,9 @@ There is a special phpunit container for running WordPress tests, with WordPress
 - Test
     - `composer test:wordpress`
 - Run tests once
-  - `docker-compose run phpunit phpunit --config=phpunit-integration.xml`
+  - `**docker-compose run phpunit phpunit --config=phpunit-integration.xml`
+
+If you see prompt `Do you trust "dealerdirect/phpcodesniffer-composer-installer" to execute code and wish to enable it now? (writes "allow-plugins" to composer.json) [y,n,d,?] y` you should answer "y". This is fine.
 
 ### ngrok
 

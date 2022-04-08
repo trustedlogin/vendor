@@ -11,50 +11,67 @@ on:
       - 'composer.json'
       - '**.php'
       - readme.txt
-
-env:
-  WP_TESTS_DIR: /github/home/wp-tests/wordpress-tests-lib
-  WP_CORE_DIR: /github/home/wp-tests/wordpress
+      - .github/workflows/wordpress.yml
 
 jobs:
-
   test:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        php-version: [ 7.3,7.4 ]
-        wordpress-version: [ latest ]
-    container:
-      image: junaidbhura/wp-tests:php-${{ matrix.php-version }}
-    services:
-      mysql:
-        image: mysql:5.7.27
-        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
-        env:
-          MYSQL_ROOT_PASSWORD: root
+        # PHP Versions to test
+        php-version: [ "7.2", "7.3","7.4"]
+        # WordPress versions to test
+        wp-version: [ "latest", "5.8", ]
+      # Allow all tests to run, even if one fails
+      ## https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idstrategyfail-fast
+      fail-fast: false
 
     steps:
-      - name: Checkout repository
+
+      # Set up plugin
+      - name: Checkout
         uses: actions/checkout@v1
+      - name: Docker Compose Version
+        run: docker-compose -v
 
-      ## Install
-      - name: Install Composer dependencies
+      ## PHP
+      - name: Install PHP
+        uses: shivammathur/setup-php@master
+        with:
+          php-version: ${{ matrix.php-version }}
+      - name: PHP Version
+        run: php -v
+
+      ## Composer
+      - name: Get Composer Cache Directory
+        id: get-composer-cache-dir # Instead of composer-cache
         run: |
-          composer install
+          echo "::set-output name=dir::$(composer config cache-files-dir)"
 
-      ## Create .env
-      - shell: bash
-        env:
-          # Should be set in repo secrets
-          KEY: ${{ secrets.TL_VENDOR_ENCRYTPTION_KEY }}
-        run: |
-          echo "TL_VENDOR_ENCRYTPTION_KEY=$KEY" >> .env
+      - name: Cache Composer packages
+        id: composer-cache
+        uses: actions/cache@v2
+        with:
+          path: vendor
+          key: ${{ runner.os }}-php-${{ matrix.php-version }}-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-php-${{ matrix.php-version }}-
 
+      - name: Install dependencies
+        if: steps.composer-cache.outputs.cache-hit != 'true'
+        run: composer install --prefer-dist --no-progress
 
-      ## Install test suite
-      - name: Install WordPress test suite
-        run: bash bin/install-wp-tests.sh wordpress_test root root mysql ${{ matrix.wordpress-version }}
-
-      ## Run integration tests
+      # Run integration tests
+      - name: Make envfile
+        #https://github.com/marketplace/actions/create-env-file
+        uses: SpicyPizza/create-envfile@v1.3
+        with:
+          envkey_NGROK_AUTH_TOKEN: ${secrets.NGROK_AUTH_TOKEN}
+          envkey_WORDPRESS_VERSION: ${{ matrix.wp-version }}
+          envkey_PHP_IMAGE_TAG: ${{ matrix.php-version }}
+          envkey_TL_VENDOR_ENCRYTPTION_KEY: ${{ secrets.TL_VENDOR_ENCRYTPTION_KEY }}
       - name: Tests
-        run: composer test:wordpress
+        env:
+          WORDPRESS_VERSION: ${{ matrix.wp-version }}
+          PHP_IMAGE_TAG: ${{ matrix.php-version }}
+        run: docker-compose run phpunit phpunit --config=./phpunit-integration.xml
