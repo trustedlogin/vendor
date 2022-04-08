@@ -14,7 +14,6 @@ on:
       - .github/workflows/wordpress.yml
 
 jobs:
-
   test:
     runs-on: ubuntu-latest
     strategy:
