@@ -58,11 +58,12 @@ jobs:
 
       # Run integration tests
       - name: Make envfile
+        #https://github.com/marketplace/actions/create-env-file
         uses: SpicyPizza/create-envfile@v1.3
         with:
-          WORDPRESS_VERSION: ${{ matrix.wp-version }}
-          PHP_IMAGE_TAG: ${{ matrix.php-version }}
-          TL_VENDOR_ENCRYTPTION_KEY: ${{ secrets.TL_VENDOR_ENCRYTPTION_KEY }}
+          envkey_WORDPRESS_VERSION: ${{ matrix.wp-version }}
+          envkey_PHP_IMAGE_TAG: ${{ matrix.php-version }}
+          envkey_TL_VENDOR_ENCRYTPTION_KEY: ${{ secrets.TL_VENDOR_ENCRYTPTION_KEY }}
       - name: Tests
         env:
           WORDPRESS_VERSION: ${{ matrix.wp-version }}
