@@ -61,6 +61,7 @@ jobs:
         #https://github.com/marketplace/actions/create-env-file
         uses: SpicyPizza/create-envfile@v1.3
         with:
+          envkey_NGROK_AUTH_TOKEN: ${secrets.NGROK_AUTH_TOKEN}
           envkey_WORDPRESS_VERSION: ${{ matrix.wp-version }}
           envkey_PHP_IMAGE_TAG: ${{ matrix.php-version }}
           envkey_TL_VENDOR_ENCRYTPTION_KEY: ${{ secrets.TL_VENDOR_ENCRYTPTION_KEY }}
