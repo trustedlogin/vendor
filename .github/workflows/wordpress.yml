@@ -58,11 +58,11 @@ jobs:
 
       # Run integration tests
       - name: Make envfile
-      uses: SpicyPizza/create-envfile@v1.3
-      with:
-        WORDPRESS_VERSION: ${{ matrix.wp-version }}
-        PHP_IMAGE_TAG: ${{ matrix.php-version }}
-        TL_VENDOR_ENCRYTPTION_KEY: ${{ secrets.TL_VENDOR_ENCRYTPTION_KEY }}
+        uses: SpicyPizza/create-envfile@v1.3
+        with:
+          WORDPRESS_VERSION: ${{ matrix.wp-version }}
+          PHP_IMAGE_TAG: ${{ matrix.php-version }}
+          TL_VENDOR_ENCRYTPTION_KEY: ${{ secrets.TL_VENDOR_ENCRYTPTION_KEY }}
       - name: Tests
         env:
           WORDPRESS_VERSION: ${{ matrix.wp-version }}
