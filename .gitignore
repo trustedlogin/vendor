@@ -17,7 +17,6 @@ vendor/
 
 # dotenv environment variables file
 .env
-.env.test
 
 vendor
 wordpress
