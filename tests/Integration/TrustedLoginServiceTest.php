@@ -51,7 +51,7 @@ class TrustedLoginServiceTests extends \WP_UnitTestCase
 		$this->assertNotEmpty(
 			SettingsApi::fromSaved()
 				->getByAccountId(
-					self::ACCOUNT_ID,
+					self::ACCOUNT_ID
 				)
 		);
 

@@ -35,7 +35,7 @@ class MocksSendsApiRequests implements SendsApiRequests {
         //Mock get envelope
         if ($this->strEndsWith(
             $url,
-            '/get-envelope',
+            '/get-envelope'
         )) {
             $json = $this->getEnvelopeData();
             return [
