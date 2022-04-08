@@ -66,4 +66,4 @@ jobs:
         env:
           WORDPRESS_VERSION: "5.8"
           PHP_IMAGE_TAG: "7.2"
-        run: docker-compose run phpunit phpunit --config=./tests/phpunit-integration.xml
+        run: docker-compose run phpunit phpunit --config=./phpunit-integration.xml
