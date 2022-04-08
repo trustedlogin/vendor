@@ -19,7 +19,7 @@ jobs:
     strategy:
       matrix:
         # PHP Versions to test
-        php-version: [ "7.2", "7.3","7.4","8.0","8.1" ]
+        php-version: [ "7.2", "7.3","7.4"]
         # WordPress versions to test
         wp-version: [ "latest", "5.8","5.7" ]
       # Allow all tests to run, even if one fails
