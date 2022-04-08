@@ -1,7 +1,17 @@
 name: Analysis
 
-on: [push]
-
+# Run on push
+on:
+  push:
+    # any branch
+    branches:
+      - '*'
+      # If files matching these patterns have changed
+    paths:
+      - 'composer.json'
+      - '**.php'
+      - readme.txt
+      - .github/workflows/compat.yml
 jobs:
 
   ## Check PHP Compat
