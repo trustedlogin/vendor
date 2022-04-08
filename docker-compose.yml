@@ -96,7 +96,7 @@ services:
     environment:
       DATABASE_PASSWORD: examplepass
       DATABASE_HOST: testwpdb
-    image: futureys/phpunit-wordpress-plugin
+    image: josh412/wp-phpunit
     stdin_open: true
     tty: true
     volumes:

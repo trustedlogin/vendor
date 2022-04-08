@@ -165,6 +165,8 @@ There is a special phpunit container for running WordPress tests, with WordPress
 - Run tests once
   - `docker-compose run phpunit phpunit --config=phpunit-integration.xml`
 
+If you see prompt `Do you trust "dealerdirect/phpcodesniffer-composer-installer" to execute code and wish to enable it now? (writes "allow-plugins" to composer.json) [y,n,d,?] y` you should answer "y". This is fine.
+
 ### ngrok
 
 The WordPress site will also be on the internets at [https://trustedlogin.ngrok.io/](https://trustedlogin.ngrok.io/). This requires setting the variable `NGROK_AUTH_TOKEN` in the .env file.
