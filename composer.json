@@ -29,8 +29,8 @@
     "scripts": {
         "test": "composer test:wordpress",
         "test:wordpress": "phpunit --config=phpunit-integration.xml",
-        "sniffs": "vendor/bin/phpcs check",
-        "fixes": "vendor/bin/ecs check --fix",
+        "sniffs": "vendor/bin/phpcs ./php ./trustedlogin-vendor.php --report=summary",
+        "fixes": "./vendor/bin/phpcbf ./php ./trustedlogin-vendor.php ",
         "compat": "./vendor/bin/phpcs -p ./php --standard=PHPCompatibilityWP --extensions=php --runtime-set testVersion 7.0-"
     },
     "config": {

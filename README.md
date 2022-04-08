@@ -137,6 +137,8 @@ The integration tests rely on the environment variable `TL_VENDOR_ENCRYTPTION_KE
     - `composer fixes`
 - Run linter to identify issues.
     - `compose sniffs`
+- Check backwards compat
+    - `compose sniffs`
 
 ## Local Development Environment
 
