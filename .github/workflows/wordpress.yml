@@ -11,6 +11,7 @@ on:
       - 'composer.json'
       - '**.php'
       - readme.txt
+      - .github/workflows/wordpress.yml
 
 env:
   WP_TESTS_DIR: /github/home/wp-tests/wordpress-tests-lib
