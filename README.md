@@ -131,14 +131,18 @@ The integration tests rely on the environment variable `TL_VENDOR_ENCRYTPTION_KE
 
 ### Linter
 
-[PHPCS](https://github.com/squizlabs/PHP_CodeSniffer) is installed for linting and [automatic code fixing](https://github.com/squizlabs/PHP_CodeSniffer/wiki/Fixing-Errors-Automatically).
+[PHPCS](https://github.com/squizlabs/PHP_CodeSniffer) is installed for linting and [automatic code fixing](https://github.com/squizlabs/PHP_CodeSniffer/wiki/Fixing-Errors-Automatically). You can also run these commands in Docker, using wp.js.
 
 - Run linter and autofix
     - `composer fixes`
+    - `node wp.js fixes`
 - Run linter to identify issues.
     - `compose sniffs`
+    - `node wp.js sniffs`
+
 - Check backwards compat
-    - `compose sniffs`
+    - `compose compat`
+    - `node wp.js compat`
 
 ## Local Development Environment
 
