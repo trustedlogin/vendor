@@ -1,8 +1,8 @@
 name: e2e
 
-on:
-  pull_request:
-    types: [opened]
+on: [push]
+  #pull_request:
+    #types: [opened]
 
 jobs:
   create-wp-for-testing:
