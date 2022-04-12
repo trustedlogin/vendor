@@ -18,8 +18,8 @@ use TrustedLogin\Vendor\ErrorHandler;
 if (!defined('ABSPATH')) {
     exit;
 }
-// Exit if accessed directly
 
+// Exit if accessed directly
 define( 'TRUSTEDLOGIN_PLUGIN_VERSION', '0.10.0' );
 define( 'TRUSTEDLOGIN_PLUGIN_FILE', __FILE__ );
 if( ! defined( 'TRUSTEDLOGIN_API_URL')){
