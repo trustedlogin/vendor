@@ -1,18 +1,14 @@
 name: e2e
 
 on:
-  push:
-    # any branch
-    branches:
-      - '*'
-  #pull_request:
-    #types: [opened]
+  pull_request:
+    types: [opened]
 
 jobs:
   create-wp-for-testing:
     runs-on: ubuntu-latest
     steps:
-      - uses: instawp/wordpress-testing-automation@main
+      - uses: instawp/wordpress-testing-automation@latest
         with:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
           INSTAWP_TOKEN: ${{secrets.INSTAWP_TOKEN}}
