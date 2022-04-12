@@ -14,5 +14,6 @@ jobs:
           INSTAWP_TOKEN: ${{secrets.INSTAWP_TOKEN}}
           INSTAWP_TEMPLATE_SLUG: vendor
           REPO_ID: 4
-      # echo URL as test - run: echo URL ${{ steps.instawp.outputs.instawp_url }}
+      # echo URL as test
+      - run: echo URL ${{ steps.instawp.outputs.instawp_url }}
         shell: bash
