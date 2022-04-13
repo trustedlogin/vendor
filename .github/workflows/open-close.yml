@@ -1,0 +1,27 @@
+name: test open close
+on:
+  pull_request:
+    types: [opened, reopened,closed]
+jobs:
+  create:
+    ## Only run if workflow was triggered by the opening or reopening PR
+    if: 'opened' === github.action || 'reopened' == github.action
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2'
+        name: opened
+        with:
+          node-version: '14'
+      - run: node -v
+  deleted:
+    ## Only run if workflow was triggered by the closing PR
+    if: 'closed' === github.action
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2'
+        name: closed
+        with:
+          node-version: '16'
+      - run: node -v
