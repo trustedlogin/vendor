@@ -1,0 +1,33 @@
+name: e2e
+
+on:
+  pull_request:
+    types: [opened,reopened,closed]
+
+jobs:
+  create-wp-for-testing:
+    runs-on: ubuntu-latest
+    steps:
+    ## Only run if workflow was triggered by the opening or reopening PR
+    if: github.event.action == 'opened' || github.event.action == 'reopened'
+      - uses: instawp/wordpress-testing-automation@main
+        with:
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+          INSTAWP_TOKEN: ${{secrets.INSTAWP_TOKEN}}
+          INSTAWP_TEMPLATE_SLUG: vendor
+          REPO_ID: 4
+          INSTAWP_ACTION: create-site-template
+      # echo URL as test
+      - run: echo URL ${{ steps.instawp.outputs.instawp_url }}
+        shell: bash
+  delete-wp-for-testing:
+    ## Only run if workflow was triggered by the closing PR
+    if: github.event.action == 'closed'
+    runs-on: ubuntu-latest
+      - uses: instawp/wordpress-testing-automation@main
+        with:
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+          INSTAWP_TOKEN: ${{secrets.INSTAWP_TOKEN}}
+          INSTAWP_TEMPLATE_SLUG: vendor
+          REPO_ID: 4
+          INSTAWP_ACTION: destroy-site
