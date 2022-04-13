@@ -5,7 +5,7 @@ on:
 jobs:
   create:
     ## Only run if workflow was triggered by the opening or reopening PR
-    if: 'opened' === github.action || 'reopened' == github.action
+    if: github.action == 'opened' || github.action == 'reopened'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -16,7 +16,7 @@ jobs:
       - run: node -v
   deleted:
     ## Only run if workflow was triggered by the closing PR
-    if: 'closed' === github.action
+    if: github.action == 'closed'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
