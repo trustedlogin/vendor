@@ -21,6 +21,8 @@ jobs:
     runs-on: ubuntu-latest
     needs: [build]
     steps:
+      - name: Event Name
+        run : echo ${{github.event.action}}
       - uses: instawp/wordpress-testing-automation@main
         id: create-wp
         if: github.event.action == 'opened' || github.event.action == 'edited'
