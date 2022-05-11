@@ -4,31 +4,26 @@ on:
   pull_request:
     types: [opened, closed, merged,synchronize]
 jobs:
-  build:
+  build-and-wp-deploy:
     runs-on: ubuntu-latest
     if: github.event.action == 'opened' || github.event.action == 'synchronize'
     steps:
       - uses: actions/checkout@v2
-      - name: Node version
-        run: node -v
-
-      - name: Zip
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+      - name: Zip Plugin
         id: pluginmachine
         uses: imaginarymachines/builder-action@main
         with:
           token:  ${{ secrets.PLUGIN_MACHINE_TOKEN }}
           pluginDir: ${{ github.workspace }}
-
-  create-wp-for-testing:
-    runs-on: ubuntu-latest
-    needs: [build]
-    if: github.event.action == 'opened' || github.event.action == 'synchronize'
-    steps:
-      - name: Event Name
-        run : echo ${{github.event.action}}
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+          commentPr: true
+      - name: ZIP URL
+        run: echo ${{steps.pluginmachine.outputs.upload}}
       - uses: instawp/wordpress-testing-automation@main
         id: create-wp
-       
         with:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
           INSTAWP_TOKEN: ${{secrets.INSTAWP_TOKEN}}
@@ -37,7 +32,8 @@ jobs:
           REPO_ID: 4
           INSTAWP_ACTION: create-site-template
           ARTIFACT_URL: ${{steps.pluginmachine.outputs.upload}}
-      - run: echo URL ${{ steps.create-wp.outputs.instawp_url }}
+      - name: InstaWP URL
+        run: echo URL ${{ steps.create-wp.outputs.instawp_url }}
         shell: bash
 
   destroy-wp-after-testing:
