@@ -23,7 +23,7 @@ jobs:
     steps:
       - uses: instawp/wordpress-testing-automation@main
         id: create-wp
-        if: github.event.action == 'opened' || github.event.action = 'edited'
+        if: github.event.action == 'opened' || github.event.action == 'edited'
         with:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
           INSTAWP_TOKEN: ${{secrets.INSTAWP_TOKEN}}
