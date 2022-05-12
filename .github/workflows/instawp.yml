@@ -16,10 +16,10 @@ jobs:
         id: pluginmachine
         uses: imaginarymachines/builder-action@main
         with:
-          token:  ${{ secrets.PLUGIN_MACHINE_TOKEN }}
-          pluginDir: ${{ github.workspace }}
+          PLUGIN_MACHINE_TOKEN:  ${{ secrets.PLUGIN_MACHINE_TOKEN }}
+          PLUGIN_DIR: ${{ github.workspace }}
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
-          commentPr: true
+          COMMENT_PR: true
       - name: ZIP URL
         run: echo ${{steps.pluginmachine.outputs.upload}}
       - uses: instawp/wordpress-testing-automation@main
