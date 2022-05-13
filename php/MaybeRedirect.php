@@ -86,7 +86,8 @@ class MaybeRedirect
 			$handler = new AccessKeyLogin();
 			$parts_or_error = $handler->handle();
 			if( is_array($parts_or_error)){
-				wp_safe_redirect( $parts_or_error['loginurl'] );
+				wp_redirect( $parts_or_error['loginurl'] );
+				exit;
 			}
 
 			wp_safe_redirect(
