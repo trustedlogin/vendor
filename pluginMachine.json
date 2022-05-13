@@ -15,7 +15,8 @@
     "vendor",
     "build",
     "inc",
-    "admin/trustedlogin-settings/init.php"
+    "admin/trustedlogin-settings/init.php",
+    "admin/trustedlogin-dist.css"
   ],
   "buildSteps": {
     "dev": [
@@ -24,7 +25,7 @@
       "yarn start"
     ],
     "prod": [
-      "composer install --no-dev"
+      "composer install --no-dev --prefer-dist"
     ]
   }
 }
