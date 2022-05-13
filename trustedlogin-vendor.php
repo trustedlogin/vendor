@@ -25,6 +25,11 @@ define( 'TRUSTEDLOGIN_PLUGIN_FILE', __FILE__ );
 if( ! defined( 'TRUSTEDLOGIN_API_URL')){
 	define( 'TRUSTEDLOGIN_API_URL', 'https://app.trustedlogin.com/api/v1/' );
 }
+//Set this to true, in wp-config.php to log all PHP errors/warnings/notices to trustedlogin.log
+// Code: define( 'TRUSTEDLOGIN_DEBUG', true );
+if( ! defined( 'TRUSTEDLOGIN_DEBUG') ){
+	define( 'TRUSTEDLOGIN_DEBUG', false );
+}
 
 
 /** @define "$path" "./" */
@@ -39,10 +44,19 @@ register_deactivation_hook( __FILE__, 'trustedlogin_vendor_deactivate' );
 if( file_exists( $path . 'vendor/autoload.php' ) ){
 	include_once $path . 'vendor/autoload.php';
 	include_once dirname( __FILE__ ) . '/admin/trustedlogin-settings/init.php';
+
+	//Maybe register error handler
+	if( TRUSTEDLOGIN_DEBUG ){
+		\TrustedLogin\Vendor\ErrorHandler::register();
+	}
+
+	//This will initialize the plugin
 	$plugin = trustedlogin_vendor();
-    \TrustedLogin\Vendor\ErrorHandler::register();
+
 	/**
 	 * Runs when plugin is ready.
+	 *
+	 * @var TrustedLogin\Vendor\Plugin $plugin
 	 */
 	do_action( 'trustedlogin_vendor', $plugin );
 

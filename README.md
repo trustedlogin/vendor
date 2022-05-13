@@ -155,7 +155,9 @@ A [docker-compose](https://docs.docker.com/samples/wordpress/)-based local devel
     - [http://localhost:8200](http://localhost:8200)
 - Run WP CLI command:
     - `docker-compose run wpcli wp user create admin admin@example.com --role=admin user_pass=pass`
-
+- Beacuse the constants`WP_DEBUG` and `TRUSTEDLOGIN_DEBUG` are set to true, errors will be logged to `./trustedlogin.log`.
+  - Constants are set in `docker-compose.yml`, in `services.wordpress.environment`, under `WORDPRESS_CONFIG_EXTRA`.
+  - I'm not sure where this is documented, but it works. This [Stackoverflow discussion](https://stackoverflow.com/questions/53197806/how-to-get-proper-docker-compose-multiline-environment-variables-formatting) is helpful.
 
 ### PHPUnit
 
