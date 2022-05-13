@@ -178,7 +178,7 @@ Find the auth token in [the ngrok dashboard](https://dashboard.ngrok.com/get-sta
 
 The ngrok container has a UI for inspecting ngrok requests. It can be accessed at [http://localhost:4551/](http://localhost:4551/).
 
-### End To End Testing
+### End-To-End Testing
 
 We use [cypress](https://cypress.io) for end to end testing (e2e) the vendor plugin, and the [e2e client](https://github.com/trustedlogin/trustedlogin-e2e-client). These tests use the production eCommerce app and Vault. These tests use an "ngrok" team. Zack can add and remove people from that team.
 
