@@ -28,3 +28,4 @@ debug.log
 admin/trustedlogin-dist.css
 cypress/screenshots
 cypress/videos
+trustedlogin-vendor.zip
