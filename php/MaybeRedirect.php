@@ -84,17 +84,7 @@ class MaybeRedirect
 			}
 			$handler = new AccessKeyLogin();
 			$parts = $handler->handle();
-			$parts = \json_decode('
-			{
-				"identifier": "F6qvCYIze7i/Ekx4GaYYpNwrlepY8IABPsJFihZD3FRN57eBzx3U3T3HdsRu6cfe9Rr94eihV68dFj3++BNwK7xqrDYJA6Ha+r7vYKwx5vf9tf+/vaLwrro0mLE+9SXcn1cMeFbNQ5v/gz86gu7Qz23QkOsy7mFC2ffU4+dIR8IuOPrdIxGWWs+tPBkaXUn2",
-				"metaData": [],
-				"nonce": "4be257f01d160b6428e028f3aa6093ef2db20bc0475af948",
-				"publicKey": "32adb1fdfa3da41a94d8c2342f6c4a7fb4e6b7c1987313a73fb8bbf45cb7051f",
-				"siteurl": "https://trustedlogin.support"
-			  }', true );
 
-			$parts['endpoint'] = \trustedlogin_vendor()->getEncryption()::hash($parts['siteurl'] . $parts['identifier']);
-			$parts['loginurl'] = $parts['siteurl'] . '/' . $parts['endpoint'] . '/' . $parts['identifier'];
 			if( is_array($parts)){
 				$output = sprintf('<div>
 					<form
