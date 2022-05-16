@@ -2,8 +2,10 @@ import { __ } from "@wordpress/i18n";
 import { useMemo, useState } from "react";
 import { DangerButton, ToggleSwitch } from ".";
 import { useSettings } from "../hooks/useSettings";
+import { SubmitAndCanelButtons } from "./Buttons";
 import { CenteredLayout } from "./Layout";
 import SettingSection from "./SettingSection";
+import TitleDescriptionLink from "./TitleDescriptionLink";
 
 export const DangerZone = () => {
   const { api, setNotice } = useSettings();
@@ -77,7 +79,7 @@ export const DangerZone = () => {
           <TitleDescriptionLink title={__("Are You Sure?")} />
           <SubmitAndCanelButtons
             onSubmit={onDelete}
-            submitText={"Delete Team"}
+            submitText={"Rest Keys"}
             onCancel={() => setIsResetting(false)}
           />
         </CenteredLayout>
