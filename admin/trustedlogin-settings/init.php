@@ -5,6 +5,8 @@ use TrustedLogin\Vendor\Status\Onboarding;
 use TrustedLogin\Vendor\Reset;
 use TrustedLogin\Vendor\MenuPage;
 use TrustedLogin\Vendor\SettingsApi;
+use TrustedLogin\Vendor\AccessKeyLogin;
+use TrustedLogin\Vendor\Webhooks\Factory;
 
 add_action('init', function () {
     $hasOnboarded = Onboarding::hasOnboarded();
@@ -26,7 +28,16 @@ add_action('init', function () {
             'resetAction' => esc_url_raw(Reset::actionUrl()),
             'roles' => wp_roles()->get_names(),
             'onboarding' => Onboarding::hasOnboarded() ? 'COMPLETE' : '0',
-            'accessKeyActions' => trustedlogin_vendor()->getAccessKeyActions(),
+            'accessKey' => [
+                AccessKeyLogin::REDIRECT_ENDPOINT  => true,
+                'action'   => AccessKeyLogin::ACCESS_KEY_ACTION_NAME,
+                Factory::PROVIDER_KEY => 'helpscout',
+                AccessKeyLogin::NONCE_NAME => wp_create_nonce( AccessKeyLogin::NONCE_ACTION ),
+                'url' => add_query_arg( [
+                    AccessKeyLogin::REDIRECT_ENDPOINT => 1,
+                ], site_url() )
+            ],
+
             'settings' => $settingsApi->toResponseData(),
         ]);
         wp_register_style(
