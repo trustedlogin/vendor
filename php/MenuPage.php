@@ -116,29 +116,30 @@ class MenuPage {
         //see: https://github.com/trustedlogin/vendor/issues/35
         remove_all_actions('admin_notices');
         remove_all_actions('all_admin_notices');
+        if( isset(
+            $_REQUEST[MaybeRedirect::REDIRECT_KEY]
+        ) ){
+            return;
+        }
         //Enqueue assets
         wp_enqueue_script(MenuPage::ASSET_HANDLE);
         wp_enqueue_style(MenuPage::ASSET_HANDLE);
     }
 
     /**
-     *
-     */
-    protected function removeAdminNotices(){
-        add_action('in_admin_header', function () {
-            if (!$is_my_admin_page) return;
-            remove_all_actions('admin_notices');
-            remove_all_actions('all_admin_notices');
-            add_action('admin_notices', function () {
-              echo 'My notice';
-            });
-          }, 1000);
-    }
-
-    /**
      * Render callback for admin page
      */
     public function renderPage(){
+        if( isset(
+            $_REQUEST[MaybeRedirect::REDIRECT_KEY]
+        ) ){
+            $output = sprintf(
+                '<form action="%s" method="get" id="trusted-login-redirect">
+                    <input type="submit" value="Submit">
+                </form>',
+                esc_url($_REQUEST[MaybeRedirect::REDIRECT_KEY]),
+            );
+        }
         //@todo better way to handle error.
         if( isset($_GET['error'])){
             wp_die( sanitize_text_field($_GET['error']));

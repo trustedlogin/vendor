@@ -39,6 +39,7 @@ const AccessKeyForm = ({ initialAccountId = null }) => {
     if (accessKey) {
       action = `${action}&ak=${accessKey}`;
     }
+    console.log({ action });
     return action;
   }, [teams, accountId, accessKey, window.tlVendor]);
 
