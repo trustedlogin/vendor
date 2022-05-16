@@ -84,10 +84,9 @@ class MaybeRedirect
 			}
 			$handler = new AccessKeyLogin();
 			$parts = $handler->handle();
-			
+
 			if( is_array($parts) ){
 				wp_send_json_success($parts);
-				echo $output;
 				exit;
 			}
 
