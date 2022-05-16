@@ -130,16 +130,6 @@ class MenuPage {
      * Render callback for admin page
      */
     public function renderPage(){
-        if( isset(
-            $_REQUEST[MaybeRedirect::REDIRECT_KEY]
-        ) ){
-            $output = sprintf(
-                '<form action="%s" method="get" id="trusted-login-redirect">
-                    <input type="submit" value="Submit">
-                </form>',
-                esc_url($_REQUEST[MaybeRedirect::REDIRECT_KEY]),
-            );
-        }
         //@todo better way to handle error.
         if( isset($_GET['error'])){
             wp_die( sanitize_text_field($_GET['error']));
