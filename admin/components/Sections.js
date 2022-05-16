@@ -64,7 +64,9 @@ export const DangerZone = () => {
                   </p>
                 </div>
               </div>
-              <DangerButton onClick={onClick} id="sort-menu-button">
+              <DangerButton
+                onClick={() => setIsResetting(true)}
+                id="rest-keys-button">
                 Reset Keys
               </DangerButton>
             </div>
