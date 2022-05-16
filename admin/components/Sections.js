@@ -79,7 +79,7 @@ export const DangerZone = () => {
           <TitleDescriptionLink title={__("Are You Sure?")} />
           <SubmitAndCanelButtons
             onSubmit={onDelete}
-            submitText={"Rest Keys"}
+            submitText={"Reset Keys"}
             onCancel={() => setIsResetting(false)}
           />
         </CenteredLayout>
