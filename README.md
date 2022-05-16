@@ -5,6 +5,7 @@
 [![Backwards Compatiblity](https://github.com/trustedlogin/vendor/actions/workflows/compat.yml/badge.svg)](https://github.com/trustedlogin/vendor/actions/workflows/compat.yml)
 [![JavaScript Tests](https://github.com/trustedlogin/vendor/actions/workflows/test-js.yml/badge.svg)](https://github.com/trustedlogin/vendor/actions/workflows/test-js.yml)
 
+
 ## Installation
 
 Do not install in a directory that includes a space in the path, for example, one under "Local Sites". That will cause issues with wp.js.
