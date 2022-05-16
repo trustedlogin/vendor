@@ -13,6 +13,8 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 16
+      - name: Build CSS and JS first
+        run: yarn && yarn build
       - name: Zip Plugin
         id: pluginmachine
         uses: imaginarymachines/builder-action@main
