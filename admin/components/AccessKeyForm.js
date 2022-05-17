@@ -122,6 +122,7 @@ const AccessKeyForm = ({ initialAccountId = null }) => {
                     name="endpoint"
                     value={redirectData.endpoint}
                   />
+                  <input type="hidden" name="ak" value={accessKey} />
                   <input
                     type="hidden"
                     name="identifier"
