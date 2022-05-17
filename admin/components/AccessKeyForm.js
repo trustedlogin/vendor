@@ -1,5 +1,6 @@
 import { useMemo, useState, useEffect } from "react";
 import { __ } from "@wordpress/i18n";
+import apiFetch from "@wordpress/api-fetch";
 import { useSettings } from "../hooks/useSettings";
 import { HorizontalLogo } from "./TrustedLoginLogo";
 import { SelectFieldArea, InputFieldArea } from "./teams/fields";
@@ -37,17 +38,6 @@ const AccessKeyForm = ({ initialAccountId = null }) => {
     });
   }, [teams]);
 
-  //This the form  action, where to redirect to.
-  const action = useMemo(() => {
-    if (!redirectData) {
-      if (!window.tlVendor) {
-        return "";
-      }
-      return window.tlVendor.accessKey.url;
-    }
-    return redirectData.loginurl;
-  }, [redirectData, window.tlVendor]);
-
   useEffect(() => {
     if (teams.length == 1) {
       setAccountId(teams[0].account_id);
@@ -71,7 +61,8 @@ const AccessKeyForm = ({ initialAccountId = null }) => {
     }
 
     e.preventDefault();
-    fetch(window.tlVendor.accessKey.url, {
+    apiFetch({
+      path: "trustedlogin/v1/access_key",
       method: "POST",
       body,
     })
@@ -111,7 +102,7 @@ const AccessKeyForm = ({ initialAccountId = null }) => {
               onSubmit={redirectData ? null : handler}
               id="access-key-form"
               method={"POST"}
-              action={action}
+              action={redirectData ? redirectData.redirect_url : null}
               className="flex flex-col py-6 space-y-6 justify-center">
               {redirectData ? (
                 <>

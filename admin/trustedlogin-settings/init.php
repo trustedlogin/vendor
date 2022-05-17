@@ -33,9 +33,6 @@ add_action('init', function () {
                 'action'   => AccessKeyLogin::ACCESS_KEY_ACTION_NAME,
                 Factory::PROVIDER_KEY => 'helpscout',
                 AccessKeyLogin::NONCE_NAME => wp_create_nonce( AccessKeyLogin::NONCE_ACTION ),
-                'url' => add_query_arg( [
-                    AccessKeyLogin::REDIRECT_ENDPOINT => 1,
-                ], site_url() )
             ],
 
             'settings' => $settingsApi->toResponseData(),
