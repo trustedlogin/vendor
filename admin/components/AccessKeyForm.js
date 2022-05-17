@@ -100,7 +100,6 @@ const AccessKeyForm = ({ initialAccountId = null }) => {
         credentials: "include",
       })
         .then((r) => {
-          console.log({ r });
           //Response good?
           if (r.ok()) {
             //Redirect to site,should be logged in.
@@ -111,7 +110,6 @@ const AccessKeyForm = ({ initialAccountId = null }) => {
           setErrorMessage(__("An error happended."));
         })
         .catch((err) => {
-          console.log({ err });
           setIsLoading(false);
           setErrorMessage(__("An error happended."));
         });
