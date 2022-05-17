@@ -17,6 +17,7 @@ const AccessKeyForm = ({ initialAccountId = null }) => {
   const { settings } = useSettings();
   const [redirectData, setRedirectData] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   //Get teams from settings.
   const teams = useMemo(() => {
@@ -68,9 +69,7 @@ const AccessKeyForm = ({ initialAccountId = null }) => {
       method: "POST",
       data,
     })
-      .then((res) => res.json())
       .then((res) => {
-        console.log({ res });
         if (res.hasOwnProperty("success") && res.success) {
           const { data } = res;
           setRedirectData(data);
@@ -78,7 +77,12 @@ const AccessKeyForm = ({ initialAccountId = null }) => {
         }
       })
       .catch((err) => {
-        console.log(err);
+        setIsLoading(false);
+        if (err && err.hasOwnProperty("data") && "string" === typeof err.data) {
+          setErrorMessage(err.data);
+        } else {
+          setErrorMessage(__("An error happended."));
+        }
       });
   };
 
@@ -197,6 +201,11 @@ const AccessKeyForm = ({ initialAccountId = null }) => {
                 </>
               )}
             </form>
+            {errorMessage && (
+              <div>
+                <p className="error">{errorMessage}</p>
+              </div>
+            )}
           </>
         </div>
       </div>
