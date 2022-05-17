@@ -54,17 +54,19 @@ const AccessKeyForm = ({ initialAccountId = null }) => {
       //If not,show validation errros
       return;
     }
-    let body = {};
-    const data = new FormData(form);
-    for (let [key, value] of data) {
-      body[key] = value;
+    let data = {};
+    const formData = new FormData(form);
+    for (let [key, value] of formData) {
+      data[key] = value;
     }
 
     e.preventDefault();
+    //Try to get login redirect
+    //https://developer.wordpress.org/block-editor/reference-guides/packages/packages-api-fetch/#usage
     apiFetch({
-      path: "trustedlogin/v1/access_key",
+      path: "/trustedlogin/v1/access_key",
       method: "POST",
-      body,
+      data,
     })
       .then((res) => res.json())
       .then((res) => {
@@ -138,18 +140,22 @@ const AccessKeyForm = ({ initialAccountId = null }) => {
                     value={window.tlVendor.accessKey._tl_ak_nonce}
                   />
                   {null !== initialAccountId ? (
-                    <input type="hidden" name="account_id" value={accountId} />
+                    <input
+                      type="hidden"
+                      name="ak_account_id"
+                      value={accountId}
+                    />
                   ) : (
                     <SelectFieldArea
-                      name="account_id"
-                      id="account_id"
+                      name="ak_account_id"
+                      id="ak_account_id"
                       label={__("Account ID", "trustedlogin-vendor")}
                       value={accountId}
                       onChange={(e) => setAccountId(e.target.value)}>
                       <>
                         <select
-                          name="account_id"
-                          id="account_id"
+                          name="ak_account_id"
+                          id="ak_account_id"
                           className="bg-white block w-full pl-3 pr-8 py-2.5 sm:text-sm border border-gray-300 rounded-lg focus:outline-none focus:border-sky-500 focus:ring-1 ring-offset-2 focus:ring-sky-500">
                           {teamsOption.map(({ label, value }) => (
                             <option key={value} value={value}>
