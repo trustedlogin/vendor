@@ -89,6 +89,7 @@ const AccessKeyForm = ({ initialAccountId = null }) => {
         });
     } //Have redirectData, login with it.
     else {
+      e.preventDefault();
       let data = collectFormData(form);
       fetch(redirectData.loginurl, {
         method: "POST",
