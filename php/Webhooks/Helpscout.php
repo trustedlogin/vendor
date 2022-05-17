@@ -181,7 +181,7 @@ class Helpscout extends Webhook{
 							$url = AccessKeyLogin::url( $account_id, $this->getProviderName() );
 
 							if ( is_wp_error( $url ) ) {
-								$this->log( 'Error building item HTML. ' . $url->get_error_code() . ': ' . $url->get_error_message() );
+								$this->log( 'Error building item HTML. ' . $url->get_error_code() . ': ' . $url->get_error_message(), __METHOD__ );
 								continue;
 							}
 
