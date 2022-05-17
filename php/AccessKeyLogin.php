@@ -62,11 +62,12 @@ class AccessKeyLogin
 	 *
 	 *  @return string
 	 */
-	public static function url($account_id,$provider){
+	public static function url($account_id,$provider, $access_key = '' ){
 		return Factory::actionUrl(
 			self::ACCESS_KEY_ACTION_NAME,
 			$account_id,
-			$provider
+			$provider,
+			$access_key
 		);
 	}
 
