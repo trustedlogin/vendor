@@ -96,6 +96,7 @@ const AccessKeyForm = ({ initialAccountId = null }) => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(data),
+        credentials: "include",
       })
         .then((r) => {
           console.log({ r });
