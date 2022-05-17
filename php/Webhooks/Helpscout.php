@@ -48,12 +48,11 @@ class Helpscout extends Webhook{
 			return [ 'html' => $error_text, 'status' => 403 ];
 		}
 
+		$account_id = isset( $_REQUEST[ AccessKeyLogin::ACCOUNT_ID_INPUT_NAME ] ) ? $_REQUEST[ AccessKeyLogin::ACCOUNT_ID_INPUT_NAME ] : null;
 
 		$data_obj = json_decode( $data, false );
 
-        if( isset( $data_obj->account_id)){
-            $account_id = $data_obj->account_id;
-        }else{
+		if( ! $account_id ){
             $error_text  = '<p class="red">' . esc_html__( 'Missing Account ID.', 'trustedlogin-vendor' ) . '</p>';
 			$error_text .= '<p>' . esc_html__( 'Verify your site\'s TrustedLogin Settings match the Help Scout widget settings.', 'trustedlogin-vendor' ) . '</p>';
 			return [
