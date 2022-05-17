@@ -23,7 +23,7 @@ abstract class Webhook {
 	/**
 	 * Value of "action" query arg for webhooks
 	 */
-	const WEBHOOK_ACTION = 'trusted_login_webhook';
+	const WEBHOOK_ACTION = 'trustedlogin_webhook';
 
     /**
      * Shared secret for the webhook
