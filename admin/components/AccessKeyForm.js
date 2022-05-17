@@ -6,10 +6,13 @@ import { HorizontalLogo } from "./TrustedLoginLogo";
 import { SelectFieldArea, InputFieldArea } from "./teams/fields";
 import TitleDescriptionLink from "./TitleDescriptionLink";
 
-function removeAllChildNodes(parent) {
-  while (parent.firstChild) {
-    parent.removeChild(parent.firstChild);
+function collectFormData(form) {
+  let data = {};
+  const formData = new FormData(form);
+  for (let [key, value] of formData) {
+    data[key] = value;
   }
+  return data;
 }
 
 const AccessKeyForm = ({ initialAccountId = null }) => {
@@ -46,44 +49,71 @@ const AccessKeyForm = ({ initialAccountId = null }) => {
   }, [teams, setAccountId]);
 
   const handler = (e) => {
-    setIsLoading(true);
     let form = e.target;
-    //Check if form input is valid
-    if (!form.checkValidity()) {
-      setIsLoading(false);
-
-      //If not,show validation errros
-      return;
-    }
-    let data = {};
-    const formData = new FormData(form);
-    for (let [key, value] of formData) {
-      data[key] = value;
-    }
-
-    e.preventDefault();
-    //Try to get login redirect
-    //https://developer.wordpress.org/block-editor/reference-guides/packages/packages-api-fetch/#usage
-    apiFetch({
-      path: "/trustedlogin/v1/access_key",
-      method: "POST",
-      data,
-    })
-      .then((res) => {
-        if (res.hasOwnProperty("success") && res.success) {
-          const { data } = res;
-          setRedirectData(data);
-          setIsLoading(false);
-        }
-      })
-      .catch((err) => {
+    //No redirectData, trade access key for it.
+    if (!redirectData) {
+      setIsLoading(true);
+      //Check if form input is valid
+      if (!form.checkValidity()) {
         setIsLoading(false);
-        if (err && err.hasOwnProperty("data") && "string" === typeof err.data) {
-          setErrorMessage(err.data);
-        } else {
+        return;
+      }
+      let data = collectFormData(form);
+
+      e.preventDefault();
+      //Try to get login redirect
+      //https://developer.wordpress.org/block-editor/reference-guides/packages/packages-api-fetch/#usage
+      apiFetch({
+        path: "/trustedlogin/v1/access_key",
+        method: "POST",
+        data,
+      })
+        .then((res) => {
+          if (res.hasOwnProperty("success") && res.success) {
+            const { data } = res;
+            setRedirectData(data);
+            setIsLoading(false);
+          }
+        })
+        .catch((err) => {
+          setIsLoading(false);
+          if (
+            err &&
+            err.hasOwnProperty("data") &&
+            "string" === typeof err.data
+          ) {
+            setErrorMessage(err.data);
+          } else {
+            setErrorMessage(__("An error happended."));
+          }
+        });
+    } //Have redirectData, login with it.
+    else {
+      let data = collectFormData(form);
+      fetch(redirectData.loginurl, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      })
+        .then((r) => {
+          console.log({ r });
+          //Response good?
+          if (r.ok()) {
+            //Redirect to site,should be logged in.
+            window.location = redirectData.siteurl;
+            return;
+          }
+          setIsLoading(false);
           setErrorMessage(__("An error happended."));
-        }
-      });
+        })
+        .catch((err) => {
+          console.log({ err });
+          setIsLoading(false);
+          setErrorMessage(__("An error happended."));
+        });
+    }
   };
 
   useEffect(() => {
@@ -105,7 +135,7 @@ const AccessKeyForm = ({ initialAccountId = null }) => {
 
           <>
             <form
-              onSubmit={redirectData ? null : handler}
+              onSubmit={handler}
               id="access-key-form"
               method={"POST"}
               action={redirectData ? redirectData.loginurl : null}
