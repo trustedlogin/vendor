@@ -2188,6 +2188,15 @@
     object.fromentries "^2.0.0"
     prop-types "^15.7.0"
 
+"@wordpress/api-fetch@^6.5.0":
+  version "6.5.0"
+  resolved "https://registry.yarnpkg.com/@wordpress/api-fetch/-/api-fetch-6.5.0.tgz#72760fe343589c73454f8d116ca3760f9d72e2ff"
+  integrity sha512-ri3Ha/mgo4lHH5akTSAetd0LLNcuqR/lOBC0hb7tgFUpUXJLWCyZnPNRVFruSgcnXzv5DmeoEnY+F3hPWCZBmA==
+  dependencies:
+    "@babel/runtime" "^7.16.0"
+    "@wordpress/i18n" "^4.8.0"
+    "@wordpress/url" "^3.9.0"
+
 "@wordpress/babel-plugin-import-jsx-pragma@^3.1.0":
   version "3.1.0"
   resolved "https://registry.npmjs.org/@wordpress/babel-plugin-import-jsx-pragma/-/babel-plugin-import-jsx-pragma-3.1.0.tgz"
@@ -2291,6 +2300,13 @@
   dependencies:
     "@babel/runtime" "^7.16.0"
 
+"@wordpress/hooks@^3.8.0":
+  version "3.8.0"
+  resolved "https://registry.yarnpkg.com/@wordpress/hooks/-/hooks-3.8.0.tgz#534382f87a804e00b74798da6215f6318cafd10b"
+  integrity sha512-PSBFYs7pH6BFcIuUUX6TQThSVSWtFpcYTfyIRVz26FsptRbCOXUzxHVKc5ofawTmcrOPyvAeDpEiVGJ1UOm8Lw==
+  dependencies:
+    "@babel/runtime" "^7.16.0"
+
 "@wordpress/i18n@^4":
   version "4.2.4"
   resolved "https://registry.npmjs.org/@wordpress/i18n/-/i18n-4.2.4.tgz"
@@ -2298,6 +2314,19 @@
   dependencies:
     "@babel/runtime" "^7.16.0"
     "@wordpress/hooks" "^3.2.2"
+    gettext-parser "^1.3.1"
+    lodash "^4.17.21"
+    memize "^1.1.0"
+    sprintf-js "^1.1.1"
+    tannin "^1.2.0"
+
+"@wordpress/i18n@^4.8.0":
+  version "4.8.0"
+  resolved "https://registry.yarnpkg.com/@wordpress/i18n/-/i18n-4.8.0.tgz#c2403d43453c6187c2ea62802954db2590bde037"
+  integrity sha512-xo6OHRqBQVTnjOVqXr3gkoKzLbadhUVLxHzyNv2x49Sm1RADMRlOZW7yQCtCu+nkPJZXUwAcik25gzBZHZrYEg==
+  dependencies:
+    "@babel/runtime" "^7.16.0"
+    "@wordpress/hooks" "^3.8.0"
     gettext-parser "^1.3.1"
     lodash "^4.17.21"
     memize "^1.1.0"
@@ -2408,6 +2437,14 @@
     stylelint-config-recommended "^3.0.0"
     stylelint-config-recommended-scss "^4.2.0"
     stylelint-scss "^3.17.2"
+
+"@wordpress/url@^3.9.0":
+  version "3.9.0"
+  resolved "https://registry.yarnpkg.com/@wordpress/url/-/url-3.9.0.tgz#d9888026bd04de784acef0f93ffa8a9ddc0621ed"
+  integrity sha512-fiPvb9xB8g/xwSprq+mEI1MyH/H9xCfpqKcnG10JdAWRFahQky6QU0cAOPTYNuU96l0++Ha/SkHSylVyftzFAw==
+  dependencies:
+    "@babel/runtime" "^7.16.0"
+    lodash "^4.17.21"
 
 "@wordpress/warning@^2.2.2":
   version "2.2.2"
