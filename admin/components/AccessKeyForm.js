@@ -140,7 +140,7 @@ const AccessKeyForm = ({ initialAccountId = null }) => {
               onSubmit={handler}
               id="access-key-form"
               method={"POST"}
-              action={redirectData ? redirectData.loginurl : null}
+              action={responseData ? responseData.siteurl : null}
               className="flex flex-col py-6 space-y-6 justify-center">
               {redirectData ? (
                 <>
