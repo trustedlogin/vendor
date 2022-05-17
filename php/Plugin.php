@@ -65,6 +65,8 @@ class Plugin
 			->register(false);
 		(new \TrustedLogin\Vendor\Endpoints\ResetEncryption())
 			->register(true, false);
+		(new \TrustedLogin\Vendor\Endpoints\AccessKey())
+			->register(true, false);
 	}
 
 	/**
