@@ -73,12 +73,12 @@ class MaybeRedirect
 					$webhook = Factory::webhook( $team );
 					$r = $webhook->webhookEndpoint();
 					if( 200 === $r['status']){
-						wp_send_json_success($r);
+						wp_send_json($r);
 					}else{
-						wp_send_json_error($r,$r['status']);
+						wp_send_json($r,$r['status']);
 					}
 				} catch (\Throwable $th) {
-					wp_send_json_error( ['message' => $th->getMessage()],404);
+					wp_send_json( ['message' => $th->getMessage()],404);
 				}
 				exit;
 			}
