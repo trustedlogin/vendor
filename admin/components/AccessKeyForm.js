@@ -113,7 +113,6 @@ const AccessKeyForm = ({ initialAccountId = null }) => {
                     name="endpoint"
                     value={redirectData.endpoint}
                   />
-                  <input type="hidden" name="ak" value={accessKey} />
                   <input
                     type="hidden"
                     name="identifier"
@@ -163,15 +162,15 @@ const AccessKeyForm = ({ initialAccountId = null }) => {
                   )}
                   <div className="relative rounded-lg">
                     <InputFieldArea
-                      name="access_key"
-                      id="access_key"
+                      name="ak"
+                      id="ak"
                       label={__("Access Key", "trustedlogin-vendor")}>
                       <input
                         value={accessKey}
                         onChange={(e) => setAccessKey(e.target.value)}
                         type="text"
-                        name="access_key"
-                        id="access_key"
+                        name="ak"
+                        id="ak"
                         className="block w-full pl-4 pr-10 py-4 sm:text-md border border-gray-300 rounded-lg focus:outline-none focus:border-sky-500 focus:ring-1 ring-offset-2 focus:ring-sky-500"
                         placeholder={__(
                           "Paste key received from customer",
