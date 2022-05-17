@@ -14,7 +14,7 @@ class MaybeRedirect
 {
 
 	use Logger, VerifyUser;
-
+	const REDIRECT_KEY = 'tl_redirect';
 
 	/**
 	 * Handle the "Reset All" button in UI
@@ -82,18 +82,18 @@ class MaybeRedirect
 				}
 				exit;
 			}
-
 			$handler = new AccessKeyLogin();
-			$parts_or_error = $handler->handle();
-			if( is_array($parts_or_error)){
-				wp_redirect( $parts_or_error['loginurl'] );
+			$parts = $handler->handle();
+
+			if( is_array($parts) ){
+				wp_send_json_success($parts);
 				exit;
 			}
 
 			wp_safe_redirect(
 				add_query_arg( [
 					'page' => 'trustedlogin-settings',
-					'error' => $parts_or_error->get_error_code()
+					'error' => $parts->get_error_code()
 				], admin_url() )
 			);
 			exit;
