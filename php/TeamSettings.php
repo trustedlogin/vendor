@@ -9,6 +9,7 @@
 namespace TrustedLogin\Vendor;
 
 use TrustedLogin\Vendor\Status\IsTeamConnected;
+use TrustedLogin\Vendor\Webhooks\Helpscout;
 
 /**
  * Object-representation of one Team's settings.
@@ -198,7 +199,7 @@ class TeamSettings
 				}
 				return [
 					'secret' => isset($data['secret']) ?$data['secret'] :"",
-					'callback' => isset($data['callback']) ?$data['callback'] :"",
+					'callback' => HelpScout::actionUrl( $this->get('account_id') ),
 				];
 			}
 
