@@ -24,11 +24,17 @@ add_action('init', function () {
             $assets['version']
         );
         $settingsApi = SettingsApi::fromSaved();
+
+
         wp_localize_script(MenuPage::ASSET_HANDLE,'tlVendor', [
             'resetAction' => esc_url_raw(Reset::actionUrl()),
             'roles' => wp_roles()->get_names(),
             'onboarding' => Onboarding::hasOnboarded() ? 'COMPLETE' : '0',
             'accessKey' => [
+                AccessKeyLogin::ACCESS_KEY_INPUT_NAME =>
+                    isset($_REQUEST[AccessKeyLogin::ACCESS_KEY_INPUT_NAME]) ? sanitize_text_field($_REQUEST[AccessKeyLogin::ACCESS_KEY_INPUT_NAME]) : '',
+                AccessKeyLogin::ACCOUNT_ID_INPUT_NAME =>
+                    isset($_REQUEST[AccessKeyLogin::ACCOUNT_ID_INPUT_NAME]) ? sanitize_text_field($_REQUEST[AccessKeyLogin::ACCOUNT_ID_INPUT_NAME]) : '',
                 AccessKeyLogin::REDIRECT_ENDPOINT  => true,
                 'action'   => AccessKeyLogin::ACCESS_KEY_ACTION_NAME,
                 Factory::PROVIDER_KEY => 'helpscout',
