@@ -16,7 +16,19 @@ function collectFormData(form) {
 }
 
 const AccessKeyForm = ({ initialAccountId = null }) => {
-  const [accessKey, setAccessKey] = useState("");
+  const [accessKey, setAccessKey] = useState(() => {
+    if (window.tlVendor && window.tlVendor.accessKey.hasOwnProperty("ak")) {
+      return window.tlVendor.accessKey.ak;
+    }
+    return null;
+  });
+  //If we have an access key and accoutn ID, we don't need to show the form
+  const hideStepOne = useMemo(() => {
+    if (window.tlVendor) {
+      return window.tlVendor.accessKey.hasOwnProperty("ak") && initialAccountId;
+    }
+    return false;
+  }, [window.tlVendor]);
   const { settings } = useSettings();
   const [redirectData, setRedirectData] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -116,11 +128,19 @@ const AccessKeyForm = ({ initialAccountId = null }) => {
     }
   };
 
+  //Once we have redirectData, submit form again
   useEffect(() => {
     if (redirectData) {
       document.getElementById("access-key-form").submit();
     }
   }, [redirectData]);
+
+  //If we're hiding step one, submit hidden form
+  useEffect(() => {
+    if (!redirectData && hideStepOne) {
+      document.getElementById("access-key-form").submit();
+    }
+  }, [hideStepOne]);
 
   return (
     <>
@@ -200,33 +220,41 @@ const AccessKeyForm = ({ initialAccountId = null }) => {
                       </>
                     </SelectFieldArea>
                   )}
-                  <div className="relative rounded-lg">
-                    <InputFieldArea
-                      name="ak"
-                      id="ak"
-                      label={__("Access Key", "trustedlogin-vendor")}>
-                      <input
-                        value={accessKey}
-                        onChange={(e) => setAccessKey(e.target.value)}
-                        type="text"
+                  {hideStepOne ? (
+                    <input value={accessKey} type="hidden" name="ak" id="ak" />
+                  ) : (
+                    <div className="relative rounded-lg">
+                      <InputFieldArea
                         name="ak"
                         id="ak"
-                        className="block w-full pl-4 pr-10 py-4 sm:text-md border border-gray-300 rounded-lg focus:outline-none focus:border-sky-500 focus:ring-1 ring-offset-2 focus:ring-sky-500"
-                        placeholder={__(
-                          "Paste key received from customer",
-                          "trustedlogin-vendor"
-                        )}
-                      />
-                    </InputFieldArea>
-                  </div>
-                  {isLoading ? (
-                    <div className="spinner is-active inline-flex justify-center p-4 border border-transparent text-md font-medium rounded-lg text-white bg-blue-tl"></div>
-                  ) : (
-                    <input
-                      type="submit"
-                      className="inline-flex justify-center p-4 border border-transparent text-md font-medium rounded-lg text-white bg-blue-tl hover:bg-indigo-700 focus:outline-none focus:ring-2 ring-offset-2 focus:ring-sky-500"
-                      value={__("Log In", "trustedlogin-vendor")}
-                    />
+                        label={__("Access Key", "trustedlogin-vendor")}>
+                        <input
+                          value={accessKey}
+                          onChange={(e) => setAccessKey(e.target.value)}
+                          type="text"
+                          name="ak"
+                          id="ak"
+                          className="block w-full pl-4 pr-10 py-4 sm:text-md border border-gray-300 rounded-lg focus:outline-none focus:border-sky-500 focus:ring-1 ring-offset-2 focus:ring-sky-500"
+                          placeholder={__(
+                            "Paste key received from customer",
+                            "trustedlogin-vendor"
+                          )}
+                        />
+                      </InputFieldArea>
+                    </div>
+                  )}
+                  {hideStepOne && (
+                    <>
+                      {isLoading ? (
+                        <div className="spinner is-active inline-flex justify-center p-4 border border-transparent text-md font-medium rounded-lg text-white bg-blue-tl"></div>
+                      ) : (
+                        <input
+                          type="submit"
+                          className="inline-flex justify-center p-4 border border-transparent text-md font-medium rounded-lg text-white bg-blue-tl hover:bg-indigo-700 focus:outline-none focus:ring-2 ring-offset-2 focus:ring-sky-500"
+                          value={__("Log In", "trustedlogin-vendor")}
+                        />
+                      )}{" "}
+                    </>
                   )}
                 </>
               )}
