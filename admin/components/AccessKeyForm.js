@@ -28,7 +28,7 @@ const AccessKeyForm = ({ initialAccountId = null }) => {
   //If we have an access key and accoutn ID, we don't need to show the form
   const hideStepOne = useMemo(() => {
     let key = getAccessKey();
-    if (initialAccountId && key) {
+    if ( null !== initialAccountId && key) {
       return true;
     }
     return false;
