@@ -22,6 +22,7 @@
   "devDependencies": {
     "@babel/core": "^7",
     "@testing-library/react": "^12",
+    "@wordpress/api-fetch": "^6.5.0",
     "@wordpress/scripts": "^16",
     "cross-env": "^7.0.3",
     "prettier": "2.5.1"

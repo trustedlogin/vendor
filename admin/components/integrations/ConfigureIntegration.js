@@ -43,7 +43,7 @@ export const HelpscoutTeamDetails = ({ team }) => {
   //https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Interact_with_the_clipboard
   function copyToClipboard(value) {
     navigator.permissions.query({ name: "clipboard-write" }).then((result) => {
-      if (result.state == "granted" || result.state == "prompt") {
+      if (result.state === "granted" || result.state === "prompt") {
         navigator.clipboard.writeText(value).then(
           function () {
             /* clipboard successfully set */
@@ -53,6 +53,8 @@ export const HelpscoutTeamDetails = ({ team }) => {
           }
         );
       }
+    }).catch((err) => {
+      console.error( { err, value } );
     });
   }
 

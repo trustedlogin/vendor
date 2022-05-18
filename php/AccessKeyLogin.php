@@ -79,20 +79,28 @@ class AccessKeyLogin
 	/**
 	 * Processes the request.
 	 *
-	 * Sends JSON responses.
+	 * @param array $args. Optional.
 	 *
 	 * return array|WP_Error
 	 */
-	public function handle()
-	{
-		$verified = $this->verifyGrantAccessRequest();
+	public function handle(array $args = [])
+	{	//If needed inputs, passed, used those.
+		if( isset( $args[self::ACCESS_KEY_INPUT_NAME] ) && isset($args[self::ACCOUNT_ID_INPUT_NAME]) ){
+			$access_key = $args[self::ACCESS_KEY_INPUT_NAME];
+			$account_id = $args[self::ACCOUNT_ID_INPUT_NAME];
+		}
+		//If not, use $_REQUEST
+		else{
+			$verified = $this->verifyGrantAccessRequest();
 
-		if ( is_wp_error($verified)) {
-			return $verified;
+			if ( is_wp_error($verified)) {
+				return $verified;
+			}
+
+			$access_key = sanitize_text_field($_REQUEST[ self::ACCESS_KEY_INPUT_NAME ]);
+			$account_id = sanitize_text_field($_REQUEST[ self::ACCOUNT_ID_INPUT_NAME]);
 		}
 
-		$access_key = sanitize_text_field($_REQUEST[ self::ACCESS_KEY_INPUT_NAME ]);
-		$account_id = sanitize_text_field($_REQUEST[ self::ACCOUNT_ID_INPUT_NAME]);
 		//Get saved settings an then team settings
 		$settings = SettingsApi::fromSaved();
 

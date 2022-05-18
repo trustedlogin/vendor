@@ -40,7 +40,8 @@ class PluginRestApiTest extends TestCase
 		foreach ([
 			'settings',
 			'public_key',
-			'signature_key'
+			'signature_key',
+			'access_key',
 		] as $route) {
 			$this->assertArrayHasKey(
 				$namespacedRoute($route),
