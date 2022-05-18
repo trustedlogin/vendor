@@ -37,15 +37,7 @@ class AccessKeyLogin
 	 */
 	const ACCOUNT_ID_INPUT_NAME = 'ak_account_id';
 
-	/**
-	 * Query param for redirect URL, to indicate accessKey
-	 */
 	const ACCESS_KEY_INPUT_NAME = 'ak';
-
-	/**
-	 * Query param for redirect URL, to indicate ENCRYPTED accessKey
-	 */
-	const ACCESS_KEY_ENCRYPTED_INPUT_NAME = 'ake';
 
 	const REDIRECT_ENDPOINT = 'trustedlogin';
 
@@ -70,21 +62,14 @@ class AccessKeyLogin
 	 * @param string $account_id The account ID
 	 * @param string $provider The provider name
 	 * @param string $access_key (Optional) The key for the access being requested.
-	 * @param bool $encrypt_key (Optional) If encryption should be used for the access key.
 	 * @return string
 	 */
-	public static function url(
-		$account_id,
-		$provider,
-		$access_key = '',
-		$encrypt_key = false
-	){
+	public static function url($account_id,$provider,$access_key = ''){
 		return Factory::actionUrl(
 			self::ACCESS_KEY_ACTION_NAME,
 			$account_id,
 			$provider,
-			$access_key,
-			$encrypt_key
+			$access_key
 		);
 	}
 

@@ -38,17 +38,10 @@ class Factory {
 	 * @param string $account_id What account ID link is for.
      * @param string $provider Slug of helpdesk
 	 * @param string $access_key (Optional) The key for the access being requested.
-	 * @param bool $encrypt_key (Optional) If encryption should be used for the access key.
-
+	 *
 	 * @return string|\WP_Error The url with GET variables.
 	 */
-	public static function actionUrl(
-		$action,
-		$account_id,
-		$provider,
-		$access_key = '',
-		$encrypt_key = false
-	) {
+	public static function actionUrl( $action, $account_id,$provider, $access_key = '' ) {
 
 		if ( empty( $action ) ) {
 			return new \WP_Error( 'variable-missing', 'Cannot build helpdesk action URL without a specified action' );
@@ -61,20 +54,9 @@ class Factory {
 			AccessKeyLogin::ACCOUNT_ID_INPUT_NAME  => $account_id,
 			AccessKeyLogin::NONCE_NAME => wp_create_nonce( AccessKeyLogin::NONCE_ACTION ),
 		];
-		//Add access key if provided
-		if ( $access_key ) {
-			//Encrypt?
-			if( $encrypt_key ) {
-				$team = \trustedlogin_vendor()
-					->getSettings()
-					->getByAccountId( $account_id );
-				$webhook = self::webhook( $team );
-				$access_key = $webhook->makeSignature( $access_key );
-				$args[AccessKeyLogin::ACCESS_KEY_ENCRYPTED_INPUT_NAME] = $access_key;
 
-			}else{
-				$args[AccessKeyLogin::ACCESS_KEY_INPUT_NAME] = $access_key;
-			}
+		if ( $access_key ) {
+			$args[AccessKeyLogin::ACCESS_KEY_INPUT_NAME] = $access_key;
 		}
         foreach ($args as $key => $value) {
             $args[$key] = urlencode($value);
