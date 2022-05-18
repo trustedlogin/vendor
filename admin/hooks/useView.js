@@ -8,7 +8,11 @@ export const useView = () => {
   return context;
 };
 
-export default function ViewProvider({ children, initialView = null }) {
+export default function ViewProvider({
+  children,
+  initialView = null,
+  initialTeam = null,
+}) {
   const { hasOnboarded, teams } = useSettings();
 
   //Which view to show
@@ -20,22 +24,10 @@ export default function ViewProvider({ children, initialView = null }) {
   });
 
   //The ID of team to show in view
+  //team.id, not team.account_id
   //This is used to set the team that is used by:
   // TeamEdit and AccessKeyForm
-  const [currentTeam, setCurrentTeam] = useState(() => {
-    if (
-      window.tlVendor &&
-      window.tlVendor.accessKey.hasOwnProperty("ak_account_id")
-    ) {
-      return (
-        teams &&
-        teams.find(
-          (t) => t.account_id === window.tlVendor.accessKey.ak_account_id
-        )
-      );
-    }
-    return null;
-  });
+  const [currentTeam, setCurrentTeam] = useState(initialTeam);
 
   //Unset current team when changing view to not show team details
   //This is a footgun.

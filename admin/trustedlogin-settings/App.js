@@ -1,5 +1,5 @@
 import { __ } from "@wordpress/i18n";
-import { useState, StrictMode } from "react";
+import { useState, StrictMode, useMemo } from "react";
 import TrustedLoginSettings from "../components/TrustedLoginSettings";
 import ViewProvider from "../hooks/useView";
 import SettingsProvider from "../hooks/useSettings";
@@ -33,9 +33,9 @@ export default function App({
           resetTeamIntegrations,
           resetEncryptionKeys,
         }}>
-        <ViewProvider>
+        <>
           <TrustedLoginSettings />
-        </ViewProvider>
+        </>
       </SettingsProvider>
     </StrictMode>
   );

@@ -15,17 +15,21 @@ function collectFormData(form) {
   return data;
 }
 
-const AccessKeyForm = ({ initialAccountId = null }) => {
-  const [accessKey, setAccessKey] = useState(() => {
-    if (window.tlVendor && window.tlVendor.accessKey.hasOwnProperty("ak")) {
+const getAccessKey = () => {
+  if (window.tlVendor && window.tlVendor.accessKey.hasOwnProperty("ak")) {
+    if (window.tlVendor.accessKey.ak.length > 0) {
       return window.tlVendor.accessKey.ak;
     }
-    return null;
-  });
+  }
+  return null;
+};
+const AccessKeyForm = ({ initialAccountId = null }) => {
+  const [accessKey, setAccessKey] = useState(() => getAccessKey());
   //If we have an access key and accoutn ID, we don't need to show the form
   const hideStepOne = useMemo(() => {
-    if (window.tlVendor) {
-      return window.tlVendor.accessKey.hasOwnProperty("ak") && initialAccountId;
+    let key = getAccessKey();
+    if (initialAccountId && key) {
+      return true;
     }
     return false;
   }, [window.tlVendor]);
@@ -54,13 +58,8 @@ const AccessKeyForm = ({ initialAccountId = null }) => {
     });
   }, [teams]);
 
-  useEffect(() => {
-    if (teams.length == 1) {
-      setAccountId(teams[0].account_id);
-    }
-  }, [teams, setAccountId]);
-
   const handler = (e) => {
+    setErrorMessage("");
     let form = e.target;
     //No redirectData, trade access key for it.
     if (!redirectData) {
@@ -137,7 +136,7 @@ const AccessKeyForm = ({ initialAccountId = null }) => {
 
   //If we're hiding step one, submit hidden form
   useEffect(() => {
-    if (!redirectData && hideStepOne) {
+    if (!redirectData && hideStepOne && !errorMessage.length) {
       document.getElementById("access-key-form").submit();
     }
   }, [hideStepOne]);
@@ -243,7 +242,7 @@ const AccessKeyForm = ({ initialAccountId = null }) => {
                       </InputFieldArea>
                     </div>
                   )}
-                  {hideStepOne && (
+                  {hideStepOne ? (
                     <>
                       {isLoading ? (
                         <div className="spinner is-active inline-flex justify-center p-4 border border-transparent text-md font-medium rounded-lg text-white bg-blue-tl"></div>
@@ -253,9 +252,9 @@ const AccessKeyForm = ({ initialAccountId = null }) => {
                           className="inline-flex justify-center p-4 border border-transparent text-md font-medium rounded-lg text-white bg-blue-tl hover:bg-indigo-700 focus:outline-none focus:ring-2 ring-offset-2 focus:ring-sky-500"
                           value={__("Log In", "trustedlogin-vendor")}
                         />
-                      )}{" "}
+                      )}
                     </>
-                  )}
+                  ) : null}
                 </>
               )}
             </form>
