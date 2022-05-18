@@ -79,23 +79,23 @@ const AccessKeyForm = ({ initialAccountId = null }) => {
         method: "POST",
         data,
       })
+        .catch((err) => {
+          setIsLoading(false);
+          if (
+              err &&
+              err.hasOwnProperty("data") &&
+              "string" === typeof err.data
+          ) {
+            setErrorMessage(err.data);
+          } else {
+            setErrorMessage(__("An error happended."));
+          }
+        })
         .then((res) => {
           if (res.hasOwnProperty("success") && res.success) {
             const { data } = res;
             setRedirectData(data);
             setIsLoading(false);
-          }
-        })
-        .catch((err) => {
-          setIsLoading(false);
-          if (
-            err &&
-            err.hasOwnProperty("data") &&
-            "string" === typeof err.data
-          ) {
-            setErrorMessage(err.data);
-          } else {
-            setErrorMessage(__("An error happended."));
           }
         });
     } //Have redirectData, login with it.
