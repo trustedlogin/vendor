@@ -59,14 +59,17 @@ class AccessKeyLogin
 
 	/**
 	 * The URL for access key login
-	 *
-	 *  @return string
+	 * @param string $account_id The account ID
+	 * @param string $provider The provider name
+	 * @param string $access_key (Optional) The key for the access being requested.
+	 * @return string
 	 */
-	public static function url($account_id,$provider){
+	public static function url($account_id,$provider,$access_key = ''){
 		return Factory::actionUrl(
 			self::ACCESS_KEY_ACTION_NAME,
 			$account_id,
-			$provider
+			$provider,
+			$access_key
 		);
 	}
 
