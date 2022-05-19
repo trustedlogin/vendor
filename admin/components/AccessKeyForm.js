@@ -57,24 +57,27 @@ const handleLogin = async (redirectData) => {
 //Handles validating accessKey server side
 //Returns redirectData for login
 const exchangeAccessKey = async ({ accessKey, accountId }) => {
-  //Try to get login redirect
-  //https://developer.wordpress.org/block-editor/reference-guides/packages/packages-api-fetch/#usage
-  const r = await apiFetch({
-    path: "/trustedlogin/v1/access_key",
-    method: "POST",
-    data: {
-      trustedlogin: "1",
-      action: window.tlVendor.accessKey.action,
-      provider: window.tlVendor.accessKey.provider,
-      _tl_ak_nonce: window.tlVendor.accessKey._tl_ak_nonce,
-      ak: accessKey,
-      ak_account_id: accountId.toString(),
-    },
-  });
-  if (r.hasOwnProperty("success") && r.success) {
-    return r.data;
+  try {
+    //Try to get login redirect
+    //https://developer.wordpress.org/block-editor/reference-guides/packages/packages-api-fetch/#usage
+    const r = await apiFetch({
+      path: "/trustedlogin/v1/access_key",
+      method: "POST",
+      data: {
+        trustedlogin: "1",
+        action: window.tlVendor.accessKey.action,
+        provider: window.tlVendor.accessKey.provider,
+        _tl_ak_nonce: window.tlVendor.accessKey._tl_ak_nonce,
+        ak: accessKey,
+        ak_account_id: accountId.toString(),
+      },
+    });
+    if (r.hasOwnProperty("success") && r.success) {
+      return r.data;
+    }
+  } catch (error) {
+    return error && error.message ? error.message : __("Invalid access key");
   }
-  throw new Error(r && r.message ? r.message : "Error exchanging access key");
 };
 
 const AccessKeyForm = ({ initialAccountId = null }) => {
@@ -126,20 +129,18 @@ const AccessKeyForm = ({ initialAccountId = null }) => {
 
       let data = collectFormData(form);
       e.preventDefault();
-      exchangeAccessKey({ accessKey, accountId: data.accountId })
+      exchangeAccessKey({ accessKey, accountId })
         .catch((err) => {
+          console.log({ err });
           setIsLoading(false);
-          if (
-            err &&
-            err.hasOwnProperty("data") &&
-            "string" === typeof err.data
-          ) {
-            setErrorMessage(err.data);
-          } else {
-            setErrorMessage(__("An error happended."));
-          }
+          setErrorMessage(__("An error happended."));
         })
         .then((data) => {
+          if ("string" === typeof data) {
+            setErrorMessage(data);
+            setIsLoading(false);
+            return;
+          }
           handleLogin(data).catch((e) => {
             setIsLoading(false);
             setErrorMessage(e.message);
@@ -203,11 +204,11 @@ const AccessKeyForm = ({ initialAccountId = null }) => {
                   <SelectFieldArea
                     name="ak_account_id"
                     id="ak_account_id"
-                    label={__("Account ID", "trustedlogin-vendor")}
-                    value={accountId}
-                    onChange={(e) => setAccountId(e.target.value)}>
+                    label={__("Account ID", "trustedlogin-vendor")}>
                     <>
                       <select
+                        value={accountId}
+                        onChange={(e) => setAccountId(e.target.value)}
                         name="ak_account_id"
                         id="ak_account_id"
                         className="bg-white block w-full pl-3 pr-8 py-2.5 sm:text-sm border border-gray-300 rounded-lg focus:outline-none focus:border-sky-500 focus:ring-1 ring-offset-2 focus:ring-sky-500">
