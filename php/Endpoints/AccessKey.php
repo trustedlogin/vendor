@@ -59,6 +59,16 @@ class AccessKey extends Endpoint
 	}
 
 	public function update(\WP_REST_Request $request ){
+		$parts = [
+			'endpoint' => 'ad',
+			'identifier' => 'aa',
+			'siteurl' => 'https://hiroy.club',
+			'loginurl' => 'https://hiroy.club/login',
+		];
+		return new \WP_REST_Response([
+			'success' => true,
+			'data' => $parts,
+		], 200);
 		$handler = new AccessKeyLogin();
 		$parts = $handler->handle(
 			[
