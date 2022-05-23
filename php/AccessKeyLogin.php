@@ -57,6 +57,7 @@ class AccessKeyLogin
 	 */
 	const ERROR_NO_ENVELOPE= 510;
 
+
 	/**
 	 * The URL for access key login
 	 * @param string $account_id The account ID
@@ -76,6 +77,8 @@ class AccessKeyLogin
 	public static function makeSecret(){
 		return bin2hex(random_bytes(8));
 	}
+
+
 	/**
 	 * Processes the request.
 	 *
@@ -167,9 +170,10 @@ class AccessKeyLogin
 	/**
 	 * Verifies the $_POST request by the Access Key login form.
 	 *
+	 * @param bool $checkNonce. Optional. Default true. Set false to bypass nonce check.
 	 * @return bool|WP_Error
 	 */
-	public function verifyGrantAccessRequest()
+	public function verifyGrantAccessRequest(bool $checkNonce = true)
 	{
 
 		if (empty($_REQUEST[ self::ACCESS_KEY_INPUT_NAME ])) {
@@ -182,19 +186,22 @@ class AccessKeyLogin
 			return new \WP_Error('no_account_id', esc_html__('No account id was sent with the request.', 'trustedlogin-vendor'));
 		}
 
-		if (empty($_REQUEST[ self::NONCE_NAME ])) {
-			$this->log('No nonce set. Insecure request.', __METHOD__, 'error');
-			return new \WP_Error('no_nonce', esc_html__('No nonce was sent with the request.', 'trustedlogin-vendor'));
+		if( $checkNonce ){
+			if (empty($_REQUEST[ self::NONCE_NAME ])) {
+				$this->log('No nonce set. Insecure request.', __METHOD__, 'error');
+				return new \WP_Error('no_nonce', esc_html__('No nonce was sent with the request.', 'trustedlogin-vendor'));
+			}
+
+			// Valid nonce?
+			$valid = wp_verify_nonce($_REQUEST[ self::NONCE_NAME ], self::NONCE_ACTION);
+
+			if (! $valid) {
+				$this->log('Nonce is invalid; could be insecure request. Refresh the page and try again.', __METHOD__, 'error');
+				return new \WP_Error('bad_nonce', esc_html__('The nonce was not set for the request.', 'trustedlogin-vendor'));
+
+			}
 		}
 
-		// Valid nonce?
-		$valid = wp_verify_nonce($_REQUEST[ self::NONCE_NAME ], self::NONCE_ACTION);
-
-		if (! $valid) {
-			$this->log('Nonce is invalid; could be insecure request. Refresh the page and try again.', __METHOD__, 'error');
-			return new \WP_Error('bad_nonce', esc_html__('The nonce was not set for the request.', 'trustedlogin-vendor'));
-
-		}
 
 		//Ok, it's chill.
 		return true;
