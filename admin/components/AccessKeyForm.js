@@ -15,19 +15,55 @@ function collectFormData(form) {
   return data;
 }
 
+const getAccessKey = () => {
+  if (window.tlVendor && window.tlVendor.accessKey.hasOwnProperty("ak")) {
+    if (window.tlVendor.accessKey.ak.length > 0) {
+      return window.tlVendor.accessKey.ak;
+    }
+  }
+  return "";
+};
 const AccessKeyForm = ({ initialAccountId = null }) => {
-  const [accessKey, setAccessKey] = useState("");
-  const { settings } = useSettings();
-  const [redirectData, setRedirectData] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
-  const [errorMessage, setErrorMessage] = useState("");
+  //State for access key in form or url
+  //May be preset in window.tlVendor.accessKey.ak
+  const [accessKey, setAccessKey] = useState(() => getAccessKey());
+  //State for redicect data fetched via api
+  //May be preset in window.tlVendor.redirectData
+  const [redirectData, setRedirectData] = useState(() => {
+    //Use data set server-side, if it is there
+    if (window.tlVendor && window.tlVendor.hasOwnProperty("redirectData")) {
+      let valid = true;
+      //Make sure we got all the parts
+      ["siteurl", "endpoint", "identifier"].forEach((key) => {
+        if (!window.tlVendor.redirectData.hasOwnProperty(key)) {
+          valid = false;
+        }
+      });
+      if (valid) {
+        return window.tlVendor.redirectData;
+      }
+    }
+    return null;
+  });
 
-  //Get teams from settings.
-  const teams = useMemo(() => {
-    return settings && settings.hasOwnProperty("teams") ? settings.teams : [];
-  }, [settings]);
-
-  const [accountId, setAccountId] = useState(initialAccountId);
+  const { settings, getTeam, teams } = useSettings();
+  //State for account_id (not index) of the chosen team
+  const [accountId, setAccountId] = useState(() => {
+    //Would be index. Might be 0, which is valid
+    //Or null if not.
+    if (null != initialAccountId) {
+      let team = getTeam(initialAccountId);
+      if (team) {
+        return team.account_id;
+      }
+    } else {
+      //Only one team? Use that.
+      if (1 == teams.length) {
+        return teams[0].account_id;
+      }
+    }
+    return "";
+  });
 
   //Get all teams as options
   const teamsOption = useMemo(() => {
@@ -42,13 +78,11 @@ const AccessKeyForm = ({ initialAccountId = null }) => {
     });
   }, [teams]);
 
-  useEffect(() => {
-    if (teams.length == 1) {
-      setAccountId(teams[0].account_id);
-    }
-  }, [teams, setAccountId]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const handler = (e) => {
+    setErrorMessage("");
     let form = e.target;
     //No redirectData, trade access key for it.
     if (!redirectData) {
@@ -68,13 +102,6 @@ const AccessKeyForm = ({ initialAccountId = null }) => {
         method: "POST",
         data,
       })
-        .then((res) => {
-          if (res.hasOwnProperty("success") && res.success) {
-            const { data } = res;
-            setRedirectData(data);
-            setIsLoading(false);
-          }
-        })
         .catch((err) => {
           setIsLoading(false);
           if (
@@ -85,6 +112,13 @@ const AccessKeyForm = ({ initialAccountId = null }) => {
             setErrorMessage(err.data);
           } else {
             setErrorMessage(__("An error happended."));
+          }
+        })
+        .then((res) => {
+          if (res.hasOwnProperty("success") && res.success) {
+            const { data } = res;
+            setRedirectData(data);
+            setIsLoading(false);
           }
         });
     } //Have redirectData, login with it.
@@ -116,6 +150,7 @@ const AccessKeyForm = ({ initialAccountId = null }) => {
     }
   };
 
+  //Once we have redirectData, submit form again
   useEffect(() => {
     if (redirectData) {
       document.getElementById("access-key-form").submit();
@@ -200,6 +235,7 @@ const AccessKeyForm = ({ initialAccountId = null }) => {
                       </>
                     </SelectFieldArea>
                   )}
+
                   <div className="relative rounded-lg">
                     <InputFieldArea
                       name="ak"
@@ -219,15 +255,18 @@ const AccessKeyForm = ({ initialAccountId = null }) => {
                       />
                     </InputFieldArea>
                   </div>
-                  {isLoading ? (
-                    <div className="spinner is-active inline-flex justify-center p-4 border border-transparent text-md font-medium rounded-lg text-white bg-blue-tl"></div>
-                  ) : (
-                    <input
-                      type="submit"
-                      className="inline-flex justify-center p-4 border border-transparent text-md font-medium rounded-lg text-white bg-blue-tl hover:bg-indigo-700 focus:outline-none focus:ring-2 ring-offset-2 focus:ring-sky-500"
-                      value={__("Log In", "trustedlogin-vendor")}
-                    />
-                  )}
+
+                  <>
+                    {isLoading ? (
+                      <div className="spinner is-active inline-flex justify-center p-4 border border-transparent text-md font-medium rounded-lg text-white bg-blue-tl"></div>
+                    ) : (
+                      <input
+                        type="submit"
+                        className="inline-flex justify-center p-4 border border-transparent text-md font-medium rounded-lg text-white bg-blue-tl hover:bg-indigo-700 focus:outline-none focus:ring-2 ring-offset-2 focus:ring-sky-500"
+                        value={__("Log In", "trustedlogin-vendor")}
+                      />
+                    )}
+                  </>
                 </>
               )}
             </form>

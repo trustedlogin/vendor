@@ -8,8 +8,12 @@ export const useView = () => {
   return context;
 };
 
-export default function ViewProvider({ children, initialView = null }) {
-  const { hasOnboarded } = useSettings();
+export default function ViewProvider({
+  children,
+  initialView = null,
+  initialTeam = null,
+}) {
+  const { hasOnboarded, teams } = useSettings();
 
   //Which view to show
   const [currentView, setCurrentView] = useState(() => {
@@ -20,9 +24,10 @@ export default function ViewProvider({ children, initialView = null }) {
   });
 
   //The ID of team to show in view
+  //team.id, not team.account_id
   //This is used to set the team that is used by:
   // TeamEdit and AccessKeyForm
-  const [currentTeam, setCurrentTeam] = useState(false);
+  const [currentTeam, setCurrentTeam] = useState(initialTeam);
 
   //Unset current team when changing view to not show team details
   //This is a footgun.
@@ -31,6 +36,7 @@ export default function ViewProvider({ children, initialView = null }) {
       setCurrentTeam(false);
     }
   }, [currentView]);
+
   return (
     <ViewContext.Provider
       value={{

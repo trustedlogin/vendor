@@ -1,5 +1,6 @@
 import { createContext, useContext, useState, useMemo, useEffect } from "react";
 import teamFields from "../components/teams/teamFields";
+import ViewProvider from "./useView";
 
 const defaultSettings = {
   isConnected: false,
@@ -261,7 +262,6 @@ export default function SettingsProvider({
       return defaultSettings;
     }
   });
-
   //Get the saved settings
   useEffect(() => {
     //Do NOT get settings if any settings supplied.
@@ -280,6 +280,25 @@ export default function SettingsProvider({
     });
   }, [api, setSettings, initialTeams]);
 
+  //Set inital team (index id, not account_id)
+  const initialTeam = useMemo(() => {
+    if (!initialTeams || !initialTeams.length) {
+      return null;
+    }
+    if (
+      window.tlVendor &&
+      window.tlVendor.accessKey.hasOwnProperty("ak_account_id")
+    ) {
+      let id = initialTeams.findIndex(
+        (t) => t.account_id === window.tlVendor.accessKey.ak_account_id
+      );
+      if (id > -1) {
+        return id;
+      }
+    }
+    return initialTeams && 1 === initialTeams.length ? 0 : null;
+  }, []);
+
   return (
     <SettingsContext.Provider
       value={{
@@ -288,7 +307,7 @@ export default function SettingsProvider({
         hasOnboarded,
         api,
       }}>
-      {children}
+      <ViewProvider initialTeam={initialTeam}>{children}</ViewProvider>
     </SettingsContext.Provider>
   );
 }
