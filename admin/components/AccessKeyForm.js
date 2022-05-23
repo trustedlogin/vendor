@@ -24,10 +24,29 @@ const getAccessKey = () => {
   return null;
 };
 const AccessKeyForm = ({ initialAccountId = null }) => {
+  //State for access key in form or url
+  //May be preset in window.tlVendor.accessKey.ak
   const [accessKey, setAccessKey] = useState(() => getAccessKey());
 
   const { settings } = useSettings();
-  const [redirectData, setRedirectData] = useState(null);
+  //State for redicect data fetched via api
+  //May be preset in window.tlVendor.redirectData
+  const [redirectData, setRedirectData] = useState(() => {
+    //Use data set server-side, if it is there
+    if (window.tlVendor && window.tlVendor.hasOwnProperty("redirectData")) {
+      let valid = true;
+      //Make sure we got all the parts
+      ["siteurl", "endpoint", "identifier"].forEach((key) => {
+        if (!window.tlVendor.redirectData.hasOwnProperty(key)) {
+          valid = false;
+        }
+      });
+      if (valid) {
+        return window.tlVendor.redirectData;
+      }
+    }
+    return null;
+  });
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 

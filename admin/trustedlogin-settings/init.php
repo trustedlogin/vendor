@@ -44,8 +44,8 @@ add_action('init', function () {
             'settings' => $settingsApi->toResponseData(),
         ];
 
+        //Check if we can preset redirectData in form
         if( ! empty($accessKey) && ! empty($accountId) ){
-
             $handler = new AccessKeyLogin();
             //Check if request is authorized
             if( $handler->verifyGrantAccessRequest(false) ){
@@ -54,8 +54,10 @@ add_action('init', function () {
                     AccessKeyLogin::ACCESS_KEY_INPUT_NAME => $accessKey,
                 ]);
                 if( ! is_wp_error($parts) ){
+                    //Send redirectData to AccessKeyForm.js
                     $data['redirectData'] = $parts;
                 }
+                //Please do not set $data['redirectData'] otherwise.
             }
 
         }
