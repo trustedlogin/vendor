@@ -1,6 +1,6 @@
 import AccessKeyForm from "./AccessKeyForm";
 import { render, act, fireEvent } from "@testing-library/react";
-import { ScreenError, PageError } from "./Errors";
+import { ScreenError, PageError, ToastError } from "./Errors";
 describe("ScreenError", () => {
   it("renders with only heading", () => {
     const { container } = render(<ScreenError heading={"An Error"} />);
@@ -67,5 +67,58 @@ describe("PageError", () => {
       fireEvent.click(getByText("Try again"));
     });
     expect(onClick).toHaveBeenCalledTimes(1);
+  });
+});
+describe("ToastError", () => {
+  it("renders with only heading", () => {
+    const { container } = render(<ToastError heading={"An Error"} />);
+    expect(container).toMatchSnapshot();
+  });
+  it("renders with text & heading", () => {
+    const { container } = render(
+      <ToastError heading={"An Error"} text={"Some text"} />
+    );
+    expect(container).toMatchSnapshot();
+  });
+  it("is retryable", () => {
+    const { container, getByText } = render(
+      <ToastError
+        isDismissible={true}
+        heading={"An Error"}
+        text={"Some text"}
+      />
+    );
+    expect(container.querySelectorAll(".tl-error").length).toBe(1);
+    act(() => {
+      fireEvent.click(getByText("Close"));
+    });
+
+    expect(container.querySelectorAll(".tl-error").length).toBe(0);
+  });
+  it("Is retryable", () => {
+    const retryClick = jest.fn();
+    const { getByText } = render(<ToastError retryClick={retryClick} />);
+    act(() => {
+      fireEvent.click(getByText("Try again"));
+    });
+    expect(retryClick).toHaveBeenCalledTimes(1);
+  });
+  it("Has learn more link", () => {
+    const learnMoreLink = "https://example.com/";
+    const { getByText } = render(<ToastError learnMoreLink={learnMoreLink} />);
+
+    expect(getByText("Learn more").href).toEqual(learnMoreLink);
+  });
+  it("Has learn more link && is retryable", () => {
+    const learnMoreLink = "https://example.com/";
+    const retryClick = jest.fn();
+    const { getByText } = render(
+      <ToastError learnMoreLink={learnMoreLink} retryClick={retryClick} />
+    );
+    expect(getByText("Learn more").href).toEqual(learnMoreLink);
+    act(() => {
+      fireEvent.click(getByText("Try again"));
+    });
+    expect(retryClick).toHaveBeenCalledTimes(1);
   });
 });
