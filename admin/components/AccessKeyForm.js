@@ -46,7 +46,7 @@ const AccessKeyForm = ({ initialAccountId = null }) => {
     return null;
   });
 
-  const { settings, getTeam } = useSettings();
+  const { settings, getTeam, teams } = useSettings();
   //State for account_id (not index) of the chosen team
   const [accountId, setAccountId] = useState(() => {
     //Would be index. Might be 0, which is valid
@@ -54,16 +54,16 @@ const AccessKeyForm = ({ initialAccountId = null }) => {
     if (null != initialAccountId) {
       let team = getTeam(initialAccountId);
       if (team) {
-        return team.accountId;
+        return team.account_id;
+      }
+    } else {
+      //Only one team? Use that.
+      if (1 == teams.length) {
+        return teams[0].account_id;
       }
     }
     return "";
   });
-
-  //Get teams from settings.
-  const teams = useMemo(() => {
-    return settings && settings.hasOwnProperty("teams") ? settings.teams : [];
-  }, [settings]);
 
   //Get all teams as options
   const teamsOption = useMemo(() => {
