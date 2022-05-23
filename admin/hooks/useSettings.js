@@ -33,6 +33,25 @@ export const useSettings = () => {
     };
   });
 
+  const [errorMessage, setErrorMessage] = useState(() => {
+    if (
+      window &&
+      window.tlVendor &&
+      window.tlVendor.hasOwnProperty("errorMessage")
+    ) {
+      return {
+        text: window.tlVendor.errorMessage,
+        type: "error",
+        visible: true,
+      };
+    }
+    return {
+      text: "",
+      type: "error",
+      visible: false,
+    };
+  });
+
   const { settings, setSettings, api, hasOnboarded } =
     useContext(SettingsContext);
 
@@ -243,6 +262,8 @@ export const useSettings = () => {
     api,
     notice,
     setNotice,
+    errorMessage,
+    setErrorMessage,
   };
 };
 

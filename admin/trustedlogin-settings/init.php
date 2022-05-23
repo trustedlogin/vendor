@@ -62,6 +62,16 @@ add_action('init', function () {
 
         }
 
+        if( isset($_GET['error'])){
+            $error = sanitize_text_field($_GET['error']);
+            switch($error){
+                case 'nonce':
+                    $error = __('Nonce is invalid', 'trustedlogin-vendor');
+                break;
+            }
+            $data['errorMessage'] = $error;
+        }
+
         wp_localize_script(MenuPage::ASSET_HANDLE,'tlVendor', $data);
         wp_register_style(
             MenuPage::ASSET_HANDLE,

@@ -6,9 +6,12 @@ describe("ScreenError", () => {
     expect(container).toMatchSnapshot();
   });
   it("renders with text & heading", () => {
-    const { container } = render(
-      <ScreenError heading={"An Error"} text={"Some text"} />
+    const { container, getByText } = render(
+      <ScreenError heading={"Heading Text"} text={"Text text"} />
     );
+    //Run this to make sure the error text is rendered
+    getByText("Heading Text");
+    getByText("Text text");
     expect(container).toMatchSnapshot();
   });
   it("is retryable", () => {

@@ -5,7 +5,7 @@ import { useSettings } from "../hooks/useSettings";
 import { HorizontalLogo } from "./TrustedLoginLogo";
 import { SelectFieldArea, InputFieldArea } from "./teams/fields";
 import TitleDescriptionLink from "./TitleDescriptionLink";
-
+import { ToastError } from "./Errors";
 function collectFormData(form) {
   let data = {};
   const formData = new FormData(form);
@@ -270,7 +270,7 @@ const AccessKeyForm = ({ initialAccountId = null }) => {
                 </>
               )}
             </form>
-            {errorMessage && <ScreenError heading={errorMessage} />}
+            {errorMessage && <ToastError heading={errorMessage} />}
           </>
         </div>
       </div>

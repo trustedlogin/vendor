@@ -727,157 +727,38 @@ exports[`TrustedLoginSettings renders & matches snapshot, with on-boarding compl
       </div>
     </header>
     <div
-      class="flex flex-col px-5 py-6 sm:px-10"
+      class="tl-error rounded-md bg-red-50 p-4 border border-red-300"
     >
       <div
-        class="pb-6 mb-6 border-b md:flex md:items-center md:justify-between md:space-x-5"
+        class="flex"
       >
         <div
-          class="flex items-center space-x-5"
+          class="flex-shrink-0"
         >
-          <div>
-            <h2
-              class="text-2xl text-gray-900"
-            >
-              Teams
-            </h2>
-            <p
-              class="mt-1 text-sm text-gray-500"
-            >
-              Manage your TrustedLogin settings
-            </p>
-          </div>
+          <svg
+            class="text-red-700"
+            fill="none"
+            height="20"
+            viewBox="0 0 20 20"
+            width="20"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M10.0003 6.66663V9.99996M10.0003 13.3333H10.0087M18.3337 9.99996C18.3337 14.6023 14.6027 18.3333 10.0003 18.3333C5.39795 18.3333 1.66699 14.6023 1.66699 9.99996C1.66699 5.39759 5.39795 1.66663 10.0003 1.66663C14.6027 1.66663 18.3337 5.39759 18.3337 9.99996Z"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="1.66667"
+            />
+          </svg>
         </div>
         <div
-          class="mt-6 flex flex-col-reverse justify-stretch space-y-4 space-y-reverse sm:flex-row-reverse sm:justify-end sm:space-x-reverse sm:space-y-0 sm:space-x-3 md:mt-0 md:flex-row md:space-x-3"
+          class="ml-3"
         >
-          <div>
-            <label
-              class="sr-only"
-              for="search"
-            >
-              Search
-            </label>
-            <div
-              class="relative h-full"
-            >
-              <div
-                class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
-              >
-                <svg
-                  aria-hidden="true"
-                  class="h-5 w-5 text-gray-400"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    clip-rule="evenodd"
-                    d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
-                    fill-rule="evenodd"
-                  />
-                </svg>
-              </div>
-              <input
-                class="block w-full h-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg leading-5 bg-white placeholder-gray-500 focus:outline-none focus:ring-2 ring-offset-2 focus:ring-sky-500 sm:text-sm sm:py-2"
-                id="search"
-                name="search"
-                placeholder="Search..."
-                type="search"
-              />
-            </div>
-          </div>
-          <button
-            class="ml-3 inline-flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-lg text-white bg-blue-tl hover:bg-indigo-700 focus:outline-none focus:ring-2 ring-offset-2 focus:ring-sky-500"
-            type="submit"
-          >
-            <svg
-              class="mr-1"
-              height="24"
-              viewBox="0 0 24 24"
-              width="24"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <g
-                fill="none"
-              >
-                <path
-                  d="M12 6v6m0 0v6m0-6h6m-6 0H6"
-                  stroke="#FFFFFF"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                />
-              </g>
-            </svg>
-            Add Team
-          </button>
+          <h3
+            class="tl-error-heading text-sm font-medium text-red-700"
+          />
         </div>
-      </div>
-      <div
-        class="flex flex-col justify-center w-full bg-white rounded-lg shadow"
-      >
-        <ul
-          class="divide-y divide-gray-200 px-5 sm:px-8"
-          role="list"
-        >
-          <li
-            class="py-5 flex flex-col items-center justify-between sm:py-8 sm:flex-row"
-          >
-            <div
-              class="flex w-full items-center space-x-5 sm:w-auto"
-            >
-              <button
-                class="flex-shrink-0 flex items-center justify-center h-12 w-12 bg-purple-600 text-white text-sm font-medium rounded-lg"
-              >
-                TL
-              </button>
-              <div
-                class="flex flex-row space-x-16 items-center w-full justify-between sm:justify-start"
-              >
-                <div
-                  class="flex flex-col max-w-[10rem] sm:max-w-[8rem] md:max-w-none"
-                >
-                  <p
-                    class="text-lg font-medium text-gray-900 leading-tight min-w-[6rem]"
-                    id="team-option-1-label"
-                  >
-                    1
-                  </p>
-                  <p
-                    class="text-sm text-gray-500"
-                    id="team-option-1-description"
-                  >
-                    1
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div
-              class="flex items-center space-x-5 w-full mt-4 justify-between sm:w-auto sm:mt-0"
-            >
-              <div
-                class="flex items-center space-x-6"
-              >
-                <button
-                  class="text-sm text-blue-tl hover:text-navy-tl p-2"
-                >
-                  Configure
-                </button>
-                <button
-                  class="text-sm text-blue-tl hover:text-navy-tl p-2"
-                >
-                  Edit
-                </button>
-                <button
-                  class="text-sm text-red-500 hover:text-red-800 p-2"
-                >
-                  Delete
-                </button>
-              </div>
-            </div>
-          </li>
-        </ul>
       </div>
     </div>
   </div>

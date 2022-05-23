@@ -136,7 +136,7 @@ exports[`ScreenError renders with text & heading 1`] = `
         <h3
           class="tl-error-heading text-sm font-medium text-red-700"
         >
-          An Error
+          Heading Text
         </h3>
         <div
           class="mt-2 text-sm text-red-500"
@@ -144,7 +144,7 @@ exports[`ScreenError renders with text & heading 1`] = `
           <p
             class="tl-error-text"
           >
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid pariatur, ipsum similique veniam.
+            Text text
           </p>
         </div>
       </div>

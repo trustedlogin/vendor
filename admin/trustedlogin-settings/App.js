@@ -12,14 +12,6 @@ export default function App({
   initialTeams = null,
   initialIntegrationSettings = null,
 }) {
-  const [notice, setNotice] = useState(() => {
-    return {
-      text: "",
-      type: "",
-      visible: false,
-    };
-  });
-
   return (
     <StrictMode>
       <SettingsProvider

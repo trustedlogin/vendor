@@ -180,10 +180,7 @@ export const ScreenError = ({
           </h3>
           {text ? (
             <div className="mt-2 text-sm text-red-500">
-              <p className="tl-error-text">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid
-                pariatur, ipsum similique veniam.
-              </p>
+              <p className="tl-error-text">{text}</p>
             </div>
           ) : null}
           {retryClick || learnMoreLink ? (

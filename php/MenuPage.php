@@ -130,10 +130,7 @@ class MenuPage {
      * Render callback for admin page
      */
     public function renderPage(){
-        //@todo better way to handle error.
-        if( isset($_GET['error'])){
-            wp_die( sanitize_text_field($_GET['error']));
-        }
+
 
         if( $this->initialView){
             printf(
