@@ -1,6 +1,6 @@
 import AccessKeyForm from "./AccessKeyForm";
 import { render, act, fireEvent } from "@testing-library/react";
-import { ScreenError } from "./Errors";
+import { ScreenError, PageError } from "./Errors";
 describe("ScreenError", () => {
   it("renders with only heading", () => {
     const { container } = render(<ScreenError heading={"An Error"} />);
@@ -52,5 +52,20 @@ describe("ScreenError", () => {
       fireEvent.click(getByText("Try again"));
     });
     expect(retryClick).toHaveBeenCalledTimes(1);
+  });
+});
+describe("PageError", () => {
+  it("renders", () => {
+    const onClick = jest.fn();
+    const { container } = render(<PageError onClick={onClick} />);
+    expect(container).toMatchSnapshot();
+  });
+  it("Is clickable", () => {
+    const onClick = jest.fn();
+    const { getByText } = render(<PageError onClick={onClick} />);
+    act(() => {
+      fireEvent.click(getByText("Try again"));
+    });
+    expect(onClick).toHaveBeenCalledTimes(1);
   });
 });

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 
 export const PageError = ({ onClick }) => {
   return (
-    <div className="flex flex-col justify-center text-center w-full max-w-lg mx-auto p-8 bg-white rounded-lg shadow sm:p-14">
+    <div className="tl-error flex flex-col justify-center text-center w-full max-w-lg mx-auto p-8 bg-white rounded-lg shadow sm:p-14">
       <svg
         className="mx-auto text-red-700"
         width="56"
@@ -44,7 +44,7 @@ export const PageError = ({ onClick }) => {
       <button
         onClick={onClick}
         type="button"
-        className="inline-flex items-center justify-center px-4 py-2 border border-transparent shadow-sm font-medium rounded-lg text-white bg-red-700 focus:outline-none focus:ring-2 ring-offset-2 focus:ring-sky-500 sm:text-sm">
+        className="tl-error-retry inline-flex items-center justify-center px-4 py-2 border border-transparent shadow-sm font-medium rounded-lg text-white bg-red-700 focus:outline-none focus:ring-2 ring-offset-2 focus:ring-sky-500 sm:text-sm">
         Try again
       </button>
     </div>
@@ -106,7 +106,7 @@ export const ScreenError = ({
                 {retryClick ? (
                   <button
                     onClick={retryClick}
-                    className="ml-3 py-1.5 rounded-md text-sm font-medium text-red-700 hover:underline focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-green-50 focus:ring-red-600">
+                    className="tl-error-retry ml-3 py-1.5 rounded-md text-sm font-medium text-red-700 hover:underline focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-green-50 focus:ring-red-600">
                     Try again
                     <span aria-hidden="true">→</span>
                   </button>
