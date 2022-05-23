@@ -9,7 +9,7 @@ import AddTeam from "./teams/AddTeam";
 import TeamsSettings from "../components/teams/TeamsSettings";
 import GeneralSettings from "./GeneralSettings";
 import IntegrationSettings from "./IntegrationSettings";
-import { ScreenError } from "./Errors";
+import { PageError } from "./Errors";
 /**
  * TrustedLogin Settings screen
  */
@@ -52,7 +52,7 @@ export default function TrustedLoginSettings() {
         <Layout>
           <TopBar status={"Connected"} />
           {errorMessage ? (
-            <ScreenError text={errorMessage.text} />
+            <PageError text={errorMessage.text} />
           ) : (
             <>
               {"string" === typeof currentView &&

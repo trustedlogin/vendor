@@ -93,7 +93,9 @@ export const ToastError = ({
     </div>
   );
 };
-export const PageError = ({ onClick }) => {
+//Error that takes up the whole screen
+//Use below TopBar
+export const PageError = ({ onClick, text }) => {
   return (
     <div className="tl-error flex flex-col justify-center text-center w-full max-w-lg mx-auto p-8 bg-white rounded-lg shadow sm:p-14">
       <svg
@@ -130,13 +132,9 @@ export const PageError = ({ onClick }) => {
         <br />
         Something went wrong.
       </h2>
-      <p className="mt-2 mb-8 text-sm text-gray-500">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ornare
-        tortor in nisl fermentum.
-      </p>
+      {text ? <p className="mt-2 mb-8 text-sm text-gray-500">{text}</p> : null}
       <button
         onClick={onClick}
-        type="button"
         className="tl-error-retry inline-flex items-center justify-center px-4 py-2 border border-transparent shadow-sm font-medium rounded-lg text-white bg-red-700 focus:outline-none focus:ring-2 ring-offset-2 focus:ring-sky-500 sm:text-sm">
         Try again
       </button>
@@ -144,6 +142,7 @@ export const PageError = ({ onClick }) => {
   );
 };
 
+//Error that goes at top of settings, under TopBar
 export const ScreenError = ({
   heading,
   text,
