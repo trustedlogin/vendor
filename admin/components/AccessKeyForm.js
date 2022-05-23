@@ -115,7 +115,7 @@ const AccessKeyForm = ({ initialAccountId = null }) => {
           }
         })
         .then((res) => {
-          if (res.hasOwnProperty("success") && res.success) {
+          if (res && res.hasOwnProperty("success") && res.success) {
             const { data } = res;
             setRedirectData(data);
             setIsLoading(false);
@@ -270,11 +270,7 @@ const AccessKeyForm = ({ initialAccountId = null }) => {
                 </>
               )}
             </form>
-            {errorMessage && (
-              <div>
-                <p className="error">{errorMessage}</p>
-              </div>
-            )}
+            {errorMessage && <ScreenError heading={errorMessage} />}
           </>
         </div>
       </div>
