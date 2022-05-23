@@ -126,12 +126,33 @@ ornare tortor in nisl fermentum.
       </div>
       <form
         class="flex flex-col py-6 space-y-6 justify-center"
+        id="access-key-form"
         method="POST"
       >
         <input
-          name="account_id"
+          name="trustedlogin"
           type="hidden"
           value="1"
+        />
+        <input
+          name="action"
+          type="hidden"
+          value="trustedlogin"
+        />
+        <input
+          name="provider"
+          type="hidden"
+          value="test"
+        />
+        <input
+          name="_tl_ak_nonce"
+          type="hidden"
+          value="nonce"
+        />
+        <input
+          name="ak_account_id"
+          type="hidden"
+          value=""
         />
         <div
           class="relative rounded-lg"
@@ -139,7 +160,7 @@ ornare tortor in nisl fermentum.
           <div>
             <label
               class="block text-sm font-medium text-gray-700"
-              for="access_key"
+              for="ak"
             >
               Access Key
             </label>
@@ -148,8 +169,8 @@ ornare tortor in nisl fermentum.
             >
               <input
                 class="block w-full pl-4 pr-10 py-4 sm:text-md border border-gray-300 rounded-lg focus:outline-none focus:border-sky-500 focus:ring-1 ring-offset-2 focus:ring-sky-500"
-                id="access_key"
-                name="access_key"
+                id="ak"
+                name="ak"
                 placeholder="Paste key received from customer"
                 type="text"
                 value=""
@@ -163,6 +184,7 @@ ornare tortor in nisl fermentum.
           value="Log In"
         />
       </form>
+      
     </div>
   </div>
 </div>

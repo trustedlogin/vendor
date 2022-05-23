@@ -56,7 +56,7 @@ class Factory {
 		];
 
 		if ( $access_key ) {
-			$args['ak'] = $access_key;
+			$args[AccessKeyLogin::ACCESS_KEY_INPUT_NAME] = $access_key;
 		}
         foreach ($args as $key => $value) {
             $args[$key] = urlencode($value);

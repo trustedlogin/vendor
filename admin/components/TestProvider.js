@@ -41,7 +41,7 @@ const TestProvider = ({
     hasOnboarded={hasOnboarded}
     initialTeams={initialTeams}
     initialIntegrationSettings={initialIntegrationSettings}>
-    <ViewProvider>{children}</ViewProvider>
+    {children}
   </SettingsProvider>
 );
 
