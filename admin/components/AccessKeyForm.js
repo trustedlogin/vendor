@@ -21,14 +21,12 @@ const getAccessKey = () => {
       return window.tlVendor.accessKey.ak;
     }
   }
-  return null;
+  return "";
 };
 const AccessKeyForm = ({ initialAccountId = null }) => {
   //State for access key in form or url
   //May be preset in window.tlVendor.accessKey.ak
   const [accessKey, setAccessKey] = useState(() => getAccessKey());
-
-  const { settings } = useSettings();
   //State for redicect data fetched via api
   //May be preset in window.tlVendor.redirectData
   const [redirectData, setRedirectData] = useState(() => {
@@ -47,15 +45,25 @@ const AccessKeyForm = ({ initialAccountId = null }) => {
     }
     return null;
   });
-  const [isLoading, setIsLoading] = useState(false);
-  const [errorMessage, setErrorMessage] = useState("");
+
+  const { settings, getTeam } = useSettings();
+  //State for account_id (not index) of the chosen team
+  const [accountId, setAccountId] = useState(() => {
+    //Would be index. Might be 0, which is valid
+    //Or null if not.
+    if (null != initialAccountId) {
+      let team = getTeam(initialAccountId);
+      if (team) {
+        return team.accountId;
+      }
+    }
+    return "";
+  });
 
   //Get teams from settings.
   const teams = useMemo(() => {
     return settings && settings.hasOwnProperty("teams") ? settings.teams : [];
   }, [settings]);
-
-  const [accountId, setAccountId] = useState(initialAccountId);
 
   //Get all teams as options
   const teamsOption = useMemo(() => {
@@ -69,6 +77,9 @@ const AccessKeyForm = ({ initialAccountId = null }) => {
       };
     });
   }, [teams]);
+
+  const [isLoading, setIsLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const handler = (e) => {
     setErrorMessage("");
