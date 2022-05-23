@@ -45,11 +45,7 @@ export const useSettings = () => {
         visible: true,
       };
     }
-    return {
-      text: "",
-      type: "error",
-      visible: false,
-    };
+    return null;
   });
 
   const { settings, setSettings, api, hasOnboarded } =

@@ -15,7 +15,7 @@ import { PageError } from "./Errors";
  */
 export default function TrustedLoginSettings() {
   const { currentView, setCurrentView } = useView();
-  const { settings, addTeam, errorMessage } = useSettings();
+  const { settings, addTeam, errorMessage, setErrorMessage } = useSettings();
   const teams = useMemo(() => {
     return settings && settings.hasOwnProperty("teams") ? settings.teams : [];
   }, [settings]);
@@ -52,7 +52,10 @@ export default function TrustedLoginSettings() {
         <Layout>
           <TopBar status={"Connected"} />
           {errorMessage ? (
-            <PageError text={errorMessage.text} />
+            <PageError
+              onClick={() => setErrorMessage(null)}
+              text={errorMessage.text}
+            />
           ) : (
             <>
               {"string" === typeof currentView &&
