@@ -25,8 +25,14 @@ const SettingsContext = createContext(defaultSettings);
  * This hook handles setting state.
  */
 export const useSettings = () => {
-  //@todo bring back notice state and setNotice
-  const setNotice = () => {};
+  const [notice, setNotice] = useState(() => {
+    return {
+      text: "",
+      type: "error",
+      visible: false,
+    };
+  });
+
   const { settings, setSettings, api, hasOnboarded } =
     useContext(SettingsContext);
 
@@ -234,6 +240,7 @@ export const useSettings = () => {
     onSaveIntegrationSettings,
     getEnabledHelpDeskOptions,
     resetTeamIntegration,
+    notice,
   };
 };
 
