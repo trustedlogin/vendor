@@ -240,7 +240,9 @@ export const useSettings = () => {
     onSaveIntegrationSettings,
     getEnabledHelpDeskOptions,
     resetTeamIntegration,
+    api,
     notice,
+    setNotice,
   };
 };
 
