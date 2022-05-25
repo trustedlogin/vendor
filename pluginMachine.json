@@ -14,6 +14,7 @@
     "php",
     "vendor",
     "build",
+    "wpbuild",
     "inc",
     "admin/trustedlogin-settings/init.php",
     "admin/trustedlogin-dist.css"
