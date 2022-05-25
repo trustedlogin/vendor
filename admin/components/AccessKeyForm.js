@@ -5,7 +5,7 @@ import { useSettings } from "../hooks/useSettings";
 import { HorizontalLogo } from "./TrustedLoginLogo";
 import { SelectFieldArea, InputFieldArea } from "./teams/fields";
 import TitleDescriptionLink from "./TitleDescriptionLink";
-
+import { ToastError } from "./Errors";
 function collectFormData(form) {
   let data = {};
   const formData = new FormData(form);
@@ -115,7 +115,7 @@ const AccessKeyForm = ({ initialAccountId = null }) => {
           }
         })
         .then((res) => {
-          if (res.hasOwnProperty("success") && res.success) {
+          if (res && res.hasOwnProperty("success") && res.success) {
             const { data } = res;
             setRedirectData(data);
             setIsLoading(false);
@@ -270,11 +270,7 @@ const AccessKeyForm = ({ initialAccountId = null }) => {
                 </>
               )}
             </form>
-            {errorMessage && (
-              <div>
-                <p className="error">{errorMessage}</p>
-              </div>
-            )}
+            {errorMessage && <ToastError heading={errorMessage} />}
           </>
         </div>
       </div>

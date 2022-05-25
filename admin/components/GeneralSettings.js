@@ -2,6 +2,7 @@ import { Fragment } from "react";
 import { PageHeader } from "./Layout";
 import { DangerZone, DebugLogSettings } from "./Sections";
 import { __ } from "@wordpress/i18n";
+import { useSettings } from "../hooks/useSettings";
 
 const GeneralSettings = () => {
   return (

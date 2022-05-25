@@ -9,13 +9,13 @@ import AddTeam from "./teams/AddTeam";
 import TeamsSettings from "../components/teams/TeamsSettings";
 import GeneralSettings from "./GeneralSettings";
 import IntegrationSettings from "./IntegrationSettings";
-
+import { PageError } from "./Errors";
 /**
  * TrustedLogin Settings screen
  */
 export default function TrustedLoginSettings() {
   const { currentView, setCurrentView } = useView();
-  const { settings, addTeam } = useSettings();
+  const { settings, addTeam, errorMessage, setErrorMessage } = useSettings();
   const teams = useMemo(() => {
     return settings && settings.hasOwnProperty("teams") ? settings.teams : [];
   }, [settings]);
@@ -51,15 +51,24 @@ export default function TrustedLoginSettings() {
       return (
         <Layout>
           <TopBar status={"Connected"} />
-          {"string" === typeof currentView &&
-          currentView.startsWith("teams") ? (
-            <TeamsSettings />
+          {errorMessage ? (
+            <PageError
+              onClick={() => setErrorMessage(null)}
+              text={errorMessage.text}
+            />
           ) : (
             <>
-              {"integrations" === currentView ? (
-                <IntegrationSettings />
+              {"string" === typeof currentView &&
+              currentView.startsWith("teams") ? (
+                <TeamsSettings />
               ) : (
-                <GeneralSettings />
+                <>
+                  {"integrations" === currentView ? (
+                    <IntegrationSettings />
+                  ) : (
+                    <GeneralSettings />
+                  )}
+                </>
               )}
             </>
           )}

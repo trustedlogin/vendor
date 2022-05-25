@@ -62,6 +62,31 @@ add_action('init', function () {
 
         }
 
+        if( isset($_GET['error'])){
+            $error = sanitize_text_field($_GET['error']);
+            switch($error){
+                case 'nonce':
+                    $error = __('Nonce is invalid', 'trustedlogin-vendor');
+                break;
+                case AccessKeyLogin::ERROR_NO_ACCOUNT_ID:
+                    $error = __('No account matching that ID found', 'trustedlogin-vendor');
+                    break;
+                case 'invalid_secret_keys':
+                    $error = __('Invalid secret keys', 'trustedlogin-vendor');
+                    break;
+
+                case AccessKeyLogin::ERROR_NO_SECRET_IDS_FOUND :
+                    $error = __('No secret keys found', 'trustedlogin-vendor');
+                    break;
+                default:
+                    $error = str_replace('_', ' ', $error);
+                    $error = ucwords($error);
+                    break;
+
+            }
+            $data['errorMessage'] = $error;
+        }
+
         wp_localize_script(MenuPage::ASSET_HANDLE,'tlVendor', $data);
         wp_register_style(
             MenuPage::ASSET_HANDLE,

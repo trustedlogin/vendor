@@ -1,0 +1,277 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PageError renders 1`] = `
+<div>
+  <div
+    class="tl-error flex flex-col justify-center text-center w-full max-w-lg mx-auto p-8 bg-white rounded-lg shadow sm:p-14"
+  >
+    <svg
+      class="mx-auto text-red-700"
+      fill="none"
+      height="56"
+      viewBox="0 0 56 56"
+      width="56"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <rect
+        fill="currentColor"
+        height="48"
+        rx="24"
+        width="48"
+        x="4"
+        y="4"
+      />
+      <path
+        d="M28 24.4V28M28 31.6H28.009M37 28C37 32.9706 32.9706 37 28 37C23.0294 37 19 32.9706 19 28C19 23.0294 23.0294 19 28 19C32.9706 19 37 23.0294 37 28Z"
+        stroke="white"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+      />
+      <rect
+        height="48"
+        rx="24"
+        stroke="#FEE4E2"
+        stroke-width="8"
+        width="48"
+        x="4"
+        y="4"
+      />
+    </svg>
+    <h2
+      class="mt-4 text-2xl text-gray-900"
+    >
+      Uh oh!
+      <br />
+      Something went wrong.
+    </h2>
+    <button
+      class="tl-error-retry inline-flex items-center justify-center px-4 py-2 border border-transparent shadow-sm font-medium rounded-lg text-white bg-red-700 focus:outline-none focus:ring-2 ring-offset-2 focus:ring-sky-500 sm:text-sm"
+    >
+      Try again
+    </button>
+  </div>
+</div>
+`;
+
+exports[`ScreenError renders with only heading 1`] = `
+<div>
+  <div
+    class="tl-error rounded-md bg-red-50 p-4 border border-red-300"
+  >
+    <div
+      class="flex"
+    >
+      <div
+        class="flex-shrink-0"
+      >
+        <svg
+          class="text-red-700"
+          fill="none"
+          height="20"
+          viewBox="0 0 20 20"
+          width="20"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M10.0003 6.66663V9.99996M10.0003 13.3333H10.0087M18.3337 9.99996C18.3337 14.6023 14.6027 18.3333 10.0003 18.3333C5.39795 18.3333 1.66699 14.6023 1.66699 9.99996C1.66699 5.39759 5.39795 1.66663 10.0003 1.66663C14.6027 1.66663 18.3337 5.39759 18.3337 9.99996Z"
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="1.66667"
+          />
+        </svg>
+      </div>
+      <div
+        class="ml-3"
+      >
+        <h3
+          class="tl-error-heading text-sm font-medium text-red-700"
+        >
+          An Error
+        </h3>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`ScreenError renders with text & heading 1`] = `
+<div>
+  <div
+    class="tl-error rounded-md bg-red-50 p-4 border border-red-300"
+  >
+    <div
+      class="flex"
+    >
+      <div
+        class="flex-shrink-0"
+      >
+        <svg
+          class="text-red-700"
+          fill="none"
+          height="20"
+          viewBox="0 0 20 20"
+          width="20"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M10.0003 6.66663V9.99996M10.0003 13.3333H10.0087M18.3337 9.99996C18.3337 14.6023 14.6027 18.3333 10.0003 18.3333C5.39795 18.3333 1.66699 14.6023 1.66699 9.99996C1.66699 5.39759 5.39795 1.66663 10.0003 1.66663C14.6027 1.66663 18.3337 5.39759 18.3337 9.99996Z"
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="1.66667"
+          />
+        </svg>
+      </div>
+      <div
+        class="ml-3"
+      >
+        <h3
+          class="tl-error-heading text-sm font-medium text-red-700"
+        >
+          Heading Text
+        </h3>
+        <div
+          class="mt-2 text-sm text-red-500"
+        >
+          <p
+            class="tl-error-text"
+          >
+            Text text
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`ToastError renders with only heading 1`] = `
+<div>
+  <div
+    class="tl-error max-w-md w-full bg-white shadow-lg rounded-lg pointer-events-auto ring-1 ring-black ring-opacity-5 overflow-hidden"
+  >
+    <div
+      class="p-4"
+    >
+      <div
+        class="flex items-start"
+      >
+        <div
+          class="flex-shrink-0"
+        >
+          <svg
+            fill="none"
+            height="46"
+            viewBox="0 0 46 46"
+            width="46"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <rect
+              fill="#FEE4E2"
+              height="40"
+              rx="20"
+              width="40"
+              x="3"
+              y="3"
+            />
+            <path
+              d="M23.0003 19.6666V23M23.0003 26.3333H23.0087M31.3337 23C31.3337 27.6023 27.6027 31.3333 23.0003 31.3333C18.398 31.3333 14.667 27.6023 14.667 23C14.667 18.3976 18.398 14.6666 23.0003 14.6666C27.6027 14.6666 31.3337 18.3976 31.3337 23Z"
+              stroke="#D92D20"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="1.66667"
+            />
+            <rect
+              height="40"
+              rx="20"
+              stroke="#FEF3F2"
+              stroke-width="6"
+              width="40"
+              x="3"
+              y="3"
+            />
+          </svg>
+        </div>
+        <div
+          class="ml-3 w-0 flex-1 pt-0.5"
+        >
+          <p
+            class="text-sm font-medium text-gray-900"
+          >
+            An Error
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`ToastError renders with text & heading 1`] = `
+<div>
+  <div
+    class="tl-error max-w-md w-full bg-white shadow-lg rounded-lg pointer-events-auto ring-1 ring-black ring-opacity-5 overflow-hidden"
+  >
+    <div
+      class="p-4"
+    >
+      <div
+        class="flex items-start"
+      >
+        <div
+          class="flex-shrink-0"
+        >
+          <svg
+            fill="none"
+            height="46"
+            viewBox="0 0 46 46"
+            width="46"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <rect
+              fill="#FEE4E2"
+              height="40"
+              rx="20"
+              width="40"
+              x="3"
+              y="3"
+            />
+            <path
+              d="M23.0003 19.6666V23M23.0003 26.3333H23.0087M31.3337 23C31.3337 27.6023 27.6027 31.3333 23.0003 31.3333C18.398 31.3333 14.667 27.6023 14.667 23C14.667 18.3976 18.398 14.6666 23.0003 14.6666C27.6027 14.6666 31.3337 18.3976 31.3337 23Z"
+              stroke="#D92D20"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="1.66667"
+            />
+            <rect
+              height="40"
+              rx="20"
+              stroke="#FEF3F2"
+              stroke-width="6"
+              width="40"
+              x="3"
+              y="3"
+            />
+          </svg>
+        </div>
+        <div
+          class="ml-3 w-0 flex-1 pt-0.5"
+        >
+          <p
+            class="text-sm font-medium text-gray-900"
+          >
+            An Error
+          </p>
+          <p
+            class="mt-1 text-sm text-gray-500"
+          >
+            Some text
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

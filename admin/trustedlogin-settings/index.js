@@ -23,16 +23,16 @@ if (window.tlVendor) {
  * Removes all DOM nodes in array of nodes
  */
 const removeAllNodes = (nodes) => {
-  if( nodes && nodes.length){
-    nodes.forEach( node => node.remove());
+  if (nodes && nodes.length) {
+    nodes.forEach((node) => node.remove());
   }
 };
 
 window.addEventListener("load", function () {
   //remove notices
-  removeAllNodes(document.getElementsByClassName('notice'));
+  removeAllNodes(document.getElementsByClassName("notice"));
   //Remove all WooCommerce messages
-  removeAllNodes(document.getElementsByClassName('woocommerce-message'));
+  removeAllNodes(document.getElementsByClassName("woocommerce-message"));
   render(
     <App
       {...{
