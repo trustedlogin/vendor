@@ -37,15 +37,16 @@ class ReturnScreen {
             return;
         }
         $data = trusted_login_vendor_prepare_data($this->settings);
+
         if( ! isset($data['redirectData'])){
-            return;
+           return;
         }
 		$html = $this->template;
         //Put window.tlVendor in the HTML.
 		$html = str_replace("<script></script>",
 			sprintf( '<script>window.tlVendor=%s;</script>',json_encode($data)
 		), $html);
-        //Make URLs absoulte and correct
+        //Make URLs absolute and correct
 		$replace = site_url('/wp-content/plugins/vendor/build');
 		//Fix favicon src
         $find = '/tlfavicon.ico';
