@@ -14,6 +14,7 @@
  */
 
 use TrustedLogin\Vendor\ErrorHandler;
+use TrustedLogin\Vendor\AccessKeyLogin;
 
 if (!defined('ABSPATH')) {
     exit;
@@ -67,6 +68,14 @@ if( file_exists( $path . 'vendor/autoload.php' ) ){
 	add_action( 'template_redirect',[\TrustedLogin\Vendor\MaybeRedirect::class, 'handle']);
 	//Handle the "Reset All" button in UI
 	add_action( 'admin_init',[\TrustedLogin\Vendor\MaybeRedirect::class, 'adminInit']);
+	//Handle webhook/helpdesk return
+	add_action( 'admin_init',[
+		new \TrustedLogin\Vendor\ReturnScreen(
+			file_get_contents(__DIR__. "/build/index.html"),
+			trustedlogin_vendor()->getSettings()
+		),
+		'callback'
+	]);
 
 
 }else{
@@ -96,4 +105,44 @@ function trustedlogin_vendor(){
 		);
 	}
 	return $trustedlogin_vendor;
+}
+
+
+function trusted_login_vendor_prepare_data(\TrustedLogin\Vendor\SettingsApi $settingsApi){
+	$accessKey = isset($_REQUEST[AccessKeyLogin::ACCESS_KEY_INPUT_NAME]) ? sanitize_text_field($_REQUEST[AccessKeyLogin::ACCESS_KEY_INPUT_NAME]) : '';
+	$accountId = isset($_REQUEST[AccessKeyLogin::ACCOUNT_ID_INPUT_NAME]) ? sanitize_text_field($_REQUEST[AccessKeyLogin::ACCOUNT_ID_INPUT_NAME]) : '';
+
+	$data = [
+		'resetAction' => esc_url_raw(\TrustedLogin\Vendor\Reset::actionUrl()),
+		'roles' => wp_roles()->get_names(),
+		'onboarding' => \TrustedLogin\Vendor\Status\Onboarding::hasOnboarded() ? 'COMPLETE' : '0',
+		'accessKey' => [
+			AccessKeyLogin::ACCOUNT_ID_INPUT_NAME => $accountId,
+			AccessKeyLogin::ACCESS_KEY_INPUT_NAME => $accessKey,
+			AccessKeyLogin::REDIRECT_ENDPOINT => true,
+			'action'   => AccessKeyLogin::ACCESS_KEY_ACTION_NAME,
+			\TrustedLogin\Vendor\Webhooks\Factory::PROVIDER_KEY => 'helpscout',
+			AccessKeyLogin::NONCE_NAME => wp_create_nonce( AccessKeyLogin::NONCE_ACTION ),
+		],
+		'settings' => $settingsApi->toResponseData(),
+	];
+
+	//Check if we can preset redirectData in form
+	if( ! empty($accessKey) && ! empty($accountId) ){
+		$handler = new AccessKeyLogin();
+		//Check if request is authorized
+		if( $handler->verifyGrantAccessRequest(false) ){
+			$parts = $handler->handle([
+				AccessKeyLogin::ACCOUNT_ID_INPUT_NAME => $accountId,
+				AccessKeyLogin::ACCESS_KEY_INPUT_NAME => $accessKey,
+			]);
+			if( ! is_wp_error($parts) ){
+				//Send redirectData to AccessKeyForm.js
+				$data['redirectData'] = $parts;
+			}
+			//Please do not set $data['redirectData'] otherwise.
+		}
+
+	}
+	return $data;
 }

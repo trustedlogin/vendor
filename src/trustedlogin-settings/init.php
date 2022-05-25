@@ -29,26 +29,10 @@ add_action('init', function () {
             $assets['version']
         );
         $settingsApi = SettingsApi::fromSaved();
-
-        $accessKey = isset($_REQUEST[AccessKeyLogin::ACCESS_KEY_INPUT_NAME])
-            ? sanitize_text_field($_REQUEST[AccessKeyLogin::ACCESS_KEY_INPUT_NAME]) : '';
-        $accountId = isset($_REQUEST[AccessKeyLogin::ACCOUNT_ID_INPUT_NAME]) ? sanitize_text_field($_REQUEST[AccessKeyLogin::ACCOUNT_ID_INPUT_NAME]) : '';
-
-        $data = [
-            'resetAction' => esc_url_raw(Reset::actionUrl()),
-            'roles' => wp_roles()->get_names(),
-            'onboarding' => Onboarding::hasOnboarded() ? 'COMPLETE' : '0',
-            'accessKey' => [
-                AccessKeyLogin::ACCOUNT_ID_INPUT_NAME => $accountId,
-                AccessKeyLogin::ACCESS_KEY_INPUT_NAME => $accessKey,
-                AccessKeyLogin::REDIRECT_ENDPOINT => true,
-                'action'   => AccessKeyLogin::ACCESS_KEY_ACTION_NAME,
-                Factory::PROVIDER_KEY => 'helpscout',
-                AccessKeyLogin::NONCE_NAME => wp_create_nonce( AccessKeyLogin::NONCE_ACTION ),
-            ],
-            'settings' => $settingsApi->toResponseData(),
-        ];
-
+        $data = trusted_login_vendor_prepare_data($settingsApi);
+        $accessKey = isset($data[AccessKeyLogin::ACCESS_KEY_INPUT_NAME])
+        ? sanitize_text_field($data[AccessKeyLogin::ACCESS_KEY_INPUT_NAME]) : '';
+        $accountId = isset($data[AccessKeyLogin::ACCOUNT_ID_INPUT_NAME]) ? sanitize_text_field($data[AccessKeyLogin::ACCOUNT_ID_INPUT_NAME]) : '';
         //Check if we can preset redirectData in form
         if( ! empty($accessKey) && ! empty($accountId) ){
             $handler = new AccessKeyLogin();

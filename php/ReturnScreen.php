@@ -3,91 +3,39 @@
 namespace TrustedLogin\Vendor;
 use TrustedLogin\Vendor\MenuPage;
 
+/**
+ * When returning from webhook/helpdesk:
+ * Try to validate access key, if valid, return the mini-app.
+ */
 class ReturnScreen {
-    /**
-     * @var array
-     */
-    protected $dependencies;
-    /**
-     * @var array
-     */
-    protected $loaded;
-
-    /**
-     * @var array
-     */
-    protected $primarayUrls;
-    public function __construct(string $jsUrl, string $cssUrl,array $dependencies ){
-        $this->dependencies = $dependencies;
-        $this->loaded = [];
-        $this->primarayUrls = [
-            'js' => $jsUrl,
-            'css' => $cssUrl
-        ];
-    }
-
-    public function makeHtml(){
-        $assetHtml = $this->buildAssets();
-        return sprintf('<html lang="en-US"><head><title>%s</title>%s</head>%s</html>',
-            __('TrustedLogin Acces Key Login', 'trustedlogin-vendor'),
-            $assetHtml,
-            $this->buildBody()
-        );
-    }
-
-    public function buildBody(){
-        return sprintf('<body><div id="%s"></div>%s</body>',
-            MenuPage::REACT_ROOT_ID,
-            $this->scriptTag($this->primarayUrls['js'],false).
-            sprintf(
-                '<link rel="stylesheet" id="%s" href="%s" type="text/css" media="all">',
-                MenuPage::ASSET_HANDLE,
-                $this->primarayUrls['css']
-            )
-        );
-    }
-    public function buildAssets(){
-        $assetHtml = [];
-        foreach ($this->dependencies as $handle) {
-            if( \in_array($handle, $this->loaded) ){
-                continue;
-            }
-            $asset = wp_scripts()->query($handle,true);
-            if( ! $asset ){
-                \var_dump($handle);exit;
-            }
-            if(!empty($asset->deps)){
-
-
-                foreach ($asset->deps as $dep) {
-                    $depAsset = wp_scripts()->query($dep,true);
-                    if( ! $depAsset ){
-                        continue;
-                    }
-                    $assetHtml[] = $this->scriptTag($depAsset->src);
-                    $this->loaded[] = $dep;
-
-                }
-
-            }
-            $assetHtml[] = $this->scriptTag($asset->src);
-            $this->loaded[] = $handle;
-        }
-        $assetHtml = implode( "\n", $assetHtml);
-        return $assetHtml;
+    protected $template;
+    protected $settings;
+    public function __construct(string $template,SettingsApi $settings){
+        $this->template = $template;
+        $this->settings = $settings;
     }
 
     /**
-     * Create a script tag
+     * Return the HTML for the return screen.
      *
-     * @param string $src Source URL for script
-     * @param bool $prepend If true, the default, site_url($src) is used.
+     * @uses "admin_init"
      */
-    protected function scriptTag(string $src,bool $prepend = true ){
-        if( $prepend ){
-            $src = site_url($src);
-        }
-        return sprintf('<script src="%s"></script>',$src);
+    public function callback(){
+        $data = trusted_login_vendor_prepare_data($this->settings);
+		$html = $this->template;
+		$html = str_replace("<script></script>",
+			sprintf( '<script>window.tlVendor=%s;</script>',json_encode($data)
+		), $html);
+		$replace = site_url('/wp-content/plugins/vendor/build');
+		$find = '/tlfavicon.ico';
+		$html = str_replace('/tlfavicon.ico', $replace.$find, $html);
+		$find = '/static/js';
+
+		$html = str_replace(
+			$find,$replace.$find,$html
+		);
+        echo $html;exit;
+
     }
 
 }

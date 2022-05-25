@@ -39,9 +39,6 @@ class Plugin
 		$this->auditLog = new AuditLog();
 		$this->apiSender = new \TrustedLogin\Vendor\ApiSend();
 		$this->settings = SettingsApi::fromSaved();
-
-		//$this->settings->reset()->save();
-		//\TrustedLogin\Vendor\Status\Onboarding::reset();
 	}
 
 
