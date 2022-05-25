@@ -180,7 +180,7 @@ class Helpscout extends Webhook{
 							$url = add_query_arg( [
 								AccessKeyLogin::ACCOUNT_ID_INPUT_NAME => $account_id,
 								AccessKeyLogin::ACCESS_KEY_INPUT_NAME => $key,
-							], admin_url('admin.php?page=trustedlogin_access_key_login') );
+							], admin_url( 'admin.php?page=' . AccessKeyLogin::PAGE_SLUG ) );
 
 							if ( is_wp_error( $url ) ) {
 								$this->log( 'Error building item HTML. ' . $url->get_error_code() . ': ' . $url->get_error_message() );
@@ -189,7 +189,7 @@ class Helpscout extends Webhook{
 
 							$item_html .= sprintf(
 								$item_template,
-								$url,
+								esc_url( $url ),
 								esc_html__( 'Access Website', 'trustedlogin-vendor' ),
 								sprintf( esc_html__( 'Access Key: %s', 'trustedlogin-vendor' ), $key ),
 								sprintf( esc_html__( 'License is %s', 'trustedlogin-vendor' ), ucwords( esc_html( $statuses[ $key ] ) ) )
