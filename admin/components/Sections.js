@@ -94,7 +94,7 @@ export const DebugLogSettings = () => {
     <SettingSection
       title={__("Logging", "trustedlogin-vendor")}
       subTitle={__(
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+        "These settings relate to logging TrustedLogin activity, including remote interactions and usage activity.",
         "trustedlogin-vendor"
       )}>
       <ul role="list" className="divide-y divide-gray-200">
