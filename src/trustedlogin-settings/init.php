@@ -6,6 +6,8 @@ use TrustedLogin\Vendor\Reset;
 use TrustedLogin\Vendor\MenuPage;
 use TrustedLogin\Vendor\SettingsApi;
 use TrustedLogin\Vendor\AccessKeyLogin;
+use TrustedLogin\Vendor\ReturnScreen;
+
 use TrustedLogin\Vendor\Webhooks\Factory;
 
 add_action('init', function () {
@@ -16,10 +18,13 @@ add_action('init', function () {
     // This needs to be done once, not once per menu.
     if( file_exists(dirname(__FILE__, 3). "/build/admin-page-trustedlogin-settings.asset.php" ) ){
         $assets = include dirname(__FILE__, 3). "/build/admin-page-trustedlogin-settings.asset.php";
+        $jsUrl = plugins_url("/build/admin-page-trustedlogin-settings.js", dirname(__FILE__, 2));
+        $cssUrl = plugins_url("/trustedlogin-dist.css", dirname(__FILE__, 1));
         $dependencies = $assets['dependencies'];
+
         wp_register_script(
             MenuPage::ASSET_HANDLE,
-            plugins_url("/build/admin-page-trustedlogin-settings.js", dirname(__FILE__, 2)),
+            $jsUrl,
             $dependencies,
             $assets['version']
         );
@@ -90,10 +95,12 @@ add_action('init', function () {
         wp_localize_script(MenuPage::ASSET_HANDLE,'tlVendor', $data);
         wp_register_style(
             MenuPage::ASSET_HANDLE,
-            plugins_url("/trustedlogin-dist.css", dirname(__FILE__, 1)),
+            $cssUrl,
             [],
             md5_file(dirname(__FILE__, 2)."/trustedlogin-dist.css")
         );
+
+
     }
 
     // Add main menu page

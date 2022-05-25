@@ -13,11 +13,11 @@
     "test:ci": "wp-scripts test-unit-js --ci",
     "format:js": "wp-scripts format-js",
     "lint:css": "wp-scripts lint-style",
-    "lint:js": "prettier ./admin --write",
-    "lint": "prettier ./admin --write",
+    "lint:js": "prettier ./src --write",
+    "lint": "prettier ./src --write",
     "start:js": "wp-scripts start",
-    "start:css": "yarn tailwindcss -i ./admin/tailwind.css -o ./admin/trustedlogin-dist.css --watch",
-    "build:css": "cross-env  NODE_ENV=production TAILWIND_MODE=build yarn tailwindcss -i ./admin/tailwind.css -o ./admin/trustedlogin-dist.css"
+    "start:css": "yarn tailwindcss -i ./src/tailwind.css -o ./src/trustedlogin-dist.css --watch",
+    "build:css": "cross-env  NODE_ENV=production TAILWIND_MODE=build yarn tailwindcss -i ./src/tailwind.css -o ./src/trustedlogin-dist.css"
   },
   "devDependencies": {
     "@babel/core": "^7",
