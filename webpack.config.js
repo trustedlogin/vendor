@@ -19,6 +19,6 @@ module.exports = {
   entry,
   output: {
     filename: "[name].js",
-    path: path.join(__dirname, "./build"),
+    path: path.join(__dirname, "./wpbuild"),
   },
 };

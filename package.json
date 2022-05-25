@@ -8,7 +8,7 @@
     "test": "yarn test:unit",
     "test:unit": "wp-scripts test-unit-js",
     "build:js": "wp-scripts build",
-    "build": "yarn build:js && yarn build:css",
+    "build": "yarn build:js && yarn build:css && yarn build:app",
     "build:app": "npx --yes react-scripts build",
     "start": "yarn run-p start:js --watch start:css",
     "test:ci": "wp-scripts test-unit-js --ci",

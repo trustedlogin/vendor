@@ -49,11 +49,29 @@ The `wp.js` script uses docker compose.
 
 ## Working With JavaScript
 
-- Build JavaScript and CSS for production
+There is a React app, for the admin page. It is located in `/src`. We create two different builds from this app:
+
+1. WordPress-safe JavaScript
+   1. Built with [`@wordpress/scripts](https://developer.wordpress.org/block-editor/reference-guides/packages/packages-scripts/).
+   2. We use this for the admin page.
+2. "App Build"
+   1. Built with [`react-scripts`](https://www.npmjs.com/package/react-scripts).
+   2. We use this for the access key login link in webhooks/helpdesks.
+   3. This build includes React and ReactDom and is not safe for use in normal WordPress screens.
+
+### Commands
+
+- Build all JavaScript and CSS for production
     - `yarn build`
-- Build JavaScript for production
+
+#### JavaScript
+- Build WordPress JavaScript for production
     - `yarn build:js`
-- Start JS watcher and CSS watcher in parallel
+- Build the "App Build" JavaScript for production
+    - `yarn build:app`
+    - This command requires that [`npx`](https://nodejs.dev/learn/the-npx-nodejs-package-runner) is installed.
+    - `npx` is used to run `react-scripts`, instead of installing it in this repo and using `yarn`, in order to avoid potential conflicts with `@wordpress/scripts`.
+- Start WordPress Javascript watcher and CSS watcher in parallel
     - `yarn start`
     - This is busted, open two tabs, `yarn start:css`, `yarn start:js`
 - Start JS watcher only
@@ -65,7 +83,8 @@ The `wp.js` script uses docker compose.
     - `yarn test --ci`
 - Lint JS
     - `yarn lint`
-## Working With CSS
+
+#### CSS
 
 - Build CSS for production
     - `yarn build:css`

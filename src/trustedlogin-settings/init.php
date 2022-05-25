@@ -16,9 +16,9 @@ add_action('init', function () {
      * Register assets
      */
     // This needs to be done once, not once per menu.
-    if( file_exists(dirname(__FILE__, 3). "/build/admin-page-trustedlogin-settings.asset.php" ) ){
-        $assets = include dirname(__FILE__, 3). "/build/admin-page-trustedlogin-settings.asset.php";
-        $jsUrl = plugins_url("/build/admin-page-trustedlogin-settings.js", dirname(__FILE__, 2));
+    if( file_exists(dirname(__FILE__, 3). "/wpbuild/admin-page-trustedlogin-settings.asset.php" ) ){
+        $assets = include dirname(__FILE__, 3). "/wpbuild/admin-page-trustedlogin-settings.asset.php";
+        $jsUrl = plugins_url("/wpbuild/admin-page-trustedlogin-settings.js", dirname(__FILE__, 2));
         $cssUrl = plugins_url("/trustedlogin-dist.css", dirname(__FILE__, 1));
         $dependencies = $assets['dependencies'];
 
