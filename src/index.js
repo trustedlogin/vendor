@@ -1,10 +1,26 @@
+/**
+ * This is the entry point for the webhook/integration return page
+ */
+
 import React from "react";
 import { render } from "react-dom";
-const App = () => <div>Hi Roy</div>;
+import App from "./trustedlogin-settings/App";
+import api from "./api";
+import {
+  hasOnboarded,
+  initialTeams,
+  initialIntegrationSettings,
+} from "./trustedlogin-settings/setupVars";
 
+window.tlInitialView = "teams/access_key";
 render(
-  <>
-    <App />
-  </>,
+  <App
+    {...{
+      ...api,
+      hasOnboarded,
+      initialTeams,
+      initialIntegrationSettings,
+    }}
+  />,
   document.getElementById("root")
 );

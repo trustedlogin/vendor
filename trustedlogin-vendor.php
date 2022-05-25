@@ -68,14 +68,17 @@ if( file_exists( $path . 'vendor/autoload.php' ) ){
 	add_action( 'template_redirect',[\TrustedLogin\Vendor\MaybeRedirect::class, 'handle']);
 	//Handle the "Reset All" button in UI
 	add_action( 'admin_init',[\TrustedLogin\Vendor\MaybeRedirect::class, 'adminInit']);
-	//Handle webhook/helpdesk return
-	add_action( 'admin_init',[
-		new \TrustedLogin\Vendor\ReturnScreen(
-			file_get_contents(__DIR__. "/build/index.html"),
-			trustedlogin_vendor()->getSettings()
-		),
-		'callback'
-	]);
+	if( file_exists(__DIR__. "/build/index.html")){
+		//Handle webhook/helpdesk return
+		add_action( 'admin_init',[
+			new \TrustedLogin\Vendor\ReturnScreen(
+				file_get_contents(__DIR__. "/build/index.html"),
+				trustedlogin_vendor()->getSettings()
+			),
+			'callback'
+		]);
+	}
+
 
 
 }else{
@@ -108,9 +111,12 @@ function trustedlogin_vendor(){
 }
 
 
+/**
+ * Get data to set window.tlVendor in client with
+ */
 function trusted_login_vendor_prepare_data(\TrustedLogin\Vendor\SettingsApi $settingsApi){
-	$accessKey = isset($_REQUEST[AccessKeyLogin::ACCESS_KEY_INPUT_NAME]) ? sanitize_text_field($_REQUEST[AccessKeyLogin::ACCESS_KEY_INPUT_NAME]) : '';
-	$accountId = isset($_REQUEST[AccessKeyLogin::ACCOUNT_ID_INPUT_NAME]) ? sanitize_text_field($_REQUEST[AccessKeyLogin::ACCOUNT_ID_INPUT_NAME]) : '';
+	$accessKey = AccessKeyLogin::fromRequest(true);
+	$accountId = AccessKeyLogin::fromRequest(false);
 
 	$data = [
 		'resetAction' => esc_url_raw(\TrustedLogin\Vendor\Reset::actionUrl()),

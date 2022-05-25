@@ -206,4 +206,18 @@ class AccessKeyLogin
 		//Ok, it's chill.
 		return true;
 	}
+
+	/**
+	 * Get access key or account ID from requests
+	 *
+	 * @param bool $ak Optional. If true, access key returned. If false, account ID.
+	 * @return string
+	 */
+	public static function fromRequest(bool $ak = true ){
+		if( $ak ){
+			return isset($_REQUEST[self::ACCESS_KEY_INPUT_NAME]) ? sanitize_text_field($_REQUEST[self::ACCESS_KEY_INPUT_NAME]) : '';
+		}
+		return isset($_REQUEST[self::ACCOUNT_ID_INPUT_NAME]) ? sanitize_text_field($_REQUEST[self::ACCOUNT_ID_INPUT_NAME]) : '';
+
+	}
 }

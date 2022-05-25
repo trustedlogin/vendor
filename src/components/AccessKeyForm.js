@@ -106,6 +106,12 @@ const AccessKeyForm = ({ initialAccountId = null }) => {
           setIsLoading(false);
           if (
             err &&
+            err.hasOwnProperty("message") &&
+            "message" === typeof err.message
+          ) {
+            setErrorMessage(err.message);
+          } else if (
+            err &&
             err.hasOwnProperty("data") &&
             "string" === typeof err.data
           ) {
