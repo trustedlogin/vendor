@@ -182,11 +182,6 @@ class Helpscout extends Webhook{
 								AccessKeyLogin::ACCESS_KEY_INPUT_NAME => $key,
 							], admin_url( 'admin.php?page=' . AccessKeyLogin::PAGE_SLUG ) );
 
-							if ( is_wp_error( $url ) ) {
-								$this->log( 'Error building item HTML. ' . $url->get_error_code() . ': ' . $url->get_error_message() );
-								continue;
-							}
-
 							$item_html .= sprintf(
 								$item_template,
 								esc_url( $url ),
