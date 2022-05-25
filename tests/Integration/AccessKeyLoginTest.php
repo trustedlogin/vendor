@@ -94,6 +94,11 @@ class AccesKeyLoginTest extends \WP_UnitTestCase
 			$ak->verifyGrantAccessRequest()->errors
 		);
 
+		//Can bypass nonce check
+		$this->assertTrue(
+			$ak->verifyGrantAccessRequest(false)
+		);
+
 
 		//Set invalid nonce
 		$_REQUEST[AccessKeyLogin::NONCE_NAME ] = wp_create_nonce('bad-action');
@@ -101,7 +106,7 @@ class AccesKeyLoginTest extends \WP_UnitTestCase
 		//Return WP_Error for bad nonce
 		$this->assertTrue(
 			is_wp_error(
-			$ak->verifyGrantAccessRequest()
+				$ak->verifyGrantAccessRequest()
 			));
 
 		//Set valid nonce

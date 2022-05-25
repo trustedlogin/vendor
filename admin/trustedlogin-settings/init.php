@@ -25,24 +25,44 @@ add_action('init', function () {
         );
         $settingsApi = SettingsApi::fromSaved();
 
+        $accessKey = isset($_REQUEST[AccessKeyLogin::ACCESS_KEY_INPUT_NAME])
+            ? sanitize_text_field($_REQUEST[AccessKeyLogin::ACCESS_KEY_INPUT_NAME]) : '';
+        $accountId = isset($_REQUEST[AccessKeyLogin::ACCOUNT_ID_INPUT_NAME]) ? sanitize_text_field($_REQUEST[AccessKeyLogin::ACCOUNT_ID_INPUT_NAME]) : '';
 
-        wp_localize_script(MenuPage::ASSET_HANDLE,'tlVendor', [
+        $data = [
             'resetAction' => esc_url_raw(Reset::actionUrl()),
             'roles' => wp_roles()->get_names(),
             'onboarding' => Onboarding::hasOnboarded() ? 'COMPLETE' : '0',
             'accessKey' => [
-                AccessKeyLogin::ACCESS_KEY_INPUT_NAME =>
-                    isset($_REQUEST[AccessKeyLogin::ACCESS_KEY_INPUT_NAME]) ? sanitize_text_field($_REQUEST[AccessKeyLogin::ACCESS_KEY_INPUT_NAME]) : '',
-                AccessKeyLogin::ACCOUNT_ID_INPUT_NAME =>
-                    isset($_REQUEST[AccessKeyLogin::ACCOUNT_ID_INPUT_NAME]) ? sanitize_text_field($_REQUEST[AccessKeyLogin::ACCOUNT_ID_INPUT_NAME]) : '',
-                AccessKeyLogin::REDIRECT_ENDPOINT  => true,
+                AccessKeyLogin::ACCOUNT_ID_INPUT_NAME => $accountId,
+                AccessKeyLogin::ACCESS_KEY_INPUT_NAME => $accessKey,
+                AccessKeyLogin::REDIRECT_ENDPOINT => true,
                 'action'   => AccessKeyLogin::ACCESS_KEY_ACTION_NAME,
                 Factory::PROVIDER_KEY => 'helpscout',
                 AccessKeyLogin::NONCE_NAME => wp_create_nonce( AccessKeyLogin::NONCE_ACTION ),
             ],
-
             'settings' => $settingsApi->toResponseData(),
-        ]);
+        ];
+
+        //Check if we can preset redirectData in form
+        if( ! empty($accessKey) && ! empty($accountId) ){
+            $handler = new AccessKeyLogin();
+            //Check if request is authorized
+            if( $handler->verifyGrantAccessRequest(false) ){
+                $parts = $handler->handle([
+                    AccessKeyLogin::ACCOUNT_ID_INPUT_NAME => $accountId,
+                    AccessKeyLogin::ACCESS_KEY_INPUT_NAME => $accessKey,
+                ]);
+                if( ! is_wp_error($parts) ){
+                    //Send redirectData to AccessKeyForm.js
+                    $data['redirectData'] = $parts;
+                }
+                //Please do not set $data['redirectData'] otherwise.
+            }
+
+        }
+
+        wp_localize_script(MenuPage::ASSET_HANDLE,'tlVendor', $data);
         wp_register_style(
             MenuPage::ASSET_HANDLE,
             plugins_url("/trustedlogin-dist.css", dirname(__FILE__, 1)),
