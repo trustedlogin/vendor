@@ -15,7 +15,7 @@ class AccessKeyLogin
 	/**
 	 * WordPress admin slug for access key login
 	 */
-	const PAGE_SLUG = 'trustedlogin_access_key';
+	const PAGE_SLUG = 'trustedlogin_access_key_login';
 
 	/**
 	 * Name of form nonce
