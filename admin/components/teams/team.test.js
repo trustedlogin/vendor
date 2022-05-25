@@ -86,7 +86,7 @@ describe("TeamsList", () => {
 });
 describe("HelpDeskSelect", () => {
   const options = [
-    { label: "Helpscout", value: "helpscout" },
+    { label: "Help Scout", value: "helpscout" },
     { label: "Zendesk", value: "zendesk" },
   ];
   it("Renders & Matches snapshot", () => {
