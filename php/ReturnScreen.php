@@ -32,38 +32,42 @@ class ReturnScreen {
      *
      * @uses "admin_init"
      */
-    public function callback(){
-        if( ! $this->shouldHandle() ){
-            return;
-        }
-        $data = trusted_login_vendor_prepare_data($this->settings);
+    public function callback() {
+	    if ( ! $this->shouldHandle() ) {
+		    return;
+	    }
 
-        if( ! isset($data['redirectData'])){
-           return;
-        }
-		$html = $this->template;
-        //Put window.tlVendor in the HTML.
-		$html = str_replace("<script></script>",
-			sprintf( '<script>window.tlVendor=%s;</script>',json_encode($data)
-		), $html);
-        //Make URLs absolute and correct
-		$replace = site_url('/wp-content/plugins/vendor/build');
-		//Fix favicon src
-        $find = '/tlfavicon.ico';
-		$html = str_replace('/tlfavicon.ico', $replace.$find, $html);
-        //Fix script source
-        $find = '/static/js';
-		$html = str_replace(
-			$find,$replace.$find,$html
-		);
-        //Fix style source
-        $find = '/src/trustedlogin-dist.css';
-        $replace = site_url('/wp-content/plugins/vendor');
-        $html = str_replace(
-            $find,$replace.$find,$html
-        );
-        echo $html;exit;
+	    $data = trusted_login_vendor_prepare_data( $this->settings );
 
+	    if ( ! isset( $data['redirectData'] ) ) {
+		    return;
+	    }
+
+	    $html = $this->template;
+
+	    //Put window.tlVendor in the HTML.
+	    $html = str_replace(
+		    '<script></script>',
+		    sprintf( '<script>window.tlVendor=%s;</script>', json_encode( $data ) ),
+		    $html
+	    );
+
+	    //Make URLs absolute and correct
+	    $plugin_dir_url = plugin_dir_url( TRUSTEDLOGIN_PLUGIN_FILE );
+
+	    $replacements = [
+		    '/tlfavicon.ico'             => $plugin_dir_url . 'build/tlfavicon.ico', // Fix favicon src
+		    '/static/js'                 => $plugin_dir_url . 'build/static/js', // Fix script source
+		    '/src/trustedlogin-dist.css' => $plugin_dir_url . 'src/trustedlogin-dist.css', // Fix style source
+	    ];
+
+	    foreach ( $replacements as $search => $replace ) {
+		    $html = str_replace( $search, $replace, $html );
+	    }
+
+	    echo $html;
+
+	    exit;
     }
 
 }
