@@ -317,7 +317,7 @@ class SettingsApiTest extends \WP_UnitTestCase
 				$setting1
 				->getHelpdeskData()['callback'],
 				'?trustedlogin=1&action=trustedlogin_webhook&provider=helpscout'
-			),
+			)
 
 		);
 		$this->assertArrayHasKey(
