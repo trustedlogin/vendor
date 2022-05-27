@@ -167,13 +167,13 @@ export function ConfigureHelscout({ isOpen, setIsOpen, team }) {
       setIsOpen={setIsOpen}
       title={title}
       link={"#"}
-      linkText={"Where can I find this info?"}
+      linkText={"Learn how to set up a TrustedLogin Help Scout widget."}
       description={__(
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+        "Enter these values into a Custom App 'Dynamic Content' widget in Help Scout.",
         "trustedlogin-vendor"
       )}
-      goLink={"#"}
-      goLinkText={__("Configure in Help Scout", "trustedlogin-vendor")}>
+      goLink={"https://secure.helpscout.net/apps/custom/"}
+      goLinkText={__("Create a Custom App in Help Scout", "trustedlogin-vendor")}>
       <>
         <HelpscoutTeamDetails team={team} />
       </>

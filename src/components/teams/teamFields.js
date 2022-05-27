@@ -18,7 +18,7 @@ const teamFields = {
     id: "helpdesk",
     defaultValue: "helpscout",
     options: [
-      { value: "helpscout", label: __("Helpscout", "trustedlogin-vendor") },
+      { value: "helpscout", label: __("Help Scout", "trustedlogin-vendor") },
       { value: "zendesk", label: __("Zendesk", "trustedlogin-vendor") },
     ],
   },

@@ -21,6 +21,13 @@ class MenuPage {
 
     const ASSET_HANDLE = 'trustedlogin-settings';
 
+    /**
+     * ID of root element for React app
+     *
+     * @var string
+     */
+    const REACT_ROOT_ID = 'trustedlogin-settings';
+
      /**
      * @var string
      */
@@ -98,7 +105,7 @@ class MenuPage {
                 'manage_options',
                 self::PARENT_MENU_SLUG,
                 [$this, 'renderPage'],
-                'dashicons-admin-generic'
+                'data:image/svg+xml;base64,PHN2ZyBlbmFibGUtYmFja2dyb3VuZD0ibmV3IDAgMCAxODAgMjAwIiB2aWV3Qm94PSIwIDAgMTgwIDIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJtMTMzLjYgNzF2LTUuOWguMXYtMjEuNWMwLTI0LTE5LjYtNDMuNi00My42LTQzLjYtMjQuMiAwLTQzLjcgMTkuNi00My43IDQzLjZ2MTMgOC41IDUuOWMtMTIgMS44LTE5LjUgNC4zLTE5LjUgN3Y0OWg1MS42di04LjljMC0yLjMgMS42LTMuMyAzLjYtMi4xbDI1LjYgMTQuOWMyIDEuMiAyIDMgMCA0LjJsLTI1LjYgMTQuOWMtMiAxLjItMy42LjItMy42LTIuMXYtOC45aC01MS42djExLjVjMCAzNC45IDQzIDQ5LjcgNjMuMiA0OS43czYzLjItMTQuOCA2My4yLTQ5Ljd2LTcyLjVjLS4xLTIuNy03LjctNS4yLTE5LjctN3ptLTY4LjYtNy44Yy4xIDAgLjEgMCAwIDBsLjEtMTkuNmMwLTEzLjggMTEuMS0yNC45IDI0LjktMjQuOSAxMy43IDAgMjQuOSAxMS4xIDI0LjkgMjQuOXYxM2gtLjF2MTIuNGMtNy42LS41LTE2LS44LTI0LjgtLjgtOC45IDAtMTcuMy4zLTI1IC44em0yNS4xIDExNmMtMjAuOCAwLTM4LjUtMTMuOS00NC4zLTMyLjhoMTMuNGM1LjMgMTEuOSAxNy4xIDIwLjIgMzAuOSAyMC4yIDE4LjYgMCAzMy43LTE1LjEgMzMuNy0zMy43cy0xNS4xLTMzLjctMzMuNy0zMy43Yy0xMy44IDAtMjUuNiA4LjMtMzAuOSAyMC4yaC0xMy41YzUuOC0xOC45IDIzLjUtMzIuOCA0NC4zLTMyLjggMjUuNiAwIDQ2LjMgMjAuOCA0Ni4zIDQ2LjNzLTIwLjggNDYuMy00Ni4yIDQ2LjN6IiBmaWxsPSIjMDEwMTAxIi8+PC9zdmc+'
             );
         }
 
@@ -139,7 +146,7 @@ class MenuPage {
             );
         }
         //React root
-        echo '<div id="trustedlogin-settings"></div>';
+        printf( '<div id="%s"></div>',self::REACT_ROOT_ID)  ;
     }
 
 }

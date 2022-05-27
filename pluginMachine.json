@@ -14,9 +14,10 @@
     "php",
     "vendor",
     "build",
+    "wpbuild",
     "inc",
-    "admin/trustedlogin-settings/init.php",
-    "admin/trustedlogin-dist.css"
+    "src/trustedlogin-settings/init.php",
+    "src/trustedlogin-dist.css"
   ],
   "buildSteps": {
     "dev": [

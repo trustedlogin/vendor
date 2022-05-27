@@ -89,7 +89,7 @@ export const IntegrationHelpscout = () => {
         toggleOpenState={() => setIsOpen(!isOpen)}
         id={"helpscout"}
         isEnabled={true}
-        name={"Helpscout"}
+        name={"Help Scout"}
         description={__(
           "Customer support platform, knowledge base tool, and an contact widget for customer service.",
           "trustedlogin-vendor"

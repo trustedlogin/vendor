@@ -112,7 +112,7 @@ const StepTwo = () => {
         </h2>
         <p className="mt-2 mb-4 text-sm text-gray-500">
           {__(
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ornare tortor in nisl fermentum.",
+            "Each team supports a project in TrustedLogin.",
             "trustedlogin-vendor"
           )}
         </p>

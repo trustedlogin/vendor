@@ -6,6 +6,8 @@ use TrustedLogin\Vendor\Reset;
 use TrustedLogin\Vendor\MenuPage;
 use TrustedLogin\Vendor\SettingsApi;
 use TrustedLogin\Vendor\AccessKeyLogin;
+use TrustedLogin\Vendor\ReturnScreen;
+
 use TrustedLogin\Vendor\Webhooks\Factory;
 
 add_action('init', function () {
@@ -14,36 +16,23 @@ add_action('init', function () {
      * Register assets
      */
     // This needs to be done once, not once per menu.
-    if( file_exists(dirname(__FILE__, 3). "/build/admin-page-trustedlogin-settings.asset.php" ) ){
-        $assets = include dirname(__FILE__, 3). "/build/admin-page-trustedlogin-settings.asset.php";
+    if( file_exists(dirname(__FILE__, 3). "/wpbuild/admin-page-trustedlogin-settings.asset.php" ) ){
+        $assets = include dirname(__FILE__, 3). "/wpbuild/admin-page-trustedlogin-settings.asset.php";
+        $jsUrl = plugins_url("/wpbuild/admin-page-trustedlogin-settings.js", dirname(__FILE__, 2));
+        $cssUrl = plugins_url("/trustedlogin-dist.css", dirname(__FILE__, 1));
         $dependencies = $assets['dependencies'];
+
         wp_register_script(
             MenuPage::ASSET_HANDLE,
-            plugins_url("/build/admin-page-trustedlogin-settings.js", dirname(__FILE__, 2)),
+            $jsUrl,
             $dependencies,
             $assets['version']
         );
         $settingsApi = SettingsApi::fromSaved();
-
-        $accessKey = isset($_REQUEST[AccessKeyLogin::ACCESS_KEY_INPUT_NAME])
-            ? sanitize_text_field($_REQUEST[AccessKeyLogin::ACCESS_KEY_INPUT_NAME]) : '';
-        $accountId = isset($_REQUEST[AccessKeyLogin::ACCOUNT_ID_INPUT_NAME]) ? sanitize_text_field($_REQUEST[AccessKeyLogin::ACCOUNT_ID_INPUT_NAME]) : '';
-
-        $data = [
-            'resetAction' => esc_url_raw(Reset::actionUrl()),
-            'roles' => wp_roles()->get_names(),
-            'onboarding' => Onboarding::hasOnboarded() ? 'COMPLETE' : '0',
-            'accessKey' => [
-                AccessKeyLogin::ACCOUNT_ID_INPUT_NAME => $accountId,
-                AccessKeyLogin::ACCESS_KEY_INPUT_NAME => $accessKey,
-                AccessKeyLogin::REDIRECT_ENDPOINT => true,
-                'action'   => AccessKeyLogin::ACCESS_KEY_ACTION_NAME,
-                Factory::PROVIDER_KEY => 'helpscout',
-                AccessKeyLogin::NONCE_NAME => wp_create_nonce( AccessKeyLogin::NONCE_ACTION ),
-            ],
-            'settings' => $settingsApi->toResponseData(),
-        ];
-
+        $data = trusted_login_vendor_prepare_data($settingsApi);
+        $accessKey = isset($data[AccessKeyLogin::ACCESS_KEY_INPUT_NAME])
+        ? sanitize_text_field($data[AccessKeyLogin::ACCESS_KEY_INPUT_NAME]) : '';
+        $accountId = isset($data[AccessKeyLogin::ACCOUNT_ID_INPUT_NAME]) ? sanitize_text_field($data[AccessKeyLogin::ACCOUNT_ID_INPUT_NAME]) : '';
         //Check if we can preset redirectData in form
         if( ! empty($accessKey) && ! empty($accountId) ){
             $handler = new AccessKeyLogin();
@@ -90,10 +79,12 @@ add_action('init', function () {
         wp_localize_script(MenuPage::ASSET_HANDLE,'tlVendor', $data);
         wp_register_style(
             MenuPage::ASSET_HANDLE,
-            plugins_url("/trustedlogin-dist.css", dirname(__FILE__, 1)),
+            $cssUrl,
             [],
             md5_file(dirname(__FILE__, 2)."/trustedlogin-dist.css")
         );
+
+
     }
 
     // Add main menu page
