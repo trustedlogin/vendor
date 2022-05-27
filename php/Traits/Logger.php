@@ -8,6 +8,12 @@ trait Logger
 {
 
     /**
+     * The random hash used for log location
+     * @var string
+     */
+    private $hash;
+
+    /**
      * Use trustedlogin_vendor()->log( 'message', __METHOD__ );
      */
 	public function log( $message,$method, $logLevel = 'info' , $context = [] )
@@ -72,6 +78,30 @@ trait Logger
         $date = new DateTime(date('Y-m-d H:i:s.'.$micro, $originalTime));
 
         return $date->format('Y-m-d H:i:s');
+    }
+
+    /**
+     * @see https://github.com/trustedlogin/vendor/issues/83
+     */
+    private function getLogFileName(){
+        //Use plugin dir in development.
+        if( defined( 'TRUSTEDLOGIN_DEBUG') && TRUSTEDLOGIN_DEBUG ) {
+            return dirname(__FILE__, 3).'/trustedlogin.log';
+        }
+        //else use a upload dir + random hash.
+        if( ! $this->hash ){
+            $hash = get_option(SettingsApi::LOG_LOCATION_SETTING_NAME,false);
+            if( ! $hash ){
+                $this->hash = hash('sha256',uniqid(rand(), true));
+                update_option(SettingsApi::LOG_LOCATION_SETTING_NAME,$hash);
+            }else{
+                $this->hash = $hash;
+            }
+        }
+
+        $upload_dir = wp_upload_dir();
+
+        return trailingslashit($upload_dir['baseurl']) . $this->hash . '/trustedlogin.log';
     }
 
 
