@@ -23,7 +23,7 @@ const getAccessKey = () => {
   }
   return "";
 };
-const AccessKeyForm = ({ initialAccountId = null }) => {
+const AccessKeyForm = ({ initialAccountId = null, minimal = false }) => {
   //State for access key in form or url
   //May be preset in window.tlVendor.accessKey.ak
   const [accessKey, setAccessKey] = useState(() => getAccessKey());
@@ -46,7 +46,7 @@ const AccessKeyForm = ({ initialAccountId = null }) => {
     return null;
   });
 
-  const { settings, getTeam, teams } = useSettings();
+  const { getTeam, teams } = useSettings();
   //State for account_id (not index) of the chosen team
   const [accountId, setAccountId] = useState(() => {
     //Would be index. Might be 0, which is valid
@@ -106,6 +106,12 @@ const AccessKeyForm = ({ initialAccountId = null }) => {
           setIsLoading(false);
           if (
             err &&
+            err.hasOwnProperty("message") &&
+            "message" === typeof err.message
+          ) {
+            setErrorMessage(err.message);
+          } else if (
+            err &&
             err.hasOwnProperty("data") &&
             "string" === typeof err.data
           ) {
@@ -164,12 +170,15 @@ const AccessKeyForm = ({ initialAccountId = null }) => {
           <div className="w-full p-8 text-center">
             <HorizontalLogo />
           </div>
-          <TitleDescriptionLink
-            title={__("Log In Using Access Key", "trustedlogin-vendor")}
-          />
+          {!minimal ? (
+            <TitleDescriptionLink
+              title={__("Log In Using Access Key", "trustedlogin-vendor")}
+            />
+          ) : null}
 
           <>
             <form
+              aria-label={__("Log In Using Access Key", "trustedlogin-vendor")}
               onSubmit={handler}
               id="access-key-form"
               method={"POST"}

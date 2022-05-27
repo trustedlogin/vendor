@@ -21,6 +21,13 @@ class MenuPage {
 
     const ASSET_HANDLE = 'trustedlogin-settings';
 
+    /**
+     * ID of root element for React app
+     *
+     * @var string
+     */
+    const REACT_ROOT_ID = 'trustedlogin-settings';
+
      /**
      * @var string
      */
@@ -139,7 +146,7 @@ class MenuPage {
             );
         }
         //React root
-        echo '<div id="trustedlogin-settings"></div>';
+        printf( '<div id="%s"></div>',self::REACT_ROOT_ID)  ;
     }
 
 }
