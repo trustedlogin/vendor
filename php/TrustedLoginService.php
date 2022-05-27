@@ -150,7 +150,6 @@ class TrustedLoginService
 		try {
 			$teamSettings =  $settings->getByAccountId($account_id);
 		} catch (\Exception $e) {
-			$this->logFail($secret_id, 'failed', $e->getMessage());
 			wp_safe_redirect(add_query_arg(array( 'tl-error' => self::REDIRECT_ERROR_STATUS ), $redirect_url), self::REDIRECT_ERROR_STATUS, 'TrustedLogin');
 			exit;
 		}
