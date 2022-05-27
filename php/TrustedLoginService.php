@@ -2,7 +2,6 @@
 namespace TrustedLogin\Vendor;
 
 use TrustedLogin\Vendor\Traits\Logger;
-use TrustedLogin\Vendor\AuditLog;
 use TrustedLogin\Vendor\Plugin;
 use TrustedLogin\Vendor\Traits\VerifyUser;
 
@@ -151,7 +150,6 @@ class TrustedLoginService
 		try {
 			$teamSettings =  $settings->getByAccountId($account_id);
 		} catch (\Exception $e) {
-			$this->getAuditLog()->insert($secret_id, 'failed', $e->getMessage());
 			wp_safe_redirect(add_query_arg(array( 'tl-error' => self::REDIRECT_ERROR_STATUS ), $redirect_url), self::REDIRECT_ERROR_STATUS, 'TrustedLogin');
 			exit;
 		}
@@ -166,13 +164,11 @@ class TrustedLoginService
 		}
 
 		if (empty($envelope)) {
-			$this->plugin->getAuditLog()->insert($secret_id, 'failed', esc_html__('Empty envelope.', 'trustedlogin-vendor'));
 			wp_safe_redirect($redirect_url, self::REDIRECT_ERROR_STATUS, 'TrustedLogin');
 		}
 
 		if (is_wp_error($envelope)) {
 			$this->log('Error: ' . $envelope->get_error_message(), __METHOD__, 'error');
-			$this->plugin->getAuditLog()->insert($secret_id, 'failed', $envelope->get_error_message());
 			wp_safe_redirect(add_query_arg(array( 'tl-error' => self::REDIRECT_ERROR_STATUS ), $redirect_url), self::REDIRECT_ERROR_STATUS, 'TrustedLogin');
 			exit;
 		}
@@ -180,18 +176,11 @@ class TrustedLoginService
 		$envelope_parts = ( $envelope ) ? $this->envelopeToUrl($envelope, true) : false;
 
 		if (is_wp_error($envelope_parts)) {
-			$this->getAuditLog()->insert($secret_id, 'failed', $envelope_parts->get_error_message());
 			wp_safe_redirect(add_query_arg(array( 'tl-error' => self::REDIRECT_ERROR_STATUS ), $redirect_url), self::REDIRECT_ERROR_STATUS, 'TrustedLogin');
 			exit;
 		}
 
-		if (! isset($envelope_parts['siteurl'], $envelope_parts['endpoint'], $envelope_parts['identifier'])) {
-			$this->getAuditLog()->insert($secret_id, 'failed', esc_html__('Malformed envelope.', 'trustedlogin-vendor'));
-		}
-
 		$output = $this->get_redirect_form_html($envelope_parts);
-
-		$this->getAuditLog()->insert($secret_id, 'redirected', esc_html__('Successful decryption of the envelope. Presenting the redirect form.', 'trustedlogin-vendor'));
 
 		// Use wp_die() to get a nice free template
 		wp_die($output, esc_html__('TrustedLogin redirect&hellip;', 'trustedlogin-vendor'), 302);
@@ -295,7 +284,6 @@ class TrustedLoginService
 		$data['nonce']       = $auth_nonce['nonce'];
 		$data['signedNonce'] = $auth_nonce['signed'];
 
-		$this->plugin->getAuditLog()->insert($secret_id, 'requested', true);
 
 		$endpoint = 'sites/' . $account_id . '/' . $secret_id . '/get-envelope';
 
@@ -322,8 +310,6 @@ class TrustedLoginService
 		} else {
 			$success = sprintf(esc_html__('Failed: %s', 'trustedlogin-vendor'), $envelope->get_error_message());
 		}
-
-		$this->plugin->getAuditLog()->insert($secret_id, 'received', $success);
 
 		return $envelope;
 	}

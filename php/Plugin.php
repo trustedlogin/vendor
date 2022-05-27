@@ -16,11 +16,6 @@ class Plugin
 	protected $encryption;
 
 	/**
-	 * @var AuditLog
-	 */
-	protected $auditLog;
-
-	/**
 	 * @var ApiSend
 	 */
 	protected $apiSender;
@@ -36,7 +31,6 @@ class Plugin
 	public function __construct(Encryption $encryption)
 	{
 		$this->encryption = $encryption;
-		$this->auditLog = new AuditLog();
 		$this->apiSender = new \TrustedLogin\Vendor\ApiSend();
 		$this->settings = SettingsApi::fromSaved();
 	}
@@ -156,14 +150,6 @@ class Plugin
 	public function getApiUrl()
 	{
 		return apply_filters('trustedlogin/api-url/saas', TRUSTEDLOGIN_API_URL);
-	}
-
-	/**
-	 * @return \TrustedLogin\Vendor\AuditLog
-	 */
-	public function getAuditLog()
-	{
-		return $this->auditLog;
 	}
 
 	/**

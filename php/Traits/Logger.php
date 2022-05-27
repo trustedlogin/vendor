@@ -13,7 +13,7 @@ trait Logger
 	public function log( $message,$method, $logLevel = 'info' , $context = [] )
 	{
 		$context = (array) $context;
-		$logLevel = strtolower( $logLevel );
+		$logLevel = strtolower( is_string($logLevel) ? $logLevel : 'info' );
 		if (defined('WP_DEBUG') && WP_DEBUG) {
             //In phpunit, this is printing, which is annoying, so we'll just not.
 			//error_log($message);
