@@ -10,13 +10,16 @@ export const useView = () => {
 
 export default function ViewProvider({
   children,
-  initialView = null,
+  initialView = "audits", //null,
   initialTeam = null,
 }) {
   const { hasOnboarded, teams } = useSettings();
 
   //Which view to show
   const [currentView, setCurrentView] = useState(() => {
+    if (initialView) {
+      return initialView;
+    }
     if (window.tlInitialView) {
       return window.tlInitialView;
     }
