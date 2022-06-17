@@ -27,6 +27,10 @@ const ActivityLogRow = ({ date, amount, siteId, action }) => {
   );
 };
 const Audits = () => {
+  //Page of results shown
+  const [page, setPage] = useState(1);
+  //Total number of pages we can show
+  const [totalPage, setTotalPage] = useState(10);
   //Track overview stats
   const [overallStats] = useState(() => {
     //TODO: Get real data
@@ -391,18 +395,22 @@ const Audits = () => {
                   aria-label="Pagination">
                   <div className="hidden sm:block">
                     <p className="text-sm text-gray-700">
-                      Page
-                      <span className="font-medium">1</span>
-                      of
-                      <span className="font-medium">10</span>
+                      {__("Page")}
+                      <span className="font-medium">{page}</span>
+                      {__("of")}
+                      <span className="font-medium">{totalPage}</span>
                     </p>
                   </div>
                   <div className="flex-1 flex justify-between sm:justify-end">
-                    <button className="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-lg text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500">
-                      Previous
+                    <button
+                      onClick={() => setPage(page - 1)}
+                      className="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-lg text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500">
+                      {__("Previous")}
                     </button>
-                    <button className="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-lg text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500">
-                      Next
+                    <button
+                      onClick={() => setPage(page + 1)}
+                      className="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-lg text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500">
+                      {__("Next")}
                     </button>
                   </div>
                 </nav>
