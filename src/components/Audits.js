@@ -3,8 +3,29 @@ import { PageHeader } from "./Layout";
 import { DangerZone, DebugLogSettings } from "./Sections";
 import { __ } from "@wordpress/i18n";
 import { useSettings } from "../hooks/useSettings";
+import DatePicker from "react-date-picker";
 
 const Audits = () => {
+  const stat = {
+    totalLogins: 0,
+    //percentage
+    totalLoginsIncreasedBy: 40,
+    succesfulLogins: 0,
+    //percentage
+    succesfulLoginsIncreasedBy: 40,
+    users: 12,
+  };
+
+  const [search, setSearch] = useState(() => {
+    let startDate = new Date();
+    let endDate = new Date(startDate.getTime());
+    endDate.setMonth(startDate.getMonth() - 6);
+    return {
+      term: "",
+      startDate,
+      endDate,
+    };
+  });
   return (
     <Fragment>
       <div className="flex flex-col px-5 py-6 sm:px-10">
@@ -18,7 +39,7 @@ const Audits = () => {
                   </dt>
                   <dd className="mt-1 block justify-between items-baseline md:flex">
                     <div className="flex items-baseline text-4xl font-semibold">
-                      256
+                      {stat.totalLogins}
                     </div>
                   </dd>
                 </div>
@@ -54,7 +75,7 @@ const Audits = () => {
                         clip-rule="evenodd"></path>
                     </svg>
                     <span className="sr-only">Increased by</span>
-                    20%
+                    {stat.totalLoginsIncreasedBy}%
                   </div>
                 </div>
               </div>
@@ -68,7 +89,7 @@ const Audits = () => {
                   </dt>
                   <dd className="mt-1 block justify-between items-baseline md:flex">
                     <div className="flex items-baseline text-4xl font-semibold">
-                      186
+                      {stat.succesfulLogins}
                     </div>
                   </dd>
                 </div>
@@ -104,7 +125,7 @@ const Audits = () => {
                         clip-rule="evenodd"></path>
                     </svg>
                     <span className="sr-only">Increased by</span>
-                    15%
+                    {stats.succesfulLoginsIncreasedBy}%
                   </div>
                 </div>
               </div>
@@ -118,7 +139,7 @@ const Audits = () => {
                   </dt>
                   <dd className="mt-1 block justify-between items-baseline md:flex">
                     <div className="flex items-baseline text-4xl font-semibold">
-                      13
+                      {stat.users}
                     </div>
                   </dd>
                 </div>
@@ -223,20 +244,34 @@ const Audits = () => {
                   </svg>
                 </div>
                 <div className="flex justify-between w-full">
-                  <input
+                  <label htmlFor="start-date" className="sr-only">
+                    Start Date
+                  </label>
+                  <DatePicker
+                    onChange={(value) => {
+                      setSearch({ ...search, startDate: value });
+                    }}
+                    value={search.startDate}
+                    id="start-date"
                     name="start-date"
                     type="text"
                     className="text-sm font-medium h-5 w-[5.2rem] bg-transparent p-0 outline-none border-none focus:ring-2 ring-offset-2 focus:ring-sky-500"
                     placeholder="Start date"
-                    value="Jan 6, 2022"
                   />
                   <span className="mx-2">-</span>
-                  <input
+                  <label htmlFor="end-date" className="sr-only">
+                    End Date
+                  </label>
+                  <DatePicker
+                    onChange={(value) => {
+                      setSearch({ ...search, endDate: value });
+                    }}
+                    value={search.endDate}
+                    id="end-date"
                     name="end-date"
                     type="text"
                     className="text-sm font-medium h-5 w-[8rem] sm:w-[5.4rem] bg-transparent p-0 outline-none border-none focus:ring-2 ring-offset-2 focus:ring-sky-500"
                     placeholder="End date"
-                    value="Jan 13, 2022"
                   />
                 </div>
               </div>
