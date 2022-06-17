@@ -403,13 +403,15 @@ const Audits = () => {
                   </div>
                   <div className="flex-1 flex justify-between sm:justify-end">
                     <button
+                      disabled={page === 1}
                       onClick={() => setPage(page - 1)}
-                      className="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-lg text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500">
+                      className="disabled:bg-slate-50 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-lg text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500">
                       {__("Previous")}
                     </button>
                     <button
+                      disabled={page === totalPage}
                       onClick={() => setPage(page + 1)}
-                      className="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-lg text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500">
+                      className="disabled:bg-slate-50 ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-lg text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500">
                       {__("Next")}
                     </button>
                   </div>
