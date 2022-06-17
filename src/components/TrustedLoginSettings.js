@@ -10,6 +10,8 @@ import TeamsSettings from "../components/teams/TeamsSettings";
 import GeneralSettings from "./GeneralSettings";
 import IntegrationSettings from "./IntegrationSettings";
 import { PageError } from "./Errors";
+import Audits from "../components/Audits";
+
 /**
  * TrustedLogin Settings screen
  */
@@ -59,14 +61,21 @@ export default function TrustedLoginSettings() {
           ) : (
             <>
               {"string" === typeof currentView &&
-              currentView.startsWith("teams") ? (
-                <TeamsSettings />
+              currentView.startsWith("audits") ? (
+                <Audits />
               ) : (
                 <>
-                  {"integrations" === currentView ? (
-                    <IntegrationSettings />
+                  {"string" === typeof currentView &&
+                  currentView.startsWith("teams") ? (
+                    <TeamsSettings />
                   ) : (
-                    <GeneralSettings />
+                    <>
+                      {"integrations" === currentView ? (
+                        <IntegrationSettings />
+                      ) : (
+                        <GeneralSettings />
+                      )}
+                    </>
                   )}
                 </>
               )}

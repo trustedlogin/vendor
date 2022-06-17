@@ -1,21 +1,68 @@
-import { Fragment } from "react";
-import { PageHeader } from "./Layout";
-import { DangerZone, DebugLogSettings } from "./Sections";
+import { Fragment, useState } from "react";
 import { __ } from "@wordpress/i18n";
-import { useSettings } from "../hooks/useSettings";
 import DatePicker from "react-date-picker";
 
+const ActivityLogRow = ({ date, amount, siteId, action }) => {
+  return (
+    <tr className="bg-white">
+      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+        <div className="flex">
+          <a href="#" className="group inline-flex space-x-2 truncate text-sm">
+            <p className="text-gray-500 truncate group-hover:text-gray-900">
+              {date.toLocaleTimeString()}
+            </p>
+          </a>
+        </div>
+      </td>
+      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+        {amount}
+      </td>
+      <td className="hidden px-6 py-4 whitespace-nowrap text-sm text-gray-500 md:block">
+        {siteId}
+      </td>
+      <td className="px-6 py-4 text-left whitespace-nowrap text-sm text-gray-500">
+        {action}
+      </td>
+    </tr>
+  );
+};
 const Audits = () => {
-  const stat = {
-    totalLogins: 0,
-    //percentage
-    totalLoginsIncreasedBy: 40,
-    succesfulLogins: 0,
-    //percentage
-    succesfulLoginsIncreasedBy: 40,
-    users: 12,
-  };
+  //Track overview stats
+  const [overallStats] = useState(() => {
+    //TODO: Get real data
+    return {
+      totalLogins: 0,
+      //percentage
+      totalLoginsIncreasedBy: 40,
+      succesfulLogins: 0,
+      //percentage
+      succesfulLoginsIncreasedBy: 40,
+      users: 12,
+    };
+  });
 
+  //Holds current page of logs
+  const [activityLogs, setActivityLogs] = useState(() => {
+    //This is sample data
+    return [
+      {
+        date: new Date(),
+        amount: "12 Things",
+        siteId: 15,
+        action: "Redirected",
+        id: "dsa-sda",
+      },
+      {
+        date: new Date(),
+        amount: "Many Things",
+        siteId: 251,
+        action: "Login",
+        id: "dsa-login",
+      },
+    ];
+  });
+
+  //Search data
   const [search, setSearch] = useState(() => {
     let startDate = new Date();
     let endDate = new Date(startDate.getTime());
@@ -35,11 +82,11 @@ const Audits = () => {
               <div className="flex flex-row justify-between sm:flex-col md:flex-row">
                 <div>
                   <dt className="text-sm font-medium text-gray-500 truncate">
-                    Total Logins
+                    {__("Total Logins")}
                   </dt>
                   <dd className="mt-1 block justify-between items-baseline md:flex">
                     <div className="flex items-baseline text-4xl font-semibold">
-                      {stat.totalLogins}
+                      {overallStats.totalLogins}
                     </div>
                   </dd>
                 </div>
@@ -75,7 +122,7 @@ const Audits = () => {
                         clip-rule="evenodd"></path>
                     </svg>
                     <span className="sr-only">Increased by</span>
-                    {stat.totalLoginsIncreasedBy}%
+                    {overallStats.totalLoginsIncreasedBy}%
                   </div>
                 </div>
               </div>
@@ -89,7 +136,7 @@ const Audits = () => {
                   </dt>
                   <dd className="mt-1 block justify-between items-baseline md:flex">
                     <div className="flex items-baseline text-4xl font-semibold">
-                      {stat.succesfulLogins}
+                      {overallStats.succesfulLogins}
                     </div>
                   </dd>
                 </div>
@@ -125,7 +172,7 @@ const Audits = () => {
                         clip-rule="evenodd"></path>
                     </svg>
                     <span className="sr-only">Increased by</span>
-                    {stats.succesfulLoginsIncreasedBy}%
+                    {overallStats.succesfulLoginsIncreasedBy}%
                   </div>
                 </div>
               </div>
@@ -139,7 +186,7 @@ const Audits = () => {
                   </dt>
                   <dd className="mt-1 block justify-between items-baseline md:flex">
                     <div className="flex items-baseline text-4xl font-semibold">
-                      {stat.users}
+                      {overallStats.users}
                     </div>
                   </dd>
                 </div>
@@ -245,7 +292,7 @@ const Audits = () => {
                 </div>
                 <div className="flex justify-between w-full">
                   <label htmlFor="start-date" className="sr-only">
-                    Start Date
+                    {__("Start Date")}
                   </label>
                   <DatePicker
                     onChange={(value) => {
@@ -260,7 +307,7 @@ const Audits = () => {
                   />
                   <span className="mx-2">-</span>
                   <label htmlFor="end-date" className="sr-only">
-                    End Date
+                    {__("End Date")}
                   </label>
                   <DatePicker
                     onChange={(value) => {
@@ -296,7 +343,7 @@ const Audits = () => {
                   stroke-linecap="round"
                   stroke-linejoin="round"></path>
               </svg>
-              Filters
+              {__("Filters")}
             </button>
           </div>
         </div>
@@ -334,204 +381,9 @@ const Audits = () => {
                     </tr>
                   </thead>
                   <tbody className="bg-white divide-y divide-gray-200">
-                    <tr className="bg-white">
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                        <div className="flex">
-                          <a
-                            href="#"
-                            className="group inline-flex space-x-2 truncate text-sm">
-                            <p className="text-gray-500 truncate group-hover:text-gray-900">
-                              Jan 6, 2022
-                            </p>
-                          </a>
-                        </div>
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                        Rafael Bennemann
-                      </td>
-                      <td className="hidden px-6 py-4 whitespace-nowrap text-sm text-gray-500 md:block">
-                        18sgyu5r78wegfiub
-                      </td>
-                      <td className="px-6 py-4 text-left whitespace-nowrap text-sm text-gray-500">
-                        <time datetime="2020-07-11">Redirected</time>
-                      </td>
-                    </tr>
-                    <tr className="bg-white">
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                        <div className="flex">
-                          <a
-                            href="#"
-                            className="group inline-flex space-x-2 truncate text-sm">
-                            <p className="text-gray-500 truncate group-hover:text-gray-900">
-                              Jan 6, 2022
-                            </p>
-                          </a>
-                        </div>
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                        Rafael Bennemann
-                      </td>
-                      <td className="hidden px-6 py-4 whitespace-nowrap text-sm text-gray-500 md:block">
-                        18sgyu5r78wegfiub
-                      </td>
-                      <td className="px-6 py-4 text-left whitespace-nowrap text-sm text-gray-500">
-                        <time datetime="2020-07-11">Received</time>
-                      </td>
-                    </tr>
-                    <tr className="bg-white">
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                        <div className="flex">
-                          <a
-                            href="#"
-                            className="group inline-flex space-x-2 truncate text-sm">
-                            <p className="text-gray-500 truncate group-hover:text-gray-900">
-                              Jan 6, 2022
-                            </p>
-                          </a>
-                        </div>
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                        Rafael Bennemann
-                      </td>
-                      <td className="hidden px-6 py-4 whitespace-nowrap text-sm text-gray-500 md:block">
-                        18sgyu5r78wegfiub
-                      </td>
-                      <td className="px-6 py-4 text-left whitespace-nowrap text-sm text-gray-500">
-                        <time datetime="2020-07-11">Requested</time>
-                      </td>
-                    </tr>
-                    <tr className="bg-white">
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                        <div className="flex">
-                          <a
-                            href="#"
-                            className="group inline-flex space-x-2 truncate text-sm">
-                            <p className="text-gray-500 truncate group-hover:text-gray-900">
-                              Jan 5, 2022
-                            </p>
-                          </a>
-                        </div>
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                        Rafael Ehlers
-                      </td>
-                      <td className="hidden px-6 py-4 whitespace-nowrap text-sm text-gray-500 md:block">
-                        18sgyu5r78wegfiub
-                      </td>
-                      <td className="px-6 py-4 text-left whitespace-nowrap text-sm text-gray-500">
-                        <time datetime="2020-07-11">Redirected</time>
-                      </td>
-                    </tr>
-                    <tr className="bg-white">
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                        <div className="flex">
-                          <a
-                            href="#"
-                            className="group inline-flex space-x-2 truncate text-sm">
-                            <p className="text-gray-500 truncate group-hover:text-gray-900">
-                              Jan 5, 2022
-                            </p>
-                          </a>
-                        </div>
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                        Rafael Ehlers
-                      </td>
-                      <td className="hidden px-6 py-4 whitespace-nowrap text-sm text-gray-500 md:block">
-                        18sgyu5r78wegfiub
-                      </td>
-                      <td className="px-6 py-4 text-left whitespace-nowrap text-sm text-gray-500">
-                        <time datetime="2020-07-11">Received</time>
-                      </td>
-                    </tr>
-                    <tr className="bg-white">
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                        <div className="flex">
-                          <a
-                            href="#"
-                            className="group inline-flex space-x-2 truncate text-sm">
-                            <p className="text-gray-500 truncate group-hover:text-gray-900">
-                              Jan 5, 2022
-                            </p>
-                          </a>
-                        </div>
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                        Rafael Ehlers
-                      </td>
-                      <td className="hidden px-6 py-4 whitespace-nowrap text-sm text-gray-500 md:block">
-                        18sgyu5r78wegfiub
-                      </td>
-                      <td className="px-6 py-4 text-left whitespace-nowrap text-sm text-gray-500">
-                        <time datetime="2020-07-11">Requested</time>
-                      </td>
-                    </tr>
-                    <tr className="bg-white">
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                        <div className="flex">
-                          <a
-                            href="#"
-                            className="group inline-flex space-x-2 truncate text-sm">
-                            <p className="text-gray-500 truncate group-hover:text-gray-900">
-                              Jan 4, 2022
-                            </p>
-                          </a>
-                        </div>
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                        Terry Daniels
-                      </td>
-                      <td className="hidden px-6 py-4 whitespace-nowrap text-sm text-gray-500 md:block">
-                        18sgyu5r78wegfiub
-                      </td>
-                      <td className="px-6 py-4 text-left whitespace-nowrap text-sm text-gray-500">
-                        <time datetime="2020-07-11">Redirected</time>
-                      </td>
-                    </tr>
-                    <tr className="bg-white">
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                        <div className="flex">
-                          <a
-                            href="#"
-                            className="group inline-flex space-x-2 truncate text-sm">
-                            <p className="text-gray-500 truncate group-hover:text-gray-900">
-                              Jan 4, 2022
-                            </p>
-                          </a>
-                        </div>
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                        Terry Daniels
-                      </td>
-                      <td className="hidden px-6 py-4 whitespace-nowrap text-sm text-gray-500 md:block">
-                        18sgyu5r78wegfiub
-                      </td>
-                      <td className="px-6 py-4 text-left whitespace-nowrap text-sm text-gray-500">
-                        <time datetime="2020-07-11">Received</time>
-                      </td>
-                    </tr>
-                    <tr className="bg-white">
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                        <div className="flex">
-                          <a
-                            href="#"
-                            className="group inline-flex space-x-2 truncate text-sm">
-                            <p className="text-gray-500 truncate group-hover:text-gray-900">
-                              Jan 4, 2022
-                            </p>
-                          </a>
-                        </div>
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                        Terry Daniels
-                      </td>
-                      <td className="hidden px-6 py-4 whitespace-nowrap text-sm text-gray-500 md:block">
-                        18sgyu5r78wegfiub
-                      </td>
-                      <td className="px-6 py-4 text-left whitespace-nowrap text-sm text-gray-500">
-                        <time datetime="2020-07-11">Requested</time>
-                      </td>
-                    </tr>
+                    {activityLogs.map((log) => (
+                      <ActivityLogRow key={log.id} {...log} />
+                    ))}
                   </tbody>
                 </table>
                 <nav
