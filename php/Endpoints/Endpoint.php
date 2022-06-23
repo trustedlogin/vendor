@@ -26,6 +26,7 @@ abstract class Endpoint
 	 * Register endpoint
 	 *
 	 * @param bool $editable Defaults to true. If false, the endpoint will not be updateable.
+	 * @param bool $readable Defaults to true. If false, the endpoint will not be readable.
 	 */
 	public function register($editable = true,$readable = true)
 	{

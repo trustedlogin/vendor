@@ -42,6 +42,7 @@ class PluginRestApiTest extends TestCase
 			'public_key',
 			'signature_key',
 			'access_key',
+			'audit_logs'
 		] as $route) {
 			$this->assertArrayHasKey(
 				$namespacedRoute($route),

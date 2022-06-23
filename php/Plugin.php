@@ -50,6 +50,7 @@ class Plugin
 	 */
 	public function restApiInit()
 	{
+		//register( $editable = true, $readable = true  )
 		(new \TrustedLogin\Vendor\Endpoints\Settings())
 			->register(true);
 		(new \TrustedLogin\Vendor\Endpoints\GlobalSettings())
@@ -64,6 +65,8 @@ class Plugin
 			->register(true, false);
 		(new \TrustedLogin\Vendor\Endpoints\AccessKey())
 			->register(true, false);
+		(new \TrustedLogin\Vendor\Endpoints\AuditLogs())
+			->register(false, true);
 	}
 
 	/**
@@ -159,6 +162,10 @@ class Plugin
 	}
 
 	/**
+	 * This is the OLD audit log, do not use it.
+	 *
+	 * @deprecated
+	 *
 	 * @return \TrustedLogin\Vendor\AuditLog
 	 */
 	public function getAuditLog()
