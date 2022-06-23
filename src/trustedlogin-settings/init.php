@@ -123,6 +123,14 @@ add_action('init', function () {
             __('Access Key Log-In', 'trustedlogin-vendor'),
             'teams/access_key'
         );
+
+
+        //Add audit log submenu page
+        new MenuPage(
+            MenuPage::SLUG_AUDIT_LOG,
+            __('Audit Log', 'trustedlogin-vendor'),
+            'audits'
+        );
     }else{
         //Add onboarding submenu page
         new MenuPage(

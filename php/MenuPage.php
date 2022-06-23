@@ -19,6 +19,8 @@ class MenuPage {
 
     const SLUG_HELPDESKS = 'trustedlogin-helpdesks';
 
+    const SLUG_AUDIT_LOG = 'trustedlogin-audit-log';
+
     const ASSET_HANDLE = 'trustedlogin-settings';
 
     /**

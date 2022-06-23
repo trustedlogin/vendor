@@ -8,9 +8,18 @@ export const useView = () => {
   return context;
 };
 
+/**
+ * Provides state for which view and which team we are currently in.
+ *
+ * Basically this is a router, that doesn't change the URL.
+ * Could have used <HashRouter> but that would have required react-router-dom
+ * See: https://github.com/trustedlogin/vendor/issues/104
+ */
 export default function ViewProvider({
   children,
-  initialView = "audits", //null,
+  //Preselet a view to load by default
+  initialView = null,
+  //Preselect a team to load by default
   initialTeam = null,
 }) {
   const { hasOnboarded, teams } = useSettings();
