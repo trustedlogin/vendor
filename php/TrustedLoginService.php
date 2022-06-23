@@ -412,4 +412,22 @@ class TrustedLoginService
 
 		return $loginurl;
 	}
+
+	/**
+	 * Get audit log from ecommerce site.
+	 */
+	public function getAuditLog( $accountId ){
+		$saasApi = $this->plugin->getApiHandler($accountId);
+		$response = $saasApi->call(
+			\sprintf('logs/logins/%s',$accountId),
+			[],
+			'GET'
+		);
+
+		if (is_wp_error($response)) {
+			\var_dump($response);exit;
+			return $response;
+		}
+		var_dump(wp_remote_retrieve_body($response));exit;
+	}
 }
